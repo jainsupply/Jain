@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupplyHouse TradeMaster — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+<style>
+/* ============================================================
+   SupplyHouse Design System — Tokens (assets/tokens.css)
+   + extended values used by the homepage mockups
+   ============================================================ */
+:root {
+  --sh-dark-brown:    #331811;
+  --sh-mid-brown:     #603423;
+  --sh-tan:           #B7804E;
+  --sh-light-tan-1:   #F8F5F3;
+  --sh-light-tan-2:   #F0ECE8;
+  --sh-light-tan-3:   #ECDED1;
+  --sh-white:         #FFFFFF;
+
+  --sh-blue:          #07729C;
+  --sh-blue-hover:    #06658B;
+  --sh-tm-blue:       #0066AD;
+  --sh-tm-blue-light: #5BA3C7;   /* savings chart secondary — mockup */
+  --sh-dark-blue:     #002544;
+
+  --sh-off-white:     #F4F4F4;
+  --sh-body:          #343434;
+  --sh-black:         #1E1E1E;
+  --sh-mid-gray:      #757575;
+  --sh-border:        #DCDCDC;
+  --sh-hover:         #F5F5F5;
+
+  --sh-success:       #2E7D32;
+  --sh-success-bg:    #E8F5E9;
+  --sh-warning:       #B26A00;
+  --sh-warning-bg:    #FFF4E5;
+  --sh-error:         #C62828;
+  --sh-error-bg:      #FDECEA;
+  --sh-info:          var(--sh-blue);
+  --sh-info-bg:       #E3F2FD;
+
+  /* Extended — per homepage mockups (promo accent) */
+  --sh-orange:        #F76B1C;
+
+  --sh-font:          'Roboto', Arial, sans-serif;
+  --sh-weight-regular: 400;
+  --sh-weight-bold:    700;
+  --sh-text-display:  44px;
+  --sh-text-h1:       32px;
+  --sh-text-h2:       24px;
+  --sh-text-h3:       18px;
+  --sh-text-body:     16px;
+  --sh-text-small:    13px;
+  --sh-text-label:    12px;
+
+  --sh-space-xs:      4px;
+  --sh-space-sm:      8px;
+  --sh-space-md:      16px;
+  --sh-space-lg:      24px;
+  --sh-space-xl:      40px;
+  --sh-space-2xl:     64px;
+
+  --sh-radius-sm:     0px;
+  --sh-radius-md:     0px;
+  --sh-radius-lg:     4px;
+
+  --sh-shadow-sm:     0 1px 3px rgba(0,0,0,0.12);
+  --sh-shadow-md:     0 4px 12px rgba(0,0,0,0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sh-font);
+  font-size: var(--sh-text-body);
+  line-height: 1.5;
+  color: var(--sh-body);
+  background: var(--sh-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--sh-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+img { max-width: 100%; display: block; }
+
+:focus-visible { outline: 2px solid var(--sh-blue); outline-offset: 2px; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--sh-white); color: var(--sh-blue);
+  font-weight: var(--sh-weight-bold); padding: 12px 16px; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}
+
+.ic { width: 1em; height: 1em; font-size: 24px; display: inline-block; vertical-align: middle; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ===== Top Utility Bar ===== */
+.utility-bar {
+  background: var(--sh-white);
+  border-bottom: 1px solid var(--sh-border);
+  font-size: var(--sh-text-small);
+  padding: 8px 80px;
+}
+.utility-bar-inner {
+  max-width: 1760px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.utility-left { display: flex; align-items: center; gap: 16px; }
+.utility-right { display: flex; align-items: center; gap: 20px; }
+.utility-bar .free-ship { color: var(--sh-tan); font-weight: var(--sh-weight-bold); }
+.utility-bar .dot { color: var(--sh-mid-gray); }
+.utility-bar a { color: var(--sh-body); font-weight: var(--sh-weight-bold); }
+.utility-bar .phone a { color: var(--sh-body); display: inline-flex; align-items: center; gap: 6px; }
+.utility-bar .ico { font-size: 16px; vertical-align: middle; }
+.utility-bar .zip { color: var(--sh-body); }
+.utility-bar .zip button { color: var(--sh-blue); font-weight: var(--sh-weight-bold); font-size: inherit; }
+.utility-bar .pill { display: inline-flex; align-items: center; gap: 6px; color: var(--sh-body); }
+
+/* ===== Header ===== */
+.header { background: var(--sh-white); padding: 16px 80px; }
+.header-inner {
+  max-width: 1760px; margin: 0 auto;
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 32px;
+}
+
+.logo { display: inline-flex; align-items: flex-end; position: relative; padding-top: 16px; }
+.logo-swoosh {
+  position: absolute;
+  top: 0; left: -8px;
+  width: 80px; height: 20px;
+}
+.logo-stack { display: flex; flex-direction: column; align-items: flex-end; }
+.logo-tm-badge {
+  font-size: 10px;
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-dark-blue);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.logo-text {
+  font-size: 26px;
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-black);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.logo-text .com { font-weight: var(--sh-weight-regular); font-size: 16px; color: var(--sh-body); }
+
+/* Search bar */
+.search-bar {
+  display: flex; align-items: center;
+  background: var(--sh-white);
+  border: 1px solid var(--sh-border);
+  height: 44px; max-width: 640px; width: 100%;
+  justify-self: stretch;
+}
+.search-bar:focus-within {
+  border-color: var(--sh-blue);
+  box-shadow: 0 0 0 3px rgba(7, 114, 156, 0.20);
+}
+.search-input {
+  flex: 1; height: 100%; border: none; outline: none;
+  padding: 0 16px; font-size: 14px; color: var(--sh-body);
+  font-family: inherit; background: transparent;
+}
+.search-input::placeholder { color: var(--sh-mid-gray); }
+.search-icons { display: flex; align-items: center; gap: 4px; padding-right: 6px; }
+.search-icons button {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sh-mid-gray);
+}
+.search-icons button .ic { font-size: 22px; }
+.search-submit { background: var(--sh-blue); width: 42px; height: 32px; transition: background 120ms ease; }
+.search-submit:hover { background: var(--sh-blue-hover); }
+.search-submit .ic { color: var(--sh-white); font-size: 20px; }
+
+/* Rep info (relocated to banner — base styles reused there) */
+.rep-info { display: flex; align-items: center; gap: 12px; }
+.rep-avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--sh-light-tan-2) url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&q=70&auto=format&fit=crop') center/cover no-repeat;
+  flex-shrink: 0;
+}
+.rep-text { font-size: 12px; line-height: 1.3; }
+.rep-text .your-rep {
+  color: var(--sh-body);
+  display: flex; align-items: center; gap: 5px;
+}
+.rep-text .your-rep .dot-green {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--sh-success); display: inline-block;
+}
+.rep-text .rep-phone {
+  font-size: 17px;
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-blue);
+  display: block;
+  margin: 1px 0;
+}
+.rep-text .contact-link {
+  color: var(--sh-body);
+  font-weight: var(--sh-weight-bold);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  display: inline-flex; align-items: center; gap: 2px;
+}
+
+/* Header icons */
+.header-icons { display: flex; align-items: center; gap: 24px; }
+.header-icon-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 11px; color: var(--sh-body);
+  font-weight: var(--sh-weight-bold); letter-spacing: 0.04em;
+  position: relative;
+}
+.header-icon-btn .ic { font-size: 26px; color: var(--sh-body); }
+.cart-badge {
+  position: absolute; top: -6px; right: -4px;
+  background: var(--sh-orange); color: var(--sh-white);
+  font-size: 11px; font-weight: var(--sh-weight-bold);
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ===== Category Nav ===== */
+.cat-nav { background: var(--sh-dark-brown); color: var(--sh-white); }
+.cat-nav-inner {
+  max-width: 1920px; margin: 0 auto;
+  display: flex; align-items: center;
+  padding: 0 80px; height: 48px;
+}
+.cat-nav-left { display: flex; align-items: center; flex: 1; }
+.cat-nav-right { display: flex; align-items: center; border-left: 1px solid rgba(255,255,255,0.25); }
+.cat-nav a {
+  color: var(--sh-white); font-size: 14px; font-weight: var(--sh-weight-bold);
+  padding: 14px 24px; display: inline-flex; align-items: center; height: 48px;
+}
+.cat-nav a:hover { background: var(--sh-mid-brown); text-decoration: none; }
+.cat-nav a:focus-visible { outline-color: var(--sh-white); outline-offset: -2px; }
+
+/* ===== Hero Banner — blue collage per mockup ===== */
+.hero {
+  position: relative;
+  background: url('assets/banner_tm.png') center top/cover no-repeat, var(--sh-dark-blue);
+  color: var(--sh-white);
+  overflow: hidden;
+  min-height: 340px; /* shared hero template height */
+}
+
+/* Cap hero image at 1920px on extra-large screens (don't enlarge) */
+@media (min-width: 1920px) {
+  .hero { background-size: 1920px auto; background-position: center top; }
+}
+.hero-images {
+  position: absolute;
+  inset: 0 0 0 28%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  opacity: 0.9;
+}
+.hero-img-slot {
+  position: relative;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+  margin-left: -8%;
+}
+.hero-img-slot:first-child {
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  margin-left: 0;
+}
+.hero-img-slot:last-child {
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.hero-img-1 {
+  background-image: linear-gradient(180deg, rgba(26,77,128,0.40), rgba(26,77,128,0.55)), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=70&auto=format');
+}
+.hero-img-2 {
+  background-image: linear-gradient(180deg, rgba(26,77,128,0.40), rgba(26,77,128,0.55)), url('https://images.unsplash.com/photo-1601557400900-3ce2fd96f24b?w=800&q=70&auto=format');
+}
+.hero-img-3 {
+  background-image: linear-gradient(180deg, rgba(26,77,128,0.40), rgba(26,77,128,0.55)), url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=70&auto=format');
+}
+.hero-draft {
+  position: absolute;
+  right: 3%; bottom: 0;
+  width: 46%; max-width: 700px; height: 88%;
+  opacity: 0.95;
+}
+@media (max-width: 900px) { .hero-draft { width: 75%; right: -2%; } }
+@media (max-width: 768px) { .hero-draft { width: 88%; right: -4%; height: 82%; } }
+/* keep the headline area readable over the collage */
+.hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,37,68,0.78) 0%, rgba(0,37,68,0.35) 40%, rgba(0,37,68,0) 65%); z-index: 1; }
+.hero-content {
+  position: relative;
+  max-width: 1920px; margin: 0 auto;
+  padding: 72px 80px 0;
+  z-index: 2;
+}
+.hero h1 {
+  font-size: 42px;
+  font-weight: var(--sh-weight-bold);
+  line-height: 1.15;
+  max-width: 620px;
+  color: var(--sh-white);
+}
+.hero-arrows {
+  position: absolute; top: 42%; transform: translateY(-50%);
+  display: flex; justify-content: space-between;
+  width: 100%; padding: 0 8px;
+  pointer-events: none; z-index: 3;
+}
+.hero-arrow {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sh-white); font-size: 28px;
+  opacity: 0.85; pointer-events: auto;
+}
+.hero-arrow:focus-visible { outline-color: var(--sh-white); }
+
+/* ===== Account Summary Banner (was .welcome-banner) ===== */
+.welcome-banner {
+  background: var(--sh-white);
+  border-radius: var(--sh-radius-lg);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: relative;
+  margin: -48px auto 0;
+  width: calc(100% - 160px);
+  max-width: 1760px;
+  z-index: 5;
+}
+.account-summary-label {
+  font-size: 11px;
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-tm-blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 16px 24px 0;
+}
+.welcome-banner-inner {
+  display: grid;
+  grid-template-columns: 1.35fr repeat(4, 1fr);
+  gap: 24px;
+  padding: 12px 24px 22px;
+  align-items: center;
+}
+.welcome-user { display: flex; align-items: center; gap: 14px; }
+.user-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--sh-info-bg);
+  color: var(--sh-body);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: var(--sh-weight-bold);
+  letter-spacing: 0.03em; flex-shrink: 0;
+}
+.welcome-user .name { font-size: 19px; font-weight: var(--sh-weight-regular); color: var(--sh-body); line-height: 1.2; }
+.welcome-user .since { font-size: 12px; color: var(--sh-mid-gray); margin-top: 3px; }
+
+.stat-block .stat-label {
+  font-size: 11px;
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-mid-gray);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.stat-block .stat-value {
+  font-size: 27px;
+  font-weight: var(--sh-weight-regular);
+  color: var(--sh-body);
+  line-height: 1.15;
+}
+.stat-block .stat-meta {
+  font-size: 12px;
+  color: var(--sh-body);
+  margin-top: 4px;
+}
+.stat-block .stat-meta a { color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+.stat-block .stat-meta.warn .warn-text { color: var(--sh-error); font-weight: var(--sh-weight-bold); }
+
+/* ===== Main Content Layout ===== */
+.main {
+  max-width: 1920px;
+  margin: 32px auto 60px;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 48px;
+}
+
+/* ===== Purchase Modules (left column) ===== */
+.module { margin-bottom: 56px; }
+.module:last-child { margin-bottom: 0; }
+.module-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--sh-border);
+  padding-bottom: 12px; margin-bottom: 4px;
+}
+.module-head .heads { display: flex; flex-direction: column; gap: 3px; }
+.module-title {
+  font-size: 22px;
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-body);
+  line-height: 1.2;
+}
+.module-sub { font-size: 13px; color: var(--sh-mid-gray); }
+.module-head .view-all-link { font-size: 13px; color: var(--sh-blue); font-weight: var(--sh-weight-bold); white-space: nowrap; }
+
+/* Continue shopping — category tiles */
+.cat-tiles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  padding-top: 18px;
+}
+.cat-tile {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  border: 1px solid var(--sh-border);
+  background: var(--sh-white);
+  padding: 20px 12px;
+  text-align: center;
+  color: var(--sh-body);
+  text-decoration: none;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.cat-tile:hover { border-color: var(--sh-tm-blue); background: var(--sh-light-tan-1); text-decoration: none; }
+.cat-tile .tile-ico {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sh-tm-blue);
+}
+.cat-tile .tile-ico .ic { font-size: 34px; }
+.cat-tile .tile-name { font-size: 14px; font-weight: var(--sh-weight-bold); color: var(--sh-body); line-height: 1.25; }
+.cat-tile .tile-meta { font-size: 11px; color: var(--sh-mid-gray); }
+@media (max-width: 1200px) { .cat-tiles { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .cat-tiles { grid-template-columns: repeat(2, 1fr); } }
+
+/* product grid reused for Restock + Best picks (4-up in wider left column) */
+.product-grid { grid-template-columns: repeat(4, 1fr); }
+.recent-item .restock-flag {
+  font-size: 11px; font-weight: var(--sh-weight-bold);
+  color: var(--sh-warning); margin-bottom: 4px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.recent-item .bestseller-flag {
+  font-size: 11px; font-weight: var(--sh-weight-bold);
+  color: var(--sh-tm-blue); margin-bottom: 4px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+@media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== Compact sidebar orders list ===== */
+.order-mini { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--sh-border); }
+.order-mini:last-child { border-bottom: none; }
+.order-mini .om-info { flex: 1; min-width: 0; }
+.order-mini .om-top { font-size: 13px; }
+.order-mini .om-num { color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+.order-mini .om-meta { font-size: 11px; color: var(--sh-mid-gray); margin-top: 2px; }
+.order-mini .om-status { font-size: 11px; font-weight: var(--sh-weight-bold); white-space: nowrap; }
+.order-mini .om-status.shipped { color: var(--sh-success); }
+.order-mini .om-status.processing { color: var(--sh-orange); }
+.order-mini .om-status.delivered { color: var(--sh-mid-gray); }
+
+/* ===== Tabs + Orders Table (retained for sidebar/markup parity) ===== */
+.view-all-link { font-size: 13px; color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+.thumb {
+  width: 32px; height: 32px;
+  background-size: contain; background-repeat: no-repeat; background-position: center;
+  flex-shrink: 0;
+}
+.thumb.t1 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23857a6a'%3E%3Cpath d='M3 10h18v4H3z M5 6h14v2H5z M5 16h14v2H5z'/%3E%3C/svg%3E"); }
+.thumb.t2 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23B7804E'%3E%3Cpath d='M12 2C7 2 5 6 5 11s2 9 7 11c5-2 7-6 7-11s-2-9-7-9z'/%3E%3C/svg%3E"); }
+.thumb.t3 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23603423'%3E%3Cpath d='M4 8h16v8H4z M2 6h20v2H2z M2 16h20v2H2z'/%3E%3C/svg%3E"); }
+.thumb.t4 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M6 4l2 2v12l-2 2v-2h12v2l-2-2V6l2-2v2H6z'/%3E%3C/svg%3E"); }
+.thumb.t5 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D9A520'%3E%3Cpath d='M6 4h12l-2 4-8 12-4-2 4-10L6 4z'/%3E%3C/svg%3E"); }
+.thumb.t6 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Ccircle cx='12' cy='12' r='8'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%23fff'/%3E%3C/svg%3E"); }
+.thumb-more { font-size: 12px; color: var(--sh-mid-gray); font-weight: var(--sh-weight-bold); margin-left: 2px; }
+
+.order-num { color: var(--sh-blue); font-weight: var(--sh-weight-bold); display: block; }
+
+/* ===== Right Sidebar ===== */
+.sidebar { display: flex; flex-direction: column; gap: 28px; }
+.sidebar-block { padding-bottom: 28px; border-bottom: 1px solid var(--sh-border); }
+.sidebar-block:last-child { border-bottom: none; }
+.sidebar-title {
+  font-size: 22px;
+  font-weight: var(--sh-weight-regular);
+  color: var(--sh-body);
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  margin-bottom: 16px;
+}
+.sidebar-title .link { font-size: 13px; color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+
+.delivery-card { margin-bottom: 20px; }
+.delivery-card + .delivery-card { border-top: 1px solid var(--sh-border); padding-top: 20px; }
+.delivery-card .order-id { color: var(--sh-blue); font-weight: var(--sh-weight-bold); font-size: 13px; }
+.delivery-card .order-id-line { font-size: 13px; }
+.delivery-card .meta { font-size: 12px; color: var(--sh-body); margin: 4px 0 10px; }
+.delivery-card .meta .track { color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+.delivery-items { display: flex; align-items: center; gap: 8px; margin: 8px 0 12px; }
+
+/* ===== Compact tracking stepper (full-width, edge-aligned) ===== */
+.track-mini { position: relative; height: 44px; margin: 16px 0 6px; }
+.track-mini .ts-track { position: absolute; top: 6px; left: 7px; right: 7px; height: 2px; background: var(--sh-border); z-index: 0; }
+.track-mini .ts-fill { position: absolute; top: 6px; left: 7px; height: 2px; background: var(--sh-success); z-index: 0; }
+.track-mini .ts-step { position: absolute; top: 0; display: flex; flex-direction: column; align-items: center; width: 80px; transform: translateX(-50%); z-index: 1; }
+.track-mini .ts-step:first-of-type { transform: translateX(0); align-items: flex-start; }
+.track-mini .ts-step:last-of-type { transform: translateX(-100%); align-items: flex-end; }
+.track-mini .ts-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--sh-white); border: 2px solid var(--sh-border); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: var(--sh-weight-bold); color: var(--sh-mid-gray); line-height: 1; }
+.track-mini .ts-step.done .ts-dot { background: var(--sh-success); border-color: var(--sh-success); color: var(--sh-white); }
+.track-mini .ts-step.current .ts-dot { background: var(--sh-success); border-color: var(--sh-success); color: var(--sh-white); animation: tsPulse 1.6s ease-out infinite; }
+.track-mini .ts-label { font-size: 10px; font-weight: var(--sh-weight-bold); margin-top: 7px; color: var(--sh-body); line-height: 1.2; text-align: center; }
+.track-mini .ts-step:first-of-type .ts-label, .track-mini .ts-step:first-of-type .ts-ts { text-align: left; }
+.track-mini .ts-step:last-of-type .ts-label, .track-mini .ts-step:last-of-type .ts-ts { text-align: right; }
+.track-mini .ts-step.upcoming .ts-label { color: var(--sh-mid-gray); font-weight: var(--sh-weight-regular); }
+.track-mini .ts-ts { font-size: 10px; color: var(--sh-mid-gray); margin-top: 2px; }
+@keyframes tsPulse { 0% { box-shadow: 0 0 0 0 rgba(46,125,50,.45); } 70% { box-shadow: 0 0 0 5px rgba(46,125,50,0); } 100% { box-shadow: 0 0 0 0 rgba(46,125,50,0); } }
+@media (prefers-reduced-motion: reduce) { .track-mini .ts-step.current .ts-dot { animation: none; } }
+
+/* ===== Stacked full-width banners ===== */
+.banners {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.banner {
+  display: flex; align-items: center; gap: 28px;
+  padding: 28px 32px;
+  border-radius: var(--sh-radius-sm); /* 0 — sharp corners */
+}
+
+/* (a) Replacement Part Finder banner */
+.banner-rpf { background: var(--sh-light-tan-1); border: 1px solid var(--sh-border); flex-wrap: wrap; }
+.banner-rpf .rpf-ico {
+  width: 64px; height: 64px;
+  background: url('assets/replacement_part.webp') center/contain no-repeat, var(--sh-white);
+  border: 1px solid var(--sh-border);
+  flex-shrink: 0;
+}
+.banner-rpf .rpf-copy { flex: 1; min-width: 220px; }
+.banner-rpf .rpf-title { font-size: 20px; font-weight: var(--sh-weight-bold); color: var(--sh-dark-blue); }
+.banner-rpf .rpf-sub { font-size: 13px; color: var(--sh-body); margin-top: 4px; }
+.banner-rpf .rpf-finder { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; }
+.banner-rpf .rpf-select {
+  height: 44px; min-width: 180px;
+  border: 1px solid var(--sh-border);
+  background: var(--sh-white); color: var(--sh-body);
+  font-family: inherit; font-size: 14px; padding: 0 12px;
+  border-radius: var(--sh-radius-sm);
+}
+.banner-rpf .rpf-select + .rpf-select { border-left: none; }
+.banner-rpf .rpf-go {
+  height: 44px; padding: 0 22px;
+  background: var(--sh-tm-blue); color: var(--sh-white);
+  font-weight: var(--sh-weight-bold); font-size: 13px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  border-radius: var(--sh-radius-sm);
+  transition: background 120ms ease;
+}
+.banner-rpf .rpf-go:hover { background: var(--sh-dark-blue); }
+
+/* (b) TradeMaster benefits banner */
+.banner-benefits {
+  background: var(--sh-dark-blue);
+  color: var(--sh-white);
+  flex-wrap: wrap;
+}
+.banner-benefits .bn-head { flex-shrink: 0; max-width: 240px; }
+.banner-benefits .bn-eyebrow {
+  font-size: 11px; font-weight: var(--sh-weight-bold);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--sh-tm-blue-light);
+}
+.banner-benefits .bn-title { font-size: 22px; font-weight: var(--sh-weight-bold); margin-top: 4px; line-height: 1.2; }
+.banner-benefits .bn-grid {
+  flex: 1; display: grid;
+  grid-template-columns: repeat(4, 1fr); gap: 20px;
+  min-width: 260px;
+}
+.banner-benefits .bn-item { display: flex; align-items: flex-start; gap: 10px; }
+.banner-benefits .bn-item .ic { color: var(--sh-tm-blue-light); font-size: 24px; }
+.banner-benefits .bn-item .bn-name { font-size: 14px; font-weight: var(--sh-weight-bold); line-height: 1.25; }
+.banner-benefits .bn-item .bn-desc { font-size: 12px; color: rgba(255,255,255,0.78); margin-top: 2px; }
+@media (max-width: 900px) { .banner-benefits .bn-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* (c) Dedicated rep banner */
+.banner-rep {
+  background: var(--sh-tm-blue);
+  color: var(--sh-white);
+  flex-wrap: wrap;
+}
+.banner-rep .rep-photo {
+  width: 96px; height: 96px; border-radius: 50%;
+  background: var(--sh-light-tan-2) url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=192&q=70&auto=format&fit=crop') center/cover no-repeat;
+  flex-shrink: 0;
+  border: 3px solid rgba(255,255,255,0.4);
+}
+.banner-rep .rep-block { flex: 1; min-width: 220px; }
+.banner-rep .rep-eyebrow {
+  font-size: 11px; font-weight: var(--sh-weight-bold);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.banner-rep .rep-eyebrow .dot-green { width: 8px; height: 8px; border-radius: 50%; background: #7CFFB0; display: inline-block; }
+.banner-rep .rep-name { font-size: 26px; font-weight: var(--sh-weight-bold); margin: 4px 0; line-height: 1.1; }
+.banner-rep .rep-detail { font-size: 14px; color: rgba(255,255,255,0.9); }
+.banner-rep .rep-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.banner-rep .rep-phone-lg {
+  font-size: 22px; font-weight: var(--sh-weight-bold); color: var(--sh-white);
+}
+.banner-rep .rep-phone-lg:hover { text-decoration: underline; }
+.banner-rep .rep-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--sh-white); color: var(--sh-tm-blue);
+  font-weight: var(--sh-weight-bold); font-size: 13px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 12px 22px; border-radius: var(--sh-radius-sm);
+  transition: background 120ms ease;
+}
+.banner-rep .rep-cta:hover { background: var(--sh-light-tan-1); text-decoration: none; }
+
+/* ===== New Arrivals carousel ===== */
+.carousel-section { max-width: 1920px; margin: 64px auto 0; padding: 0 80px; }
+.carousel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 20px;
+}
+.carousel-head h2 { font-size: var(--sh-text-h2); font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.carousel-controls { display: flex; align-items: center; gap: 8px; }
+.carousel-btn {
+  width: 40px; height: 40px;
+  border: 1px solid var(--sh-border); background: var(--sh-white);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sh-body); border-radius: var(--sh-radius-sm);
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.carousel-btn:hover { background: var(--sh-hover); border-color: var(--sh-tm-blue); }
+.carousel-btn .ic { font-size: 22px; }
+.carousel-viewport { overflow: hidden; }
+.carousel-track {
+  display: flex; gap: 18px;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track .recent-item {
+  flex: 0 0 calc((100% - 18px * 4) / 5);
+  min-width: 200px;
+}
+@media (max-width: 1200px) { .carousel-track .recent-item { flex-basis: calc((100% - 18px * 3) / 4); } }
+@media (max-width: 900px) { .carousel-track .recent-item { flex-basis: calc((100% - 18px * 2) / 3); } }
+@media (max-width: 768px) { .carousel-track .recent-item { flex-basis: calc((100% - 18px) / 2); min-width: 160px; } }
+
+/* ===== Quick Links Section ===== */
+.quick-section {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 80px 80px 0;
+}
+.quick-section h2 {
+  font-size: var(--sh-text-h2);
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-body);
+  margin-bottom: 24px;
+}
+.quick-section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 0;
+  max-width: 100%;
+}
+.quick-col:first-child { border-right: 1px solid var(--sh-border); padding-right: 48px; }
+.quick-col:last-child { padding-left: 48px; }
+.quick-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--sh-border);
+}
+.quick-item:last-child { border-bottom: none; }
+.quick-item-left { display: flex; align-items: flex-start; gap: 12px; flex: 1; }
+.quick-item-left .ico {
+  width: 24px; height: 24px;
+  color: var(--sh-blue);
+  font-size: 22px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+.quick-item-left .tm-ico {
+  width: 24px; height: 24px;
+  background: transparent;
+  border: 1.5px solid var(--sh-dark-blue);
+  color: var(--sh-dark-blue);
+  font-size: 10px; font-weight: var(--sh-weight-bold);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.quick-item-text.inline { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.quick-item-text .title { font-size: 15px; font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.quick-item-text .subtitle { font-size: 12px; color: var(--sh-mid-gray); }
+.quick-item-text.stacked .subtitle { margin-top: 3px; }
+.quick-item .view-link { font-size: 13px; color: var(--sh-blue); font-weight: var(--sh-weight-bold); margin-left: 16px; }
+
+/* ===== Testimonials + Stat Bar (final section) ===== */
+.testimonials-section { max-width: 1920px; margin: 80px auto 0; padding: 0 80px; }
+.testimonials-section h2 {
+  font-size: var(--sh-text-h2);
+  font-weight: var(--sh-weight-bold);
+  color: var(--sh-body);
+  margin-bottom: 24px;
+}
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testimonial-card {
+  border: 1px solid var(--sh-border);
+  background: var(--sh-white);
+  padding: 24px;
+  border-radius: var(--sh-radius-sm);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.testimonial-stars { color: var(--sh-orange); font-size: 16px; letter-spacing: 2px; }
+.testimonial-quote { font-size: 15px; color: var(--sh-body); line-height: 1.5; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+.testimonial-author .ta-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--sh-info-bg); color: var(--sh-body);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: var(--sh-weight-bold); flex-shrink: 0;
+}
+.testimonial-author .ta-name { font-size: 14px; font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.testimonial-author .ta-meta { font-size: 12px; color: var(--sh-mid-gray); }
+@media (max-width: 900px) { .testimonial-grid { grid-template-columns: 1fr; } }
+
+.stat-bar {
+  margin-top: 40px;
+  background: var(--sh-dark-blue);
+  color: var(--sh-white);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 32px 40px;
+  border-radius: var(--sh-radius-sm);
+}
+.stat-bar .sb-item { text-align: center; }
+.stat-bar .sb-num { font-size: 32px; font-weight: var(--sh-weight-bold); color: var(--sh-white); line-height: 1.1; }
+.stat-bar .sb-label { font-size: 13px; color: rgba(255,255,255,0.82); margin-top: 4px; }
+@media (max-width: 768px) { .stat-bar { grid-template-columns: repeat(2, 1fr); } }
+
+/* Footer */
+.footer {
+  background: var(--sh-dark-brown);
+  color: var(--sh-white);
+  padding: 32px 24px;
+  text-align: center;
+  font-size: var(--sh-text-small);
+  margin-top: 80px;
+}
+.footer a { color: var(--sh-white); text-decoration: underline; }
+.footer a:focus-visible { outline-color: var(--sh-white); }
+
+/* ===== Product cards (recent-grid reused) ===== */
+.recent-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; padding-top: 16px; }
+.recent-item { display: flex; flex-direction: column; }
+.recent-item .img-wrap { width: 100%; aspect-ratio: 1; border: 1px solid var(--sh-light-tan-2); background: var(--sh-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='38' r='28' fill='%23CCCCCC'/%3E%3Ccircle cx='40' cy='38' r='19' fill='%23909090'/%3E%3Ccircle cx='40' cy='38' r='8' fill='%233A3A3A'/%3E%3Crect x='34' y='64' width='12' height='8' fill='%23707070'/%3E%3C/svg%3E") center/64% no-repeat; margin-bottom: 6px; }
+.recent-item .title { display: block; font-size: 13px; color: var(--sh-blue); line-height: 1.3; font-weight: var(--sh-weight-bold); }
+.recent-item .sku { font-size: 12px; color: var(--sh-mid-gray); margin-top: 3px; }
+.recent-item .price { font-size: 16px; font-weight: var(--sh-weight-bold); color: var(--sh-body); margin: 6px 0; }
+.recent-item .buy { margin-top: auto; }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--sh-border); height: 30px; margin-bottom: 6px; }
+.stepper button { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--sh-body); font-size: 16px; line-height: 1; }
+.stepper button:hover { background: var(--sh-hover); }
+.stepper .qty { width: 34px; text-align: center; font-size: 14px; font-weight: var(--sh-weight-bold); border: none; outline: none; border-left: 1px solid var(--sh-border); border-right: 1px solid var(--sh-border); height: 28px; -moz-appearance: textfield; }
+.stepper .qty::-webkit-outer-spin-button, .stepper .qty::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.btn-cart { width: 100%; background: var(--sh-orange); color: var(--sh-white); font-weight: var(--sh-weight-bold); font-size: 12px; letter-spacing: 0.03em; text-transform: uppercase; padding: 8px 6px; border-radius: var(--sh-radius-sm); display: flex; align-items: center; justify-content: center; gap: 5px; transition: background 120ms ease; }
+.btn-cart:hover { background: #E55E12; }
+.btn-cart .ic { font-size: 15px; }
+@media (max-width: 1200px) { .recent-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 768px) { .recent-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== Demo interactivity ===== */
+.sh-toast {
+  position: fixed; left: 50%; bottom: 28px;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--sh-dark-brown); color: var(--sh-white);
+  font-size: 14px; padding: 12px 20px;
+  box-shadow: var(--sh-shadow-md);
+  opacity: 0; pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms ease;
+  z-index: 200; max-width: 90vw;
+}
+.sh-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Product thumbnail hover tooltip */
+.thumb[data-name] { position: relative; }
+.thumb[data-name]:hover::after {
+  content: attr(data-name);
+  position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  background: var(--sh-white); color: var(--sh-black);
+  border: 1px solid var(--sh-border); border-radius: 4px;
+  padding: 4px 8px; font-size: 11px; font-weight: var(--sh-weight-regular);
+  line-height: 1.2; white-space: nowrap; box-shadow: var(--sh-shadow-sm);
+  z-index: 40; pointer-events: none;
+}
+
+/* ===== Mobile header (matches mobile mockup) ===== */
+.m-header { display: none; }
+@media (max-width: 768px) {
+  .utility-bar, .header, .cat-nav { display: none !important; }
+  .m-header { display: block; background: var(--sh-white); }
+  .m-utility { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; font-size: 13px; }
+  .m-free { color: var(--sh-orange); font-weight: var(--sh-weight-bold); }
+  .m-zip { display: inline-flex; align-items: center; gap: 4px; color: var(--sh-body); font-weight: var(--sh-weight-bold); }
+  .m-zip .ic { font-size: 16px; color: var(--sh-blue); }
+  .m-top { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px 14px; }
+  .m-logo { display: inline-flex; align-items: flex-end; position: relative; padding-top: 10px; text-decoration: none; }
+  .m-logo .logo-swoosh { position: absolute; top: 0; left: -6px; width: 74px; height: 18px; }
+  .m-logo .logo-text { font-size: 23px; font-weight: var(--sh-weight-bold); color: var(--sh-black); letter-spacing: -0.02em; line-height: 1; }
+  .m-logo .logo-text .com { font-weight: var(--sh-weight-regular); font-size: 14px; color: var(--sh-body); }
+  .m-logo .logo-tm { display: block; font-size: 9px; font-weight: var(--sh-weight-bold); color: var(--sh-dark-blue); letter-spacing: 0.06em; margin-bottom: 1px; }
+  .m-logo.tm { padding-top: 0; }
+  .m-logo.tm .logo-swoosh { display: none; }
+  .m-actions { display: flex; gap: 20px; }
+  .m-act { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: var(--sh-weight-bold); color: var(--sh-body); letter-spacing: 0.02em; background: none; }
+  .m-act .ic { font-size: 24px; }
+  .m-searchrow { display: flex; align-items: stretch; background: var(--sh-dark-brown); }
+  .m-search { flex: 1; align-self: center; height: 40px; margin: 8px 0 8px 10px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--sh-border); padding: 0 14px; color: var(--sh-mid-gray); font-size: 15px; background: var(--sh-white); }
+  .m-search .ic { font-size: 22px; color: var(--sh-body); }
+  .m-sb { width: 74px; background: var(--sh-dark-brown); color: var(--sh-white); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: var(--sh-weight-bold); letter-spacing: 0.04em; position: relative; }
+  .m-sb .ic { font-size: 22px; }
+  .m-sb.cart .ic { color: var(--sh-orange); }
+  .m-cart-badge { position: absolute; top: 7px; right: 16px; background: var(--sh-orange); color: var(--sh-white); width: 17px; height: 17px; border-radius: 50%; font-size: 10px; font-weight: var(--sh-weight-bold); display: flex; align-items: center; justify-content: center; }
+}
+
+/* ===== RESPONSIVE ===== */
+/* Tighter gutters below 1440 */
+@media (max-width: 1440px) {
+  .utility-bar { padding: 8px 24px; }
+  .header { padding: 16px 24px; }
+  .cat-nav-inner { padding: 0 24px; }
+  .hero-content { padding: 72px 24px 0; }
+  .welcome-banner { width: calc(100% - 48px); }
+  .main { padding: 0 24px; }
+  .banners { padding: 0 24px; }
+  .carousel-section { padding: 0 24px; }
+  .quick-section { padding: 80px 24px 0; }
+  .testimonials-section { padding: 0 24px; }
+}
+
+@media (max-width: 1200px) {
+  .welcome-banner-inner { grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  .welcome-user { grid-column: 1 / -1; padding-bottom: 12px; border-bottom: 1px solid var(--sh-border); }
+  .main { grid-template-columns: 1fr; }
+  .quick-section-grid { max-width: 100%; }
+  .header-inner { grid-template-columns: auto 1fr auto; gap: 16px; }
+}
+
+@media (max-width: 900px) {
+  .cat-nav-inner { overflow-x: auto; height: 44px; -webkit-overflow-scrolling: touch; }
+  .cat-nav a { padding: 12px 14px; font-size: 13px; white-space: nowrap; }
+  .hero { min-height: 210px; }
+  .hero h1 { font-size: 26px; }
+  .hero-content { padding: 40px 20px 0; }
+  .quick-section-grid { grid-template-columns: 1fr; }
+  .quick-col:first-child { border-right: none; padding-right: 0; }
+  .quick-col:last-child { padding-left: 0; }
+}
+
+@media (max-width: 768px) {
+  .utility-bar { padding: 6px 16px; font-size: 12px; }
+  .utility-bar-inner { gap: 8px; }
+  .utility-right { display: none; }
+
+  .header { padding: 12px 16px; }
+  .header-inner { grid-template-columns: auto 1fr auto; gap: 12px; }
+  .search-bar { height: 40px; }
+  .search-input { font-size: 13px; padding: 0 12px; }
+  .header-icons { gap: 8px; }
+  .header-icon-btn { font-size: 0; gap: 0; }
+  .header-icon-btn .ic { font-size: 22px; }
+
+  .cat-nav-inner { padding: 0 16px; }
+
+  .hero { min-height: 150px; }
+  .hero h1 { font-size: 19px; line-height: 1.2; max-width: 80%; }
+  .hero-content { padding: 24px 20px 0; }
+  .hero-arrows { display: none; }
+
+  .welcome-banner { margin: -28px 12px 0; width: auto; max-width: calc(100% - 24px); }
+  .welcome-banner-inner { grid-template-columns: 1fr 1fr; padding: 12px 16px 16px; gap: 16px; }
+  .account-summary-label { padding: 14px 16px 0; }
+  .welcome-user { grid-column: 1 / -1; }
+  .stat-block .stat-value { font-size: 20px; }
+
+  .main { margin: 16px 12px 0; padding: 0; gap: 24px; }
+  .banners { padding: 0 12px; gap: 16px; }
+  .banner { flex-direction: column; align-items: flex-start; padding: 20px; }
+  .carousel-section { padding: 0 12px; margin-top: 40px; }
+  .quick-section { margin: 24px 0 0; padding: 24px 12px 0; }
+  .testimonials-section { padding: 0 12px; margin-top: 40px; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 17px; }
+  .welcome-banner-inner { grid-template-columns: 1fr; }
+  .stat-block { border-bottom: 1px solid var(--sh-border); padding-bottom: 10px; }
+  .stat-block:last-child { border-bottom: none; padding-bottom: 0; }
+  .logo-text { font-size: 22px; }
+  .logo-text .com { font-size: 13px; }
+  .logo-swoosh { width: 64px; }
+}
+
+/* ============================================================
+   NEW LOWER-PAGE SECTIONS (Version C — TM)
+   All rectangles border-radius 0; circles/chips only exceptions.
+   ============================================================ */
+
+/* Shared full-width section shell */
+.lp-section { max-width: 1920px; margin: 0 auto; padding: 0 80px; }
+.lp-section.band { max-width: none; padding-left: 0; padding-right: 0; }
+.lp-inner { max-width: 1760px; margin: 0 auto; }
+.lp-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.lp-head h2 { font-size: var(--sh-text-h2); font-weight: var(--sh-weight-bold); color: var(--sh-body); line-height: 1.2; }
+.lp-head .lp-sub { font-size: 13px; color: var(--sh-mid-gray); margin-top: 3px; }
+.lp-pager { display: flex; align-items: center; gap: 8px; }
+.lp-tm-blue { color: var(--sh-tm-blue); }
+
+/* shared square product image placeholder (matches .recent-item .img-wrap art) */
+.ph-square {
+  width: 100%; aspect-ratio: 1; border: 1px solid var(--sh-light-tan-2);
+  background: var(--sh-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='38' r='28' fill='%23CCCCCC'/%3E%3Ccircle cx='40' cy='38' r='19' fill='%23909090'/%3E%3Ccircle cx='40' cy='38' r='8' fill='%233A3A3A'/%3E%3Crect x='34' y='64' width='12' height='8' fill='%23707070'/%3E%3C/svg%3E") center/64% no-repeat;
+}
+/* generic gray image/photo placeholder with centered glyph */
+.ph-box {
+  background: var(--sh-light-tan-2);
+  border: 1px solid var(--sh-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sh-mid-gray);
+}
+.ph-box .ic { font-size: 34px; opacity: 0.7; }
+
+/* product card extras (rating + meta) reused across sections */
+.recent-item .stars { color: var(--sh-orange); font-size: 13px; letter-spacing: 1px; margin: 2px 0; }
+.recent-item .stars .count { color: var(--sh-mid-gray); font-size: 12px; letter-spacing: 0; margin-left: 4px; }
+.recent-item .stockmeta { font-size: 11px; color: var(--sh-success); margin-top: 6px; }
+
+/* ===== 1. Replacement Part Finder band ===== */
+.rpf-band { background: var(--sh-light-tan-1); border-top: 1px solid var(--sh-border); border-bottom: 1px solid var(--sh-border); padding: 40px 80px; margin-top: 64px; }
+.rpf-wrap {
+  max-width: 1760px; margin: 0 auto;
+  display: flex; align-items: center; gap: 40px; flex-wrap: wrap;
+}
+.rpf-thumbs { display: grid; grid-template-columns: repeat(3, 64px); gap: 10px; flex-shrink: 0; }
+.rpf-thumbs .ph-square { width: 64px; height: 64px; }
+.rpf-main { flex: 1; min-width: 280px; }
+.rpf-main .rpf-h { font-size: 24px; font-weight: var(--sh-weight-bold); color: var(--sh-dark-blue); line-height: 1.2; }
+.rpf-main .rpf-s { font-size: 14px; color: var(--sh-body); margin: 6px 0 16px; }
+.rpf-controls { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.rpf-field { display: flex; flex-direction: column; gap: 4px; }
+.rpf-field label { font-size: 11px; font-weight: var(--sh-weight-bold); color: var(--sh-mid-gray); letter-spacing: 0.06em; text-transform: uppercase; }
+.rpf-field select {
+  height: 44px; min-width: 220px;
+  border: 1px solid var(--sh-border); background: var(--sh-white); color: var(--sh-body);
+  font-family: inherit; font-size: 14px; padding: 0 12px; border-radius: 0;
+}
+.rpf-find {
+  height: 44px; padding: 0 28px; background: var(--sh-tm-blue); color: var(--sh-white);
+  font-weight: var(--sh-weight-bold); font-size: 13px; letter-spacing: 0.04em;
+  text-transform: uppercase; border-radius: 0; transition: background 120ms ease;
+}
+.rpf-find:hover { background: var(--sh-dark-blue); }
+@media (max-width: 900px) { .rpf-band { padding: 32px 24px; } .rpf-field select { min-width: 160px; } }
+
+/* ===== 2. New Arrivals (promo + 4 cards) ===== */
+.na-layout { display: grid; grid-template-columns: 28% 1fr; gap: 24px; align-items: stretch; }
+.promo-card {
+  display: flex; flex-direction: column; justify-content: space-between;
+  border: 1px solid var(--sh-border); background: var(--sh-light-tan-1);
+  padding: 24px; border-radius: 0;
+}
+.promo-card .promo-eyebrow { font-size: 12px; font-weight: var(--sh-weight-bold); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sh-tm-blue); }
+.promo-card .promo-title { font-size: 22px; font-weight: var(--sh-weight-bold); color: var(--sh-dark-blue); line-height: 1.2; margin: 8px 0 16px; }
+.promo-card .promo-img { width: 100%; height: 200px; margin-top: auto; }
+.promo-card .promo-link { font-size: 13px; font-weight: var(--sh-weight-bold); color: var(--sh-blue); margin-top: 14px; display: inline-block; }
+.na-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+@media (max-width: 1200px) { .na-layout { grid-template-columns: 1fr; } .na-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .na-cards { grid-template-columns: 1fr 1fr; } }
+
+/* ===== 3. Brand of the Month (4 cards + brand banner) ===== */
+.bm-layout { display: grid; grid-template-columns: 1fr 28%; gap: 24px; align-items: stretch; }
+.bm-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.brand-banner {
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--sh-dark-blue); color: var(--sh-white);
+  padding: 24px; border-radius: 0;
+}
+.brand-banner .bb-wordmark { font-size: 26px; font-weight: var(--sh-weight-bold); letter-spacing: -0.01em; }
+.brand-banner .bb-title { font-size: 18px; font-weight: var(--sh-weight-bold); margin: 8px 0 16px; line-height: 1.25; }
+.brand-banner .bb-img { width: 100%; height: 200px; margin-top: auto; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+.brand-banner .bb-link { font-size: 13px; font-weight: var(--sh-weight-bold); color: var(--sh-white); text-decoration: underline; margin-top: 14px; display: inline-block; }
+@media (max-width: 1200px) { .bm-layout { grid-template-columns: 1fr; } .bm-cards { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== 4. Best Picks tabs ===== */
+.tabbar { display: flex; gap: 0; border-bottom: 1px solid var(--sh-border); margin-bottom: 18px; flex-wrap: wrap; }
+.tab {
+  font-size: 14px; font-weight: var(--sh-weight-bold); color: var(--sh-mid-gray);
+  padding: 12px 18px; border-bottom: 3px solid transparent; background: none;
+}
+.tab:hover { color: var(--sh-body); }
+.tab.active { color: var(--sh-tm-blue); border-bottom-color: var(--sh-tm-blue); }
+.bp-cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+@media (max-width: 1200px) { .bp-cards { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 768px) { .bp-cards { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== Best Picks — rich product rail (bp2-*) ===== */
+.bp2-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.bp2-pill { display: inline-flex; align-items: center; font-size: 13px; font-weight: var(--sh-weight-bold); color: var(--sh-body); background: var(--sh-white); border: 1px solid var(--sh-border); padding: 7px 16px; border-radius: 999px; transition: background 120ms ease, border-color 120ms ease, color 120ms ease; }
+.bp2-pill:hover { border-color: var(--sh-blue); color: var(--sh-blue); }
+.bp2-pill.active { border-color: var(--sh-blue); background: var(--sh-info-bg); color: var(--sh-blue); }
+.bp2-pill:focus-visible { outline: 2px solid var(--sh-blue); outline-offset: 2px; }
+
+.bp2-rail { display: flex; align-items: stretch; gap: 12px; }
+.bp2-arrow { flex-shrink: 0; align-self: center; width: 40px; height: 40px; border: 1px solid var(--sh-border); background: var(--sh-white); display: flex; align-items: center; justify-content: center; color: var(--sh-body); border-radius: var(--sh-radius-sm); transition: background 120ms ease, border-color 120ms ease; }
+.bp2-arrow:hover { background: var(--sh-hover); border-color: var(--sh-blue); }
+.bp2-arrow .ic { font-size: 22px; }
+.bp2-track { flex: 1; min-width: 0; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 5 * 16px) / 6); gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 4px; scrollbar-width: thin; }
+
+.bp2-card { display: flex; flex-direction: column; border-right: 1px solid var(--sh-border); padding: 0 14px 16px; border-radius: 0; }
+.bp2-card:last-child { border-right: none; }
+.bp2-compare { display: flex; align-items: center; justify-content: flex-end; gap: 5px; font-size: 11px; color: var(--sh-mid-gray); margin-bottom: 6px; }
+.bp2-compare input { width: 13px; height: 13px; accent-color: var(--sh-blue); margin: 0; cursor: pointer; }
+.bp2-compare label { cursor: pointer; }
+.bp2-img { width: 100%; aspect-ratio: 1; border: 1px solid var(--sh-light-tan-2); background: var(--sh-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='38' r='28' fill='%23CCCCCC'/%3E%3Ccircle cx='40' cy='38' r='19' fill='%23909090'/%3E%3Ccircle cx='40' cy='38' r='8' fill='%233A3A3A'/%3E%3Crect x='34' y='64' width='12' height='8' fill='%23707070'/%3E%3C/svg%3E") center/64% no-repeat; margin-bottom: 10px; }
+.bp2-title { display: block; font-size: 13px; line-height: 1.3; font-weight: var(--sh-weight-bold); color: var(--sh-blue); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(1.3em * 3); }
+.bp2-meta { font-size: 12px; color: var(--sh-mid-gray); margin-top: 6px; }
+.bp2-meta .bp2-sep { margin: 0 6px; color: var(--sh-border); }
+.bp2-meta .bp2-brand { color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+.bp2-rating { color: var(--sh-orange); font-size: 13px; letter-spacing: 1px; margin: 6px 0; }
+.bp2-rating .bp2-count { color: var(--sh-mid-gray); font-size: 12px; letter-spacing: 0; margin-left: 4px; }
+.bp2-buyrow { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 4px 0 10px; }
+.bp2-buyrow .stepper { margin-bottom: 0; }
+.bp2-price { text-align: right; line-height: 1.1; }
+.bp2-price .bp2-amt { font-size: 16px; font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.bp2-price .bp2-each { font-size: 11px; color: var(--sh-mid-gray); }
+.bp2-list { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: var(--sh-weight-bold); color: var(--sh-blue); margin: 10px 0; }
+.bp2-list .ic { font-size: 16px; }
+.bp2-fulfill { font-size: 12px; line-height: 1.5; color: var(--sh-body); }
+.bp2-fulfill .bp2-line { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.bp2-fulfill .bp2-check { display: inline-flex; align-items: center; gap: 3px; color: var(--sh-success); font-weight: var(--sh-weight-bold); }
+.bp2-fulfill .bp2-check .ic { font-size: 14px; color: var(--sh-success); }
+.bp2-fulfill .bp2-ftrack { display: inline-flex; align-items: center; gap: 3px; font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.bp2-fulfill .bp2-ftrack .ic { font-size: 14px; color: var(--sh-orange); }
+.bp2-fulfill .bp2-fsep { color: var(--sh-border); margin: 0 4px; }
+.bp2-fulfill .bp2-eta b { color: var(--sh-body); }
+.bp2-fulfill a { color: var(--sh-blue); font-weight: var(--sh-weight-bold); }
+@media (max-width: 1200px) { .bp2-track { grid-auto-columns: calc((100% - 3 * 16px) / 4); } }
+@media (max-width: 768px) { .bp2-track { grid-auto-columns: calc((100% - 16px) / 2); } .bp2-arrow { display: none; } }
+
+/* ===== 5. Tools to get your job done ===== */
+.tools-layout { display: grid; grid-template-columns: 62% 1fr; gap: 24px; }
+.tools-banner {
+  position: relative; background: var(--sh-dark-brown); color: var(--sh-white);
+  padding: 32px; display: flex; flex-direction: column; gap: 16px; border-radius: 0;
+  min-height: 320px;
+}
+.tools-banner .tb-h { font-size: 28px; font-weight: var(--sh-weight-bold); line-height: 1.15; max-width: 360px; }
+.tools-banner .tb-cta {
+  align-self: flex-start; background: var(--sh-tm-blue); color: var(--sh-white);
+  font-weight: var(--sh-weight-bold); font-size: 13px; letter-spacing: 0.04em;
+  text-transform: uppercase; padding: 12px 24px; border-radius: 0; transition: background 120ms ease;
+}
+.tools-banner .tb-cta:hover { background: var(--sh-blue-hover); text-decoration: none; }
+.tools-banner .tb-img { margin-top: auto; width: 100%; height: 150px; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+.tools-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; }
+.tool-tile {
+  display: flex; flex-direction: column; border: 1px solid var(--sh-border);
+  background: var(--sh-white); border-radius: 0; color: var(--sh-body); text-decoration: none;
+  transition: border-color 120ms ease;
+}
+.tool-tile:hover { border-color: var(--sh-tm-blue); text-decoration: none; }
+.tool-tile .tt-img { width: 100%; height: 100px; }
+.tool-tile .tt-label { font-size: 14px; font-weight: var(--sh-weight-bold); color: var(--sh-body); padding: 12px 14px; }
+@media (max-width: 1000px) { .tools-layout { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .tools-grid { grid-template-columns: 1fr; grid-template-rows: none; } }
+
+/* ===== 6. Heating Season Categories (circular icons) ===== */
+.circle-row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 18px; }
+.circle-cat { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; color: var(--sh-body); text-decoration: none; }
+.circle-cat .cc-circle {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--sh-light-tan-3); border: 1px solid var(--sh-light-tan-2);
+  display: flex; align-items: center; justify-content: center; color: var(--sh-mid-brown);
+  transition: background 120ms ease, color 120ms ease;
+}
+.circle-cat:hover .cc-circle { background: var(--sh-tm-blue); color: var(--sh-white); }
+.circle-cat .cc-circle .ic { font-size: 40px; }
+.circle-cat .cc-label { font-size: 13px; font-weight: var(--sh-weight-bold); line-height: 1.25; }
+@media (max-width: 1100px) { .circle-row { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 560px) { .circle-row { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== 7. Recommended search chips ===== */
+.chip-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--sh-border); background: var(--sh-white);
+  color: var(--sh-body); font-size: 14px; font-weight: var(--sh-weight-bold);
+  padding: 8px 18px; border-radius: 999px; transition: background 120ms ease, border-color 120ms ease;
+}
+.chip:hover { background: var(--sh-light-tan-1); border-color: var(--sh-tm-blue); text-decoration: none; color: var(--sh-tm-blue); }
+
+/* ===== 8. Testimonials (collage + quote cards) ===== */
+.testi-band { background: var(--sh-info-bg); padding: 56px 80px; margin-top: 80px; }
+.testi-wrap { max-width: 1760px; margin: 0 auto; }
+.testi-collage {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px;
+  margin-bottom: 32px; align-items: end;
+}
+.testi-collage .ph-box { width: 100%; }
+.tc-1 { height: 120px; } .tc-2 { height: 160px; } .tc-3 { height: 100px; }
+.tc-4 { height: 180px; } .tc-5 { height: 110px; } .tc-6 { height: 150px; } .tc-7 { height: 130px; }
+.testi-center { text-align: center; max-width: 720px; margin: 0 auto 36px; }
+.testi-center h2 { font-size: 32px; font-weight: var(--sh-weight-bold); color: var(--sh-body); line-height: 1.15; }
+.testi-center .testi-subhead { font-size: 16px; color: var(--sh-body); margin-top: 12px; }
+.testi-quotes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.quote-card {
+  background: var(--sh-white); border: 1px solid var(--sh-border);
+  padding: 24px; border-radius: 0; display: flex; flex-direction: column; gap: 12px;
+}
+.quote-card .qmark { font-size: 44px; line-height: 0.6; color: var(--sh-tm-blue); font-family: Georgia, serif; }
+.quote-card .qtext { font-size: 14px; color: var(--sh-body); line-height: 1.5; flex: 1; }
+.quote-card .qauthor { font-size: 12px; font-weight: var(--sh-weight-bold); color: var(--sh-mid-gray); }
+.quote-card .qmore { font-size: 13px; font-weight: var(--sh-weight-bold); color: var(--sh-blue); }
+@media (max-width: 1100px) { .testi-collage { grid-template-columns: repeat(4, 1fr); } .testi-quotes { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) { .testi-band { padding: 40px 24px; } }
+@media (max-width: 560px) { .testi-quotes { grid-template-columns: 1fr; } .testi-collage { grid-template-columns: repeat(3, 1fr); } }
+
+/* ===== 9. Brands stat bar ===== */
+.brands-section { text-align: center; }
+.brands-section h2 { font-size: 32px; font-weight: var(--sh-weight-bold); color: var(--sh-body); line-height: 1.15; }
+.brands-section .brands-sub { font-size: 16px; color: var(--sh-body); margin: 12px 0 28px; }
+.wordmarks { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 32px; margin-bottom: 40px; }
+.wordmark { font-size: 22px; font-weight: var(--sh-weight-bold); color: var(--sh-mid-gray); letter-spacing: -0.01em; font-style: italic; }
+.brand-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; text-align: left; border-top: 1px solid var(--sh-border); padding-top: 28px; }
+.brand-col h3 { font-size: 12px; font-weight: var(--sh-weight-bold); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sh-body); margin-bottom: 12px; }
+.brand-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.brand-col a { font-size: 14px; color: var(--sh-blue); }
+.brand-col .more { font-weight: var(--sh-weight-bold); }
+@media (max-width: 900px) { .brand-cols { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== 10. Your Next Projects ===== */
+.np-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.project-card { border: 1px solid var(--sh-border); background: var(--sh-white); border-radius: 0; display: flex; flex-direction: column; }
+.project-card .pc-img { width: 100%; height: 160px; }
+.project-card .pc-body { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.project-card .pc-label { font-size: 16px; font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.project-card .pc-desc { font-size: 13px; color: var(--sh-mid-gray); }
+.project-card .pc-link { font-size: 13px; font-weight: var(--sh-weight-bold); color: var(--sh-blue); margin-top: 4px; }
+@media (max-width: 900px) { .np-cards { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .np-cards { grid-template-columns: 1fr; } }
+
+/* ===== 11. Helpful Tools ===== */
+.ht-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.ht-item { border: 1px solid var(--sh-border); background: var(--sh-white); border-radius: 0; padding: 24px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.ht-item .ht-ico { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: var(--sh-tm-blue); border: 1px solid var(--sh-border); }
+.ht-item .ht-ico .ic { font-size: 28px; }
+.ht-item .ht-label { font-size: 18px; font-weight: var(--sh-weight-bold); color: var(--sh-body); }
+.ht-item .ht-text { font-size: 13px; color: var(--sh-mid-gray); }
+.ht-item .ht-action { display: flex; align-items: stretch; gap: 0; margin-top: 4px; width: 100%; }
+.ht-item .ht-field { flex: 1; height: 40px; border: 1px solid var(--sh-border); padding: 0 12px; font-size: 13px; font-family: inherit; border-radius: 0; outline: none; }
+.ht-item .ht-btn { height: 40px; padding: 0 18px; background: var(--sh-tm-blue); color: var(--sh-white); font-weight: var(--sh-weight-bold); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 0; }
+.ht-item .ht-btn:hover { background: var(--sh-blue-hover); }
+@media (max-width: 900px) { .ht-row { grid-template-columns: 1fr; } }
+
+/* ===== 12. Give Back banner ===== */
+.giveback {
+  background: var(--sh-dark-brown); color: var(--sh-white);
+  display: grid; grid-template-columns: 1fr 38%; gap: 32px; align-items: center;
+  padding: 40px; border-radius: 0;
+}
+.giveback .gb-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--sh-orange); color: var(--sh-white); font-size: 12px; font-weight: var(--sh-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 12px; border-radius: 0; }
+.giveback .gb-h { font-size: 32px; font-weight: var(--sh-weight-bold); margin: 12px 0 8px; }
+.giveback .gb-copy { font-size: 16px; color: rgba(255,255,255,0.85); margin-bottom: 20px; max-width: 480px; }
+.giveback .gb-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--sh-white); color: var(--sh-dark-brown); font-weight: var(--sh-weight-bold); font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; padding: 12px 24px; border-radius: 0; }
+.giveback .gb-cta:hover { background: var(--sh-light-tan-1); text-decoration: none; }
+.giveback .gb-img { width: 100%; height: 200px; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+@media (max-width: 900px) { .giveback { grid-template-columns: 1fr; padding: 28px; } }
+
+/* ===== 13. Connect with Us ===== */
+.connect-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.connect-tile { position: relative; width: 100%; aspect-ratio: 1; border-radius: 0; }
+.connect-tile .ig { position: absolute; top: 8px; right: 8px; color: var(--sh-white); filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); }
+.connect-tile .ig .ic { font-size: 20px; }
+@media (max-width: 900px) { .connect-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 480px) { .connect-row { grid-template-columns: repeat(2, 1fr); } }
+
+/* ===== 14. Rich Footer ===== */
+.footer-rich { background: var(--sh-dark-brown); color: var(--sh-white); margin-top: 80px; }
+.footer-help { border-bottom: 1px solid rgba(255,255,255,0.15); }
+.footer-help-inner { max-width: 1760px; margin: 0 auto; padding: 28px 80px; display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+.footer-help-title { font-size: 22px; font-weight: var(--sh-weight-bold); color: var(--sh-white); }
+.footer-contacts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.fc-item { display: flex; align-items: center; gap: 12px; }
+.fc-item .fc-ico { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--sh-white); flex-shrink: 0; }
+.fc-item .fc-ico .ic { font-size: 22px; }
+.fc-item .fc-label { font-size: 12px; font-weight: var(--sh-weight-bold); letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+.fc-item .fc-detail { font-size: 14px; font-weight: var(--sh-weight-bold); color: var(--sh-white); }
+.footer-main { max-width: 1760px; margin: 0 auto; padding: 40px 80px; display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 32px; }
+.footer-brand .f-logo-tm { font-size: 10px; font-weight: var(--sh-weight-bold); letter-spacing: 0.08em; color: rgba(255,255,255,0.8); }
+.footer-brand .f-logo-text { font-size: 24px; font-weight: var(--sh-weight-bold); color: var(--sh-white); letter-spacing: -0.02em; }
+.footer-brand .f-logo-text .com { font-weight: var(--sh-weight-regular); font-size: 15px; color: rgba(255,255,255,0.8); }
+.footer-apps { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+.app-badge { display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.35); padding: 8px 14px; border-radius: 0; color: var(--sh-white); }
+.app-badge .ic { font-size: 22px; }
+.app-badge .ab-text { line-height: 1.1; }
+.app-badge .ab-small { font-size: 9px; display: block; color: rgba(255,255,255,0.7); }
+.app-badge .ab-big { font-size: 14px; font-weight: var(--sh-weight-bold); display: block; }
+.footer-socials { display: flex; gap: 14px; }
+.footer-socials a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; color: var(--sh-white); }
+.footer-socials a:hover { background: rgba(255,255,255,0.12); }
+.footer-col h3 { font-size: 13px; font-weight: var(--sh-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; color: var(--sh-white); margin-bottom: 14px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { font-size: 14px; color: rgba(255,255,255,0.85); text-decoration: none; }
+.footer-col a:hover { color: var(--sh-white); text-decoration: underline; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.15); }
+.footer-bottom-inner { max-width: 1760px; margin: 0 auto; padding: 18px 80px; font-size: 13px; color: rgba(255,255,255,0.75); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.footer-bottom-inner a { color: rgba(255,255,255,0.85); }
+@media (max-width: 1100px) { .footer-main { grid-template-columns: repeat(3, 1fr); } .footer-help-inner { grid-template-columns: 1fr; } .footer-contacts { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1440px) {
+  .lp-section { padding: 0 24px; }
+  .rpf-band { padding: 40px 24px; }
+  .testi-band { padding: 56px 24px; }
+  .footer-help-inner, .footer-main, .footer-bottom-inner { padding-left: 24px; padding-right: 24px; }
+}
+@media (max-width: 768px) {
+  .footer-main { grid-template-columns: 1fr 1fr; padding: 28px 16px; }
+  .footer-help-inner { padding: 20px 16px; }
+  .footer-bottom-inner { padding: 16px; }
+  .lp-section { padding: 0 12px; }
+  .rpf-band { padding: 28px 12px; }
+  .testi-band { padding: 32px 12px; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- Mobile header -->
+<div class="m-header">
+  <div class="m-utility">
+    <span class="m-free">Free shipping on all orders</span>
+    <button type="button" class="m-zip" aria-label="Change zip code, currently 11743"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>11743 ▾</button>
+  </div>
+  <div class="m-top">
+    <a href="#" class="m-logo tm" aria-label="SupplyHouse TradeMaster home"><svg class="logo-swoosh" viewBox="0 0 88 22" aria-hidden="true"><defs><linearGradient id="m-swoosh-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#331811"/><stop offset="0.55" stop-color="#603423"/><stop offset="1" stop-color="#B7804E"/></linearGradient></defs><path d="M2 21 C18 3 58 -3 86 8 C60 2 24 7 8 22 Z" fill="url(#m-swoosh-g)"/></svg><span class="logo-text"><span class="logo-tm">TRADEMASTER</span>SupplyHouse<span class="com">.com</span></span></a>
+    <div class="m-actions">
+      <button type="button" class="m-act"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>REORDER</button>
+      <button type="button" class="m-act"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>HELP</button>
+      <button type="button" class="m-act" id="m-menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>MENU</button>
+    </div>
+  </div>
+  <div class="m-searchrow">
+    <button type="button" class="m-search" id="m-search"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search</button>
+    <button type="button" class="m-sb account"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>ACCOUNT</button>
+    <button type="button" class="m-sb cart"><span class="m-cart-badge">7</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>CART</button>
+  </div>
+</div>
+
+
+<!-- 1. Utility Bar -->
+<div class="utility-bar">
+  <div class="utility-bar-inner">
+    <div class="utility-left">
+      <span class="free-ship">Free shipping on all orders</span>
+      <span class="dot" aria-hidden="true">•</span>
+      <span class="zip">Your Zip: <button type="button" aria-label="Change zip code, currently 11743">11743 ▾</button></span>
+    </div>
+    <div class="utility-right">
+      <span class="phone"><svg class="ic ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:8885517600">888-551-7600</a></span>
+      <span class="dot" aria-hidden="true">•</span>
+      <a href="#" class="pill"><svg class="ic ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 9.4 7.5 4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05"/><path d="M12 22.08V12"/></svg>ORDER STATUS</a>
+      <span class="dot" aria-hidden="true">•</span>
+      <a href="#" class="pill"><svg class="ic ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>SAVED CARTS</a>
+      <span class="dot" aria-hidden="true">•</span>
+      <a href="#" class="pill"><svg class="ic ico" viewBox="0 0 24 24" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>LISTS</a>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Header (rep block removed — relocated to banner below) -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="SupplyHouse TradeMaster home">
+      <svg class="logo-swoosh" viewBox="0 0 88 22" aria-hidden="true">
+        <defs>
+          <linearGradient id="swoosh-g" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#331811"/>
+            <stop offset="0.55" stop-color="#603423"/>
+            <stop offset="1" stop-color="#B7804E"/>
+          </linearGradient>
+        </defs>
+        <path d="M2 21 C18 3 58 -3 86 8 C60 2 24 7 8 22 Z" fill="url(#swoosh-g)"/>
+      </svg>
+      <span class="logo-stack">
+        <span class="logo-tm-badge">TRADEMASTER</span>
+        <span class="logo-text">SupplyHouse<span class="com">.com</span></span>
+      </span>
+    </a>
+
+    <div class="search-bar">
+      <label class="sr-only" for="site-search">Search for part or SKU</label>
+      <input type="text" id="site-search" class="search-input" placeholder="Search for part or SKU">
+      <div class="search-icons">
+        <button type="button" aria-label="Search by image"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+        <button type="button" aria-label="Voice search"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+        <button type="submit" class="search-submit" aria-label="Search"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      </div>
+    </div>
+
+    <div class="header-icons">
+      <a href="#" class="header-icon-btn">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        REORDER
+      </a>
+      <a href="#" class="header-icon-btn">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        ACCOUNT
+      </a>
+      <a href="#" class="header-icon-btn" aria-label="Cart, 7 items">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge" aria-hidden="true">7</span>
+        CART
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- 3. Category Nav -->
+<nav class="cat-nav" aria-label="Product categories">
+  <div class="cat-nav-inner">
+    <div class="cat-nav-left">
+      <a href="#">Plumbing</a>
+      <a href="#">Heating</a>
+      <a href="#">HVAC</a>
+      <a href="#">PEX</a>
+      <a href="#">Fittings</a>
+      <a href="#">Valves</a>
+      <a href="#">Thermostats</a>
+      <a href="#">Electrical</a>
+    </div>
+    <div class="cat-nav-right">
+      <a href="#">Resources</a>
+      <a href="#">Our Team</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+
+<!-- 4. Hero — personalized welcome (Replacement Part Finder pill removed) -->
+<section class="hero" aria-label="Featured">
+  <div class="hero-content">
+    <h1>Welcome back, Tommy — thanks for being a TradeMaster.</h1>
+  </div>
+  <div class="hero-arrows">
+    <button type="button" class="hero-arrow" aria-label="Previous slide"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button type="button" class="hero-arrow" aria-label="Next slide"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+  </div>
+</section>
+
+<!-- 5. Account Summary banner (was Welcome banner — 4 stats only) -->
+<section class="welcome-banner" aria-label="Account summary">
+  <div class="account-summary-label">Account Summary</div>
+  <div class="welcome-banner-inner">
+    <div class="welcome-user">
+      <div class="user-avatar" aria-hidden="true">TR</div>
+      <div>
+        <div class="name">Welcome back, Tommy!</div>
+        <div class="since">TradeMaster since 2008</div>
+      </div>
+    </div>
+
+    <div class="stat-block">
+      <div class="stat-label">Pending deliveries</div>
+      <div class="stat-value">2 Orders</div>
+      <div class="stat-meta">1 arriving today, <a href="#">Track package</a></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Open quotes</div>
+      <div class="stat-value">3 Quotes</div>
+      <div class="stat-meta warn"><span class="warn-text">1 expires in 2 days</span> <a href="#">View</a></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Outstanding balance</div>
+      <div class="stat-value">$6,340</div>
+      <div class="stat-meta">Net-30 · due Nov 14 <a href="#">View</a></div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-label">Month-to-date spend</div>
+      <div class="stat-value">$14,180</div>
+      <div class="stat-meta">vs $21,400 last mo. <a href="#">View</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Main Two-Column -->
+<div class="main">
+  <div class="main-left">
+
+  <!-- 6a. Continue shopping — category level -->
+  <section class="module" aria-label="Continue shopping">
+    <div class="module-head">
+      <div class="heads">
+        <h2 class="module-title">Continue shopping</h2>
+        <span class="module-sub">Pick up where you left off.</span>
+      </div>
+      <a href="#" class="view-all-link">All categories</a>
+    </div>
+    <div class="cat-tiles">
+      <a href="#" class="cat-tile">
+        <span class="tile-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10h18v4H3z"/><path d="M5 6h14"/><path d="M5 18h14"/></svg></span>
+        <span class="tile-name">Plumbing</span>
+        <span class="tile-meta">Last viewed 2 days ago</span>
+      </a>
+      <a href="#" class="cat-tile">
+        <span class="tile-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2C7 2 5 6 5 11s2 9 7 11c5-2 7-6 7-11s-2-9-7-9z"/></svg></span>
+        <span class="tile-name">Heating &amp; boilers</span>
+        <span class="tile-meta">Last viewed 4 days ago</span>
+      </a>
+      <a href="#" class="cat-tile">
+        <span class="tile-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 5v3M12 16v3M5 12h3M16 12h3"/></svg></span>
+        <span class="tile-name">HVAC</span>
+        <span class="tile-meta">Last viewed 1 week ago</span>
+      </a>
+      <a href="#" class="cat-tile">
+        <span class="tile-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0"/><path d="M4 12c4 6 12 6 16 0"/></svg></span>
+        <span class="tile-name">PEX &amp; fittings</span>
+        <span class="tile-meta">Last viewed 1 week ago</span>
+      </a>
+      <a href="#" class="cat-tile">
+        <span class="tile-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></span>
+        <span class="tile-name">Valves</span>
+        <span class="tile-meta">Last viewed 2 weeks ago</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6b. Restock — SKU level -->
+  <section class="module" aria-label="Restock">
+    <div class="module-head">
+      <div class="heads">
+        <h2 class="module-title">Restock</h2>
+        <span class="module-sub">Items you buy regularly, due soon.</span>
+      </div>
+      <a href="#" class="view-all-link">View all</a>
+    </div>
+    <div class="recent-grid product-grid">
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="restock-flag"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="font-size:13px"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Due now</span>
+        <a href="#" class="title">1/2&quot; PEX Crimp Ring (100-pack)</a>
+        <div class="sku">SKU: PX10025</div>
+        <div class="price">$22.90</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="2" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="restock-flag"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="font-size:13px"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Due in 1 week</span>
+        <a href="#" class="title">3/4&quot; ProPress Copper Tee</a>
+        <div class="sku">SKU: PP20431</div>
+        <div class="price">$8.45</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="10" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="restock-flag"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="font-size:13px"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Due in 2 weeks</span>
+        <a href="#" class="title">1/2 in. Black Pipe Nipple (bulk)</a>
+        <div class="sku">SKU: BP44120</div>
+        <div class="price">$3.20</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="25" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="restock-flag"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="font-size:13px"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Due in 3 weeks</span>
+        <a href="#" class="title">3/4&quot; Brass Ball Valve</a>
+        <div class="sku">SKU: BV70112</div>
+        <div class="price">$12.75</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="6" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6c. Best picks for you — SKU level (replaces "Other customers also liked") -->
+  <section class="module" aria-label="Best picks for you">
+    <div class="module-head">
+      <div class="heads">
+        <h2 class="module-title">Best picks for you</h2>
+        <span class="module-sub">Top sellers in the categories you shop most.</span>
+      </div>
+      <a href="#" class="view-all-link">View all</a>
+    </div>
+    <div class="recent-grid product-grid">
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="bestseller-flag">★ Best seller in Heating</span>
+        <a href="#" class="title">Taco 007e Circulator Pump</a>
+        <div class="sku">SKU: TC007E</div>
+        <div class="price">$184.50</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="1" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="bestseller-flag">★ Best seller in Thermostats</span>
+        <a href="#" class="title">Honeywell T6 Pro Thermostat</a>
+        <div class="sku">SKU: HW55218</div>
+        <div class="price">$129.99</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="1" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="bestseller-flag">★ Best seller in Plumbing</span>
+        <a href="#" class="title">RIDGID No. 95 Press Jaw Set</a>
+        <div class="sku">SKU: RG31228</div>
+        <div class="price">$642.00</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="1" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+      <div class="recent-item">
+        <div class="img-wrap" aria-hidden="true"></div>
+        <span class="bestseller-flag">★ Best seller in HVAC</span>
+        <a href="#" class="title">1/2&quot; to 1&quot; M12 Force Logic Copper Cutter</a>
+        <div class="sku">SKU: BF93544</div>
+        <div class="price">$1,499.00</div>
+        <div class="buy"><div class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="text" inputmode="numeric" value="1" aria-label="Quantity"/><button type="button" class="step-up" aria-label="Increase quantity">+</button></div><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add</button></div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- Sidebar — utility only -->
+  <aside class="sidebar">
+
+    <!-- Incoming deliveries -->
+    <div class="sidebar-block">
+      <div class="sidebar-title">
+        Incoming deliveries
+        <a class="link" href="#">All orders</a>
+      </div>
+
+      <div class="delivery-card">
+        <div class="order-id-line">Order <a class="order-id" href="#">#112311634</a></div>
+        <div class="meta">10 items · Riverside HVAC · <a class="track" href="#">Track package</a></div>
+        <div class="delivery-items">
+          <div class="thumb t1" data-name="1/2 in. Black Pipe Nipple"></div><div class="thumb t2" data-name="3/4 in. Copper Coupling"></div><div class="thumb t4" data-name="Brass Ball Valve"></div><div class="thumb-more">+5</div>
+        </div>
+      <div class="track-mini" aria-label="Delivery progress: out for delivery">
+          <span class="ts-track"></span>
+          <span class="ts-fill" style="width: calc((100% - 14px) * 0.6667);"></span>
+          <div class="ts-step done" style="left: 0.0000%;"><span class="ts-dot">✓</span><span class="ts-label">Processing</span><span class="ts-ts">Jun 3</span></div>
+          <div class="ts-step done" style="left: 33.3333%;"><span class="ts-dot">✓</span><span class="ts-label">Shipped</span><span class="ts-ts">Jun 4</span></div>
+          <div class="ts-step current" style="left: 66.6667%;"><span class="ts-dot">●</span><span class="ts-label">Out for delivery</span><span class="ts-ts">Today</span></div>
+          <div class="ts-step upcoming" style="left: 100.0000%;"><span class="ts-dot">4</span><span class="ts-label">Delivered</span><span class="ts-ts">—</span></div>
+        </div>
+      </div>
+
+      <div class="delivery-card">
+        <div class="order-id-line">Order <a class="order-id" href="#">#782124707</a></div>
+        <div class="meta">2 items · Maple Ave reno</div>
+        <div class="delivery-items">
+          <div class="thumb t5" data-name="PEX 90° Elbow"></div><div class="thumb t4" data-name="Brass Ball Valve"></div>
+        </div>
+      <div class="track-mini" aria-label="Order progress: processing">
+          <span class="ts-track"></span>
+          <span class="ts-fill" style="width:0;"></span>
+          <div class="ts-step current" style="left: 0.0000%;"><span class="ts-dot">●</span><span class="ts-label">Processing</span><span class="ts-ts">Jun 5</span></div>
+          <div class="ts-step upcoming" style="left: 33.3333%;"><span class="ts-dot">2</span><span class="ts-label">Shipped</span><span class="ts-ts">—</span></div>
+          <div class="ts-step upcoming" style="left: 66.6667%;"><span class="ts-dot">3</span><span class="ts-label">Out for delivery</span><span class="ts-ts">—</span></div>
+          <div class="ts-step upcoming" style="left: 100.0000%;"><span class="ts-dot">4</span><span class="ts-label">Delivered</span><span class="ts-ts">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your latest orders — compact list (downsized orders table) -->
+    <div class="sidebar-block">
+      <div class="sidebar-title">
+        Your latest orders
+        <a class="link" href="#">View all</a>
+      </div>
+      <div class="order-mini">
+        <div class="om-info">
+          <div class="om-top">Order <a class="om-num" href="#">#112311634</a></div>
+          <div class="om-meta">8/24/2024 · 9 items · $276.96</div>
+        </div>
+        <span class="om-status shipped">Shipped</span>
+      </div>
+      <div class="order-mini">
+        <div class="om-info">
+          <div class="om-top">Order <a class="om-num" href="#">#782124707</a></div>
+          <div class="om-meta">7/2/2024 · 2 items · $176.90</div>
+        </div>
+        <span class="om-status processing">Processing</span>
+      </div>
+      <div class="order-mini">
+        <div class="om-info">
+          <div class="om-top">Order <a class="om-num" href="#">#78767643</a></div>
+          <div class="om-meta">5/10/2024 · 2 items · $576.96</div>
+        </div>
+        <span class="om-status delivered">Delivered</span>
+      </div>
+      <div class="order-mini">
+        <div class="om-info">
+          <div class="om-top">Order <a class="om-num" href="#">#78767625</a></div>
+          <div class="om-meta">5/3/2024 · 1 item · $76.96</div>
+        </div>
+        <span class="om-status delivered">Delivered</span>
+      </div>
+    </div>
+
+    <!-- Recently viewed — compact -->
+    <div class="sidebar-block">
+      <div class="sidebar-title">
+        Recently viewed
+        <a class="link" href="#">View all</a>
+      </div>
+      <div class="recent-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="recent-item"><div class="img-wrap" aria-hidden="true"></div><a href="#" class="title">3/4&quot; ProPress Copper Tee</a><div class="sku">PP20431</div><div class="price">$8.45</div></div>
+        <div class="recent-item"><div class="img-wrap" aria-hidden="true"></div><a href="#" class="title">Honeywell T6 Pro</a><div class="sku">HW55218</div><div class="price">$129.99</div></div>
+        <div class="recent-item"><div class="img-wrap" aria-hidden="true"></div><a href="#" class="title">Taco 007e Pump</a><div class="sku">TC007E</div><div class="price">$184.50</div></div>
+        <div class="recent-item"><div class="img-wrap" aria-hidden="true"></div><a href="#" class="title">1/2&quot; PEX Crimp Ring</a><div class="sku">PX10025</div><div class="price">$22.90</div></div>
+        <div class="recent-item"><div class="img-wrap" aria-hidden="true"></div><a href="#" class="title">Brass Ball Valve</a><div class="sku">BV70112</div><div class="price">$12.75</div></div>
+        <div class="recent-item"><div class="img-wrap" aria-hidden="true"></div><a href="#" class="title">RIDGID No. 95 Jaw Set</a><div class="sku">RG31228</div><div class="price">$642.00</div></div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- ===== 1. Replacement Part Finder band ===== -->
+<section class="rpf-band" aria-label="Replacement Part Finder">
+  <div class="rpf-wrap">
+    <div class="rpf-thumbs" aria-hidden="true">
+      <span class="ph-square"></span><span class="ph-square"></span><span class="ph-square"></span>
+      <span class="ph-square"></span><span class="ph-square"></span><span class="ph-square"></span>
+    </div>
+    <div class="rpf-main">
+      <div class="rpf-h">Replacement Part Finder</div>
+      <div class="rpf-s">Quickly find parts from over 100,000 unique models</div>
+      <div class="rpf-controls">
+        <div class="rpf-field">
+          <label for="rpf-brand">Brand</label>
+          <select id="rpf-brand">
+            <option>Select brand</option>
+            <option>Taco</option>
+            <option>Honeywell</option>
+            <option>Weil-McLain</option>
+            <option>Navien</option>
+          </select>
+        </div>
+        <div class="rpf-field">
+          <label for="rpf-model">Model Number</label>
+          <select id="rpf-model">
+            <option>Select model number</option>
+            <option>007e</option>
+            <option>T6 Pro</option>
+            <option>CGa-25</option>
+          </select>
+        </div>
+        <button type="button" class="rpf-find rpf-go">Find Parts</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. New Arrivals ===== -->
+<section class="lp-section" aria-label="New Arrivals" style="margin-top:64px;">
+  <div class="lp-inner">
+    <div class="lp-head">
+      <div><h2>New Arrivals</h2></div>
+      <div class="lp-pager">
+        <button type="button" class="carousel-btn" aria-label="Previous new arrivals"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button type="button" class="carousel-btn" aria-label="Next new arrivals"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+    <div class="na-layout">
+      <div class="promo-card">
+        <div>
+          <div class="promo-eyebrow">RIDGID</div>
+          <div class="promo-title">New Products Built on a Century of Strength</div>
+        </div>
+        <span class="ph-square promo-img" aria-hidden="true"></span>
+        <a href="#" class="promo-link">Shop RIDGID →</a>
+      </div>
+      <div class="na-cards">
+        <div class="recent-item">
+          <div class="img-wrap" aria-hidden="true"></div>
+          <a href="#" class="title">M18 FORCE LOGIC Press Tool Kit</a>
+          <div class="price">$1,499.00</div>
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★<span class="count">(214)</span></div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <div class="stockmeta">In stock · Free shipping</div>
+        </div>
+        <div class="recent-item">
+          <div class="img-wrap" aria-hidden="true"></div>
+          <a href="#" class="title">Navien NPE-2 Tankless Water Heater</a>
+          <div class="price">$1,289.00</div>
+          <div class="stars" aria-label="4 out of 5 stars">★★★★☆<span class="count">(86)</span></div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <div class="stockmeta">In stock · Free shipping</div>
+        </div>
+        <div class="recent-item">
+          <div class="img-wrap" aria-hidden="true"></div>
+          <a href="#" class="title">Uponor ProPEX Expansion Tool Kit</a>
+          <div class="price">$549.00</div>
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★<span class="count">(132)</span></div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <div class="stockmeta">In stock · Free shipping</div>
+        </div>
+        <div class="recent-item">
+          <div class="img-wrap" aria-hidden="true"></div>
+          <a href="#" class="title">Ecobee Smart Thermostat Premium</a>
+          <div class="price">$249.00</div>
+          <div class="stars" aria-label="4 out of 5 stars">★★★★☆<span class="count">(401)</span></div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <div class="stockmeta">In stock · Free shipping</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. Best Picks for you (tabs) ===== -->
+<section class="lp-section" aria-label="Best Picks for you" style="margin-top:64px;">
+  <div class="lp-inner">
+    <div class="lp-head">
+      <div><h2>Best Picks for you</h2></div>
+      <div class="lp-pager">
+        <button type="button" class="carousel-btn" aria-label="Previous picks"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button type="button" class="carousel-btn" aria-label="Next picks"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+    <div class="bp2-pills" role="group" aria-label="Best picks categories">
+      <button type="button" class="bp2-pill active" aria-pressed="true">All</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">Plumbing</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">Heating</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">HVAC</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">PEX</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">Fittings</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">Valves</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">Thermostats</button>
+      <button type="button" class="bp2-pill" aria-pressed="false">Electrical</button>
+    </div>
+    <div class="bp2-rail">
+      <button type="button" class="bp2-arrow bp2-prev" aria-label="Previous products"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="bp2-track">
+        <div class="recent-item bp2-card">
+          <div class="bp2-compare"><input type="checkbox" id="bpc-c1"><label for="bpc-c1">Compare</label></div>
+          <div class="bp2-img" aria-hidden="true"></div>
+          <a href="#" class="bp2-title title">M12 ProPEX Expansion Tool Kit w/ 1/2&quot;, 3/4&quot;, and 1&quot; Heads, (2) M12 Batteries, Charger</a>
+          <div class="bp2-meta">SKU: 2432-22 <span class="bp2-sep">|</span> <a href="#" class="bp2-brand">Milwaukee</a></div>
+          <div class="bp2-rating" aria-label="5 out of 5 stars">★★★★★<span class="bp2-count">(22)</span></div>
+          <div class="bp2-buyrow">
+            <span class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="number" value="1" min="1" aria-label="Quantity"><button type="button" class="step-up" aria-label="Increase quantity">+</button></span>
+            <span class="bp2-price"><span class="bp2-amt">$488.68</span> <span class="bp2-each">each</span></span>
+          </div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <a href="#" class="bp2-list"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Add to List</a>
+          <div class="bp2-fulfill">
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span><span class="bp2-fsep">|</span><span class="bp2-ftrack"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>FastTrack</span></div>
+            <div class="bp2-line bp2-eta">Get 1,334 by <b>Tomorrow, Jan 23</b></div>
+            <div class="bp2-line">More Available <a href="#">Inventory Details &#9662;</a></div>
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>TurboTrack</span><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Pickup</span></div>
+          </div>
+        </div>
+        <div class="recent-item bp2-card">
+          <div class="bp2-compare"><input type="checkbox" id="bpc-c2"><label for="bpc-c2">Compare</label></div>
+          <div class="bp2-img" aria-hidden="true"></div>
+          <a href="#" class="bp2-title title">RP 350 Press Tool Kit w/ 1/2&quot; &ndash; 2&quot; ProPress Jaws, (2) Batteries &amp; Charger</a>
+          <div class="bp2-meta">SKU: 67188 <span class="bp2-sep">|</span> <a href="#" class="bp2-brand">RIDGID</a></div>
+          <div class="bp2-rating" aria-label="5 out of 5 stars">★★★★★<span class="bp2-count">(146)</span></div>
+          <div class="bp2-buyrow">
+            <span class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="number" value="1" min="1" aria-label="Quantity"><button type="button" class="step-up" aria-label="Increase quantity">+</button></span>
+            <span class="bp2-price"><span class="bp2-amt">$3,142.00</span> <span class="bp2-each">each</span></span>
+          </div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <a href="#" class="bp2-list"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Add to List</a>
+          <div class="bp2-fulfill">
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span><span class="bp2-fsep">|</span><span class="bp2-ftrack"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>FastTrack</span></div>
+            <div class="bp2-line bp2-eta">Get 212 by <b>Tomorrow, Jan 23</b></div>
+            <div class="bp2-line">More Available <a href="#">Inventory Details &#9662;</a></div>
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>TurboTrack</span><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Pickup</span></div>
+          </div>
+        </div>
+        <div class="recent-item bp2-card">
+          <div class="bp2-compare"><input type="checkbox" id="bpc-c3"><label for="bpc-c3">Compare</label></div>
+          <div class="bp2-img" aria-hidden="true"></div>
+          <a href="#" class="bp2-title title">007e High-Efficiency ECM Circulator Pump, 1/40 HP, Cast Iron, 115V</a>
+          <div class="bp2-meta">SKU: 007e-F5 <span class="bp2-sep">|</span> <a href="#" class="bp2-brand">Taco</a></div>
+          <div class="bp2-rating" aria-label="5 out of 5 stars">★★★★★<span class="bp2-count">(312)</span></div>
+          <div class="bp2-buyrow">
+            <span class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="number" value="1" min="1" aria-label="Quantity"><button type="button" class="step-up" aria-label="Increase quantity">+</button></span>
+            <span class="bp2-price"><span class="bp2-amt">$184.50</span> <span class="bp2-each">each</span></span>
+          </div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <a href="#" class="bp2-list"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Add to List</a>
+          <div class="bp2-fulfill">
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span><span class="bp2-fsep">|</span><span class="bp2-ftrack"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>FastTrack</span></div>
+            <div class="bp2-line bp2-eta">Get 1,890 by <b>Tomorrow, Jan 23</b></div>
+            <div class="bp2-line">More Available <a href="#">Inventory Details &#9662;</a></div>
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>TurboTrack</span><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Pickup</span></div>
+          </div>
+        </div>
+        <div class="recent-item bp2-card">
+          <div class="bp2-compare"><input type="checkbox" id="bpc-c4"><label for="bpc-c4">Compare</label></div>
+          <div class="bp2-img" aria-hidden="true"></div>
+          <a href="#" class="bp2-title title">T6 Pro Programmable Thermostat, 1 Heat / 1 Cool, 7-Day, Wi-Fi Ready</a>
+          <div class="bp2-meta">SKU: TH6220WF2006 <span class="bp2-sep">|</span> <a href="#" class="bp2-brand">Honeywell</a></div>
+          <div class="bp2-rating" aria-label="4 out of 5 stars">★★★★☆<span class="bp2-count">(178)</span></div>
+          <div class="bp2-buyrow">
+            <span class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="number" value="1" min="1" aria-label="Quantity"><button type="button" class="step-up" aria-label="Increase quantity">+</button></span>
+            <span class="bp2-price"><span class="bp2-amt">$129.99</span> <span class="bp2-each">each</span></span>
+          </div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <a href="#" class="bp2-list"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Add to List</a>
+          <div class="bp2-fulfill">
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span><span class="bp2-fsep">|</span><span class="bp2-ftrack"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>FastTrack</span></div>
+            <div class="bp2-line bp2-eta">Get 940 by <b>Tomorrow, Jan 23</b></div>
+            <div class="bp2-line">More Available <a href="#">Inventory Details &#9662;</a></div>
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>TurboTrack</span><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Pickup</span></div>
+          </div>
+        </div>
+        <div class="recent-item bp2-card">
+          <div class="bp2-compare"><input type="checkbox" id="bpc-c5"><label for="bpc-c5">Compare</label></div>
+          <div class="bp2-img" aria-hidden="true"></div>
+          <a href="#" class="bp2-title title">AquaPEX 1/2&quot; Red PEX-a Tubing Coil, 300 ft, Oxygen Barrier</a>
+          <div class="bp2-meta">SKU: F2050500 <span class="bp2-sep">|</span> <a href="#" class="bp2-brand">Uponor</a></div>
+          <div class="bp2-rating" aria-label="5 out of 5 stars">★★★★★<span class="bp2-count">(89)</span></div>
+          <div class="bp2-buyrow">
+            <span class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="number" value="1" min="1" aria-label="Quantity"><button type="button" class="step-up" aria-label="Increase quantity">+</button></span>
+            <span class="bp2-price"><span class="bp2-amt">$214.30</span> <span class="bp2-each">each</span></span>
+          </div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <a href="#" class="bp2-list"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Add to List</a>
+          <div class="bp2-fulfill">
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span><span class="bp2-fsep">|</span><span class="bp2-ftrack"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>FastTrack</span></div>
+            <div class="bp2-line bp2-eta">Get 560 by <b>Tomorrow, Jan 23</b></div>
+            <div class="bp2-line">More Available <a href="#">Inventory Details &#9662;</a></div>
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>TurboTrack</span><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Pickup</span></div>
+          </div>
+        </div>
+        <div class="recent-item bp2-card">
+          <div class="bp2-compare"><input type="checkbox" id="bpc-c6"><label for="bpc-c6">Compare</label></div>
+          <div class="bp2-img" aria-hidden="true"></div>
+          <a href="#" class="bp2-title title">12,000 BTU Single-Zone Mini-Split Heat Pump System, 22 SEER2, 230V</a>
+          <div class="bp2-meta">SKU: BF-12W-115 <span class="bp2-sep">|</span> <a href="#" class="bp2-brand">Bluefin</a></div>
+          <div class="bp2-rating" aria-label="4 out of 5 stars">★★★★☆<span class="bp2-count">(57)</span></div>
+          <div class="bp2-buyrow">
+            <span class="stepper"><button type="button" class="step-down" aria-label="Decrease quantity">&minus;</button><input class="qty" type="number" value="1" min="1" aria-label="Quantity"><button type="button" class="step-up" aria-label="Increase quantity">+</button></span>
+            <span class="bp2-price"><span class="bp2-amt">$899.00</span> <span class="bp2-each">each</span></span>
+          </div>
+          <div class="buy"><button type="button" class="btn-cart"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Add to Cart</button></div>
+          <a href="#" class="bp2-list"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Add to List</a>
+          <div class="bp2-fulfill">
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span><span class="bp2-fsep">|</span><span class="bp2-ftrack"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>FastTrack</span></div>
+            <div class="bp2-line bp2-eta">Get 128 by <b>Tomorrow, Jan 23</b></div>
+            <div class="bp2-line">More Available <a href="#">Inventory Details &#9662;</a></div>
+            <div class="bp2-line"><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>TurboTrack</span><span class="bp2-check"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Pickup</span></div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="bp2-arrow bp2-next" aria-label="Next products"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. Tools to get your job done ===== -->
+<section class="lp-section" aria-label="Tools" style="margin-top:64px;">
+  <div class="lp-inner">
+    <div class="tools-layout">
+      <div class="tools-banner">
+        <div class="tb-h">Tools to get your job done</div>
+        <a href="#" class="tb-cta">Shop All</a>
+        <span class="ph-box tb-img" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-7.3 7.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l7.3-7.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2z"/></svg></span>
+      </div>
+      <div class="tools-grid">
+        <a href="#" class="tool-tile"><span class="ph-box tt-img" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M3 10h18v4H3z"/><path d="M5 6h14"/><path d="M5 18h14"/></svg></span><span class="tt-label">Plumbing Tools</span></a>
+        <a href="#" class="tool-tile"><span class="ph-box tt-img" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 12c4-6 12-6 16 0"/><path d="M4 12c4 6 12 6 16 0"/></svg></span><span class="tt-label">PEX Tools</span></a>
+        <a href="#" class="tool-tile"><span class="ph-box tt-img" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 5v3M12 16v3M5 12h3M16 12h3"/></svg></span><span class="tt-label">HVAC Tools</span></a>
+        <a href="#" class="tool-tile"><span class="ph-box tt-img" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="tt-label">Electrical Tools</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. Testimonials ===== -->
+<section class="testi-band" aria-label="TradeMaster testimonials">
+  <div class="testi-wrap">
+    <div class="testi-collage" aria-hidden="true">
+      <div class="ph-box tc-1"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ph-box tc-2"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ph-box tc-3"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ph-box tc-4"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ph-box tc-5"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ph-box tc-6"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ph-box tc-7"><svg class="ic" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    </div>
+    <div class="testi-center">
+      <h2>TradeMasters <span class="lp-tm-blue">Say…</span></h2>
+      <p class="testi-subhead">SupplyHouse makes it easy for me to be more prepared on the job site.</p>
+    </div>
+    <div class="testi-quotes">
+      <div class="quote-card">
+        <div class="qmark" aria-hidden="true">&ldquo;</div>
+        <p class="qtext">Orders show up fast and the TradeMaster pricing keeps my jobs profitable.</p>
+        <div class="qauthor">Dave M. · Master plumber, Queens NY</div>
+        <a href="#" class="qmore">Read more</a>
+      </div>
+      <div class="quote-card">
+        <div class="qmark" aria-hidden="true">&ldquo;</div>
+        <p class="qtext">The restock reminders alone save me a service call every week.</p>
+        <div class="qauthor">Rosa C. · HVAC contractor, Newark NJ</div>
+        <a href="#" class="qmore">Read more</a>
+      </div>
+      <div class="quote-card">
+        <div class="qmark" aria-hidden="true">&ldquo;</div>
+        <p class="qtext">Free shipping and net terms made it an easy switch for my whole crew.</p>
+        <div class="qauthor">Jim T. · Mechanical contractor, Boston MA</div>
+        <a href="#" class="qmore">Read more</a>
+      </div>
+      <div class="quote-card">
+        <div class="qmark" aria-hidden="true">&ldquo;</div>
+        <p class="qtext">My rep actually picks up the phone — that's rare in this business.</p>
+        <div class="qauthor">Carla S. · Boiler specialist, Hartford CT</div>
+        <a href="#" class="qmore">Read more</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 9. Brands stat bar ===== -->
+<section class="lp-section brands-section" aria-label="Brands" style="margin-top:80px;">
+  <div class="lp-inner">
+    <h2>500+ Brands. 19,000+ Products.</h2>
+    <p class="brands-sub">Shop from the industry's best-known brands and manufacturers.</p>
+    <div class="wordmarks" aria-hidden="true">
+      <span class="wordmark">Bluefin</span>
+      <span class="wordmark">Resideo</span>
+      <span class="wordmark">Uponor</span>
+      <span class="wordmark">A.O. Smith</span>
+      <span class="wordmark">Honeywell</span>
+      <span class="wordmark">Taco</span>
+      <span class="wordmark">General</span>
+      <span class="wordmark">Milwaukee</span>
+    </div>
+    <div class="brand-cols">
+      <div class="brand-col">
+        <h3>Plumbing</h3>
+        <ul>
+          <li><a href="#">Zurn</a></li><li><a href="#">Sloan</a></li><li><a href="#">Moen</a></li><li><a href="#">Watts</a></li>
+          <li><a href="#">Oatey</a></li><li><a href="#">Sharkbite</a></li><li><a href="#">Viega</a></li><li><a href="#">Liberty Pumps</a></li>
+        </ul>
+      </div>
+      <div class="brand-col">
+        <h3>Heating</h3>
+        <ul>
+          <li><a href="#">Taco</a></li><li><a href="#">Weil-McLain</a></li><li><a href="#">Burnham</a></li><li><a href="#">Navien</a></li>
+          <li><a href="#">Lochinvar</a></li><li><a href="#">Caleffi</a></li><li><a href="#">Grundfos</a></li><li><a href="#">Bosch</a></li>
+        </ul>
+      </div>
+      <div class="brand-col">
+        <h3>Fittings</h3>
+        <ul>
+          <li><a href="#">NIBCO</a></li><li><a href="#">Apollo</a></li><li><a href="#">Matco-Norca</a></li><li><a href="#">Merit Brass</a></li>
+          <li><a href="#">Anvil</a></li><li><a href="#">Mueller</a></li><li><a href="#">Legend</a></li><li><a href="#">Webstone</a></li>
+        </ul>
+      </div>
+      <div class="brand-col">
+        <h3>HVAC</h3>
+        <ul>
+          <li><a href="#">Honeywell</a></li><li><a href="#">Resideo</a></li><li><a href="#">Ecobee</a></li><li><a href="#">White-Rodgers</a></li>
+          <li><a href="#">Fantech</a></li><li><a href="#">Aprilaire</a></li><li><a href="#">Mitsubishi</a></li><li><a href="#">Fieldpiece</a></li>
+        </ul>
+      </div>
+      <div class="brand-col">
+        <h3>PEX</h3>
+        <ul>
+          <li><a href="#">Uponor</a></li><li><a href="#">Bluefin</a></li><li><a href="#">SharkBite</a></li><li><a href="#">Sioux Chief</a></li>
+          <li><a href="#">Rifeng</a></li><li><a href="#">Everhot</a></li><li><a href="#">Apollo PEX</a></li>
+          <li><a href="#" class="more">And more…</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11. Helpful Tools ===== -->
+<section class="lp-section" aria-label="Helpful Tools" style="margin-top:80px;">
+  <div class="lp-inner">
+    <div class="lp-head"><div><h2>Helpful Tools</h2></div></div>
+    <div class="ht-row">
+      <div class="ht-item">
+        <span class="ht-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+        <div class="ht-label">Image Search</div>
+        <div class="ht-text">Snap a photo of a part and we'll find the match.</div>
+        <div class="ht-action"><input class="ht-field" type="text" placeholder="Upload a photo" aria-label="Image search"><button type="button" class="ht-btn">Upload</button></div>
+      </div>
+      <div class="ht-item">
+        <span class="ht-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
+        <div class="ht-label">Voice Search</div>
+        <div class="ht-text">Say the part name and search hands-free.</div>
+        <div class="ht-action"><input class="ht-field" type="text" placeholder="Tap to speak" aria-label="Voice search"><button type="button" class="ht-btn">Speak</button></div>
+      </div>
+      <div class="ht-item">
+        <span class="ht-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M2 12h20M2 12l4-4M2 12l4 4M22 12l-4-4M22 12l-4 4"/></svg></span>
+        <div class="ht-label">Auto Measurement</div>
+        <div class="ht-text">Enter pipe size and get the right fitting fast.</div>
+        <div class="ht-action"><input class="ht-field" type="text" placeholder="e.g. 3/4 in." aria-label="Auto measurement"><button type="button" class="ht-btn">Measure</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== 14. Rich Footer ===== -->
+<footer class="footer-rich">
+  <div class="footer-help">
+    <div class="footer-help-inner">
+      <div class="footer-help-title">We're here to help!</div>
+      <div class="footer-contacts">
+        <div class="fc-item">
+          <span class="fc-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <div><div class="fc-label">Call</div><a class="fc-detail" href="tel:8885517600">888-551-7600</a></div>
+        </div>
+        <div class="fc-item">
+          <span class="fc-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <div><div class="fc-label">Text</div><a class="fc-detail" href="sms:8885517600">888-551-7600</a></div>
+        </div>
+        <div class="fc-item">
+          <span class="fc-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+          <div><div class="fc-label">Chat</div><a class="fc-detail" href="#">Start a live chat</a></div>
+        </div>
+        <div class="fc-item">
+          <span class="fc-ico" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></span>
+          <div><div class="fc-label">Email</div><a class="fc-detail" href="mailto:help@supplyhouse.com">help@supplyhouse.com</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="f-logo-tm">TRADEMASTER</div>
+      <div class="f-logo-text">SupplyHouse<span class="com">.com</span></div>
+      <div class="footer-apps">
+        <a href="#" class="app-badge"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="3 2 21 12 3 22 8 12 3 2"/></svg><span class="ab-text"><span class="ab-small">GET IT ON</span><span class="ab-big">Google Play</span></span></a>
+        <a href="#" class="app-badge"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3a4 4 0 0 1-1 3 3.5 3.5 0 0 1-3 1.5M18 13c0 4 3 5 3 5s-1.5 4-4 4c-1.2 0-2-.8-3.5-.8S11.2 22 10 22c-2.5 0-4-4-4-7s2-5 4.5-5c1.2 0 2 .8 3 .8s2-1 3.5-1 3 1.2 3 3z"/></svg><span class="ab-text"><span class="ab-small">Download on the</span><span class="ab-big">App Store</span></span></a>
+      </div>
+      <div class="footer-socials">
+        <a href="#" aria-label="Instagram"><svg class="ic" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg class="ic" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg class="ic" viewBox="0 0 24 24"><path d="M22.5 6.4a2.8 2.8 0 0 0-2-2C18.8 4 12 4 12 4s-6.8 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1 12a29 29 0 0 0 .5 5.6 2.8 2.8 0 0 0 2 2C5.2 20 12 20 12 20s6.8 0 8.5-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 23 12a29 29 0 0 0-.5-5.6z"/><polygon points="10 9 16 12 10 15 10 9"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg class="ic" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2a4 4 0 0 1 2-2z"/><rect x="2" y="9" width="4" height="11"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Customer Service</h3>
+      <ul>
+        <li><a href="#">Order Status</a></li><li><a href="#">Shipping &amp; Delivery</a></li><li><a href="#">Returns &amp; Exchanges</a></li>
+        <li><a href="#">Track a Package</a></li><li><a href="#">Pay an Invoice</a></li><li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>About</h3>
+      <ul>
+        <li><a href="#">Our Story</a></li><li><a href="#">Careers</a></li><li><a href="#">Our Team</a></li>
+        <li><a href="#">Press</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Reviews</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">How-To Guides</a></li><li><a href="#">Sizing Calculators</a></li><li><a href="#">Replacement Part Finder</a></li>
+        <li><a href="#">Blog</a></li><li><a href="#">Webinars</a></li><li><a href="#">Catalogs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>TradeMaster Program</h3>
+      <ul>
+        <li><a href="#">Program Benefits</a></li><li><a href="#">Member Pricing</a></li><li><a href="#">Net-30 Terms</a></li>
+        <li><a href="#">Rewards</a></li><li><a href="#">Your Dedicated Rep</a></li><li><a href="#">Join TradeMaster</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span>© 2026 SupplyHouse</span>
+      <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="#">Accessibility</a></span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+(function () {
+  'use strict';
+  var toastEl, toastTimer;
+  function toast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'sh-toast';
+      toastEl.setAttribute('role', 'status');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+  }
+
+  /* Placeholder links -> show where they would navigate */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href="#"]');
+    if (!a) return;
+    e.preventDefault();
+    var label = (a.getAttribute('aria-label') || a.textContent).replace(/\s+/g, ' ').trim();
+    toast('Navigate to: ' + (label || 'link'));
+  });
+
+
+  /* Mobile header actions */
+  document.querySelectorAll('.m-act, .m-sb, .m-search, .m-zip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = (b.querySelector('svg') ? b.textContent : b.textContent).replace(/\s+/g,' ').trim();
+      toast(t + (b.classList.contains('m-search') ? ' — tap to search' : ''));
+    });
+  });
+
+  /* Recently-viewed / product steppers + add to cart */
+  document.querySelectorAll('.stepper').forEach(function (st) {
+    var input = st.querySelector('.qty');
+    function set(v) { input.value = Math.max(1, v); }
+    st.querySelector('.step-down').addEventListener('click', function () { set((parseInt(input.value, 10) || 1) - 1); });
+    st.querySelector('.step-up').addEventListener('click', function () { set((parseInt(input.value, 10) || 1) + 1); });
+    input.addEventListener('change', function () { set(parseInt(input.value, 10) || 1); });
+  });
+  document.querySelectorAll('.recent-item .btn-cart').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var item = b.closest('.recent-item');
+      var qty = parseInt(item.querySelector('.qty').value, 10) || 1;
+      var name = item.querySelector('.title').textContent.trim();
+      var badge = document.querySelector('.cart-badge');
+      if (badge) badge.textContent = (+badge.textContent || 0) + qty;
+      toast(qty + ' × ' + name + ' added to cart');
+    });
+  });
+
+  /* Hero carousel arrows */
+  document.querySelectorAll('.hero-arrow').forEach(function (b) {
+    b.addEventListener('click', function () { toast(b.getAttribute('aria-label')); });
+  });
+
+  /* Pager arrows (New Arrivals / Best Picks) — demo only */
+  document.querySelectorAll('.lp-pager .carousel-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { toast(btn.getAttribute('aria-label')); });
+  });
+
+  /* Best Picks tabs */
+  document.querySelectorAll('.tabbar .tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var bar = tab.closest('.tabbar');
+      bar.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      toast('Showing: ' + tab.textContent.trim());
+    });
+  });
+
+  /* Replacement Part Finder */
+  var rpfGo = document.querySelector('.rpf-go');
+  if (rpfGo) rpfGo.addEventListener('click', function () {
+    var brand = document.getElementById('rpf-brand');
+    var model = document.getElementById('rpf-model');
+    toast('Finding parts: ' + brand.value + ' / ' + model.value);
+  });
+
+  /* Search */
+  var sb = document.querySelector('.search-submit');
+  if (sb) sb.addEventListener('click', function () {
+    var q = document.getElementById('site-search').value.trim();
+    toast(q ? 'Searching for "' + q + '"' : 'Type something to search');
+  });
+  var si = document.getElementById('site-search');
+  if (si) si.addEventListener('keydown', function (e) { if (e.key === 'Enter') sb.click(); });
+  document.querySelectorAll('.search-icons button:not(.search-submit)').forEach(function (b) {
+    b.addEventListener('click', function () { toast(b.getAttribute('aria-label') + ' — coming soon'); });
+  });
+
+  /* ZIP code */
+  var zip = document.querySelector('.zip button');
+  if (zip) zip.addEventListener('click', function () { toast('Change ZIP code'); });
+
+  /* Best Picks rich rail — category pills */
+  document.querySelectorAll('.bp2-pills').forEach(function (group) {
+    group.querySelectorAll('.bp2-pill').forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        group.querySelectorAll('.bp2-pill').forEach(function (p) { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+        pill.classList.add('active');
+        pill.setAttribute('aria-pressed', 'true');
+        toast('Showing: ' + pill.textContent.trim());
+      });
+    });
+  });
+
+  /* Best Picks rich rail — carousel arrows scroll the track */
+  document.querySelectorAll('.bp2-rail').forEach(function (rail) {
+    var track = rail.querySelector('.bp2-track');
+    var prev = rail.querySelector('.bp2-prev');
+    var next = rail.querySelector('.bp2-next');
+    function step(dir) {
+      if (!track) return;
+      track.scrollBy({ left: dir * Math.round(track.clientWidth * 0.8), behavior: 'smooth' });
+    }
+    if (prev) prev.addEventListener('click', function () { step(-1); });
+    if (next) next.addEventListener('click', function () { step(1); });
+  });
+
+})();
+</script>
+
+</body>
+</html>
