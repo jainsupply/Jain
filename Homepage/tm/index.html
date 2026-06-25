@@ -20,7 +20,7 @@
     --sh-white:#FFFFFF; --sh-off-white:#F8F8F8; --sh-black:#000000;
     --sh-dark-gray:#343434; --sh-mid-gray:#757575; --sh-border:#DCDCDC;
     /* blue */
-    --sh-blue:#07729C; --sh-link:#07729C; --sh-tm-blue:#0066AD; --sh-dark-blue:#0A3B5E;
+    --sh-blue:#07729C; --sh-link:#07729C; --sh-tm-blue:#07729C; --sh-dark-blue:#0A3B5E;
     /* accent / status */
     --sh-orange:#F15C02; --sh-success:#3C763D; --sh-bestbg:#ECF3F7;
     --sh-font:'Maison Neue',Helvetica,Arial,sans-serif;
@@ -42,16 +42,20 @@
   .util .left,.util .right{display:flex;align-items:center;gap:16px}
   .util .free{color:var(--sh-tan);font-weight:700}
   .util a{color:var(--sh-dark-gray);font-weight:700;display:inline-flex;align-items:center;gap:5px}
+  .util a.ziplink{color:var(--sh-blue)}
+  .util a.ziplink .ic{font-size:15px;stroke-width:2.4}
   .util .badge{background:var(--sh-tm-blue);color:#fff;border-radius:9px;font-size:11px;padding:0 6px;margin-left:2px}
 
   /* header */
   header{background:#fff;border-bottom:1px solid var(--sh-border)}
   .head{display:flex;align-items:center;gap:22px;height:90px;padding:0 80px;max-width:1920px;margin:0 auto}
   .logo{flex-shrink:0;line-height:1}
+  .logo-img{height:41px;width:auto;display:block}
+  .tmtag-img{height:11px;width:auto;display:block}
   .logo .tm{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--sh-tm-blue);display:block}
   .logo .brand{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
   .logo .brand .dot{color:var(--sh-tm-blue)}
-  .searchbar{flex:0 1 620px;max-width:620px;margin-left:auto;display:flex;border:1px solid var(--sh-border);height:42px}
+  .searchbar{flex:0 1 620px;max-width:620px;margin-left:auto;display:flex;border:1px solid var(--sh-border);height:50px}
   .searchbar input{flex:1;border:none;padding:0 14px;font:inherit;font-size:14px}
   .searchbar input:focus{outline:none}
   .searchbar .ib{width:42px;display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray)}
@@ -60,8 +64,9 @@
   .rep-mini{display:flex;align-items:center;gap:9px;font-size:11px;flex-shrink:0}
   .rep-mini img{width:34px;height:34px;border-radius:50%}
   .rep-mini .rl{color:var(--sh-tan);font-weight:700}
-  .rep-mini .rp{font-weight:700;color:var(--sh-tm-blue);font-size:13px}
-  .rep-mini .rc{color:var(--sh-mid-gray);font-size:11px}
+  .rep-mini .rp{font-weight:700;color:var(--sh-tm-blue);font-size:18px}
+  .rep-mini .rc{color:var(--sh-mid-gray);font-size:11px;display:inline-flex;align-items:center;gap:4px}
+  .rep-mini .rc .ic{font-size:14px;stroke-width:2.4}
   .hacts{display:flex;align-items:center;gap:18px;flex-shrink:0;margin-left:auto}
   .ha{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--sh-dark-gray);position:relative}
   .ha .ic{font-size:24px;color:var(--sh-dark-brown)}
@@ -70,6 +75,7 @@
   /* mobile header (shown ≤991px) */
   .mhead{display:none;background:#fff}
   .mhead-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
+  .mhead-top .logo-img{height:38px}
   .mhead .logo{flex-shrink:0}
   .mhacts{display:flex;gap:22px;flex-shrink:0}
   .mhead-search{display:flex;align-items:center;gap:16px;background:var(--sh-dark-brown);padding:12px 16px}
@@ -105,7 +111,7 @@
   /* only set vertical padding; left/right inherit .wrap's 80px so hero text lines up with main content */
   .hero .wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;height:92px;padding-top:0;padding-bottom:12px}
   .hero h1{font-size:34px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
-  .hero .tmtag{font-size:13px;font-weight:700;letter-spacing:1px;color:#cfe0ec;border:1px solid rgba(255,255,255,.45);padding:6px 16px;text-transform:uppercase}
+  .hero .tmtag{display:inline-flex;align-items:center;border:1px solid #fff;border-radius:8px;padding:7px 8px}
   .hero p{font-size:14px;color:#cfe0ec;margin:8px 0 18px;max-width:520px}
   .hero .cta{display:inline-flex;align-items:center;gap:8px;background:transparent;border:2px solid #fff;color:#fff;font-weight:700;font-size:13px;letter-spacing:.4px;text-transform:uppercase;padding:11px 22px}
   .hero .cta:hover{background:#fff;color:var(--sh-dark-blue)}
@@ -239,6 +245,8 @@
   .pmhead h2{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
   .pmhead .sub{font-size:13px;color:var(--sh-mid-gray)}
   .pmhead .va{margin-left:auto;font-size:13px;font-weight:700;color:var(--sh-link)}
+  .va{cursor:pointer}
+  .va:hover{text-decoration:underline}
   .toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);cursor:pointer}
   .toggle .sw{width:34px;height:18px;border-radius:10px;background:var(--sh-border);position:relative;transition:background .15s}
   .toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
@@ -246,11 +254,11 @@
   .toggle.on .sw::after{left:18px}
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin:0;overflow-x:auto}
   .filterrow{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:10px}
-  .chip-f{font-size:14px;font-weight:700;padding:6px 14px;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .chip-f{font-size:14px;font-weight:700;height:34px;padding:0 14px;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
   /* hover */
-  .chip-f:not(:disabled):not([aria-pressed="true"]):hover{background:#F4F4F4;border:2px solid var(--sh-dark-gray);color:var(--sh-dark-brown);padding:5px 13px}
+  .chip-f:not(:disabled):not([aria-pressed="true"]):hover{background:#F4F4F4;border:2px solid var(--sh-dark-gray);color:var(--sh-dark-brown);padding:0 13px}
   /* selected */
-  .chip-f[aria-pressed="true"]{background:#EFF5FD;border:2px solid var(--sh-tm-blue);color:var(--sh-dark-brown);padding:5px 13px}
+  .chip-f[aria-pressed="true"]{background:#EFF5FD;border:2px solid var(--sh-tm-blue);color:var(--sh-dark-brown);padding:0 13px}
   .chip-f[aria-pressed="true"]:not(.chip-reset)::after{content:"";width:11px;height:7px;border-left:2px solid var(--sh-tm-blue);border-bottom:2px solid var(--sh-tm-blue);transform:rotate(-45deg);margin-top:-2px}
   .chip-f[aria-pressed="true"]:not(:disabled):hover{background:#E4EEFA}
   /* focus (keyboard) */
@@ -274,8 +282,9 @@
   .bestright{min-width:0}
   .pager{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:12px;color:var(--sh-mid-gray);margin-top:2px}
   .pager .pgnum{min-width:54px;text-align:center;font-variant-numeric:tabular-nums;font-size:15px;color:var(--sh-dark-gray)}
-  .pgbtn{width:30px;height:30px;border:none;background:none;display:flex;align-items:center;justify-content:center;color:var(--sh-tm-blue);flex-shrink:0}
+  .pgbtn{width:26px;height:26px;border:1px solid transparent;border-radius:0;background:none;display:flex;align-items:center;justify-content:center;color:var(--sh-tm-blue);flex-shrink:0;transition:background .12s,border-color .12s}
   .pgbtn .ic{font-size:20px;stroke-width:2.5}
+  .pgbtn:not(:disabled):hover{background:#EFF5FD;border-color:var(--sh-tm-blue)}
   .pgbtn:disabled{color:#A0D3E8;cursor:default}
   /* hover scrubber — appears left of the pager and shows scroll position */
   .scrubber{flex:1;min-width:0;height:6px;background:var(--sh-light-tan-2);border-radius:3px;position:relative;opacity:0;transition:opacity .15s;cursor:pointer}
@@ -334,13 +343,18 @@
   .mcard .boxbody .bp{font-size:12px;font-weight:400;color:var(--sh-dark-gray)}
   .mcard .boxbody .bm{font-size:11px;color:var(--sh-mid-gray);display:block}
   .mcard .boxbody .each2{font-size:12px;font-weight:700;color:var(--sh-tm-blue)}
-  /* Stock up & save (compact tier box) */
-  .mcard .boxsave.stock .boxbody{border:1px solid var(--sh-border);padding:9px 14px 5px}
-  .mcard .tier{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:1px 0;line-height:1.1}
+  /* Stock up & save (fieldset / legend-style tier box) */
+  .mcard .boxsave.stock{position:relative}
+  .mcard .boxsave.stock .boxbody{margin-top:8px}
+  .mcard .boxsave.stock:has(.boxtoggle[aria-expanded="true"]){border:1px solid var(--sh-border);border-radius:8px;padding:13px 14px 11px;margin-top:14px}
+  .mcard .boxsave.stock:has([aria-expanded="true"]) .boxbody{margin-top:0;border:none;padding:0}
+  .mcard .boxsave.stock:has([aria-expanded="true"]) .boxtoggle{position:absolute;top:0;left:11px;transform:translateY(-50%);width:auto;background:#fff;padding:0 6px;color:var(--sh-mid-gray)}
+  .mcard .tier{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:2px 0;line-height:1.15}
   .mcard .tier .tq{font-size:12px;font-weight:700;color:var(--sh-dark-gray)}
   .mcard .tier .tp{font-size:11px;color:var(--sh-mid-gray)}
   .mcard .tier .tp b{font-size:12px;font-weight:700;color:var(--sh-tm-blue);margin-right:2px}
-  .mcard .tcase{font-size:10px;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;text-align:right;border-top:1px solid var(--sh-border);margin-top:4px;padding-top:4px}
+  .mcard .tcase{font-size:10px;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;text-align:right}
+  .mcard .boxsave.stock:has([aria-expanded="true"]) .tcase{position:absolute;bottom:0;right:11px;transform:translateY(50%);background:#fff;padding:0 6px}
 
   /* categories */
   .cats{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;padding:8px 0 4px}
@@ -532,13 +546,19 @@
   .skel{position:relative;overflow:hidden;background:#E9E9E9}
   .skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:skelsh 1.2s infinite}
   @keyframes skelsh{100%{transform:translateX(100%)}}
-  .skcard{display:flex;flex-direction:column;gap:9px;padding:0 0 4px}
-  .skcard .skimg{width:66px;height:66px}
-  .skcard.full .skimg{width:100%;height:120px}
+  .skcard{display:flex;flex-direction:column;gap:8px;padding:0 10px 10px}
+  .skcard .skimg{width:80px;height:80px;margin:8px 0 4px}
+  .skcard.full{padding:0 0 4px}
+  .skcard.full .skimg{width:100%;height:120px;margin:0 0 4px}
   .skcard .skline{height:11px;border-radius:3px}
   .skcard .skline.w80{width:85%}
   .skcard .skline.w50{width:55%}
-  .skcard .skbtn{height:30px;width:90px;border-radius:6px;margin-top:4px}
+  .skcard .skbtn{height:30px;width:90px;border-radius:6px;margin-top:6px}
+  /* Shop Your Categories skeleton */
+  .skcat{text-align:center}
+  .skcat .skcirc{display:block;width:100%;max-width:118px;aspect-ratio:1;border-radius:50%;margin:0 auto 10px}
+  .skcat .skline{height:11px;width:70%;margin:0 auto;border-radius:3px}
+  @media(min-width:1400px){ .skcat .skcirc{max-width:140px} }
   /* "Added!" confirmation popover anchored to the stepper */
   .addedpop{position:absolute;display:flex;align-items:center;z-index:9999;pointer-events:none;opacity:0;transform:translateY(6px) scale(.96);transition:opacity .18s ease,transform .18s ease}
   .addedpop.show{opacity:1;transform:translateY(0) scale(1)}
@@ -598,6 +618,7 @@
     .section{padding:24px 0}
     .bestgrid{padding:20px 0;gap:16px}
     .hero h1{font-size:20px}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
+    .tmtag-img{height:7px}
     body.mode-topbar .accttop{margin:0 0 20px}
     .acctpanel{margin-top:0}
 
@@ -624,6 +645,7 @@
     .acctpanel .mcard .pr{text-align:right}
     .acctpanel .mcard .boxsave{grid-area:box;margin-top:8px}
     .acctpanel .mcard .boxsave .boxtoggle{justify-content:flex-end}   /* right-align toggle */
+    .acctpanel .mcard .boxsave.stock:has([aria-expanded="true"]) .boxtoggle{left:auto;right:11px}  /* keep stock legend on the right edge */
     .acctpanel .mcard .boxsave .unit{align-items:flex-end}            /* box-up: right-align price+stepper */
     .acctpanel .mcard .boxsave .buyunit{width:84px}
     .acctpanel .mcard .boxbody .bm{display:inline;white-space:nowrap;margin-left:6px}   /* "$55.00 box of 50" one line */
@@ -648,24 +670,24 @@
 
 <!-- UTILITY -->
 <div class="util"><div class="wrap">
-  <div class="left"><span class="free">Free shipping on all orders</span><span>·</span><span>Your Zip <a href="#">11743 ▾</a></span></div>
+  <div class="left"><span class="free">Free shipping on all orders</span><span>·</span><span>Your Zip <a href="#" class="ziplink">11743 <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a></span></div>
   <div class="right">
     <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3l2 5-2 1.5a11 11 0 0 0 5 5L18 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg> 888-551-7600</a>
     <a href="#" id="orderStatus"><svg class="ic" viewBox="0 0 24 24"><rect x="1" y="6" width="14" height="11"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg> Order status</a>
-    <a href="#">Saved carts</a><a href="#">Lists</a>
+    <a href="#"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg> Saved carts</a><a href="#"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> Lists</a>
   </div>
 </div></div>
 
 <!-- HEADER -->
 <header><div class="head">
-  <div class="logo"><span class="tm">TRADEMASTER</span><span class="brand">SupplyHouse<span class="dot">.com</span></span></div>
+  <div class="logo"><img src="assets/Logo-SH-TM-color.svg" alt="SupplyHouse.com — TradeMaster" class="logo-img"></div>
   <div class="searchbar">
     <input type="search" aria-label="Search for part or SKU" placeholder="Search for part or SKU">
     <button class="go" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></button>
   </div>
   <div class="rep-mini">
     <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=68&q=70&auto=format&fit=crop" alt="">
-    <div><div class="rl">Your rep, Larry</div><div class="rp">516-310-0227</div><a href="#" class="rc">CONTACT &amp; SUPPORT ▾</a></div>
+    <div><div class="rl">Your rep, Larry</div><div class="rp">516-310-0227</div><a href="#" class="rc">CONTACT &amp; SUPPORT <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a></div>
   </div>
   <div class="hacts">
     <button class="ha"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 1 2 4.9"/><path d="M5 17v-5h5"/></svg>REORDER</button>
@@ -677,7 +699,7 @@
 <!-- MOBILE HEADER (shown ≤991px) -->
 <div class="mhead">
   <div class="mhead-top">
-    <div class="logo"><span class="tm">TRADEMASTER</span><span class="brand">SupplyHouse<span class="dot">.com</span></span></div>
+    <div class="logo"><img src="assets/Logo-SH-TM-color.svg" alt="SupplyHouse.com — TradeMaster" class="logo-img"></div>
     <div class="mhacts">
       <button class="ha"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 1 2 4.9"/><path d="M5 17v-5h5"/></svg>REORDER</button>
       <button class="ha"><svg class="ic" viewBox="0 0 24 24"><path d="M4 13v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-2"/></svg>HELP</button>
@@ -702,7 +724,7 @@
 <section class="hero">
   <div class="wrap">
     <h1>Built for the Pros</h1>
-    <span class="tmtag">TradeMaster</span>
+    <span class="tmtag"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" class="tmtag-img"></span>
   </div>
 </section>
 
@@ -1043,7 +1065,9 @@
 
   // categories
   const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp']];
-  document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} ›</span></a>`).join('');
+  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} ›</span></a>`).join('');}
+  function fillSkelCats(){const el=document.getElementById('cats');if(el)el.innerHTML=cats.map(()=>'<div class="skcat"><span class="skel skcirc"></span><span class="skel skline"></span></div>').join('');}
+  fillSkelCats();
 
   // right-column account links
   const links=[['Return/Credit Status','Latest update: 3/14/24','assignment_return'],['Invoices','Latest update: 3/14/24','description'],['Quotes','Latest update: 3/14/24','request_quote'],['Tax Exemption','Latest update: 3/14/24','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight','star'],['TradeMaster Program','Learn more about our TradeMaster program','badge']];
@@ -1317,6 +1341,7 @@
   layoutRails();                                  // size skeleton cards too
   setTimeout(function(){
     renderRails();
+    renderCats();
     document.body.classList.add('loaded');
     layoutRails();                                // size real cards before the pager measures pages
     ['reorderRail','recentRail','bestRail'].forEach(initPager);
