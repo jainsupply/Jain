@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SupplyHouse TradeMaster — Home</title>
-<link rel="stylesheet" href="https://use.typekit.net/gpz5ale.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 <style>
   /* Brand typeface — Maison Neue (from design tokens) */
@@ -37,8 +36,8 @@
   .ph{background:var(--sh-light-tan-2);display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray)}
 
   /* utility bar */
-  .util{background:var(--sh-white);border-bottom:1px solid var(--sh-border);font-size:12px}
-  .util .wrap{display:flex;align-items:center;justify-content:space-between;height:38px}
+  .util{background:var(--sh-light-tan-1);border-bottom:1px solid var(--sh-border);font-size:12px}
+  .util .wrap{display:flex;align-items:center;justify-content:space-between;height:34px}
   .util .left,.util .right{display:flex;align-items:center;gap:16px}
   .util .free{color:var(--sh-tan);font-weight:700}
   .util a{color:var(--sh-dark-gray);font-weight:700;display:inline-flex;align-items:center;gap:5px}
@@ -46,72 +45,46 @@
 
   /* header */
   header{background:#fff;border-bottom:1px solid var(--sh-border)}
-  .head{display:flex;align-items:center;gap:22px;height:90px;padding:0 80px;max-width:1920px;margin:0 auto}
+  .head{display:flex;align-items:center;gap:22px;padding:14px 80px;max-width:1920px;margin:0 auto}
   .logo{flex-shrink:0;line-height:1}
   .logo .tm{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--sh-tm-blue);display:block}
   .logo .brand{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
   .logo .brand .dot{color:var(--sh-tm-blue)}
-  .searchbar{flex:0 1 620px;max-width:620px;margin-left:auto;display:flex;border:1px solid var(--sh-border);height:42px}
+  .searchbar{flex:1;display:flex;border:2px solid var(--sh-tm-blue);height:42px}
   .searchbar input{flex:1;border:none;padding:0 14px;font:inherit;font-size:14px}
   .searchbar input:focus{outline:none}
   .searchbar .ib{width:42px;display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray)}
   .searchbar .go{width:50px;background:var(--sh-tm-blue);color:#fff;display:flex;align-items:center;justify-content:center}
-  .searchbar .go .ic{font-size:22px}
   .rep-mini{display:flex;align-items:center;gap:9px;font-size:11px;flex-shrink:0}
   .rep-mini img{width:34px;height:34px;border-radius:50%}
   .rep-mini .rl{color:var(--sh-tan);font-weight:700}
   .rep-mini .rp{font-weight:700;color:var(--sh-tm-blue);font-size:13px}
   .rep-mini .rc{color:var(--sh-mid-gray);font-size:11px}
-  .hacts{display:flex;align-items:center;gap:18px;flex-shrink:0;margin-left:auto}
+  .hacts{display:flex;align-items:center;gap:18px;flex-shrink:0}
   .ha{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--sh-dark-gray);position:relative}
   .ha .ic{font-size:24px;color:var(--sh-dark-brown)}
   .ha .cb{position:absolute;top:-6px;right:-8px;background:var(--sh-orange);color:#fff;border-radius:50%;width:17px;height:17px;font-size:11px;display:flex;align-items:center;justify-content:center}
 
-  /* mobile header (shown ≤991px) */
-  .mhead{display:none;background:#fff;border-bottom:1px solid var(--sh-border)}
-  .mhead-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
-  .mhead .logo{flex-shrink:0}
-  .mhacts{display:flex;gap:22px;flex-shrink:0}
-  .mhead-search{display:flex;align-items:center;gap:16px;background:var(--sh-dark-brown);padding:12px 16px}
-  .msearch{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:#fff;height:42px;padding:0 12px}
-  .msearch .ic{font-size:20px;color:var(--sh-mid-gray);flex-shrink:0}
-  .msearch input{flex:1;min-width:0;border:none;background:none;font:inherit;font-size:15px}
-  .msearch input:focus{outline:none}
-  .mhead-search .ha{color:#fff;flex-shrink:0}
-  .mhead-search .ha .ic{color:#fff}
-  /* mobile rep bar */
-  .repbar{display:none;align-items:center;justify-content:space-between;padding:8px 16px;background:#fff;border-bottom:1px solid var(--sh-border);font-size:13px;font-weight:700}
-  .repbar .who{display:flex;align-items:center;gap:8px;color:var(--sh-dark-gray)}
-  .repbar .who img{width:24px;height:24px;border-radius:50%}
-  .repbar .who .dot{width:7px;height:7px;border-radius:50%;background:var(--sh-success);display:inline-block}
-  .repbar .acts{display:flex;gap:18px}
-  .repbar .acts a{color:var(--sh-tm-blue);display:inline-flex;align-items:center;gap:5px}
-  .repbar .acts .ic{font-size:16px}
-
   /* nav */
   nav.cat{background:var(--sh-dark-brown)}
-  nav.cat .wrap{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none}
-  nav.cat .wrap::-webkit-scrollbar{display:none}
-  nav.cat a{color:#fff;font-size:14px;font-weight:700;padding:22px 18px;white-space:nowrap;flex-shrink:0}
+  nav.cat .wrap{display:flex;align-items:center}
+  nav.cat a{color:#fff;font-size:14px;font-weight:700;padding:13px 18px}
   nav.cat a:hover{background:var(--sh-mid-brown);text-decoration:none}
   nav.cat .right{margin-left:auto;border-left:1px solid rgba(255,255,255,.2)}
 
   /* hero */
-  /* shared blue→white wash behind hero + account boxes + reorder header */
-  .topblue{background:linear-gradient(180deg,#0066AD 0,#0066AD 235px,var(--sh-white) 400px)}
-  .hero{position:relative;background:transparent;color:#fff}
+  .hero{position:relative;background:var(--sh-dark-blue);color:#fff;overflow:hidden;min-height:140px}
   .hero .bg{position:absolute;inset:0 0 0 42%;background:linear-gradient(120deg,var(--sh-dark-blue) 0%,rgba(0,37,68,.4) 40%,rgba(0,37,68,.15) 100%),url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1400&q=70&auto=format') center/cover no-repeat;opacity:.92}
   .hero .tbd{position:absolute;right:5%;top:30px;font-size:46px;font-weight:700;color:rgba(255,255,255,.18);letter-spacing:2px}
   /* only set vertical padding; left/right inherit .wrap's 80px so hero text lines up with main content */
-  .hero .wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;height:92px;padding-top:0;padding-bottom:12px}
-  .hero h1{font-size:34px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
-  .hero .tmtag{font-size:13px;font-weight:700;letter-spacing:1px;color:#cfe0ec;border:1px solid rgba(255,255,255,.45);padding:6px 16px;text-transform:uppercase}
+  .hero .wrap{position:relative;z-index:1;padding-top:26px;padding-bottom:44px}
+  .hero h1{font-size:34px;font-weight:700;line-height:1.12}
   .hero p{font-size:14px;color:#cfe0ec;margin:8px 0 18px;max-width:520px}
   .hero .cta{display:inline-flex;align-items:center;gap:8px;background:transparent;border:2px solid #fff;color:#fff;font-weight:700;font-size:13px;letter-spacing:.4px;text-transform:uppercase;padding:11px 22px}
   .hero .cta:hover{background:#fff;color:var(--sh-dark-blue)}
 
   /* account panel (overlaps hero) */
-  .acctpanel{max-width:none;margin:0;position:relative;z-index:5;background:#fff;border:1px solid var(--sh-border);box-shadow:0 2px 14px rgba(0,0,0,.08);display:grid;grid-template-columns:280px 1fr}
+  .acctpanel{max-width:none;margin:-44px 0 0;position:relative;z-index:5;background:#fff;border:1px solid var(--sh-border);box-shadow:0 2px 14px rgba(0,0,0,.08);display:grid;grid-template-columns:280px 1fr}
   .acctinfo{border-right:1px solid var(--sh-border);padding:16px}
   .acctinfo .ttl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue);margin-bottom:12px}
   .deliv{border:1px solid var(--sh-border);padding:12px;margin-bottom:14px}
@@ -124,39 +97,26 @@
   .deliv .thumbs{display:flex;gap:5px;margin-top:8px}
   .deliv .thumbs .t{width:30px;height:30px;background:var(--sh-light-tan-1);display:flex;align-items:center;justify-content:center;color:var(--sh-tan)}
   .deliv .thumbs .more{font-size:11px;color:var(--sh-mid-gray);font-weight:700;display:flex;align-items:center}
-  .acctrow{display:flex;align-items:center;gap:10px;padding:12px 2px;border-top:1px solid var(--sh-border)}
+  .acctrow{display:flex;align-items:center;gap:10px;padding:11px 2px;border-top:1px solid var(--sh-border)}
   .acctrow .ic{color:var(--sh-tm-blue);font-size:18px}
   .acctrow .t b{display:block;font-size:13px;color:var(--sh-dark-brown)}
   .acctrow .t span{font-size:11px;color:var(--sh-mid-gray)}
   .acctrow .va{margin-left:auto;font-size:12px;font-weight:700;color:var(--sh-link)}
 
-  /* ===== top-bar account KPIs (toggled) — row of individual boxes ===== */
-  .accttop{display:none;align-items:stretch;gap:8px;padding:0}
-  .accttop .atlabel,.accttop .atcell{background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-  .accttop .atlabel{display:flex;align-items:center;gap:10px;padding:20px 18px;flex:1;min-width:0}
+  /* ===== top-bar account KPI bar (toggled) — standalone card above reorder ===== */
+  .accttop{display:none;align-items:stretch;padding:18px 24px}
+  .accttop .atlabel{display:flex;align-items:center;gap:10px;padding-right:28px;align-self:center;white-space:nowrap}
   .accttop .atlabel .ic{font-size:24px;color:var(--sh-dark-brown)}
-  .accttop .atwelcome b{display:block;font-size:16px;font-weight:700;line-height:1.2;color:var(--sh-dark-brown)}
-  .accttop .atwelcome small{font-size:12px;line-height:1.3;color:var(--sh-mid-gray)}
-  .accttop .atcell{flex:1;min-width:0;padding:20px 18px;display:flex;flex-direction:column;justify-content:center;position:relative}
-  /* skeleton shimmer on the KPI boxes until the page hydrates */
-  body:not(.loaded) .accttop .atcell>*{visibility:hidden}
-  body:not(.loaded) .accttop .atcell::after{display:none}
-  body:not(.loaded) .accttop .atcell::before{content:"";position:absolute;inset:18px;
-    background:
-      linear-gradient(#E3E3E3 0 0) left top / 45% 10px no-repeat,
-      linear-gradient(#E6E6E6 0 0) left 0 top 22px / 72% 18px no-repeat,
-      linear-gradient(#E3E3E3 0 0) left 0 top 52px / 55% 10px no-repeat;
-    animation:skelpulse 1.3s ease-in-out infinite}
-  @keyframes skelpulse{0%,100%{opacity:1}50%{opacity:.45}}
-  .accttop .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:4px}
-  .accttop .atv{font-size:24px;font-weight:400;color:var(--sh-dark-brown);display:flex;align-items:center;gap:8px;line-height:1}
-  .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
-  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:0;color:var(--sh-tm-blue);cursor:pointer}
-  .accttop .delivi .ic{font-size:18px}
-  .accttop .ats{font-size:12px;line-height:1.2;color:var(--sh-mid-gray);margin-top:4px}
+  .accttop .atwelcome b{display:block;font-size:16px;font-weight:700;color:var(--sh-dark-brown)}
+  .accttop .atwelcome small{font-size:12px;color:var(--sh-mid-gray)}
+  .accttop .atcell{flex:1;min-width:0;padding:2px 28px;border-left:1px solid var(--sh-border)}
+  .accttop .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-mid-gray);margin-bottom:5px}
+  .accttop .atv{font-size:24px;font-weight:700;color:var(--sh-dark-brown);display:flex;align-items:center;gap:8px;line-height:1.05}
+  .accttop .atbadge{font-size:11px;font-weight:700;color:var(--sh-success);background:#fff;border:1px solid var(--sh-success);border-radius:4px;padding:3px 8px;letter-spacing:0;text-transform:none}
+  .accttop .ats{font-size:12px;color:var(--sh-mid-gray);margin-top:7px}
   .accttop .ats a{font-weight:700;color:var(--sh-link)}
   .accttop .ats .warn{color:#C0392B;font-weight:700}
-  .delivwrap{display:inline-flex;align-items:center}
+  .atbadge{cursor:pointer}
   /* upcoming-delivery popover */
   .delivwrap{position:relative;display:inline-block}
   .delivpop{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);width:360px;max-width:88vw;background:#fff;border:1px solid var(--sh-border);box-shadow:0 10px 30px rgba(0,0,0,.20);padding:18px;z-index:5000;display:none;text-transform:none;text-align:left}
@@ -181,82 +141,69 @@
   .dpbtn.primary{background:var(--sh-blue);color:#fff}
   .dpbtn.ghost{border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue)}
   /* topbar mode: show the bar, hide the sidebar, rails go full width */
-  body.mode-topbar .acctpanel{grid-template-columns:1fr;margin-top:0;background:transparent;border:none;box-shadow:none}
-  /* Reorder/Recently sit in their own white card so they don't show the blue wash */
-  body.mode-topbar .acctpanel>div{background:#fff;border-radius:8px}
+  body.mode-topbar .acctpanel{grid-template-columns:1fr;margin-top:0}
   body.mode-topbar .acctinfo{display:none}
-  body.mode-topbar .accttop{display:flex;background:transparent;position:relative;z-index:6;margin:-12px 0 8px}
+  body.mode-topbar .accttop{display:flex;background:#fff;border:1px solid var(--sh-border);box-shadow:0 2px 14px rgba(0,0,0,.08);position:relative;z-index:6;margin:-44px 0 20px}
 
   /* floating version toggle (prototype control) */
   .modetoggle{position:fixed;bottom:16px;right:16px;z-index:9999;background:#fff;border:1px solid var(--sh-border);box-shadow:0 4px 16px rgba(0,0,0,.16);display:flex;align-items:center;gap:8px;padding:7px 9px;font-size:12px;font-weight:700;color:var(--sh-mid-gray)}
   .modetoggle button{padding:6px 12px;border:1px solid var(--sh-border);background:#fff;color:var(--sh-dark-gray);font-weight:700;font-size:12px;border-radius:4px;cursor:pointer}
   .modetoggle button.on{background:var(--sh-tm-blue);color:#fff;border-color:var(--sh-tm-blue)}
   /* top bar at narrow-desktop / tablet widths: step the font + spacing down so it doesn't break */
-  @media(min-width:768px) and (max-width:1200px){
-    .accttop{gap:10px}
-    .accttop .atlabel,.accttop .atcell{padding:12px 14px}
+  @media(min-width:821px) and (max-width:1200px){
+    .accttop{padding:18px 20px}
+    .accttop .atlabel{padding-right:16px;font-size:11px}
+    .accttop .atcell{padding:0 16px}
     .accttop .atv{font-size:18px;gap:6px;flex-wrap:wrap}
     .accttop .atbadge{font-size:11px;padding:2px 7px}
+    .accttop .atk{font-size:11px}
     .accttop .ats{font-size:11px;margin-top:5px}
   }
-  @media(min-width:768px) and (max-width:980px){
+  @media(min-width:821px) and (max-width:980px){
     .accttop .atlabel{display:none}              /* reclaim space at the tightest widths */
-    .accttop .atcell{padding:10px 12px}
+    .accttop .atcell{padding:0 12px}
+    .accttop .atcell:first-of-type{border-left:none}
     .accttop .atv{font-size:16px}
   }
-  /* top bar on mobile: 2-up grid of boxes with chevrons, welcome on the blue */
-  @media(max-width:767px){
-    .topblue{background:linear-gradient(180deg,#0066AD 0,#0066AD 300px,var(--sh-white) 360px)}
-    body.mode-topbar .accttop{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
-    /* welcome: white text directly on the blue, full width */
-    .accttop .atlabel{grid-column:1/-1;background:transparent;box-shadow:none;border-radius:0;padding:2px 2px 8px;align-items:baseline}
-    .accttop .atlabel .ic{color:#fff;font-size:20px}
-    .accttop .atwelcome b{display:inline;color:#fff;font-size:18px}
-    .accttop .atwelcome small{color:#cfe0ec;margin-left:6px}
-    /* KPI boxes — chevron on the right, no inline View links */
-    .accttop .atcell{position:relative;max-height:none;padding:13px 32px 13px 15px}
-    .accttop .atcell::after{content:"";position:absolute;right:15px;top:50%;width:9px;height:9px;border-top:2px solid var(--sh-tm-blue);border-right:2px solid var(--sh-tm-blue);transform:translateY(-50%) rotate(45deg)}
-    .accttop .ats a{display:none}
-    .accttop .atv{font-size:22px;gap:6px;flex-wrap:wrap}
-    .accttop .atbadge{font-size:11px;padding:2px 7px}
-    .accttop .atk{margin-bottom:4px}
-    .accttop .ats{margin-top:4px;font-size:11px}
-    /* reorder sits flush on white (no card edge) */
-    body.mode-topbar .acctpanel>div{box-shadow:none;border-radius:0}
-    .acctpanel .pager{justify-content:flex-end}
-    .acctpanel .pager .scrubber{display:none}
+  /* top bar on mobile: compact 2-up grid (stacked, minimal height) */
+  @media(max-width:820px){
+    body.mode-topbar .accttop{display:grid;grid-template-columns:1fr 1fr;padding:10px 14px}
+    .accttop .atlabel{grid-column:1/-1;padding:0 0 6px;align-self:start}
+    .accttop .atcell{padding:8px 12px;border-left:none;border-top:1px solid var(--sh-border)}
+    .accttop .atcell:nth-child(odd){border-left:1px solid var(--sh-border)}
+    .accttop .atv{font-size:16px;gap:5px;flex-wrap:wrap}
+    .accttop .atbadge{font-size:11px;padding:2px 6px}
+    .accttop .atk{margin-bottom:2px}
+    .accttop .ats{margin-top:2px;font-size:11px}
   }
 
   /* module / rails */
-  .pmod{padding:16px 40px}
-  .pmod:first-child{padding-top:24px}   /* extra space above the Reorder title */
-  .pmod+.pmod{border-top:none;padding-top:0}
-  .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* divider aligned with content + 8px extra above title */
+  .pmod{padding:16px}
+  .pmod+.pmod{border-top:1px solid var(--sh-border)}
   .pmhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .pmhead h2{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
   .pmhead .sub{font-size:13px;color:var(--sh-mid-gray)}
   .pmhead .va{margin-left:auto;font-size:13px;font-weight:700;color:var(--sh-link)}
-  .toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);cursor:pointer}
+  .toggle{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--sh-dark-gray);cursor:pointer}
   .toggle .sw{width:34px;height:18px;border-radius:10px;background:var(--sh-border);position:relative;transition:background .15s}
   .toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
   .toggle.on .sw{background:var(--sh-tm-blue)}
   .toggle.on .sw::after{left:18px}
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:0;overflow-x:auto}
-  .chip-f{font-size:14px;font-weight:700;padding:6px 14px;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0;overflow-x:auto}
+  .chip-f{font-size:12px;font-weight:700;padding:6px 14px;border:1px solid var(--sh-border);color:var(--sh-dark-gray);background:#fff;border-radius:999px;white-space:nowrap}
   .chip-f[aria-pressed="true"]{background:var(--sh-info,#E3F2FD);border-color:var(--sh-tm-blue);color:var(--sh-tm-blue)}
-  .chip-f[aria-pressed="true"]:not(.chip-reset)::after{content:"";width:11px;height:7px;border-left:2px solid var(--sh-tm-blue);border-bottom:2px solid var(--sh-tm-blue);transform:rotate(-45deg);margin-top:-2px}
-  .railwrap{position:relative;margin-top:6px;min-width:0}
+  .railwrap{position:relative;margin-top:12px;min-width:0}
   /* flexible cards: JS sizes --cardw so a whole number of cards fills the visible width (no card clipped at the edge); count drops gradually as the container narrows */
   .rail{display:grid;grid-auto-flow:column;grid-auto-columns:var(--cardw,184px);gap:12px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
   .rail::-webkit-scrollbar{display:none}
   .best .rail{grid-auto-columns:var(--cardw,200px)}
   /* Reorder shows two rows of cards (still scrolls horizontally) */
-  #reorderRail[data-rows="2"]{grid-template-rows:repeat(2,auto);row-gap:8px}
+  #reorderRail[data-rows="2"]{grid-template-rows:repeat(2,auto);row-gap:18px}
   /* stop the scroll rail from blowing out its grid/flex column */
   .acctpanel>div{min-width:0}
   .pmod{min-width:0}
   .bestright{min-width:0}
-  .pager{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:12px;color:var(--sh-mid-gray);margin-top:2px}
+  .pager{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:12px;color:var(--sh-mid-gray);margin-top:8px}
   .pager .pgnum{min-width:60px;text-align:center;font-variant-numeric:tabular-nums}
   .pgbtn{width:26px;height:26px;border:1px solid var(--sh-border);display:flex;align-items:center;justify-content:center;color:var(--sh-dark-brown);flex-shrink:0}
   .pgbtn:disabled{opacity:.4;cursor:default}
@@ -274,15 +221,14 @@
   .endcard .ecbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--sh-tm-blue);background:var(--sh-tm-blue);color:#fff;font-weight:700;font-size:13px;padding:9px 16px}
   .endcard:hover .ecbtn{background:var(--sh-dark-blue);border-color:var(--sh-dark-blue)}
   .endcard .ecbtn .ic{font-size:16px}
-  .mcard .thumb{width:80px;height:80px;align-self:flex-start;margin:8px 0 0 10px;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
+  .mcard .thumb{width:66px;height:66px;align-self:flex-start;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .mcard .thumb .ms{font-size:30px}
-  .mcard .thumb .pimg,.fcard .thumb .pimg{width:100%;height:100%;object-fit:contain;display:block}
   .mcard .rm{position:absolute;top:6px;left:150px;right:auto;width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid var(--sh-border);display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray);z-index:3}
   .mcard .rm:hover{color:var(--sh-dark-brown);border-color:var(--sh-mid-gray)}
   .mcard .rm .ic{font-size:14px}
   .mcard .bd{padding:8px 10px 10px;display:flex;flex-direction:column;gap:3px;flex:1}
   .mcard .ctx{font-size:11px;color:var(--sh-mid-gray)}
-  .mcard .title{font-size:13px;font-weight:700;line-height:1.3;color:var(--sh-link);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:34px}
+  .mcard .title{font-size:12px;font-weight:700;line-height:1.25;color:var(--sh-link);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px}
   .mcard .sku{font-size:11px;color:var(--sh-mid-gray)}
   .mcard .sku a{font-weight:700}
   .mcard .unit{display:flex;align-items:center;gap:8px;margin-top:4px}
@@ -305,7 +251,7 @@
   .mcard .price{font-size:12px;font-weight:700;color:var(--sh-tm-blue)}
   .mcard .pr .each{font-size:11px;color:var(--sh-mid-gray)}
   /* save expanders — shared toggle */
-  .mcard .boxsave{margin-top:3px}
+  .mcard .boxsave{margin-top:8px}
   .mcard .boxtoggle{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;width:100%}
   .mcard .boxtoggle .ic{font-size:14px;transition:transform .15s}
   .mcard .boxtoggle[aria-expanded="true"] .ic{transform:rotate(180deg)}
@@ -352,7 +298,7 @@
   .fcard .thumb{aspect-ratio:1.3/1;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic);border-bottom:1px solid var(--sh-border)}
   .fcard .thumb .ms{font-size:46px}
   .fcard .bd{padding:11px;display:flex;flex-direction:column;gap:5px;flex:1}
-  .fcard .title{font-size:13px;line-height:1.3;color:var(--sh-link);font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:34px}
+  .fcard .title{font-size:12px;line-height:1.3;color:var(--sh-link);font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:31px}
   .fcard .sku{font-size:11px;color:var(--sh-mid-gray)}
   .fcard .stars{color:var(--sh-orange);font-size:12px;letter-spacing:1px}
   .fcard .stars span{color:var(--sh-mid-gray);letter-spacing:0;margin-left:4px;font-size:11px}
@@ -518,8 +464,7 @@
   .addedpop .lbl{margin-left:-9px;border:1.5px solid #F4B68B;background:#fff;color:var(--sh-orange);font-weight:700;font-size:14px;line-height:1;padding:10px 16px 10px 20px;white-space:nowrap;box-shadow:0 6px 14px rgba(0,0,0,.08)}
 
   /* responsive */
-  @media(min-width:1400px) and (max-width:1599px){ .wrap{padding:0 52px} .head{padding:0 52px} }
-  @media(min-width:1200px) and (max-width:1399px){ .wrap{padding:0 32px} .head{padding:0 32px} }
+  @media(max-width:1280px){ .wrap{padding:0 40px} .head{padding:14px 40px} }
   @media(max-width:1000px){
     .wrap{padding:0 24px}.head{padding:14px 24px}
     .acctpanel{grid-template-columns:1fr}.acctinfo{border-right:none;border-bottom:1px solid var(--sh-border)}
@@ -532,12 +477,9 @@
     .activities .right{border-left:none;padding-left:0;margin-top:24px}
     .bdir{grid-template-columns:repeat(2,1fr)}
   }
-  @media(min-width:992px) and (max-width:1199px){ .wrap{padding:0 20px} .head{padding:0 20px} }
-  @media(min-width:768px) and (max-width:991px){ .wrap{padding:0 16px} .head{padding:0 16px} }
-  @media(min-width:768px) and (max-width:1199px){ .pmod{padding-left:28px;padding-right:28px} }   /* tighter side padding for reorder/recent */
-  /* mobile header: wrap to two rows (search full-width), hide rep mini — prevents overflow */
-  @media(max-width:991px){ header{display:none} .util{display:none} .mhead{display:block} .repbar{display:flex} }
-  @media(max-width:767px){
+  @media(max-width:820px){
+    .head{flex-wrap:wrap;gap:10px}.searchbar{order:3;flex-basis:100%}.rep-mini{display:none}
+    nav.cat .wrap{overflow-x:auto}nav.cat a{white-space:nowrap}
     .hero h1{font-size:24px}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
@@ -549,31 +491,23 @@
   }
 
   /* ===== MOBILE / TABLET-PORTRAIT list view (Reorder / Recently as stacked rows) ===== */
-  @media(max-width:767px){
+  .repbar{display:none}
+  @media(max-width:820px){
     .util{display:none}
-    .wrap{padding:0 16px}                          /* page side margin */
-    .acctwrap{padding-left:0;padding-right:0}       /* reorder/recent run full-bleed */
-    /* tighten vertical rhythm on phones so more lands above the fold */
-    .pmod{padding:16px}                              /* 16px inset on mobile */
-    .pmhead h2,.seclabel{font-size:20px}             /* smaller section titles on mobile */
-    /* in-stock toggle + filter chips: one scrollable row */
-    .filterrow{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none}
-    .filterrow::-webkit-scrollbar{display:none}
-    .filterrow>.toggle{flex-shrink:0}
-    .filterrow .filters{flex-wrap:nowrap;overflow:visible;flex-shrink:0}
-    .filterrow .chip-f{flex-shrink:0}
-    .section{padding:24px 0}
-    .bestgrid{padding:20px 0;gap:16px}
-    .hero h1{font-size:24px}.hero .wrap{height:64px;padding-top:0;padding-bottom:0}
-    body.mode-topbar .accttop{margin:0 0 8px}
-    .acctpanel{margin-top:0}
+    .repbar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#fff;border-bottom:1px solid var(--sh-border);font-size:13px;font-weight:700}
+    .repbar .who{display:flex;align-items:center;gap:8px;color:var(--sh-dark-gray)}
+    .repbar .who img{width:24px;height:24px;border-radius:50%}
+    .repbar .who .dot{width:7px;height:7px;border-radius:50%;background:var(--sh-success);display:inline-block}
+    .repbar .acts{display:flex;gap:18px}
+    .repbar .acts a{color:var(--sh-tm-blue);display:inline-flex;align-items:center;gap:5px}
+    .repbar .acts .ic{font-size:16px}
 
     /* turn the Reorder + Recently rails into a vertical list of rows */
     .acctpanel .rail{display:block}
     .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:12px;border:none;border-bottom:1px solid var(--sh-border);position:relative}
     .acctpanel .mcard:last-child{border-bottom:none}
     .acctpanel .mcard:hover{box-shadow:none}
-    .acctpanel .mcard .thumb{width:64px;height:64px;flex-shrink:0;position:relative;margin:0}
+    .acctpanel .mcard .thumb{width:64px;height:64px;flex-shrink:0;position:relative}
     .acctpanel .mcard .thumb .ms{font-size:30px}
     /* X sits on the top-left corner of the product image */
     .acctpanel .mcard .rm{top:6px;left:6px;right:auto;width:20px;height:20px}
@@ -618,7 +552,7 @@
   <div class="left"><span class="free">Free shipping on all orders</span><span>·</span><span>Your Zip <a href="#">11743 ▾</a></span></div>
   <div class="right">
     <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3l2 5-2 1.5a11 11 0 0 0 5 5L18 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg> 888-551-7600</a>
-    <a href="#" id="orderStatus"><svg class="ic" viewBox="0 0 24 24"><rect x="1" y="6" width="14" height="11"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg> Order status</a>
+    <a href="#" id="orderStatus"><svg class="ic" viewBox="0 0 24 24"><rect x="1" y="6" width="14" height="11"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg> Order status <span class="badge">1</span></a>
     <a href="#">Saved carts</a><a href="#">Lists</a>
   </div>
 </div></div>
@@ -628,6 +562,8 @@
   <div class="logo"><span class="tm">TRADEMASTER</span><span class="brand">SupplyHouse<span class="dot">.com</span></span></div>
   <div class="searchbar">
     <input type="search" aria-label="Search for part or SKU" placeholder="Search for part or SKU">
+    <button class="ib" aria-label="Search by photo"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 7l1.5-2h5L16 7"/></svg></button>
+    <button class="ib" aria-label="Search by voice"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0"/><path d="M12 17v4"/></svg></button>
     <button class="go" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></button>
   </div>
   <div class="rep-mini">
@@ -641,46 +577,29 @@
   </div>
 </div></header>
 
-<!-- MOBILE HEADER (shown ≤991px) -->
-<div class="mhead">
-  <div class="mhead-top">
-    <div class="logo"><span class="tm">TRADEMASTER</span><span class="brand">SupplyHouse<span class="dot">.com</span></span></div>
-    <div class="mhacts">
-      <button class="ha"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 1 2 4.9"/><path d="M5 17v-5h5"/></svg>REORDER</button>
-      <button class="ha"><svg class="ic" viewBox="0 0 24 24"><path d="M4 13v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-2"/></svg>HELP</button>
-      <button class="ha"><svg class="ic" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>MENU</button>
-    </div>
-  </div>
-  <div class="mhead-search">
-    <label class="msearch"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input type="search" placeholder="Search" aria-label="Search"></label>
-    <button class="ha"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>ACCOUNT</button>
-    <button class="ha"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg>CART<span class="cb">7</span></button>
-  </div>
-</div>
-
 <!-- NAV -->
 <nav class="cat"><div class="wrap">
   <a href="#">Plumbing</a><a href="#">Heating</a><a href="#">HVAC</a><a href="#">PEX</a><a href="#">Fittings</a><a href="#">Valves</a><a href="#">Thermostats</a><a href="#">Electrical</a>
   <a href="#" class="right">Resources</a><a href="#">Our Team</a>
 </div></nav>
 
-<!-- HERO + ACCOUNT share one blue→white wash background -->
-<div class="topblue">
+<!-- HERO -->
 <section class="hero">
   <div class="wrap">
     <h1>Built for the Pros</h1>
-    <span class="tmtag">TradeMaster</span>
+    <p>Your exclusive prices, free shipping &amp; returns, and dedicated support — all in one place.</p>
+    <button class="cta">Check your benefits</button>
   </div>
 </section>
 
 <!-- ACCOUNT PANEL -->
-<div class="wrap acctwrap" style="padding-bottom:0">
+<div class="wrap" style="padding-bottom:0">
   <!-- TOP-BAR account KPI bar (separate card above reorder, shown when toggled) -->
   <div class="accttop">
     <div class="atlabel"><span class="athome"><svg class="ic" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span class="atwelcome"><b>Welcome, Tommy!</b><small>Check your account info.</small></span></div>
     <div class="atcell">
       <div class="atk">Active Orders</div>
-      <div class="atv">2 Orders <span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" id="delivBadge" aria-label="Upcoming delivery details" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button>
+      <div class="atv">2 Orders <span class="delivwrap"><span class="atbadge" id="delivBadge" role="button" tabindex="0" aria-expanded="false">Upcoming Delivery</span>
         <div class="delivpop" id="delivPop" role="dialog" aria-label="Upcoming deliveries">
           <button class="dpclose" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
           <div class="dphead">Upcoming Deliveries (2)</div>
@@ -741,10 +660,10 @@
         <h2>Reorder</h2><span class="sub">Items you reorder regularly</span>
         <span class="va">View all →</span>
       </div>
-      <div class="filterrow" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:10px">
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:10px">
         <button class="toggle on" id="instock"><span class="sw"></span> Show in-stock only</button>
         <div class="filters" id="rfilters">
-          <button class="chip-f chip-reset" aria-pressed="true">Most Ordered by You</button><button class="chip-f chip-reset" aria-pressed="false">All</button><button class="chip-f" aria-pressed="false">Plumbing</button><button class="chip-f" aria-pressed="false">Heating</button><button class="chip-f" aria-pressed="false">HVAC</button><button class="chip-f" aria-pressed="false">Fittings</button><button class="chip-f" aria-pressed="false">PEX</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Thermostats</button>
+          <button class="chip-f" aria-pressed="true">Most Ordered by You</button><button class="chip-f" aria-pressed="false">All</button><button class="chip-f" aria-pressed="false">Plumbing</button><button class="chip-f" aria-pressed="false">Heating</button><button class="chip-f" aria-pressed="false">HVAC</button><button class="chip-f" aria-pressed="false">Fittings</button><button class="chip-f" aria-pressed="false">PEX</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Thermostats</button>
         </div>
       </div>
       <div class="railwrap"><div class="rail" id="reorderRail" data-rows="2"></div></div>
@@ -756,7 +675,6 @@
       <div class="pager" data-rail="recentRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
     </section>
   </div>
-</div>
 </div>
 </div>
 
@@ -774,7 +692,7 @@
     <div class="ph pimg">Featured products</div>
   </div>
   <div class="bestright">
-    <div class="filters" id="bfilters"><button class="chip-f chip-reset" aria-pressed="true">All</button><button class="chip-f" aria-pressed="false">Pumps</button><button class="chip-f" aria-pressed="false">Copper Fittings</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Boilers</button><button class="chip-f" aria-pressed="false">Water Heaters</button><button class="chip-f" aria-pressed="false">Thermostats</button><button class="chip-f" aria-pressed="false">Cables</button></div>
+    <div class="filters" id="bfilters"><button class="chip-f" aria-pressed="true">All</button><button class="chip-f" aria-pressed="false">Pumps</button><button class="chip-f" aria-pressed="false">Copper Fittings</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Boilers</button><button class="chip-f" aria-pressed="false">Water Heaters</button><button class="chip-f" aria-pressed="false">Thermostats</button><button class="chip-f" aria-pressed="false">Cables</button></div>
     <div class="railwrap"><div class="rail" id="bestRail"></div></div>
     <div class="pager" data-rail="bestRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
   </div>
@@ -964,7 +882,7 @@
     }
     return `<article class="mcard" data-cat="${cat||''}">
       <button class="rm" aria-label="Remove ${t.replace(/"/g,'&quot;')}">${closeSvg}</button>
-      <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="thumb"><span class="ms">${ICONS[i%ICONS.length]}</span></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
         <div class="sku">SKU: ${sku} | <a href="#">${br}</a></div>
@@ -980,7 +898,7 @@
     const [t,sku,br,was,now,rate,revs]=it;
     return `<article class="fcard" data-cat="${cat||''}">
       <label class="cmp"><input type="checkbox"> Compare</label>
-      <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="thumb"><span class="ms">${ICONS[i%ICONS.length]}</span></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
         <div class="sku">SKU: ${sku} | <a href="#">${br}</a></div>
@@ -1157,15 +1075,9 @@
     if(atc){e.preventDefault();const q=parseInt(atc.closest('.fcard').querySelector('.stepper input').value)||1;if(cb)cb.textContent=(parseInt(cb.textContent)||0)+q;toast(q+' × '+titleOf(atc)+' added to cart');return;}
     // (pager arrows are wired in initPager)
     const f=e.target.closest('.filters .chip-f');
-    if(f){const wrap=f.parentNode;const lbl=f.textContent.trim().toLowerCase();const on=f.getAttribute('aria-pressed')==='true';
-      if(/^(all|most ordered)/.test(lbl)){ // these reset: clear others, select only this
-        [...wrap.children].forEach(c=>c.setAttribute('aria-pressed','false'));f.setAttribute('aria-pressed','true');
-      } else { // category chips toggle independently (multi-select); clear the "all/most" chips
-        f.setAttribute('aria-pressed', on?'false':'true');
-        [...wrap.children].forEach(c=>{if(/^(all|most ordered)/.test(c.textContent.trim().toLowerCase()))c.setAttribute('aria-pressed','false');});
-      }
+    if(f){[...f.parentNode.children].forEach(c=>c.setAttribute('aria-pressed','false'));f.setAttribute('aria-pressed','true');
       const map={rfilters:'reorderRail',bfilters:'bestRail'};
-      applyMultiFilter(map[wrap.id],wrap);return;}
+      applyFilter(map[f.parentNode.id],f.textContent.trim());return;}
     const copy=e.target.closest('#copyNum');
     if(copy){e.preventDefault();try{navigator.clipboard&&navigator.clipboard.writeText('516-310-0227');}catch(e){}toast('Phone number copied: 516-310-0227');return;}
     const a=e.target.closest('a[href="#"]');if(a)e.preventDefault();
@@ -1190,12 +1102,10 @@
   function colsFor(railId){
     if(railId==='bestRail')return null;            // Best Picks keeps auto-fit
     const w=window.innerWidth;
-    if(w>=1920)return 8;   // 1920+ unchanged
-    if(w>=1600)return 7;   // one fewer from 1919 down -> wider cards
-    if(w>=1400)return 6;
-    if(w>=1200)return 5;
-    if(w>=992) return 4;
-    return 3;              // 768–991 (below 768 becomes the stacked list view)
+    if(w>=1280)return 6;   // desktop
+    if(w>=1080)return 5;   // narrow desktop
+    if(w>=920) return 4;   // tablet
+    return 3;              // small tablet (821–919); <=820 becomes the list view
   }
   function layoutRail(railId){
     const rail=document.getElementById(railId);
@@ -1210,22 +1120,21 @@
   }
   function layoutRails(){['reorderRail','recentRail','bestRail'].forEach(layoutRail);}
 
-  // ---------- category-pill filtering (multi-select: show union of picked categories) ----------
-  function applyMultiFilter(railId,wrap){
+  // ---------- category-pill filtering ----------
+  function applyFilter(railId,label){
     const rail=document.getElementById(railId); if(!rail)return;
-    const picks=[...wrap.querySelectorAll('.chip-f[aria-pressed="true"]')].map(c=>c.textContent.trim().toLowerCase());
-    const showAll = picks.length===0 || picks.some(l=>/^(all|most ordered)/.test(l));
+    const showAll=/^(all|most ordered)/i.test(label);
     const cards=[...rail.querySelectorAll('.mcard,.fcard')];
     let shown=0;
     cards.forEach(c=>{
       const cats=(c.dataset.cat||'').toLowerCase().split('|');
-      const m=showAll||picks.some(l=>cats.includes(l));
+      const m=showAll||cats.includes(label.toLowerCase());
       c.style.display=m?'':'none'; if(m)shown++;
     });
     let es=rail.querySelector('.railempty');
     if(shown===0){
       if(!es){es=document.createElement('div');es.className='railempty';es.style.cssText='padding:20px 4px;color:var(--sh-mid-gray);font-size:13px';rail.appendChild(es);}
-      es.textContent='No items match the selected filters.'; es.style.display='';
+      es.textContent='No “'+label+'” items right now.'; es.style.display='';
     } else if(es){es.style.display='none';}
     rail.scrollLeft=0;
     layoutRail(railId);
@@ -1323,7 +1232,10 @@
       document.body.classList.toggle('mode-topbar',toTop);
       mt.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
       layoutRails(); window.dispatchEvent(new Event('resize'));   // rails width changed -> resize cards + pager
+      if(toTop&&autoDeliv)setTimeout(autoDeliv,350);   // show the delivery tooltip when entering top-bar view
     });
+    // if the page lands already in top-bar view, auto-open the tooltip
+    if(document.body.classList.contains('mode-topbar')&&autoDeliv)setTimeout(autoDeliv,500);
   })();
 </script>
 <script>
