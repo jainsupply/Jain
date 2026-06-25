@@ -68,7 +68,7 @@
   .ha .cb{position:absolute;top:-6px;right:-8px;background:var(--sh-orange);color:#fff;border-radius:50%;width:17px;height:17px;font-size:11px;display:flex;align-items:center;justify-content:center}
 
   /* mobile header (shown ≤991px) */
-  .mhead{display:none;background:#fff;border-bottom:1px solid var(--sh-border)}
+  .mhead{display:none;background:#fff}
   .mhead-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
   .mhead .logo{flex-shrink:0}
   .mhacts{display:flex;gap:22px;flex-shrink:0}
@@ -155,9 +155,10 @@
   .accttop .delivi .ic{font-size:18px}
   .accttop .ats{font-size:12px;line-height:1.2;color:var(--sh-mid-gray);margin-top:4px}
   .accttop .ats a{font-weight:700;color:var(--sh-link)}
-  .accttop .ats .warn{color:#C0392B;font-weight:700}
+  .accttop .ats .warn{color:var(--sh-dark-gray);font-weight:700}
   .delivwrap{display:inline-flex;align-items:center}
   /* upcoming-delivery popover */
+  .delivgrp{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
   .delivwrap{position:relative;display:inline-block}
   .delivpop{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);width:360px;max-width:88vw;background:#fff;border:1px solid var(--sh-border);box-shadow:0 10px 30px rgba(0,0,0,.20);padding:18px;z-index:5000;display:none;text-transform:none;text-align:left}
   .delivpop.show{display:block}
@@ -209,15 +210,15 @@
     .topblue{background:linear-gradient(180deg,#0066AD 0,#0066AD 300px,var(--sh-white) 360px)}
     body.mode-topbar .accttop{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
     /* welcome: white text directly on the blue, full width */
-    .accttop .atlabel{grid-column:1/-1;background:transparent;box-shadow:none;border-radius:0;padding:2px 2px 8px;align-items:baseline}
+    .accttop .atlabel{grid-column:1/-1;background:transparent;box-shadow:none;border-radius:0;border-top:1px solid rgba(255,255,255,.3);padding:7px 2px 0;align-items:baseline}
     .accttop .atlabel .ic{color:#fff;font-size:20px}
-    .accttop .atwelcome b{display:inline;color:#fff;font-size:18px}
+    .accttop .atwelcome b{display:inline;color:#fff;font-size:14px}
     .accttop .atwelcome small{color:#cfe0ec;margin-left:6px}
     /* KPI boxes — chevron on the right, no inline View links */
     .accttop .atcell{position:relative;max-height:none;padding:13px 32px 13px 15px}
     .accttop .atcell::after{content:"";position:absolute;right:15px;top:50%;width:9px;height:9px;border-top:2px solid var(--sh-tm-blue);border-right:2px solid var(--sh-tm-blue);transform:translateY(-50%) rotate(45deg)}
     .accttop .ats a{display:none}
-    .accttop .atv{font-size:22px;gap:6px;flex-wrap:wrap}
+    .accttop .atv{font-size:18px;gap:6px;flex-wrap:wrap}
     .accttop .atbadge{font-size:11px;padding:2px 7px}
     .accttop .atk{margin-bottom:4px}
     .accttop .ats{margin-top:4px;font-size:11px}
@@ -242,9 +243,22 @@
   .toggle.on .sw{background:var(--sh-tm-blue)}
   .toggle.on .sw::after{left:18px}
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin:0;overflow-x:auto}
+  .filterrow{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:10px}
   .chip-f{font-size:14px;font-weight:700;padding:6px 14px;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-  .chip-f[aria-pressed="true"]{background:var(--sh-info,#E3F2FD);border-color:var(--sh-tm-blue);color:var(--sh-tm-blue)}
+  /* hover */
+  .chip-f:not(:disabled):not([aria-pressed="true"]):hover{background:#F4F4F4;border:2px solid var(--sh-dark-gray);color:var(--sh-dark-brown);padding:5px 13px}
+  /* selected */
+  .chip-f[aria-pressed="true"]{background:#EFF5FD;border:2px solid var(--sh-tm-blue);color:var(--sh-dark-brown);padding:5px 13px}
   .chip-f[aria-pressed="true"]:not(.chip-reset)::after{content:"";width:11px;height:7px;border-left:2px solid var(--sh-tm-blue);border-bottom:2px solid var(--sh-tm-blue);transform:rotate(-45deg);margin-top:-2px}
+  .chip-f[aria-pressed="true"]:not(:disabled):hover{background:#E4EEFA}
+  /* focus (keyboard) */
+  .chip-f:focus-visible{outline:2px solid var(--sh-tm-blue);outline-offset:2px}
+  /* mute */
+  .chip-f.mute{border-style:dashed;border-color:#C4C4C4;color:var(--sh-mid-gray);background:transparent}
+  /* disabled */
+  .chip-f:disabled{background:#fff;border-color:#EEEEEE;color:#C4C4C4;cursor:default}
+  .chip-f:disabled[aria-pressed="true"]{background:#F6FAFE;border-color:#D6E6EF;color:#9FC3E2}
+  .chip-f:disabled[aria-pressed="true"]:not(.chip-reset)::after{border-color:#9FC3E2}
   .railwrap{position:relative;margin-top:6px;min-width:0}
   /* flexible cards: JS sizes --cardw so a whole number of cards fills the visible width (no card clipped at the edge); count drops gradually as the container narrows */
   .rail{display:grid;grid-auto-flow:column;grid-auto-columns:var(--cardw,184px);gap:12px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
@@ -257,12 +271,13 @@
   .pmod{min-width:0}
   .bestright{min-width:0}
   .pager{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:12px;color:var(--sh-mid-gray);margin-top:2px}
-  .pager .pgnum{min-width:60px;text-align:center;font-variant-numeric:tabular-nums}
-  .pgbtn{width:26px;height:26px;border:1px solid var(--sh-border);display:flex;align-items:center;justify-content:center;color:var(--sh-dark-brown);flex-shrink:0}
-  .pgbtn:disabled{opacity:.4;cursor:default}
+  .pager .pgnum{min-width:54px;text-align:center;font-variant-numeric:tabular-nums;font-size:15px;color:var(--sh-dark-gray)}
+  .pgbtn{width:30px;height:30px;border:none;background:none;display:flex;align-items:center;justify-content:center;color:var(--sh-tm-blue);flex-shrink:0}
+  .pgbtn .ic{font-size:20px;stroke-width:2.5}
+  .pgbtn:disabled{color:#A0D3E8;cursor:default}
   /* hover scrubber — appears left of the pager and shows scroll position */
   .scrubber{flex:1;min-width:0;height:6px;background:var(--sh-light-tan-2);border-radius:3px;position:relative;opacity:0;transition:opacity .15s;cursor:pointer}
-  .pager:hover .scrubber,.scrubber.dragging{opacity:1}
+  .pager:hover .scrubber,.scrubber.dragging,.scrubber.show{opacity:1}
   .scrub-thumb{position:absolute;top:0;left:0;height:100%;min-width:24px;width:30%;background:var(--sh-tm-blue);border-radius:3px}
 
   /* minimal card */
@@ -536,9 +551,17 @@
   @media(min-width:768px) and (max-width:991px){ .wrap{padding:0 16px} .head{padding:0 16px} }
   @media(min-width:768px) and (max-width:1199px){ .pmod{padding-left:28px;padding-right:28px} }   /* tighter side padding for reorder/recent */
   /* mobile header: wrap to two rows (search full-width), hide rep mini — prevents overflow */
-  @media(max-width:991px){ header{display:none} .util{display:none} .mhead{display:block} .repbar{display:flex} }
+  @media(max-width:991px){ header{display:none} .util{display:none} nav.cat{display:none} .mhead{display:block} .repbar{display:flex} }
+  /* in-stock toggle + filter chips on one scrollable row (mobile) */
+  @media(max-width:991px){
+    .filterrow{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none}
+    .filterrow::-webkit-scrollbar{display:none}
+    .filterrow>.toggle{flex-shrink:0}
+    .filterrow .filters{flex-wrap:nowrap;overflow:visible;flex-shrink:0}
+    .filterrow .chip-f{flex-shrink:0}
+  }
   @media(max-width:767px){
-    .hero h1{font-size:24px}
+    .hero h1{font-size:20px}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
     .na-cards{grid-template-columns:1fr 1fr}
@@ -556,21 +579,17 @@
     /* tighten vertical rhythm on phones so more lands above the fold */
     .pmod{padding:16px}                              /* 16px inset on mobile */
     .pmhead h2,.seclabel{font-size:20px}             /* smaller section titles on mobile */
-    /* in-stock toggle + filter chips: one scrollable row */
-    .filterrow{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none}
-    .filterrow::-webkit-scrollbar{display:none}
-    .filterrow>.toggle{flex-shrink:0}
-    .filterrow .filters{flex-wrap:nowrap;overflow:visible;flex-shrink:0}
-    .filterrow .chip-f{flex-shrink:0}
+    .pmhead .va{font-size:12px}                       /* smaller View all */
+    .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
     .section{padding:24px 0}
     .bestgrid{padding:20px 0;gap:16px}
-    .hero h1{font-size:24px}.hero .wrap{height:64px;padding-top:0;padding-bottom:0}
-    body.mode-topbar .accttop{margin:0 0 8px}
+    .hero h1{font-size:20px}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
+    body.mode-topbar .accttop{margin:0 0 20px}
     .acctpanel{margin-top:0}
 
     /* turn the Reorder + Recently rails into a vertical list of rows */
     .acctpanel .rail{display:block}
-    .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:12px;border:none;border-bottom:1px solid var(--sh-border);position:relative}
+    .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:12px 0;border:none;border-bottom:1px solid var(--sh-border);position:relative}
     .acctpanel .mcard:last-child{border-bottom:none}
     .acctpanel .mcard:hover{box-shadow:none}
     .acctpanel .mcard .thumb{width:64px;height:64px;flex-shrink:0;position:relative;margin:0}
@@ -595,14 +614,14 @@
     .acctpanel .mcard .boxsave .buyunit{width:84px}
     .acctpanel .mcard .boxbody .bm{display:inline;white-space:nowrap;margin-left:6px}   /* "$55.00 box of 50" one line */
     .acctpanel .mcard .boxbody .ealn{display:block}                                     /* "$1.10 each" own line */
-    .acctpanel .pager{justify-content:center;margin-top:10px}
+    .acctpanel .pager{justify-content:flex-end;margin-top:10px}
   }
 </style>
 </head>
 <body class="mode-topbar">
 
 <!-- prototype toggle: account-info layout -->
-<div class="modetoggle">Account info view:<button data-mode="sidebar">Sidebar</button><button data-mode="topbar" class="on">Top bar</button></div>
+<div class="modetoggle">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">New / empty</button></div>
 
 <!-- MOBILE rep bar (shows on phones only) -->
 <div class="repbar">
@@ -680,7 +699,7 @@
     <div class="atlabel"><span class="athome"><svg class="ic" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></span><span class="atwelcome"><b>Welcome, Tommy!</b><small>Check your account info.</small></span></div>
     <div class="atcell">
       <div class="atk">Active Orders</div>
-      <div class="atv">2 Orders <span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" id="delivBadge" aria-label="Upcoming delivery details" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button>
+      <div class="atv"><span id="kOrders">2 Orders</span> <span class="delivgrp" id="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" id="delivBadge" aria-label="Upcoming delivery details" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button>
         <div class="delivpop" id="delivPop" role="dialog" aria-label="Upcoming deliveries">
           <button class="dpclose" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
           <div class="dphead">Upcoming Deliveries (2)</div>
@@ -700,48 +719,33 @@
             <div class="dpthumbs"><span class="t"><span class="ms">valve</span></span><span class="t"><span class="ms">build</span></span></div>
           </div>
           <a href="#" class="dpbtn ghost">View all</a>
-        </div></span></div>
-      <div class="ats">Keep an eye on deliveries. <a href="#">View All</a></div>
+        </div></span></span></div>
+      <div class="ats" id="kOrdersSub">Keep an eye on deliveries. <a href="#">View All</a></div>
     </div>
     <div class="atcell">
       <div class="atk">Open Quotes</div>
-      <div class="atv">3 Quotes</div>
-      <div class="ats"><span class="warn">1 expires in 2 days</span> <a href="#">View</a></div>
+      <div class="atv"><span id="kQuotes">3 Quotes</span></div>
+      <div class="ats" id="kQuotesSub"><span class="warn">1 expires in 2 days</span> <a href="#">View</a></div>
     </div>
     <div class="atcell">
       <div class="atk">Saved Lists</div>
-      <div class="atv">15 Lists</div>
-      <div class="ats">Last Edited: 2/13/26 <a href="#">View</a></div>
+      <div class="atv"><span id="kLists">15 Lists</span></div>
+      <div class="ats" id="kListsSub">Last Edited: 2/13/26 <a href="#">View</a></div>
     </div>
     <div class="atcell">
       <div class="atk">Your Carts</div>
-      <div class="atv">8 Saved Carts</div>
-      <div class="ats">Last Edited: 2/13/26 <a href="#">View</a></div>
+      <div class="atv"><span id="kCarts">8 Saved Carts</span></div>
+      <div class="ats" id="kCartsSub">Last Edited: 2/13/26 <a href="#">View</a></div>
     </div>
   </div>
 <div class="acctpanel">
-  <aside class="acctinfo">
-    <div class="ttl">Your account info</div>
-    <div class="deliv">
-      <div class="dl">Upcoming delivery</div>
-      <div class="da">Arriving Today, Jun 20</div>
-      <div class="dm">Order #194678123 (PO #343293583)<br>10 items · Riverside HVAC</div>
-      <div class="prog"><i></i></div>
-      <div class="ps">Shipped</div>
-      <div class="thumbs"><div class="t"><span class="ms">plumbing</span></div><div class="t"><span class="ms">build</span></div><div class="t"><span class="ms">hardware</span></div><div class="more">+5</div></div>
-    </div>
-    <a href="#" class="acctrow"><svg class="ic" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6M9 16h6"/></svg><div class="t"><b>2 active orders</b><span>2 in progress</span></div><span class="va">View all</span></a>
-    <a href="#" class="acctrow"><svg class="ic" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6"/></svg><div class="t"><b>3 quotes are ready</b><span>1 expires in 2 days</span></div><span class="va">View all</span></a>
-    <a href="#" class="acctrow"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><div class="t"><b>15 Lists</b></div><span class="va">View all</span></a>
-    <a href="#" class="acctrow"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg><div class="t"><b>8 Saved Carts</b></div><span class="va">View all</span></a>
-  </aside>
   <div>
     <section class="pmod">
       <div class="pmhead">
         <h2>Reorder</h2><span class="sub">Items you reorder regularly</span>
         <span class="va">View all →</span>
       </div>
-      <div class="filterrow" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:10px">
+      <div class="filterrow">
         <button class="toggle on" id="instock"><span class="sw"></span> Show in-stock only</button>
         <div class="filters" id="rfilters">
           <button class="chip-f chip-reset" aria-pressed="true">Most Ordered by You</button><button class="chip-f chip-reset" aria-pressed="false">All</button><button class="chip-f" aria-pressed="false">Plumbing</button><button class="chip-f" aria-pressed="false">Heating</button><button class="chip-f" aria-pressed="false">HVAC</button><button class="chip-f" aria-pressed="false">Fittings</button><button class="chip-f" aria-pressed="false">PEX</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Thermostats</button>
@@ -995,17 +999,20 @@
   const reorderCat=['PEX','PEX','PEX','Valves','Fittings','Plumbing','Fittings','Fittings','PEX','Plumbing','Plumbing','Valves'];
   const bestCat=['Cables','Copper Fittings','Copper Fittings','Pumps','Copper Fittings','Cables','Pumps','Thermostats','Copper Fittings','Pumps','Copper Fittings','Valves'];
   const arrowSvg='<svg class="ic" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>';
-  function endCard(count,label){return `<a class="endcard" href="#"><div class="ecnum">${count}</div><span class="ecbtn">${label} ${arrowSvg}</span></a>`;}
+  function endCard(count,label){return `<a class="endcard" href="#"><span class="ecbtn">${label} ${arrowSvg}</span></a>`;}
   // skeleton placeholders shown while the page "loads"
   function skCard(full){return `<div class="skcard${full?' full':''}"><div class="skel skimg"></div><div class="skel skline w80"></div><div class="skel skline w50"></div><div class="skel skbtn"></div></div>`;}
   function fillSkel(id,n,full){const r=document.getElementById(id);if(r){r.innerHTML=Array.from({length:n}).map(()=>skCard(full)).join('');}}
-  const REORDER_COUNT=56;   // total items loaded into the Reorder rail
+  let SCN_REORDER=56, SCN_RECENT=12;   // item counts, driven by the scenario switcher
+  const reorderSave=i=>i%6===0?'box':i%6===3?'stock':'';
+  const recentSave=i=>[1,3].includes(i)?'box':[5,7].includes(i)?'stock':'';
+  function railEmpty(msg){return '<div class="railempty" style="padding:26px 4px;color:var(--sh-mid-gray);font-size:14px">'+msg+'</div>';}
   function renderRails(){
-    const reorder56=Array.from({length:REORDER_COUNT},(_,i)=>reorder[i%reorder.length]);
-    const reorderSave=i=>i%6===0?'box':i%6===3?'stock':'';
-    const recentSave=i=>[1,3].includes(i)?'box':[5,7].includes(i)?'stock':'';
-    document.getElementById('reorderRail').innerHTML=reorder56.map((it,i)=>mcard(it,i,reorderSave(i),reorderCat[i%reorderCat.length])).join('')+endCard(REORDER_COUNT+' items reordered','View all');
-    document.getElementById('recentRail').innerHTML=recent.map((it,i)=>mcard(it,i,recentSave(i))).join('')+endCard('20 recently viewed','View all');
+    const rEl=document.getElementById('reorderRail'), reEl=document.getElementById('recentRail');
+    if(SCN_REORDER<=0){rEl.style.display='block';rEl.innerHTML=railEmpty("You haven't reordered anything yet.");}
+    else{rEl.style.removeProperty('display');const a=Array.from({length:SCN_REORDER},(_,i)=>reorder[i%reorder.length]);rEl.innerHTML=a.map((it,i)=>mcard(it,i,reorderSave(i),reorderCat[i%reorderCat.length])).join('')+endCard('','View all');}
+    if(SCN_RECENT<=0){reEl.style.display='block';reEl.innerHTML=railEmpty("Nothing viewed recently.");}
+    else{reEl.style.removeProperty('display');const a=Array.from({length:SCN_RECENT},(_,i)=>recent[i%recent.length]);reEl.innerHTML=a.map((it,i)=>mcard(it,i,recentSave(i))).join('')+endCard('','View all');}
     document.getElementById('bestRail').innerHTML=best.map((it,i)=>fcard(it,i,bestCat[i])).join('');
   }
   fillSkel('reorderRail',8);fillSkel('recentRail',8);fillSkel('bestRail',6,true);
@@ -1276,7 +1283,7 @@
     }
     prev.addEventListener('click',()=>go(-1));
     next.addEventListener('click',()=>go(1));
-    rail.addEventListener('scroll',()=>{clearTimeout(rail._pt);rail._pt=setTimeout(upd,60);});
+    rail.addEventListener('scroll',()=>{if(scrubber){scrubber.classList.add('show');clearTimeout(scrubber._h);scrubber._h=setTimeout(()=>scrubber.classList.remove('show'),900);}clearTimeout(rail._pt);rail._pt=setTimeout(upd,60);});
     window.addEventListener('resize',()=>{clearTimeout(rail._rr);rail._rr=setTimeout(()=>{layoutRail(railId);upd();},150);});
     // click / drag the scrubber to seek
     if(scrubber){
@@ -1316,13 +1323,28 @@
     autoDeliv=function(){show();clearTimeout(autoT);autoT=setTimeout(hide,8000);};
   })();
 
-  // ---------- account-info layout toggle (sidebar vs top bar) ----------
+  // ---------- edge-case scenario switcher ----------
+  const SCENARIOS={
+    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View All</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Last Edited: 2/13/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Last Edited: 2/13/26 <a href="#">View</a>',reorderN:56,recentN:12},
+    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Last Edited: 6/1/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Last Edited: 6/1/26 <a href="#">View</a>',reorderN:1,recentN:3},
+    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:0,recentN:0}
+  };
+  function applyScenario(name){
+    const s=SCENARIOS[name]||SCENARIOS.full;
+    const set=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};
+    set('kOrders',s.orders); set('kOrdersSub',s.ordersSub);
+    set('kQuotes',s.quotes); set('kQuotesSub',s.quotesSub);
+    set('kLists',s.lists);   set('kListsSub',s.listsSub);
+    set('kCarts',s.carts);   set('kCartsSub',s.cartsSub);
+    const dg=document.getElementById('delivgrp'); if(dg)dg.style.display=s.badge?'':'none';
+    SCN_REORDER=s.reorderN; SCN_RECENT=s.recentN;
+    renderRails(); layoutRails();
+    ['reorderRail','recentRail','bestRail'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
+  }
   (function(){const mt=document.querySelector('.modetoggle');if(!mt)return;
-    mt.addEventListener('click',e=>{const b=e.target.closest('button[data-mode]');if(!b)return;
-      const toTop=b.dataset.mode==='topbar';
-      document.body.classList.toggle('mode-topbar',toTop);
+    mt.addEventListener('click',e=>{const b=e.target.closest('button[data-scn]');if(!b)return;
       mt.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
-      layoutRails(); window.dispatchEvent(new Event('resize'));   // rails width changed -> resize cards + pager
+      applyScenario(b.dataset.scn);
     });
   })();
 </script>
