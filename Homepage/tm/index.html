@@ -231,6 +231,8 @@
   /* module / rails */
   .pmod{padding:16px 40px}
   .pmod:first-child{padding-top:24px}   /* extra space above the Reorder title */
+  #recentSection{padding-top:8px}       /* small extra above the Recently Viewed title */
+  .recentwrap{padding-top:36px}         /* room for the divider above the Recently card */
   .pmod+.pmod{border-top:none;padding-top:0}
   .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* divider aligned with content + 8px extra above title */
   .pmhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -342,14 +344,25 @@
 
   /* categories */
   .cats{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;padding:8px 0 4px}
-  .cat{text-align:center;font-size:12px;font-weight:700;color:var(--sh-dark-gray)}
-  .cat .circ{aspect-ratio:1;max-width:96px;margin:0 auto 8px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan)}
+  .cat{text-align:center;font-size:13px;font-weight:700;color:var(--sh-dark-gray)}
+  .cat .circ{aspect-ratio:1;max-width:118px;margin:0 auto 10px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan);overflow:hidden}
+  @media(min-width:1400px){ .cat{font-size:14px} .cat .circ{max-width:140px} }
+  .cat .circ img{width:100%;height:100%;object-fit:cover;border-radius:50%}
   .cat .circ .ms{font-size:34px}
   .cat:hover .circ{background:var(--sh-light-tan-3)}
-  .seclabel{font-size:24px;font-weight:700;color:var(--sh-dark-brown);margin-bottom:2px}
-  .secsub{font-size:13px;color:var(--sh-mid-gray);margin-bottom:14px}
+  .catsinner{padding:0 40px}   /* align Shop Your Categories with Reorder/Recently content */
+  .seclabel{font-size:24px;font-weight:700;color:var(--sh-dark-brown);display:inline-block;vertical-align:baseline;margin:0 10px 14px 0}
+  .secsub{font-size:13px;color:var(--sh-mid-gray);display:inline-block;vertical-align:baseline;margin:0 0 14px 0}
   .section{padding:36px 0}
   .section.alt{background:var(--sh-off-white)}
+  /* light-gray dividers between sections — inset to the content gutters, same width as the page content */
+  .section,.best,.repband,.recentwrap{position:relative}
+  .section::before,.best::before,.repband::before,.recentwrap::before{content:"";position:absolute;top:0;left:80px;right:80px;height:1px;background:var(--sh-border)}
+  @media(min-width:1920px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:calc((100% - 1760px)/2);right:calc((100% - 1760px)/2)} }
+  @media(min-width:1400px) and (max-width:1599px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:52px;right:52px} }
+  @media(min-width:1200px) and (max-width:1399px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:32px;right:32px} }
+  @media(min-width:992px) and (max-width:1199px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:20px;right:20px} }
+  @media(max-width:991px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:16px;right:16px} }
 
   /* best picks band */
   .best{background:var(--sh-bestbg);padding:0}
@@ -549,7 +562,8 @@
   }
   @media(min-width:992px) and (max-width:1199px){ .wrap{padding:0 20px} .head{padding:0 20px} }
   @media(min-width:768px) and (max-width:991px){ .wrap{padding:0 16px} .head{padding:0 16px} }
-  @media(min-width:768px) and (max-width:1199px){ .pmod{padding-left:28px;padding-right:28px} }   /* tighter side padding for reorder/recent */
+  @media(min-width:768px) and (max-width:1199px){ .pmod{padding-left:28px;padding-right:28px} .catsinner{padding:0 28px} }   /* tighter side padding for reorder/recent */
+  @media(max-width:767px){ .catsinner{padding:0} }
   /* mobile header: wrap to two rows (search full-width), hide rep mini — prevents overflow */
   @media(max-width:991px){ header{display:none} .util{display:none} nav.cat{display:none} .mhead{display:block} .repbar{display:flex} }
   /* in-stock toggle + filter chips on one scrollable row (mobile) */
@@ -754,21 +768,25 @@
       <div class="railwrap"><div class="rail" id="reorderRail" data-rows="2"></div></div>
       <div class="pager" data-rail="reorderRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
     </section>
-    <section class="pmod">
-      <div class="pmhead"><h2>Recently Viewed</h2><span class="sub">Pick up where you left off</span><span class="va">View all →</span></div>
-      <div class="railwrap"><div class="rail" id="recentRail"></div></div>
-      <div class="pager" data-rail="recentRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
-    </section>
   </div>
 </div>
 </div>
 </div>
 
 <!-- CATEGORIES -->
-<section class="section"><div class="wrap">
-  <div class="seclabel">Shop Your Categories</div><div class="secsub">Pick up where you left off</div>
+<section class="section"><div class="wrap"><div class="catsinner">
+  <div class="seclabel">Shop Your Categories</div><div class="secsub">Top picks categories for you</div>
   <div class="cats" id="cats"></div>
-</div></section>
+</div></div></section>
+
+<!-- RECENTLY VIEWED (moved below categories) -->
+<div class="wrap acctwrap recentwrap"><div class="acctpanel"><div>
+  <section class="pmod" id="recentSection">
+    <div class="pmhead"><h2>Recently Viewed</h2><span class="sub">Pick up where you left off</span><span class="va">View all →</span></div>
+    <div class="railwrap"><div class="rail" id="recentRail"></div></div>
+    <div class="pager" data-rail="recentRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
+  </section>
+</div></div></div>
 
 <!-- BEST PICKS -->
 <section class="best"><div class="wrap"><div class="bestgrid">
@@ -1024,8 +1042,8 @@
   partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="ph pimg" style="background:var(--sh-light-tan-1)"><span class="ms" style="font-size:40px;color:var(--sh-tan)">${ICONS[i%ICONS.length]}</span></span><span class="pl">Tool Part ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:13px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
   // categories
-  const cats=[['Water Heaters','water_heater'],['Boilers','heat_pump'],['PEX','cable'],['Copper Fittings','plumbing'],['Extrol Tanks','propane_tank'],['Pumps & Valves','valve'],['Thermostats','thermostat'],['Electricals','bolt']];
-  document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><span class="ms">${c[1]}</span></span><span>${c[0]} ›</span></a>`).join('');
+  const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp']];
+  document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} ›</span></a>`).join('');
 
   // right-column account links
   const links=[['Return/Credit Status','Latest update: 3/14/24','assignment_return'],['Invoices','Latest update: 3/14/24','description'],['Quotes','Latest update: 3/14/24','request_quote'],['Tax Exemption','Latest update: 3/14/24','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight','star'],['TradeMaster Program','Learn more about our TradeMaster program','badge']];
@@ -1325,10 +1343,21 @@
 
   // ---------- edge-case scenario switcher ----------
   const SCENARIOS={
-    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View All</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Last Edited: 2/13/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Last Edited: 2/13/26 <a href="#">View</a>',reorderN:56,recentN:12},
-    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Last Edited: 6/1/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Last Edited: 6/1/26 <a href="#">View</a>',reorderN:1,recentN:3},
-    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:0,recentN:0}
+    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View All</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Last Edited: 2/13/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Last Edited: 2/13/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false},
+    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Last Edited: 6/1/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Last Edited: 6/1/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false},
+    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true}
   };
+  function limitFilterChips(s){
+    const rf=document.getElementById('rfilters'); if(!rf)return;
+    const chips=[...rf.querySelectorAll('.chip-f')];
+    if(s.limitChips){
+      const avail=new Set(Array.from({length:s.reorderN},(_,i)=>reorderCat[i%reorderCat.length].toLowerCase()));
+      chips.forEach(c=>{const lbl=c.textContent.trim().toLowerCase();const isReset=/^(all|most ordered)/.test(lbl);
+        c.style.display=(!isReset&&avail.has(lbl))?'':'none'; c.setAttribute('aria-pressed','false');});
+    } else {
+      chips.forEach(c=>{c.style.display='';c.setAttribute('aria-pressed',/^most ordered/.test(c.textContent.trim().toLowerCase())?'true':'false');});
+    }
+  }
   function applyScenario(name){
     const s=SCENARIOS[name]||SCENARIOS.full;
     const set=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};
@@ -1337,7 +1366,10 @@
     set('kLists',s.lists);   set('kListsSub',s.listsSub);
     set('kCarts',s.carts);   set('kCartsSub',s.cartsSub);
     const dg=document.getElementById('delivgrp'); if(dg)dg.style.display=s.badge?'':'none';
+    const rr=document.getElementById('reorderRail'); if(rr)rr.dataset.rows=s.rows;
+    const rs=document.getElementById('recentSection'); if(rs)rs.style.display=s.hideRecent?'none':'';
     SCN_REORDER=s.reorderN; SCN_RECENT=s.recentN;
+    limitFilterChips(s);
     renderRails(); layoutRails();
     ['reorderRail','recentRail','bestRail'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
   }
