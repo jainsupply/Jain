@@ -6,6 +6,7 @@
 <title>SupplyHouse TradeMaster — Home</title>
 <link rel="stylesheet" href="https://use.typekit.net/gpz5ale.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap">
 <style>
   /* Brand typeface — Maison Neue (from design tokens) */
   @font-face{font-family:'Maison Neue';src:url('fonts/MaisonNeueWEB-Book.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
@@ -104,7 +105,7 @@
 
   /* hero */
   /* shared blue→white wash behind hero + account boxes + reorder header */
-  .topblue{background:linear-gradient(180deg,#0066AD 0,#0066AD 235px,var(--sh-white) 400px)}
+  .topblue{position:relative;background:linear-gradient(180deg,#0066AD 0,#0066AD 340px,var(--sh-white) 800px)}
   .hero{position:relative;background:transparent;color:#fff}
   .hero .bg{position:absolute;inset:0 0 0 42%;background:linear-gradient(120deg,var(--sh-dark-blue) 0%,rgba(0,37,68,.4) 40%,rgba(0,37,68,.15) 100%),url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1400&q=70&auto=format') center/cover no-repeat;opacity:.92}
   .hero .tbd{position:absolute;right:5%;top:30px;font-size:46px;font-weight:700;color:rgba(255,255,255,.18);letter-spacing:2px}
@@ -112,6 +113,97 @@
   .hero .wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;height:92px;padding-top:0;padding-bottom:12px}
   .hero h1{font-size:34px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
   .hero .tmtag{display:inline-flex;align-items:center;border:1px solid #fff;border-radius:8px;padding:7px 8px}
+  /* full promo banner backdrop + carousel (non-TM cohorts): whole banner shown behind hero/KPI/reorder, fading to white */
+  .herobig{display:none;position:absolute;top:0;left:0;right:0;min-height:800px;z-index:0;overflow:hidden}
+  .herobig .hbtrack{display:flex;transition:transform .22s ease-out}
+  .herobig .hbinner{position:relative;max-width:1920px;margin:0 auto;overflow:hidden}   /* clip slides at 1920 so the image never peeks into the extended side color */
+  .herobig .hbslide{flex:0 0 100%}
+  .herobig .hbslide picture{display:block;width:100%}
+  .herobig .hbslide img{width:100%;height:auto;display:block}
+  .herobig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 340px,#fff 800px);pointer-events:none;z-index:1}
+  .herobig .hbarrow{position:absolute;top:108px;transform:translateY(-50%);background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;padding:6px;transition:opacity .15s}
+  .herobig .hbarrow:hover{opacity:.75}
+  .herobig .hbarrow.prev{left:10px}
+  .herobig .hbarrow.next{right:10px}
+  .herobig .hbchev{width:30px;height:30px}
+  .herobig .hbchev .o{stroke:#111;stroke-width:3}      /* thin black outline — visible on light areas */
+  .herobig .hbchev .i{stroke:#fff;stroke-width:1.3}    /* thin white core — visible on dark areas */
+  .herobig .hbdots{display:none}
+  .herobig .hbdots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(0,0,0,.3);cursor:pointer;padding:0}
+  .herobig .hbdots button.on{background:var(--sh-dark-gray)}
+  .herobig .hbtext{position:absolute;left:clamp(16px,4.5vw,80px);top:108px;transform:translateY(-50%);z-index:2;max-width:min(44%,340px);pointer-events:none}
+  .herobig .hbtext h2{font-size:clamp(18px,2.7vw,34px);font-weight:700;color:var(--sh-dark-brown);line-height:1.12;margin:0;font-family:'interstate',var(--sh-font)}
+  .herobig .hbtext p{font-size:clamp(12px,1.15vw,14px);line-height:1.3;color:var(--sh-dark-gray);margin:6px 0 0}
+  /* two overlay variants: "shop" (Guest, light banner) and "apply" (NTM, blue banner) */
+  .herobig .hbtext-apply{display:none;max-width:min(46%,430px)}
+  .herobig .hbtext-apply h2{color:#fff}
+  .herobig .hbtext-apply p{color:#dce9f3}
+  .herobig .hbcta{display:flex;align-items:center;gap:14px;margin-top:14px}
+  .herobig .hbbtn{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 24px;pointer-events:auto;flex-shrink:0}
+  .herobig .hbbtn:hover{background:#EFF5FD}
+  .herobig .hbnote-img{height:36px;width:auto;flex-shrink:0;pointer-events:none}
+  body[data-cohort="ntm-purchaser"] .herobig .hbtext-shop,
+  body[data-cohort="ntm-nonpurchaser"] .herobig .hbtext-shop{display:none}
+  body[data-cohort="ntm-purchaser"] .herobig .hbtext-apply,
+  body[data-cohort="ntm-nonpurchaser"] .herobig .hbtext-apply{display:block}
+  /* cohort visibility: TM keeps the slim hero; others get the promo banner backdrop */
+  body[data-cohort="ntm-purchaser"] .hero,
+  body[data-cohort="ntm-nonpurchaser"] .hero,
+  body[data-cohort="guest"] .hero{display:none}
+  body[data-cohort="ntm-purchaser"] .herobig,
+  body[data-cohort="ntm-nonpurchaser"] .herobig,
+  body[data-cohort="guest"] .herobig{display:block}
+  body[data-cohort="ntm-purchaser"] .topblue,
+  body[data-cohort="ntm-nonpurchaser"] .topblue,
+  body[data-cohort="guest"] .topblue{background:#fff;padding-top:230px}
+  /* beyond 1920 the banner image is capped; edge color fills the rest */
+  body[data-cohort="guest"] .herobig{background:#E2CCB8}
+  body[data-cohort="ntm-purchaser"] .herobig,
+  body[data-cohort="ntm-nonpurchaser"] .herobig{background:#0468AF}
+  body[data-cohort="ntm-purchaser"] .topblue>.wrap,
+  body[data-cohort="ntm-nonpurchaser"] .topblue>.wrap,
+  body[data-cohort="guest"] .topblue>.wrap{position:relative;z-index:1}
+  /* keep Categories + Recently container above the hero backdrop */
+  body[data-cohort="ntm-purchaser"] .recentwrap, body[data-cohort="ntm-nonpurchaser"] .recentwrap, body[data-cohort="guest"] .recentwrap{position:relative;z-index:1}
+  @media(max-width:767px){
+    body[data-cohort="ntm-purchaser"] .topblue,
+    body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="guest"] .topblue{padding-top:96px}   /* shorter banner band; rest sits behind the KPI section */
+    .herobig{min-height:360px}
+    .herobig::after{background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 55%,#fff 100%)}
+    .herobig .hbarrow{top:48px;padding:4px}
+    .herobig .hbchev{width:24px;height:24px}
+    .herobig .hbarrow.prev{left:6px} .herobig .hbarrow.next{right:6px}
+    .herobig .hbdots{display:none}
+    .herobig .hbtext{top:48px;max-width:min(58%,230px)}
+    .herobig .hbtext p{display:none}   /* headline only on mobile */
+    .herobig .hbbtn{background:none;color:#fff;height:auto;padding:0;font-size:13px;letter-spacing:.3px;text-decoration:underline}   /* underlined text link on mobile */
+    .herobig .hbbtn:hover{background:none;color:#fff}
+    .herobig .hbnote-img{display:inline-block;height:30px}   /* show 3-min note next to the link */
+  }
+  @media(min-width:768px) and (max-width:991px){
+    body[data-cohort="ntm-purchaser"] .topblue,
+    body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="guest"] .topblue{padding-top:150px}   /* shorter banner band at tablet */
+    .herobig .hbarrow{top:72px}
+    .herobig .hbdots{top:130px}
+    .herobig .hbtext{top:72px}
+  }
+  @media(max-width:400px){
+    body[data-cohort="ntm-purchaser"] .topblue,
+    body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="guest"] .topblue{padding-top:68px}   /* shortest banner band on small phones */
+    .herobig .hbarrow{top:34px}
+    .herobig .hbtext{top:34px}
+  }
+  @media(min-width:992px) and (max-width:1199px){
+    body[data-cohort="ntm-purchaser"] .topblue,
+    body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="guest"] .topblue{padding-top:170px}   /* shorter banner band around 1000px */
+    .herobig .hbarrow{top:82px}
+    .herobig .hbdots{top:150px}
+    .herobig .hbtext{top:82px}
+  }
   .hero p{font-size:14px;color:#cfe0ec;margin:8px 0 18px;max-width:520px}
   .hero .cta{display:inline-flex;align-items:center;gap:8px;background:transparent;border:2px solid #fff;color:#fff;font-weight:700;font-size:13px;letter-spacing:.4px;text-transform:uppercase;padding:11px 22px}
   .hero .cta:hover{background:#fff;color:var(--sh-dark-blue)}
@@ -155,7 +247,7 @@
     animation:skelpulse 1.3s ease-in-out infinite}
   @keyframes skelpulse{0%,100%{opacity:1}50%{opacity:.45}}
   .accttop .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:4px}
-  .accttop .atv{font-size:24px;font-weight:400;color:var(--sh-dark-brown);display:flex;align-items:center;gap:8px;line-height:1}
+  .accttop .atv{font-size:24px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
   .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
   .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:0;color:var(--sh-tm-blue);cursor:pointer}
   .accttop .delivi .ic{font-size:18px}
@@ -190,19 +282,22 @@
   /* topbar mode: show the bar, hide the sidebar, rails go full width */
   body.mode-topbar .acctpanel{grid-template-columns:1fr;margin-top:0;background:transparent;border:none;box-shadow:none}
   /* Reorder/Recently sit in their own white card so they don't show the blue wash */
-  body.mode-topbar .acctpanel>div{background:#fff;border-radius:8px}
+  body.mode-topbar .acctpanel>div{background:#fff;border-radius:8px 8px 0 0;box-shadow:0 1px 10px rgba(0,0,0,.07)}   /* Reorder: top corners rounded only */
+  body.mode-topbar .acctpanel.crpanel>div{border-radius:0}                     /* other containers: square corners */
   body.mode-topbar .acctinfo{display:none}
   body.mode-topbar .accttop{display:flex;background:transparent;position:relative;z-index:6;margin:-12px 0 8px}
 
   /* floating version toggle (prototype control) */
-  .modetoggle{position:fixed;bottom:16px;right:16px;z-index:9999;background:#fff;border:1px solid var(--sh-border);box-shadow:0 4px 16px rgba(0,0,0,.16);display:flex;align-items:center;gap:8px;padding:7px 9px;font-size:12px;font-weight:700;color:var(--sh-mid-gray)}
+  .modetoggle{position:fixed;bottom:16px;right:16px;z-index:9999;background:#fff;border:1px solid var(--sh-border);box-shadow:0 4px 16px rgba(0,0,0,.16);display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:8px 10px;font-size:12px;font-weight:700;color:var(--sh-mid-gray);max-width:min(96vw,700px)}
+  .modetoggle .mtrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .modetoggle .mtrow button[data-cohort]{white-space:nowrap}
   .modetoggle button{padding:6px 12px;border:1px solid var(--sh-border);background:#fff;color:var(--sh-dark-gray);font-weight:700;font-size:12px;border-radius:4px;cursor:pointer}
   .modetoggle button.on{background:var(--sh-tm-blue);color:#fff;border-color:var(--sh-tm-blue)}
   /* top bar at narrow-desktop / tablet widths: step the font + spacing down so it doesn't break */
   @media(min-width:768px) and (max-width:1200px){
     .accttop{gap:10px}
     .accttop .atlabel,.accttop .atcell{padding:12px 14px}
-    .accttop .atv{font-size:18px;gap:6px;flex-wrap:wrap}
+    .accttop .atv{font-size:18px;gap:5px 6px}
     .accttop .atbadge{font-size:11px;padding:2px 7px}
     .accttop .ats{font-size:11px;margin-top:5px}
   }
@@ -237,8 +332,10 @@
   /* module / rails */
   .pmod{padding:16px 40px}
   .pmod:first-child{padding-top:24px}   /* extra space above the Reorder title */
-  #recentSection{padding-top:8px}       /* small extra above the Recently Viewed title */
-  .recentwrap{padding-top:36px}         /* room for the divider above the Recently card */
+  #recentSection{padding-top:8px}   /* divider above Recently comes from the .pmod+.pmod rule */
+  #catSection{padding-top:0}
+  #catSection .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* light gray divider above Shop Your Categories, like Recently */
+  .recentwrap{padding-top:0}
   .pmod+.pmod{border-top:none;padding-top:0}
   .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* divider aligned with content + 8px extra above title */
   .pmhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -294,10 +391,10 @@
   /* minimal card */
   .mcard{position:relative;background:#fff;display:flex;flex-direction:column;scroll-snap-align:start}
   /* "View all" card at the end of a rail */
-  .endcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:var(--sh-light-tan-1);scroll-snap-align:start;padding:16px;text-decoration:none}
+  .endcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:var(--sh-light-tan-1);scroll-snap-align:start;padding:16px;text-decoration:none;min-height:200px}
   .endcard:hover{background:var(--sh-light-tan-2)}
   .endcard .ecnum{font-size:13px;color:var(--sh-mid-gray);line-height:1.3}
-  .endcard .ecbtn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--sh-tm-blue);background:var(--sh-tm-blue);color:#fff;font-weight:700;font-size:13px;padding:9px 16px}
+  .endcard .ecbtn{display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--sh-tm-blue);background:var(--sh-tm-blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:9px 16px}
   .endcard:hover .ecbtn{background:var(--sh-dark-blue);border-color:var(--sh-dark-blue)}
   .endcard .ecbtn .ic{font-size:16px}
   .mcard .thumb{width:80px;height:80px;align-self:flex-start;margin:8px 0 0 10px;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
@@ -310,28 +407,31 @@
   .mcard .ctx{font-size:11px;color:var(--sh-mid-gray)}
   .mcard .title{font-size:13px;font-weight:700;line-height:1.3;color:var(--sh-link);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:34px}
   .mcard .sku{font-size:11px;color:var(--sh-mid-gray)}
+  .mcard .sku b{font-weight:700;color:var(--sh-dark-gray)}
   .mcard .sku a{font-weight:700}
   .mcard .unit{display:flex;align-items:center;gap:8px;margin-top:4px}
   .mcard .buyunit{flex-shrink:0;width:90px}                 /* compact, matches mobile; Add⇄stepper never shifts */
   .mcard .add{width:100%;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;font-size:13px;font-weight:700;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;gap:5px}
   .mcard .add:hover{border-color:var(--sh-mid-gray)}
   .mcard .add .addplus{font-size:18px;stroke-width:3.4;color:var(--sh-orange)}
-  .mcard .qtyctl{display:flex;width:100%;align-items:stretch;height:30px;border:1px solid var(--sh-orange);border-radius:6px;overflow:hidden}
+  .mcard .qtyctl{display:flex;width:100%;align-items:stretch;height:30px;border:1px solid #C4C4C4;border-radius:6px;overflow:hidden}
   .mcard .qtyctl button{width:28px;flex-shrink:0;background:var(--sh-orange);color:#fff;display:flex;align-items:center;justify-content:center}
   .mcard .qtyctl button .ic{font-size:14px}
   .mcard .qtyctl button:disabled{background:#F7B98C;cursor:default}
   /* hover state of the Add button: editable qty stepper (type qty in the middle) */
-  .mcard .qtyhover{display:flex;width:100%;align-items:stretch;height:30px;border:1px solid var(--sh-orange);background:var(--sh-orange);border-radius:6px;overflow:hidden}
+  .mcard .qtyhover{display:flex;width:100%;align-items:stretch;height:30px;border:1px solid var(--sh-orange);background:var(--sh-orange);border-radius:6px;overflow:visible}
   .mcard .qtyhover button{width:28px;flex-shrink:0;background:var(--sh-orange);color:#fff;display:flex;align-items:center;justify-content:center}
+  .mcard .qtyhover button:first-child{border-radius:5px 0 0 5px}
+  .mcard .qtyhover button:last-child{border-radius:0 5px 5px 0}
   .mcard .qtyhover button .ic{font-size:14px;stroke-width:1.7}
-  .mcard .qtyhover input{flex:1;min-width:0;border:none;margin:2px;text-align:center;font-family:var(--sh-font);font-weight:700;font-size:13px;color:var(--sh-black);background:#fff}
+  .mcard .qtyhover input{flex:1;min-width:0;position:relative;z-index:1;border:1px solid #5BB3E0;border-radius:3px;margin:0;text-align:center;font-family:var(--sh-font);font-weight:700;font-size:13px;color:var(--sh-black);background:#fff;box-shadow:0 0 5px 1px rgba(91,179,224,.55)}
   .mcard .qtyhover input:focus{outline:none}
-  .mcard .qtyctl input{flex:1;width:auto;min-width:0;border:none;text-align:center;font:inherit;font-weight:700;font-size:13px;color:var(--sh-dark-gray)}
+  .mcard .qtyctl input{flex:1;width:auto;min-width:0;border:none;border-left:1px solid #C4C4C4;border-right:1px solid #C4C4C4;text-align:center;font:inherit;font-weight:700;font-size:13px;color:var(--sh-dark-gray);background:#fff}
   .mcard .pr{line-height:1.2}
   .mcard .price{font-size:12px;font-weight:700;color:var(--sh-tm-blue)}
   .mcard .pr .each{font-size:11px;color:var(--sh-mid-gray)}
   /* save expanders — shared toggle */
-  .mcard .boxsave{margin-top:3px}
+  .mcard .boxsave{margin-top:9px}
   .mcard .boxtoggle{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;width:100%}
   .mcard .boxtoggle .ic{font-size:14px;transition:transform .15s}
   .mcard .boxtoggle[aria-expanded="true"] .ic{transform:rotate(180deg)}
@@ -346,7 +446,7 @@
   /* Stock up & save (fieldset / legend-style tier box) */
   .mcard .boxsave.stock{position:relative}
   .mcard .boxsave.stock .boxbody{margin-top:8px}
-  .mcard .boxsave.stock:has(.boxtoggle[aria-expanded="true"]){border:1px solid var(--sh-border);border-radius:8px;padding:13px 14px 11px;margin-top:14px}
+  .mcard .boxsave.stock:has(.boxtoggle[aria-expanded="true"]){border:1px solid var(--sh-border);border-radius:0;padding:13px 14px 11px;margin-top:14px;max-width:360px}
   .mcard .boxsave.stock:has([aria-expanded="true"]) .boxbody{margin-top:0;border:none;padding:0}
   .mcard .boxsave.stock:has([aria-expanded="true"]) .boxtoggle{position:absolute;top:0;left:11px;transform:translateY(-50%);width:auto;background:#fff;padding:0 6px;color:var(--sh-mid-gray)}
   .mcard .tier{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:2px 0;line-height:1.15}
@@ -355,6 +455,27 @@
   .mcard .tier .tp b{font-size:12px;font-weight:700;color:var(--sh-tm-blue);margin-right:2px}
   .mcard .tcase{font-size:10px;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;text-align:right}
   .mcard .boxsave.stock:has([aria-expanded="true"]) .tcase{position:absolute;bottom:0;right:11px;transform:translateY(50%);background:#fff;padding:0 6px}
+  /* Marketplace variant footer + added state */
+  .mcard .mktwrap{display:flex;flex-direction:column;gap:3px}
+  .mcard .mktfoot{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:5px;row-gap:1px;margin-top:9px}
+  .mcard .mktfaster{display:inline-flex;align-items:center;gap:0;font-size:12px;font-weight:700;color:#5E9A41;line-height:1.25}
+  .mcard .mktfaster svg{margin-right:-1px;color:#5E9A41}
+  .mcard .mktbuyopts{font-size:12px;font-weight:700;color:var(--sh-link);align-self:flex-start;cursor:pointer;line-height:1.25}
+  .mcard .mktbuyopts:hover{text-decoration:underline}
+  .mcard .mktadded{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--sh-orange);text-transform:uppercase;letter-spacing:.3px}
+  .mcard .mktunit{align-items:center}
+  .mcard .mktqtybox{display:inline-flex;align-items:stretch;height:30px;width:90px;flex-shrink:0;border:1px solid #C4C4C4;border-radius:6px;overflow:hidden}
+  .mcard .mktqtybox .mq{flex:1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--sh-black)}
+  .mcard .mktedit{width:28px;flex-shrink:0;background:var(--sh-orange);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mcard .mktedit .ic{font-size:14px;stroke-width:2}
+  .mcard .mktqtyctl{display:flex;width:90px;flex-shrink:0;align-items:stretch;height:30px;border:1px solid #C4C4C4;border-radius:6px;overflow:hidden}
+  .mcard .mktqtyctl button{width:28px;flex-shrink:0;background:var(--sh-orange);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .mcard .mktqtyctl button .ic{font-size:14px}
+  .mcard .mktqtyctl input{flex:1;min-width:0;border:none;border-left:1px solid var(--sh-border);border-right:1px solid var(--sh-border);text-align:center;font-family:var(--sh-font);font-weight:700;font-size:13px;color:var(--sh-dark-gray);background:#fff}
+  .mcard .mktpr{display:flex;align-items:flex-end;gap:1px;line-height:1.2}
+  .mcard .mktpr .price{font-size:12px}
+  .mcard .mktinfo{background:none;border:none;padding:0;color:var(--sh-tm-blue);display:inline-flex;align-items:center;cursor:pointer}
+  .mcard .mktinfo .ic{font-size:16px}
 
   /* categories */
   .cats{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;padding:8px 0 4px}
@@ -371,46 +492,82 @@
   .section.alt{background:var(--sh-off-white)}
   /* light-gray dividers between sections — inset to the content gutters, same width as the page content */
   .section,.best,.repband,.recentwrap{position:relative}
-  .section::before,.best::before,.repband::before,.recentwrap::before{content:"";position:absolute;top:0;left:80px;right:80px;height:1px;background:var(--sh-border)}
-  @media(min-width:1920px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:calc((100% - 1760px)/2);right:calc((100% - 1760px)/2)} }
-  @media(min-width:1400px) and (max-width:1599px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:52px;right:52px} }
-  @media(min-width:1200px) and (max-width:1399px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:32px;right:32px} }
-  @media(min-width:992px) and (max-width:1199px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:20px;right:20px} }
-  @media(max-width:991px){ .section::before,.best::before,.repband::before,.recentwrap::before{left:16px;right:16px} }
+  .section::before,.best::before,.repband::before{content:"";position:absolute;top:0;left:80px;right:80px;height:1px;background:var(--sh-border)}
+  @media(min-width:1920px){ .section::before,.best::before,.repband::before{left:calc((100% - 1760px)/2);right:calc((100% - 1760px)/2)} }
+  @media(min-width:1400px) and (max-width:1599px){ .section::before,.best::before,.repband::before{left:52px;right:52px} }
+  @media(min-width:1200px) and (max-width:1399px){ .section::before,.best::before,.repband::before{left:32px;right:32px} }
+  @media(min-width:992px) and (max-width:1199px){ .section::before,.best::before,.repband::before{left:20px;right:20px} }
+  @media(max-width:991px){ .section::before,.best::before,.repband::before{left:16px;right:16px} }
 
   /* best picks band */
-  .best{background:var(--sh-bestbg);padding:0}
-  .bestgrid{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:stretch;padding:28px 0}
-  .bestpromo{display:flex;flex-direction:column;justify-content:center}
+  .best{background:#F5F5F5;padding:0}
+  .bestgrid{display:grid;grid-template-columns:250px 1fr;gap:28px;align-items:center;padding:28px 0}
+  .bestpromo{display:flex;flex-direction:column;justify-content:center;position:relative;z-index:0}
   .bestpromo .pl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue)}
-  .bestpromo h2{font-size:24px;font-weight:700;color:var(--sh-dark-brown);line-height:1.15;margin:6px 0 14px}
-  .bestpromo .pimg{height:150px}
-  .bestright .filters{margin-top:0;margin-bottom:14px}
+  .bestpromo h2{font-size:27px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:6px 0 16px}
+  .bestpromo .pimg{width:430px;max-width:none;height:auto;object-fit:contain;display:block}   /* larger; right side tucks behind the card */
+  .bestright{background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 1px 8px rgba(0,0,0,.07);position:relative;z-index:1}
+  .bestright .filters{margin-top:0;margin-bottom:16px}
+  .besthead{display:none}
+  .besthead h2{margin:0}
+  @media(max-width:767px){
+    .best{background:#fff}
+    .best .bestpromo{display:none}                 /* hide left promo on mobile */
+    .best .bestgrid{padding:18px 0}
+    .bestright{padding:0 16px}
+    .besthead{display:flex;margin-bottom:14px}
+    .bestright .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+    .bestright .filters::-webkit-scrollbar{display:none}
+    .bestright .filters .chip-f{flex-shrink:0}
+    #bestRail{--cardw:82% !important}              /* one card per view + peek; swipe to next */
+  }
+  @media(max-width:767px){
+    .promogrid .brandpromo{display:none}           /* hide left image on mobile */
+    .promogrid .pmhead .sub{display:none}
+    .na-cards{display:flex;overflow-x:auto;gap:14px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .na-cards::-webkit-scrollbar{display:none}
+    .na-cards>.fcard{flex:0 0 82%;scroll-snap-align:start}
+  }
 
-  /* full card */
-  .fcard{position:relative;border:1px solid var(--sh-border);background:#fff;display:flex;flex-direction:column;scroll-snap-align:start}
+  /* full card (best sellers / new arrivals) */
+  .fcard{position:relative;border:none;background:#fff;display:flex;flex-direction:column;scroll-snap-align:start}
   .fcard:hover{box-shadow:0 4px 12px rgba(0,0,0,.10)}
-  .fcard .cmp{position:absolute;top:8px;right:8px;font-size:11px;color:var(--sh-mid-gray);display:flex;align-items:center;gap:4px;z-index:2}
-  .fcard .thumb{aspect-ratio:1.3/1;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic);border-bottom:1px solid var(--sh-border)}
+  .fcard .savebtn{position:absolute;top:10px;right:10px;z-index:2;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer}
+  .fcard .thumb{aspect-ratio:1.15/1;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .fcard .thumb .ms{font-size:46px}
-  .fcard .bd{padding:11px;display:flex;flex-direction:column;gap:5px;flex:1}
-  .fcard .title{font-size:13px;line-height:1.3;color:var(--sh-link);font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:34px}
-  .fcard .sku{font-size:11px;color:var(--sh-mid-gray)}
-  .fcard .stars{color:var(--sh-orange);font-size:12px;letter-spacing:1px}
-  .fcard .stars span{color:var(--sh-mid-gray);letter-spacing:0;margin-left:4px;font-size:11px}
-  .fcard .price{font-size:11px}
-  .fcard .price .was{color:var(--sh-mid-gray);text-decoration:line-through;margin-right:5px}
-  .fcard .price .now{font-size:14px;font-weight:700;color:var(--sh-tm-blue)}
-  .fcard .price .ea{font-size:11px;color:var(--sh-mid-gray)}
-  .fcard .buyrow{display:flex;gap:8px;margin-top:4px;align-items:stretch}
-  .stepper{display:flex;border:1px solid var(--sh-border);height:34px}
-  .stepper button{width:26px;color:var(--sh-dark-brown);font-size:16px;display:flex;align-items:center;justify-content:center}
-  .stepper input{width:30px;border:none;border-left:1px solid var(--sh-border);border-right:1px solid var(--sh-border);text-align:center;font:inherit;font-weight:700;font-size:13px}
-  .fcard .atc{flex:1;background:var(--sh-orange);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:5px;height:34px;text-transform:uppercase;letter-spacing:.3px}
+  .fcard .thumb .pimg{width:100%;height:100%;object-fit:contain}
+  /* compact product card used by Popular products + New Arrivals */
+  .bestright .fcard .thumb .pimg,.na-cards .fcard .thumb .pimg{width:auto;height:auto;max-width:55%;max-height:78%}   /* smaller product image */
+  .bestright .fcard .thumb,.na-cards .fcard .thumb{aspect-ratio:1.9/1;justify-content:flex-start;padding-left:12px}   /* shorter + left-aligned image */
+  .bestright .fcard .bd,.na-cards .fcard .bd{padding:4px 12px 12px;gap:4px}
+  .bestright .fcard .title,.na-cards .fcard .title{min-height:0}
+  .bestright .fcard .fboxsave,.na-cards .fcard .fboxsave{margin-top:6px}
+  .bestright .fcard .atc,.na-cards .fcard .atc{height:40px;margin-top:10px}
+  .bestright .fcard .ful,.na-cards .fcard .ful{margin-top:8px}
+  .fcard .bd{padding:4px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .fcard .title{font-size:15px;line-height:1.3;color:var(--sh-link);font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:38px}
+  .fcard .sku{font-size:12px;color:var(--sh-mid-gray)}
+  .fcard .sku b{font-weight:700;color:var(--sh-dark-gray)}
+  .fcard .sku a{font-weight:700;color:var(--sh-link)}
+  .fcard .stars{color:var(--sh-orange);font-size:14px;letter-spacing:1px}
+  .fcard .stars span{color:var(--sh-mid-gray);letter-spacing:0;margin-left:4px;font-size:12px}
+  .fcard .unit{display:flex;align-items:center;gap:10px;margin-top:4px}
+  .fcard .stepper{display:flex;width:88px;height:32px;border:1px solid #C4C4C4;border-radius:6px;overflow:hidden;flex-shrink:0}
+  .fcard .stepper button{width:26px;flex-shrink:0;color:var(--sh-tm-blue);font-size:16px;display:flex;align-items:center;justify-content:center;background:#fff;border:none;cursor:pointer}
+  .fcard .stepper input{flex:1;width:auto;min-width:0;border:none;border-left:1px solid #C4C4C4;border-right:1px solid #C4C4C4;text-align:center;font:inherit;font-weight:700;font-size:13px;background:#fff}
+  .fcard .pr{display:flex;flex-direction:column;justify-content:center;line-height:1.2}
+  .fcard .pr .was{color:var(--sh-mid-gray);text-decoration:line-through;font-size:12px}
+  .fcard .pr .now{font-size:15px;font-weight:700;color:var(--sh-tm-blue)}
+  .fcard .pr .each{font-size:11px;color:var(--sh-mid-gray);font-weight:400}
+  .fcard .pr .bp{font-size:13px;color:var(--sh-dark-gray)}
+  .fcard .fboxsave{margin-top:8px}
+  .fcard .fboxlabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sh-mid-gray);margin-bottom:6px}
+  .fcard .atc{width:100%;background:var(--sh-orange);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;height:40px;text-transform:uppercase;letter-spacing:.4px;margin-top:12px;border:none;cursor:pointer}
   .fcard .atc:hover{filter:brightness(.94)}
-  .fcard .ful{font-size:11px;line-height:1.5;color:var(--sh-dark-gray)}
-  .fcard .ful .ok{color:var(--sh-success);font-weight:700}
-  .fcard .ful .ft{font-weight:700}
+  .fcard .atc .ic{font-size:18px}
+  .fcard .ful{display:flex;align-items:center;gap:6px;font-size:13px;line-height:1.4;color:var(--sh-dark-gray);margin-top:10px}
+  .fcard .ful b{font-weight:700;color:var(--sh-dark-brown)}
+  .fcard .ful .fic{color:var(--sh-tan);display:inline-flex;margin-left:2px}
 
   /* latest activities */
   .activities{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
@@ -453,7 +610,7 @@
 
   /* rep banner (desktop: number display-only + email + copy) */
   .repband{background:var(--sh-bestbg)}
-  .repband .wrap{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:48px;padding:28px 24px}
+  .repband .wrap{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:48px;padding:28px 24px}
   .repband .who{display:flex;align-items:center;gap:18px}
   .repband img{width:92px;height:92px;border-radius:50%;object-fit:cover}
   .repband .rl{font-size:12px;font-weight:700;letter-spacing:.2px;color:var(--sh-tan)}
@@ -463,9 +620,17 @@
   .repband .num{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
   .repband .num small{font-size:12px;font-weight:400;color:var(--sh-mid-gray);margin-left:8px}
   .repband .repright{border-left:1px solid #C7D8E8;padding-left:48px}
-  .repband .blurb{font-size:16px;color:var(--sh-dark-gray);margin-bottom:16px}
+  .repband .blurb{font-size:17px;color:var(--sh-dark-gray);margin-bottom:16px}
   .repband .acts{display:flex;gap:16px;max-width:580px}
   .repband .acts .btn{flex:1;text-transform:uppercase;letter-spacing:.4px}
+  .repband .acts .mob-call,.repband .acts .mob-text{display:none}   /* Call / Send Text are mobile-only */
+  @media(min-width:768px) and (max-width:1023px){   /* tablet: stack buttons, narrow right column so the left gets more room */
+    .repband .wrap{gap:32px}
+    .repband .repright{padding-left:32px}
+    .repband .blurb{font-size:15px;margin-bottom:14px;max-width:280px}
+    .repband .acts{flex-direction:column;max-width:210px;gap:12px}
+    .repband .acts .btn{width:100%;flex:none}
+  }
   .repband .btn-primary{background:var(--sh-blue);border-color:var(--sh-blue)}
   .repband .btn-primary:hover{background:#055f81;border-color:#055f81}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px;height:44px;padding:0 18px;white-space:nowrap;border:2px solid transparent}
@@ -476,34 +641,50 @@
   .btn-ghost:hover{background:var(--sh-light-tan-1)}
 
   /* replacement part finder */
-  .rpf{border:1px solid var(--sh-border);background:var(--sh-light-tan-1);display:flex;align-items:center;gap:28px;padding:22px 26px;flex-wrap:wrap}
-  .rpf .icons{display:grid;grid-template-columns:repeat(3,48px);gap:8px}
-  .rpf .icons .ph{width:48px;height:48px;border:1px solid var(--sh-border);background:#fff}
-  .rpf .main{flex:1;min-width:260px}
-  .rpf .h{font-size:20px;font-weight:700;color:var(--sh-dark-blue);display:flex;align-items:center;gap:8px}
-  .rpf .h .nw{background:var(--sh-orange);color:#fff;font-size:11px;padding:2px 6px;letter-spacing:.4px}
-  .rpf .s{font-size:13px;color:var(--sh-mid-gray);margin:4px 0 12px}
-  .rpf .ctrls{display:flex;gap:10px;flex-wrap:wrap}
-  .rpf select{height:44px;min-width:200px;border:1px solid var(--sh-border);background:#fff;font:inherit;font-size:14px;padding:0 12px}
+  .rpf{position:relative;background:#F5F5F5;display:flex;align-items:center;gap:0;padding:0 26px 0 0;min-height:172px;overflow:hidden}
+  .rpf .rpf-img{width:320px;max-width:34%;height:auto;flex-shrink:0;object-fit:contain;align-self:center}
+  .rpf .rpf-title{position:relative;flex-shrink:0;max-width:240px;font-size:30px;font-weight:400;line-height:1.08;color:var(--sh-dark-brown);padding:0 30px}
+  .rpf .rpf-new{position:absolute;top:-20px;right:24px;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;padding:3px 8px;border-radius:4px}
+  .rpf .rpf-div{width:1px;align-self:stretch;background:var(--sh-border);margin:34px 0}
+  .rpf .rpf-body{flex:1;min-width:0;padding:0 0 0 30px;display:flex;flex-direction:column;gap:14px}
+  .rpf .rpf-sub{font-size:16px;color:var(--sh-mid-gray)}
+  .rpf .rpf-ctrls{display:flex;gap:18px}
+  .rpf .rpf-select{flex:1;min-width:0;display:flex;align-items:center;gap:12px;height:54px;padding:0 16px;border:1px solid var(--sh-border);border-radius:4px;background:#fff;cursor:pointer}
+  .rpf .rpf-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;border:1.5px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .rpf .rpf-lbl{flex:1;font-weight:700;font-size:15px;color:var(--sh-dark-brown)}
+  .rpf .rpf-select .chev{color:var(--sh-dark-gray);font-size:18px}
+  .rpf .rpf-collapse{position:absolute;top:16px;right:18px;background:none;border:none;cursor:pointer;color:var(--sh-tm-blue);display:flex}
+  .rpf .rpf-collapse .ic{font-size:20px;stroke-width:2.4}
+  @media(max-width:767px){
+    .rpf{flex-wrap:wrap;padding:18px 16px 20px;min-height:0;align-items:flex-start}
+    .rpf .rpf-img{width:46%;max-width:240px}
+    .rpf .rpf-title{flex:1;max-width:none;padding:14px 0 0 14px;font-size:25px}
+    .rpf .rpf-div{display:none}
+    .rpf .rpf-body{flex-basis:100%;padding:18px 0 0}
+    .rpf .rpf-ctrls{flex-direction:column}
+  }
 
   /* RIDGID / new arrivals */
   .promogrid{display:grid;grid-template-columns:28% 1fr;gap:24px;align-items:stretch}
-  .brandpromo{border:1px solid var(--sh-border);padding:22px;display:flex;flex-direction:column}
-  .brandpromo .bw{font-size:24px;font-weight:700;color:#E2231A;letter-spacing:1px}
-  .brandpromo .bt{font-size:18px;font-weight:700;color:var(--sh-dark-brown);margin:8px 0}
-  .brandpromo .bimg{height:160px;margin-top:auto}
+  .brandpromo{display:flex;align-items:center;justify-content:center}
+  .brandpromo .bimg{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
   .na-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 
   /* tools */
-  .toolsgrid{display:grid;grid-template-columns:62% 1fr;gap:24px}
-  .toolsbanner{background:var(--sh-light-tan-2);padding:28px;display:flex;flex-direction:column;gap:14px;min-height:300px}
-  .toolsbanner h2{font-size:24px;font-weight:700;color:var(--sh-dark-brown);max-width:280px}
-  .toolsbanner .seeall{align-self:flex-start;border:2px solid var(--sh-tm-blue);color:var(--sh-tm-blue);font-weight:700;font-size:12px;padding:9px 18px;text-transform:uppercase;letter-spacing:.4px}
-  .toolsbanner .timg{margin-top:auto;height:150px}
-  .toolstiles{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px}
-  .ttile{border:1px solid var(--sh-border);display:flex;flex-direction:column}
-  .ttile .timg{height:110px}
-  .ttile .tl{font-size:13px;font-weight:700;color:var(--sh-dark-gray);padding:10px 12px;display:flex;align-items:center;gap:4px}
+  .toolsgrid{display:grid;grid-template-columns:60% 1fr;gap:22px}
+  .toolsbanner{background:#F5F5F5;padding:40px 28px 0;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
+  .toolsbanner h2{font-size:30px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:0}
+  .toolsbanner .seeall{margin-top:18px;border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue);background:none;font-weight:700;font-size:12px;padding:11px 30px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer}
+  .toolsbanner .seeall:hover{background:#EFF5FD}
+  .toolsbanner .timg{margin-top:22px;width:100%;max-width:780px;height:auto;display:block}
+  .toolstiles{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
+  .ttile{display:flex;flex-direction:column;text-decoration:none}
+  .ttile .tbox{background:#F5F5F5;aspect-ratio:1.35/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .ttile .tbox img{width:100%;height:100%;object-fit:contain;display:block}
+  .ttile .tl{font-size:15px;font-weight:700;color:var(--sh-dark-brown);padding:10px 2px 0;display:flex;align-items:center;justify-content:center;gap:5px}
+  .ttile .tl .ic{color:var(--sh-dark-brown)}
+  @media(min-width:1400px){ .toolsbanner h2{font-size:40px} }
+  @media(min-width:1920px){ .toolsbanner h2{font-size:50px} }
 
   /* category promo tiles */
   .catpromo{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:4px 0}
@@ -518,9 +699,10 @@
   .cpt .cpt-img .ms{font-size:46px}
 
   /* parts for tools */
-  .parts{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-  .pcard{border:1px solid var(--sh-border);text-align:center}
-  .pcard .pimg{aspect-ratio:1;background:var(--sh-light-tan-1)}
+  .parts{display:grid;grid-template-columns:repeat(6,1fr);gap:26px}
+  .pcard{border:1px solid var(--sh-border);text-align:center;background:#fff;border-radius:8px;overflow:hidden}
+  .pcard .pimg{aspect-ratio:1.33/1;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:18px}
+  .pcard .pimg img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
   .pcard .pl{font-size:12px;font-weight:700;color:var(--sh-dark-gray);padding:10px;display:inline-flex;align-items:center;gap:4px}
 
   /* brands directory */
@@ -573,6 +755,7 @@
     .acctpanel{grid-template-columns:1fr}.acctinfo{border-right:none;border-bottom:1px solid var(--sh-border)}
     .cats{grid-template-columns:repeat(4,1fr)}
     .bestgrid,.promogrid,.toolsgrid{grid-template-columns:1fr}
+    .bestpromo .pimg{width:100%;max-width:320px}
     .catpromo{grid-template-columns:repeat(2,1fr)}
     .na-cards{grid-template-columns:repeat(2,1fr)}
     .parts{grid-template-columns:repeat(3,1fr)}
@@ -599,9 +782,19 @@
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
     .na-cards{grid-template-columns:1fr 1fr}
-    .repband .wrap{grid-template-columns:1fr;gap:18px}
+    .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 20px}
     .repband .repright{border-left:none;padding-left:0}
-    .repband .acts{flex-direction:column;max-width:none}
+    .repband .acts{flex-direction:column;max-width:none;gap:12px}
+    /* mobile rep banner: blue phone, no wait time, 4 stacked buttons */
+    .repband .who{align-items:center;gap:14px}
+    .repband img{width:84px;height:84px}
+    .repband .wait{display:none}
+    .repband .num{font-size:24px;color:var(--sh-blue);margin-top:2px}
+    .repband .num small{display:none}
+    .repband .acts .btn{flex:none;width:100%}
+    .repband .acts .mob-call,.repband .acts .mob-text{display:inline-flex}   /* show Call / Send Text */
+    .repband .acts .the-email{background:#fff;color:var(--sh-blue);border-color:var(--sh-blue)}   /* Email becomes outline; Call is the filled one */
+    .repband .acts .the-email:hover{background:var(--sh-light-tan-1)}
     .mcard .rm{opacity:1}
   }
 
@@ -643,21 +836,190 @@
     .acctpanel .mcard .qtyctl{height:30px}
     .acctpanel .mcard .qtyctl button{width:27px}
     .acctpanel .mcard .pr{text-align:right}
-    .acctpanel .mcard .boxsave{grid-area:box;margin-top:8px}
-    .acctpanel .mcard .boxsave .boxtoggle{justify-content:flex-end}   /* right-align toggle */
+    .acctpanel .mcard .boxsave{grid-area:box;margin-top:8px;text-align:right}
+    .acctpanel .mcard .boxsave .boxtoggle{justify-content:flex-end;width:100%;text-align:right}   /* right-align toggle */
+    .acctpanel .mcard .boxsave.stock:has([aria-expanded="true"]){margin-left:auto;max-width:none;width:100%}  /* fill the row width on mobile */
     .acctpanel .mcard .boxsave.stock:has([aria-expanded="true"]) .boxtoggle{left:auto;right:11px}  /* keep stock legend on the right edge */
     .acctpanel .mcard .boxsave .unit{align-items:flex-end}            /* box-up: right-align price+stepper */
     .acctpanel .mcard .boxsave .buyunit{width:84px}
     .acctpanel .mcard .boxbody .bm{display:inline;white-space:nowrap;margin-left:6px}   /* "$55.00 box of 50" one line */
     .acctpanel .mcard .boxbody .ealn{display:block}                                     /* "$1.10 each" own line */
+    .acctpanel .mcard.mkt .mktwrap{display:contents}                                    /* let unit + footer flow into the shared grid */
+    .acctpanel .mcard.mkt .mktfoot{grid-area:box;margin-top:8px;flex-direction:column;align-items:flex-end;text-align:right}   /* stack on two lines, right-aligned on mobile */
+    .acctpanel .mcard.mkt .mktfoot .mktbuyopts{align-self:flex-end}
+    .acctpanel .mcard.mkt .mktunit{align-items:flex-end}
+    .acctpanel .mcard.mkt .mktpr{justify-content:flex-end;align-self:flex-end}
+    .acctpanel .mcard.mkt .mktpr .price{text-align:right}                                 /* numbers right-aligned; info stays after */
+    .acctpanel .endcard{min-height:120px;margin:8px 0}                                   /* match card heights on mobile */
     .acctpanel .pager{justify-content:flex-end;margin-top:10px}
   }
+
+  /* ===== More Buying Options drawer ===== */
+  .mktdrawer{position:fixed;inset:0;z-index:9000;display:none}
+  .mktdrawer.open{display:block}
+  .mktscrim{position:absolute;inset:0;background:rgba(0,0,0,.42);opacity:0;transition:opacity .25s}
+  .mktdrawer.open .mktscrim{opacity:1}
+  .mktpanel{position:absolute;top:0;right:0;height:100%;width:430px;max-width:92vw;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.18);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s ease}
+  .mktdrawer.open .mktpanel{transform:translateX(0)}
+  .mkthead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;background:#F4F2EE;border-bottom:1px solid var(--sh-border);flex-shrink:0}
+  .mkthead h2{font-size:21px;font-weight:700;color:var(--sh-dark-brown);margin:0}
+  .mktclose{background:none;border:none;color:var(--sh-dark-gray);display:flex;cursor:pointer;padding:2px}
+  .mktclose .ic{font-size:24px;stroke-width:2}
+  .mktprod{display:flex;gap:14px;padding:18px 22px;border-bottom:1px solid var(--sh-border)}
+  .mktprod .pimg{width:64px;height:64px;flex-shrink:0;object-fit:contain;background:var(--sh-img-bg)}
+  .mktprod .pt{font-size:16px;font-weight:700;line-height:1.3;color:var(--sh-dark-brown)}
+  .mktprod .ps{font-size:12px;color:var(--sh-mid-gray);margin-top:5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .mktprod .ps a{color:var(--sh-link);font-weight:700}
+  .mktprod .stars{color:var(--sh-orange);letter-spacing:1px;font-size:13px}
+  .mktprod .stars small{color:var(--sh-mid-gray);font-size:11px;margin-left:3px}
+  .mktavail{padding:16px 22px 4px;font-size:15px;color:var(--sh-dark-brown)}
+  .mktavail .mktviewdet{color:var(--sh-link);font-weight:700;margin-left:8px}
+  .mktoffers{padding:6px 22px 22px;overflow-y:auto;flex:1}
+  .mktoffer{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:20px 0;border-bottom:1px solid var(--sh-border)}
+  .mktoffer:last-child{border-bottom:none}
+  .offbadge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--sh-dark-brown);border:1px solid #C4C4C4;border-radius:999px;padding:3px 10px;margin-bottom:10px}
+  .offget{display:flex;align-items:center;gap:8px;font-size:17px;color:var(--sh-dark-brown)}
+  .offget b{font-weight:700}
+  .offful{font-size:13px;color:var(--sh-mid-gray);margin-top:6px;display:flex;align-items:center;gap:5px}
+  .offful b{color:var(--sh-dark-brown);font-weight:700}
+  .offful .ic{font-size:15px;color:var(--sh-tm-blue)}
+  .offr{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding-top:30px}
+  .offr .buyunit2{width:90px}
+  .offr .offprice{font-size:16px;font-weight:700;color:var(--sh-tm-blue)}
+  .offr .offprice small{font-size:12px;font-weight:400;color:var(--sh-mid-gray);margin-left:3px}
+  .buyunit2 .add{width:100%;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;font-size:13px;font-weight:700;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:pointer}
+  .buyunit2 .add .addplus{font-size:18px;stroke-width:3.4;color:var(--sh-orange)}
+  .qctl2{display:flex;width:100%;height:30px;border:1px solid var(--sh-orange);border-radius:6px;overflow:hidden}
+  .qctl2 button{width:28px;flex-shrink:0;background:var(--sh-orange);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .qctl2 button .ic{font-size:14px}
+  .qctl2 input{flex:1;min-width:0;border:none;text-align:center;font-family:var(--sh-font);font-weight:700;font-size:13px;color:var(--sh-black)}
+  @media(max-width:767px){ .mktpanel{width:100%;max-width:100%} .mkthead{padding:16px} .mktprod,.mktavail,.mktoffers{padding-left:16px;padding-right:16px} }
+
+  /* price-range info tooltip (multiple suppliers breakdown) */
+  .mktinfopop{position:fixed;display:none;z-index:9600;width:300px;max-width:92vw;background:#fff;border:1px solid var(--sh-border);box-shadow:0 12px 30px rgba(0,0,0,.20);padding:16px 18px;text-align:left;text-transform:none}
+  .mktinfopop.show{display:block}
+  .mktinfopop .mip-arrow{position:absolute;top:-8px;width:14px;height:14px;background:#fff;border-left:1px solid var(--sh-border);border-top:1px solid var(--sh-border);transform:rotate(45deg)}
+  .mktinfopop.above .mip-arrow{top:auto;bottom:-8px;transform:rotate(225deg)}
+  .mktinfopop .mip-head b{font-size:15px;font-weight:700;color:var(--sh-dark-brown);line-height:1.25;display:block}
+  .mktinfopop .mip-sub{font-size:14px;color:var(--sh-dark-gray);margin-top:1px}
+  .mktinfopop .mip-item{padding:13px 0;border-bottom:1px solid var(--sh-border)}
+  .mktinfopop .mip-item.last{border-bottom:none;padding-bottom:2px}
+  .mktinfopop .mip-get{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--sh-dark-brown)}
+  .mktinfopop .mip-cart{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:var(--sh-orange);margin:5px 0}
+  .mktinfopop .mip-cart .mip-price{color:var(--sh-tm-blue)}
+  .mktinfopop .mip-cart .mip-each{color:var(--sh-mid-gray);font-weight:400}
+  .mktinfopop .mip-ful{font-size:13px;color:var(--sh-mid-gray)}
+  .mktinfopop .mip-ful b{color:var(--sh-dark-brown);font-weight:700}
+
+  /* ===== Card states gallery (documentation view) ===== */
+  .modetoggle .mtsep{width:1px;height:22px;background:var(--sh-border);margin:0 2px}
+  #cardGallery{display:none;background:#FAFAF8;min-height:100vh}
+  body.gallery>*{display:none!important}
+  body.gallery>#cardGallery{display:block!important}
+  body.gallery>.modetoggle{display:flex!important}
+  #cardGallery .ginner{max-width:1180px;margin:0 auto;padding:48px 40px 90px}
+  #cardGallery .ghead h1{font-size:30px;font-weight:700;color:var(--sh-dark-brown);margin:0 0 6px;font-family:'interstate',var(--sh-font)}
+  #cardGallery .ghead p{font-size:15px;color:var(--sh-mid-gray);margin:0 0 8px;max-width:680px}
+  #cardGallery .gtitle{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--sh-tan);margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--sh-border)}
+  #cardGallery .grow{display:flex;flex-wrap:wrap;gap:22px}
+  #cardGallery .gx{width:240px}
+  #cardGallery .gcard{border:1px solid var(--sh-border);border-radius:8px;padding:14px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  #cardGallery .gcard .mcard,#cardGallery .gcard .skcard{pointer-events:none}
+  #cardGallery .gx figcaption{margin-top:11px}
+  #cardGallery .gx figcaption b{display:block;font-size:13px;font-weight:700;color:var(--sh-dark-brown);margin-bottom:2px}
+  #cardGallery .gx figcaption span{font-size:12px;line-height:1.4;color:var(--sh-mid-gray)}
+  #cardGallery .gemptybox{display:flex;align-items:center;justify-content:center;min-height:150px;background:var(--sh-light-tan-1);border-radius:6px}
+  /* mobile-layout preview frame (replicates the ≤767px row layout on any viewport) */
+  #cardGallery .gx.gxwide{width:374px;max-width:100%}
+  #cardGallery .gmobile{border:1px solid var(--sh-border);border-radius:14px;background:#fff;padding:6px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  #cardGallery .gmobile .rail{display:block}
+  #cardGallery .gmobile .mcard,#cardGallery .gmobile .endcard{pointer-events:none}
+  #cardGallery .gmobile .endcard{min-height:120px;margin:8px 0}
+  #cardGallery .gmobile .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:14px 0;border:none;border-bottom:1px solid var(--sh-border);position:relative;width:auto}
+  #cardGallery .gmobile .mcard:last-child{border-bottom:none}
+  #cardGallery .gmobile .mcard .thumb{width:64px;height:64px;flex-shrink:0;margin:0}
+  #cardGallery .gmobile .mcard .rm{top:6px;left:6px;right:auto;width:20px;height:20px;opacity:1}
+  #cardGallery .gmobile .mcard .rm .ic{font-size:12px}
+  #cardGallery .gmobile .mcard .bd{flex:1;min-width:0;padding:0;display:grid;grid-template-columns:1fr auto;grid-template-areas:'title buy' 'sku buy' 'box box';column-gap:10px;row-gap:2px}
+  #cardGallery .gmobile .mcard .title{grid-area:title;min-height:0}
+  #cardGallery .gmobile .mcard .sku{grid-area:sku}
+  #cardGallery .gmobile .mcard .unit{grid-area:buy;flex-direction:column;align-items:flex-end;gap:3px;margin-top:0}
+  #cardGallery .gmobile .mcard .buyunit{width:84px}
+  #cardGallery .gmobile .mcard .boxsave{grid-area:box;margin-top:8px}
+  #cardGallery .gmobile .mcard.mkt .mktwrap{display:contents}
+  #cardGallery .gmobile .mcard.mkt .mktfoot{grid-area:box;margin-top:8px;flex-direction:column;align-items:flex-end;text-align:right}
+  #cardGallery .gmobile .mcard.mkt .mktfoot .mktbuyopts{align-self:flex-end}
+  #cardGallery .gmobile .mcard.mkt .mktunit{align-items:flex-end}
+  #cardGallery .gmobile .mcard.mkt .mktpr{justify-content:flex-end;align-self:flex-end}
+  #cardGallery .gmobile .mcard.mkt .mktpr .price{text-align:right}
+  @media(max-width:767px){ #cardGallery .ginner{padding:28px 16px 60px} #cardGallery .grow{gap:16px} #cardGallery .gx{width:100%;max-width:340px} }
+
+  /* ===== Hero Banner Admin (toggle view) ===== */
+  #bannerAdmin{display:none;position:relative;z-index:1;min-height:100vh;background:#F4F5F7;color:#212529;font-family:'Inter','Segoe UI',Roboto,Arial,sans-serif;--ba-blue:#07729C;--ba-line:#E2E2E2;--ba-gray:#6b7280;--ba-ink:#212529}
+  body.banneradmin>*{display:none!important}
+  body.banneradmin>#bannerAdmin{display:block!important}
+  body.banneradmin>.modetoggle{display:flex!important}
+  #bannerAdmin .ba-topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:14px 24px;background:#fff;border-bottom:1px solid var(--ba-line)}
+  #bannerAdmin .ba-topbar h1{font-size:18px;margin:0;font-weight:800;letter-spacing:-.2px}
+  #bannerAdmin .ba-sub{font-size:12px;color:var(--ba-gray)}
+  #bannerAdmin .ba-sp{flex:1}
+  #bannerAdmin .ba-topbar button{font-family:inherit;font-weight:700;font-size:13px;border-radius:7px;cursor:pointer;padding:9px 16px;border:1px solid var(--ba-line);background:#fff;color:var(--ba-ink)}
+  #bannerAdmin .ba-topbar button.ba-primary{background:var(--ba-blue);border-color:var(--ba-blue);color:#fff}
+  #bannerAdmin .ba-grid{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 57px)}
+  #bannerAdmin .ba-side{border-right:1px solid var(--ba-line);background:#fff;padding:14px}
+  #bannerAdmin .ba-side h2{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--ba-gray);margin:4px 4px 10px}
+  #bannerAdmin .ba-cohort{display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;border:1px solid transparent;border-radius:8px;padding:10px 12px;background:none;cursor:pointer;font-family:inherit;margin-bottom:4px}
+  #bannerAdmin .ba-cohort:hover{background:#F4F5F7}
+  #bannerAdmin .ba-cohort.on{background:#EAF4F8;border-color:var(--ba-blue)}
+  #bannerAdmin .ba-cohort .cn{font-weight:700;font-size:14px;color:var(--ba-ink)}
+  #bannerAdmin .ba-cohort .cm{font-size:11px;color:var(--ba-gray)}
+  #bannerAdmin .ba-main{padding:24px;max-width:1080px}
+  #bannerAdmin .ba-pvlabel{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--ba-gray);margin:0 0 8px}
+  #bannerAdmin .ba-preview{border:1px solid var(--ba-line);border-radius:10px;overflow:hidden;background:#fff}
+  #bannerAdmin .pv-band{position:relative;overflow:hidden}
+  #bannerAdmin .pv-inner{position:relative;max-width:1400px;margin:0 auto;height:100%;overflow:hidden}
+  #bannerAdmin .pv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+  #bannerAdmin .pv-fade{position:absolute;inset:0;pointer-events:none}
+  #bannerAdmin .pv-text{position:absolute;left:6%;top:50%;transform:translateY(-50%);z-index:2;max-width:46%}
+  #bannerAdmin .pv-icon{position:absolute;z-index:3;transform:translate(-50%,-50%);max-width:none;height:auto;pointer-events:none}
+  #bannerAdmin .ba-clearbtn{font-family:inherit;font-weight:700;font-size:13px;border:1px solid var(--ba-line);background:#fff;color:var(--ba-ink);border-radius:8px;padding:9px 14px;cursor:pointer;width:max-content}
+  #bannerAdmin .pv-text h3{margin:0;font-family:'interstate',sans-serif;font-weight:700;line-height:1.12}
+  #bannerAdmin .pv-text p{margin:7px 0 0;font-size:14px;line-height:1.3;opacity:.95}
+  #bannerAdmin .pv-cta{display:flex;align-items:center;gap:12px;margin-top:14px}
+  #bannerAdmin .pv-btn{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--ba-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 22px;border-radius:2px;text-decoration:none}
+  #bannerAdmin .pv-note{height:34px}
+  #bannerAdmin .pv-meta{display:flex;gap:18px;padding:10px 14px;border-top:1px solid var(--ba-line);font-size:12px;color:var(--ba-gray)}
+  #bannerAdmin .pv-meta b{color:var(--ba-ink)}
+  #bannerAdmin .ba-form{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+  #bannerAdmin .ba-form h2{grid-column:1/-1;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--ba-gray);margin:6px 0 0;border-top:1px solid var(--ba-line);padding-top:16px}
+  #bannerAdmin .fld{display:flex;flex-direction:column;gap:6px}
+  #bannerAdmin .fld.full{grid-column:1/-1}
+  #bannerAdmin .fld label{font-size:13px;font-weight:700}
+  #bannerAdmin .fld label b{color:var(--ba-blue);font-weight:700}
+  #bannerAdmin .fld input[type=text],#bannerAdmin .fld textarea{font-family:inherit;font-size:14px;border:1px solid var(--ba-line);border-radius:8px;padding:9px 11px}
+  #bannerAdmin .fld textarea{resize:vertical;min-height:60px}
+  #bannerAdmin .fld input[type=range]{width:100%}
+  #bannerAdmin .seg{display:flex;border:1px solid var(--ba-line);border-radius:8px;overflow:hidden;width:max-content}
+  #bannerAdmin .seg button{font-family:inherit;border:none;background:#fff;padding:9px 18px;font-weight:700;font-size:13px;color:var(--ba-ink);cursor:pointer}
+  #bannerAdmin .seg button.on{background:var(--ba-blue);color:#fff}
+  #bannerAdmin .check{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px}
+  #bannerAdmin .check input{width:18px;height:18px}
+  #bannerAdmin .color{display:flex;align-items:center;gap:10px}
+  #bannerAdmin .color input[type=color]{width:46px;height:38px;border:1px solid var(--ba-line);border-radius:8px;padding:3px;background:#fff;cursor:pointer}
+  #bannerAdmin .color input[type=text]{flex:1;text-transform:uppercase;font-family:inherit;font-size:14px;border:1px solid var(--ba-line);border-radius:8px;padding:9px 11px}
+  #bannerAdmin .hint{font-size:12px;color:var(--ba-gray)}
+  #bannerAdmin .ba-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ba-ink);color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
+  #bannerAdmin .ba-toast.show{opacity:1}
+  @media(max-width:860px){ #bannerAdmin .ba-grid{grid-template-columns:1fr} #bannerAdmin .ba-side{border-right:none;border-bottom:1px solid var(--ba-line)} #bannerAdmin .ba-form{grid-template-columns:1fr} }
 </style>
 </head>
-<body class="mode-topbar">
+<body class="mode-topbar" data-cohort="tm">
 
 <!-- prototype toggle: account-info layout -->
-<div class="modetoggle">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">New / empty</button></div>
+<div class="modetoggle">
+  <div class="mtrow">Cohort:<button data-cohort="tm" class="on">TM Purchaser</button><button data-cohort="ntm-purchaser">NTM Purchaser</button><button data-cohort="ntm-nonpurchaser">NTM Non-Purchaser</button><button data-cohort="guest">Guest User</button></div>
+  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><span class="mtsep"></span><button data-view="gallery">Card states</button><span class="mtsep"></span><button data-view="banneradmin">Banner admin</button></div>
+</div>
 
 <!-- MOBILE rep bar (shows on phones only) -->
 <div class="repbar">
@@ -727,6 +1089,22 @@
     <span class="tmtag"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" class="tmtag-img"></span>
   </div>
 </section>
+<section class="herobig" aria-roledescription="carousel" aria-label="Promotions">
+ <div class="hbinner">
+  <div class="hbtrack" id="hbTrack">
+    <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Get More from Every Order — Join the TradeMaster Program for free"></picture></div>
+    <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Promotion banner 2"></picture></div>
+    <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Promotion banner 3"></picture></div>
+  </div>
+  <div class="hbtext hbtext-shop"><h2>Everything You Need, Ready to Ship</h2><p>Shop 700+ trusted brands and 350,000+ in-stock products.</p></div>
+  <div class="hbtext hbtext-apply"><h2>Are You A Pro?</h2><p>Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!</p>
+    <div class="hbcta"><a href="#" class="hbbtn">Apply Now</a><img class="hbnote-img" src="assets/text_in3mins.svg" alt="less than 3 minutes!"></div>
+  </div>
+  <button class="hbarrow prev" id="hbPrev" aria-label="Previous banner"><svg class="hbchev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline class="o" points="15 5 8 12 15 19"/><polyline class="i" points="15 5 8 12 15 19"/></svg></button>
+  <button class="hbarrow next" id="hbNext" aria-label="Next banner"><svg class="hbchev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline class="o" points="9 5 16 12 9 19"/><polyline class="i" points="9 5 16 12 9 19"/></svg></button>
+  <div class="hbdots" id="hbDots"></div>
+ </div>
+</section>
 
 <!-- ACCOUNT PANEL -->
 <div class="wrap acctwrap" style="padding-bottom:0">
@@ -795,14 +1173,12 @@
 </div>
 </div>
 
-<!-- CATEGORIES -->
-<section class="section"><div class="wrap"><div class="catsinner">
-  <div class="seclabel">Shop Your Categories</div><div class="secsub">Top picks categories for you</div>
-  <div class="cats" id="cats"></div>
-</div></div></section>
-
-<!-- RECENTLY VIEWED (moved below categories) -->
-<div class="wrap acctwrap recentwrap"><div class="acctpanel"><div>
+<!-- SHOP YOUR CATEGORIES + RECENTLY VIEWED (one container) -->
+<div class="wrap acctwrap recentwrap"><div class="acctpanel crpanel"><div>
+  <section class="pmod" id="catSection">
+    <div class="pmhead"><h2>Shop Your Categories</h2><span class="sub">Top picks categories for you</span></div>
+    <div class="cats" id="cats"></div>
+  </section>
   <section class="pmod" id="recentSection">
     <div class="pmhead"><h2>Recently Viewed</h2><span class="sub">Pick up where you left off</span><span class="va">View all →</span></div>
     <div class="railwrap"><div class="rail" id="recentRail"></div></div>
@@ -813,11 +1189,12 @@
 <!-- BEST PICKS -->
 <section class="best"><div class="wrap"><div class="bestgrid">
   <div class="bestpromo">
-    <div class="pl">Best picks for you</div>
+    <div class="pl">Best Pick for You</div>
     <h2>Popular products in your categories</h2>
-    <div class="ph pimg">Featured products</div>
+    <img class="pimg" src="assets/Group_Heating.png" alt="Popular products" loading="lazy">
   </div>
   <div class="bestright">
+    <div class="pmhead besthead"><h2>Best Picks For You</h2><span class="va">View All →</span></div>
     <div class="filters" id="bfilters"><button class="chip-f chip-reset" aria-pressed="true">All</button><button class="chip-f" aria-pressed="false">Pumps</button><button class="chip-f" aria-pressed="false">Copper Fittings</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Boilers</button><button class="chip-f" aria-pressed="false">Water Heaters</button><button class="chip-f" aria-pressed="false">Thermostats</button><button class="chip-f" aria-pressed="false">Cables</button></div>
     <div class="railwrap"><div class="rail" id="bestRail"></div></div>
     <div class="pager" data-rail="bestRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
@@ -836,7 +1213,7 @@
 <!-- REP BANNER (desktop: display-only number + Email + Copy) -->
 <section class="repband"><div class="wrap">
   <div class="who">
-    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=70&auto=format&fit=crop" alt="Larry, your dedicated rep">
+    <img src="assets/help_img_tm_larry.png" alt="Larry, your dedicated rep">
     <div>
       <div class="rl">Your Dedicated Rep</div>
       <div class="nm">Larry</div>
@@ -847,33 +1224,33 @@
   <div class="repright">
     <div class="blurb">Questions on an order, a quote, or bulk pricing? I've got you.</div>
     <div class="acts">
-      <a href="#" class="btn btn-primary">Email Larry</a>
+      <a href="#" class="btn btn-primary mob-call">Call Larry</a>
+      <a href="#" class="btn btn-ghost mob-text">Send Text to Larry</a>
+      <a href="#" class="btn btn-primary the-email">Email Larry</a>
       <a href="#" class="btn btn-ghost">Request a Quote</a>
     </div>
   </div>
 </div></section>
 
 <!-- REPLACEMENT PART FINDER -->
-<section class="section"><div class="wrap"><div class="rpf">
-  <div class="icons"><span class="ph">▦</span><span class="ph">▦</span><span class="ph">▦</span><span class="ph">▦</span><span class="ph">▦</span><span class="ph">▦</span></div>
-  <div class="main">
-    <div class="h">Replacement Part Finder <span class="nw">NEW</span></div>
-    <div class="s">Quickly find parts from over 100,000 unique models</div>
-    <div class="ctrls">
-      <select><option>Brand</option></select>
-      <select><option>Model Number</option></select>
-      <a href="#" class="btn btn-primary" style="text-decoration:none">Find parts</a>
+<section class="section"><div class="rpf">
+  <img class="rpf-img" src="assets/replacement_part.webp" alt="Replacement parts" loading="lazy">
+  <div class="rpf-title">Replacement Part Finder<span class="rpf-new">NEW!</span></div>
+  <div class="rpf-div"></div>
+  <div class="rpf-body">
+    <div class="rpf-sub">Quickly find parts from over 100,000 unique models</div>
+    <div class="rpf-ctrls">
+      <button class="rpf-select" type="button"><span class="rpf-num">1</span><span class="rpf-lbl">Brand</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <button class="rpf-select" type="button"><span class="rpf-num">2</span><span class="rpf-lbl">Model Number</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
     </div>
   </div>
-  <button class="ib" aria-label="Collapse"><svg class="ic" viewBox="0 0 24 24" style="font-size:20px;color:var(--sh-mid-gray)"><polyline points="6 15 12 9 18 15"/></svg></button>
-</div></div></section>
+  <button class="rpf-collapse" aria-label="Collapse"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
+</div></section>
 
 <!-- RIDGID + NEW ARRIVALS -->
-<section class="section alt"><div class="wrap"><div class="promogrid">
+<section class="section"><div class="wrap"><div class="promogrid">
   <div class="brandpromo">
-    <div class="bw">RIDGID</div>
-    <div class="bt">New Products Built on a Century of Strength</div>
-    <div class="ph bimg">RIDGID tools</div>
+    <img class="bimg" src="assets/newarrival1.webp" alt="New arrivals" loading="lazy">
   </div>
   <div>
     <div class="pmhead" style="margin-bottom:14px"><h2>New Arrivals</h2><span class="sub">Just for you</span><span class="va">View all →</span></div>
@@ -884,15 +1261,15 @@
 <!-- TOOLS -->
 <section class="section"><div class="wrap"><div class="toolsgrid">
   <div class="toolsbanner">
-    <h2>Tools to help you get the job done</h2>
-    <button class="seeall">See all</button>
-    <div class="ph timg">Tool collage</div>
+    <h2>Tools to help you<br>get the job done</h2>
+    <a class="seeall" href="#">See all</a>
+    <img class="timg" src="assets/tool_hero.webp" alt="Pro tools" loading="lazy">
   </div>
   <div class="toolstiles">
-    <a class="ttile" href="#"><span class="ph timg">Plumbing tools</span><span class="tl">Plumbing Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-    <a class="ttile" href="#"><span class="ph timg">PEX tools</span><span class="tl">PEX Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-    <a class="ttile" href="#"><span class="ph timg">HVAC tools</span><span class="tl">HVAC Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-    <a class="ttile" href="#"><span class="ph timg">Electrical tools</span><span class="tl">Electrical Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_plumbing.webp" alt="" loading="lazy"></span><span class="tl">Plumbing Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_pex.webp" alt="" loading="lazy"></span><span class="tl">PEX Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_hvac.webp" alt="" loading="lazy"></span><span class="tl">HVAC Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_electrial.webp" alt="" loading="lazy"></span><span class="tl">Electrical Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
   </div>
 </div></div></section>
 
@@ -921,14 +1298,91 @@
   </div>
 </div></section>
 
+<!-- CARD STATES GALLERY (documentation view) -->
+<section id="cardGallery"><div class="ginner" id="galleryInner"></div></section>
+
+<!-- HERO BANNER ADMIN (toggle view) -->
+<section id="bannerAdmin">
+  <div class="ba-topbar">
+    <div><h1>Hero Banner Admin</h1><div class="ba-sub">Manage homepage hero banners per audience cohort</div></div>
+    <div class="ba-sp"></div>
+    <button id="baReset">Reset to defaults</button>
+    <button id="baExport" class="ba-primary">Export JSON</button>
+  </div>
+  <div class="ba-grid">
+    <aside class="ba-side">
+      <h2>Cohorts</h2>
+      <div id="baList"></div>
+    </aside>
+    <main class="ba-main">
+      <p class="ba-pvlabel">Live preview</p>
+      <div class="ba-preview">
+        <div class="pv-band" id="pvBand">
+          <div class="pv-inner" id="pvInner">
+            <img class="pv-img" id="pvImg" alt="">
+            <div class="pv-fade" id="pvFade"></div>
+            <img class="pv-icon" id="pvIcon" alt="" hidden>
+            <div class="pv-text" id="pvText">
+              <h3 id="pvH3"></h3>
+              <p id="pvP"></p>
+              <div class="pv-cta" id="pvCta"><a class="pv-btn" id="pvBtn" href="#"></a><img class="pv-note" id="pvNote" src="assets/text_in3mins.svg" alt="" hidden></div>
+            </div>
+          </div>
+        </div>
+        <div class="pv-meta"><span>Cohort: <b id="mCohort"></b></span><span>Size: <b id="mSize"></b></span><span>Band height: <b id="mH"></b></span></div>
+      </div>
+      <div class="ba-form">
+        <h2>Layout</h2>
+        <div class="fld full">
+          <label>Banner size</label>
+          <div class="seg" id="sizeSeg"><button data-size="short">Short</button><button data-size="mid">Mid</button><button data-size="tall">Tall</button></div>
+          <div class="hint" id="sizeHint"></div>
+        </div>
+        <h2>Content</h2>
+        <div class="fld full"><label>Headline</label><input type="text" id="fHeadline"></div>
+        <div class="fld"><label>Headline size <b id="fH2v"></b></label><input type="range" id="fH2" min="16" max="60"></div>
+        <div class="fld"><label>Text box width <b id="fTWv"></b></label><input type="range" id="fTW" min="25" max="75"></div>
+        <div class="fld"><label>&nbsp;</label><label class="check"><input type="checkbox" id="fBtnOn"> Show button</label></div>
+        <div class="fld full"><label>Subtext <span class="hint" style="font-weight:400">(hidden on Short)</span></label><textarea id="fSub"></textarea></div>
+        <div class="fld"><label>Button label</label><input type="text" id="fBtnLabel"></div>
+        <div class="fld"><label class="check"><input type="checkbox" id="fNote"> Show &ldquo;3 minutes&rdquo; note</label></div>
+        <h2>Style &amp; media</h2>
+        <div class="fld"><label>Extended background color</label><div class="color"><input type="color" id="fColor"><input type="text" id="fHex" maxlength="7"></div></div>
+        <div class="fld"><label>Font color</label><label class="check" style="margin-bottom:6px"><input type="checkbox" id="fAuto"> Auto (contrast)</label><div class="color"><input type="color" id="fTextColor"><input type="text" id="fTextHex" maxlength="7"></div></div>
+        <h2>Banner images (Mid / Tall)</h2>
+        <div class="fld full"><label>Desktop image — large (.webp)</label><input type="file" id="fImg" accept="image/webp,image/*"><div class="hint" id="imgHint"></div></div>
+        <div class="fld full"><label>Mobile image — small (.webp)</label><input type="file" id="fImgS" accept="image/webp,image/*"><div class="hint" id="imgHintS"></div></div>
+        <h2>Icon / logo overlay</h2>
+        <div class="fld full"><label>Icon image (PNG / SVG)</label><input type="file" id="fIcon" accept="image/*"><div class="hint" id="iconHint">No icon</div></div>
+        <div class="fld"><label>Icon X <b id="fIXv"></b></label><input type="range" id="fIX" min="0" max="100"></div>
+        <div class="fld"><label>Icon Y <b id="fIYv"></b></label><input type="range" id="fIY" min="0" max="100"></div>
+        <div class="fld"><label>Icon size <b id="fISv"></b></label><input type="range" id="fIS" min="20" max="220"></div>
+        <div class="fld"><label>&nbsp;</label><button type="button" id="fIconClear" class="ba-clearbtn">Remove icon</button></div>
+      </div>
+    </main>
+  </div>
+  <div class="ba-toast" id="baToast"></div>
+</section>
+
+<!-- MORE BUYING OPTIONS DRAWER -->
+<div class="mktdrawer" id="mktDrawer" aria-hidden="true">
+  <div class="mktscrim" data-close></div>
+  <aside class="mktpanel" role="dialog" aria-modal="true" aria-label="More Buying Options">
+    <header class="mkthead"><h2>More Buying Options</h2><button class="mktclose" data-close aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button></header>
+    <div class="mktprod" id="mktProd"></div>
+    <div class="mktavail"><span><b id="mktAvail">11,068</b> Available</span> <a href="#" class="mktviewdet">View Details</a></div>
+    <div class="mktoffers" id="mktOffers"></div>
+  </aside>
+</div>
+
 <script>
   const ICONS=['plumbing','build','hardware','water_drop','valve','bolt','thermostat','propane_tank','heat_pump','cable','plumbing','build'];
   const reorder=[
-    ['1/2" to 1" M12 ProPEX Expansion Tool Kit w/ Heads','BF93544','Milwaukee','$649.00','225 ordered 7/14/24',true],
+    ['1/2" to 1" M12 ProPEX Expansion Tool Kit w/ Heads','BF93544','Milwaukee','$102.00','225 ordered 7/14/24',true,true],
     ['ProPEX Expansion Head 1"','UC1816','Uponor','$118.50','120 ordered 10/14/24',true],
     ['PEX-A Red Pipe 1" × 100 ft','F1100100','Uponor','$214.00','85 ordered 10/1/25',true],
     ['Brass Ball Valve 3/4" FNPT','BV34F','Webstone','$12.40','50 ordered 1/21/24',true],
-    ['Copper 90° Elbow 3/4"','CFK50','NIBCO','$1.85','52 ordered 4/21/25',false],
+    ['Copper 90° Elbow 3/4"','CFK50','NIBCO','$1.85','52 ordered 4/21/25',false,true],
     ['Soldering Flux 8 oz','FX8','Oatey','$9.99','52 ordered 4/21/25',true],
     ['Press Tool Jaw Set','2773-20','Milwaukee','$398.00','52 ordered 4/21/25',true],
     ['1/2 in. Black Pipe Nipple','BP44120','Anvil','$3.20','48 ordered 3/2/25',true],
@@ -980,10 +1434,151 @@
   function qtyHover(){return `<div class="qtyhover"><button data-h="-1" aria-label="Decrease quantity">${minusSvg}</button><input type="text" inputmode="numeric" value="" aria-label="Quantity"><button data-h="1" aria-label="Add to cart">${plusSvg}</button></div>`;}
   const spinnerSvg=(function(){let s='';for(let k=0;k<8;k++){const op=(0.2+0.8*(k/7)).toFixed(2);s+=`<line x1="12" y1="3.5" x2="12" y2="7.5" transform="rotate(${k*45} 12 12)" stroke="var(--sh-orange)" stroke-width="2.4" stroke-linecap="round" opacity="${op}"/>`;}return `<svg class="spin" viewBox="0 0 24 24" width="20" height="20">${s}</svg>`;})();
   const checkSvg='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 10 17 19 7"/></svg>';
+  // ---- Marketplace / "More Buying Options" ----
+  const boltSvg='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="none"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>';
+  const pencilSvg='<svg class="ic" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg>';
+  const infoSvg='<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg>';
+  const okCircleSvg='<svg viewBox="0 0 24 24" width="18" height="18" fill="var(--sh-success)" stroke="none"><circle cx="12" cy="12" r="10"/><polyline points="7 12.5 10.5 16 17 8.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const lowestSvg='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="16"/><polyline points="7 11 12 16 17 11"/><path d="M5 20h14" stroke-width="2"/></svg>';
+  const checkOrangeSvg='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--sh-orange)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 10 17 19 7"/></svg>';
+  // fcard (best sellers / new arrivals) icons
+  const clipPlusSvg='<svg viewBox="0 0 24 24" width="24" height="24"><g fill="none" stroke="#757575" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="10" height="13" rx="1.6"/><path d="M8 4V2.9h4V4"/></g><circle cx="17" cy="17" r="4.6" fill="#07729C"/><path d="M17 14.8v4.4M14.8 17h4.4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg>';
+  const truckSvg='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="11" height="9"/><path d="M13.5 9.5h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/></svg>';
+  const warehouseSvg='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-4.5 9 4.5v10H3z"/><rect x="8.5" y="13" width="7" height="7"/></svg>';
+  const MKT_OFFERS=[
+    {badge:'fastest', getQty:'10',    date:'Today, Jul 19', ful:'Trusted Partner', price:102.00},
+    {badge:'lowest',  getQty:'1,000', date:'Mon, Jul 22',   ful:'SupplyHouse',     price:94.00},
+    {badge:'',        getQty:'10k',   date:'Wed, Jul 25',   ful:'Trusted Partner', price:100.00},
+  ];
+  const MKT_AVAIL='11,068';
+  const money=n=>'$'+n.toFixed(2);
+  function mktFootBefore(variant){
+    if(variant==='save')return `<div class="mktfoot"><span class="mktfaster">${lowestSvg}Wait &amp; Save</span><a href="#" class="mktbuyopts">Buying Options</a></div>`;
+    if(variant==='more')return `<div class="mktfoot"><a href="#" class="mktbuyopts">More Buying Options</a></div>`;
+    return `<div class="mktfoot"><span class="mktfaster">${boltSvg}Want it faster?</span><a href="#" class="mktbuyopts">Buying Options</a></div>`;
+  }
+  function mktStepper(off,q){const left=q<=1?trashSvg:minusSvg;return `<div class="mktqtyctl" data-off="${off}"><button data-d="-1" aria-label="${q<=1?'Remove':'Decrease quantity'}">${left}</button><input value="${q}" readonly aria-label="Quantity"><button data-d="1" aria-label="Increase quantity">${plusSvg}</button></div>`;}
+  function mktBuyAfter(card){
+    const q=(card._mkt&&card._mkt.qtys)||[0,0,0]; const added=[]; let total=0;
+    q.forEach((v,i)=>{if(v>0){added.push(i);total+=v;}});
+    const prices=added.map(i=>MKT_OFFERS[i].price); const mn=Math.min.apply(null,prices), mx=Math.max.apply(null,prices);
+    const n=added.length;
+    const priceStr=(n>1&&mn!==mx)?(money(mn)+' -<br>'+money(mx)):money(prices[0]||0);
+    // single supplier -> normal +/- stepper; multiple -> qty box with edit pencil (managed via drawer)
+    const ctrl=n===1
+      ? mktStepper(added[0],total)
+      : `<div class="mktqtybox"><span class="mq">${total}</span><button class="mktedit" aria-label="Edit buying options">${pencilSvg}</button></div>`;
+    return `<div class="unit mktunit">
+        ${ctrl}
+        <div class="pr mktpr"><span class="price">${priceStr}</span> <button class="mktinfo" aria-label="Price breakdown">${infoSvg}</button></div>
+      </div>
+      <div class="mktfoot added"><span class="mktadded">${checkOrangeSvg}${n===1?('Added from '+MKT_OFFERS[added[0]].ful):('Added from '+n+' suppliers')}</span><a href="#" class="mktbuyopts">Manage Buying Options</a></div>`;
+  }
+  function mktBuyBefore(pr){
+    return `<div class="unit">
+        <div class="buyunit" data-unit="each">${addBtn()}</div>
+        <div class="pr"><span class="price">${pr}</span> <span class="each">each</span></div>
+      </div>${mktFootBefore()}`;
+  }
+  function renderMktCard(card){
+    const w=card.querySelector('.mktwrap'); if(!w)return;
+    const q=(card._mkt&&card._mkt.qtys)||[0,0,0];
+    w.innerHTML=q.some(v=>v>0)?mktBuyAfter(card):mktBuyBefore(card.dataset.pr||'');
+  }
+  // ---- drawer controller ----
+  let mktCard=null;
+  function offerBadge(b){
+    if(b==='fastest')return `<span class="offbadge">${boltSvg} Fastest</span>`;
+    if(b==='lowest')return `<span class="offbadge">${lowestSvg} Lowest Price</span>`;
+    return '';
+  }
+  function offerCtl(i,q){
+    return q>0
+      ? `<div class="qctl2"><button data-d="-1" aria-label="Decrease quantity">${minusSvg}</button><input value="${q}" readonly aria-label="Quantity"><button data-d="1" aria-label="Increase quantity">${plusSvg}</button></div>`
+      : `<button class="add">Add <svg class="ic addplus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>`;
+  }
+  function renderOffers(){
+    if(!mktCard)return;
+    const q=mktCard._mkt.qtys;
+    document.getElementById('mktOffers').innerHTML=MKT_OFFERS.map((o,i)=>`
+      <div class="mktoffer">
+        <div class="offl">
+          ${offerBadge(o.badge)}
+          <div class="offget">${okCircleSvg} Get ${o.getQty} by <b>${o.date}</b></div>
+          <div class="offful">Fulfilled by <b>${o.ful}</b> ${infoSvg}</div>
+        </div>
+        <div class="offr">
+          <div class="buyunit2" data-off="${i}">${offerCtl(i,q[i])}</div>
+          <div class="offprice">${money(o.price)} <small>each</small></div>
+        </div>
+      </div>`).join('');
+  }
+  function openMktDrawer(card){
+    mktCard=card;
+    if(!card._mkt)card._mkt={qtys:[0,0,0]};
+    const dr=document.getElementById('mktDrawer');
+    document.getElementById('mktProd').innerHTML=`
+      <img class="pimg" src="assets/product1.jpg" alt="" onerror="this.style.visibility='hidden'">
+      <div>
+        <div class="pt">${card.querySelector('.title').textContent}</div>
+        <div class="ps">${card.querySelector('.sku').innerHTML} <span class="stars">★★★★★<small>(337)</small></span></div>
+      </div>`;
+    document.getElementById('mktAvail').textContent=MKT_AVAIL;
+    renderOffers();
+    dr.classList.add('open'); dr.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  }
+  function closeMktDrawer(){
+    const dr=document.getElementById('mktDrawer');
+    dr.classList.remove('open'); dr.setAttribute('aria-hidden','true'); document.body.style.overflow='';
+  }
+  // price-range info tooltip
+  let mktInfoPop=null, mktInfoAnchor=null;
+  function closeMktInfo(){ if(mktInfoPop)mktInfoPop.classList.remove('show'); mktInfoAnchor=null; }
+  function openMktInfo(iconBtn){
+    if(mktInfoAnchor===iconBtn){closeMktInfo();return;}
+    const card=iconBtn.closest('.mcard'); const q=(card._mkt&&card._mkt.qtys)||[];
+    const items=[]; q.forEach((v,i)=>{if(v>0)items.push({o:MKT_OFFERS[i],qty:v});});
+    if(!items.length)return;
+    if(!mktInfoPop){mktInfoPop=document.createElement('div');mktInfoPop.className='mktinfopop';document.body.appendChild(mktInfoPop);}
+    const head=items.length>1?'Items from multiple suppliers and prices.':'Supplier &amp; price details.';
+    mktInfoPop.innerHTML=`<div class="mip-arrow"></div><div class="mip-head"><b>${head}</b><div class="mip-sub">Please review below.</div></div>`
+      +items.map((it,idx)=>`<div class="mip-item${idx===items.length-1?' last':''}">
+        <div class="mip-get">${okCircleSvg} Get it <b>${it.o.date}</b></div>
+        <div class="mip-cart">${checkOrangeSvg}<span>${it.qty} in cart:</span> <span class="mip-price">${money(it.o.price)}</span> <span class="mip-each">each</span></div>
+        <div class="mip-ful">Fulfilled by <b>${it.o.ful}</b></div>
+      </div>`).join('');
+    const pop=mktInfoPop; pop.classList.remove('above'); pop.style.visibility='hidden'; pop.classList.add('show');
+    const r=iconBtn.getBoundingClientRect(), pw=pop.offsetWidth, ph=pop.offsetHeight;
+    const vw=document.documentElement.clientWidth, vh=document.documentElement.clientHeight;
+    let left=r.left+r.width/2-26; if(left+pw>vw-8)left=vw-8-pw; if(left<8)left=8;
+    let top=r.bottom+10; if(top+ph>vh-8 && r.top-ph-10>8){top=r.top-ph-10; pop.classList.add('above');}
+    pop.style.left=left+'px'; pop.style.top=top+'px';
+    pop.querySelector('.mip-arrow').style.left=(r.left+r.width/2-left-7)+'px';
+    pop.style.visibility=''; mktInfoAnchor=iconBtn;
+  }
+  window.addEventListener('scroll',()=>{if(mktInfoAnchor)closeMktInfo();},true);
+  window.addEventListener('resize',()=>{if(mktInfoAnchor)closeMktInfo();});
+  function mktOfferChange(i,delta,set){
+    if(!mktCard)return;
+    const q=mktCard._mkt.qtys;
+    q[i]=set!=null?set:Math.max(0,(q[i]||0)+delta);
+    renderOffers(); renderMktCard(mktCard);
+  }
 
   function mcard(it,i,save,cat){
-    const [t,sku,br,pr,ctx]=it;
+    const [t,sku,br,pr,ctx,inStock,mkt]=it;
     let boxHTML='';
+    if(mkt){
+      return `<article class="mcard mkt" data-cat="${cat||''}" data-pr="${pr}">
+        <button class="rm" aria-label="Remove ${t.replace(/"/g,'&quot;')}">${closeSvg}</button>
+        <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="bd">
+          <a href="#" class="title">${t}</a>
+          <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
+          <div class="mktwrap">${mktBuyBefore(pr)}</div>
+        </div>
+      </article>`;
+    }
     if(save==='box'){
       boxHTML = `
         <div class="boxsave">
@@ -1011,7 +1606,7 @@
       <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
-        <div class="sku">SKU: ${sku} | <a href="#">${br}</a></div>
+        <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
         <div class="unit">
           <div class="buyunit" data-unit="each">${addBtn()}</div>
           <div class="pr"><span class="price">${pr}</span> <span class="each">each</span></div>
@@ -1022,16 +1617,29 @@
   }
   function fcard(it,i,cat){
     const [t,sku,br,was,now,rate,revs]=it;
+    const nowNum=parseFloat(String(now).replace(/[^0-9.]/g,''))||0;
+    const boxQty=20, boxEach=nowNum*0.88, boxTotal=boxEach*boxQty;
+    const fstep=lbl=>`<div class="stepper"><button data-step="-1" aria-label="Decrease">−</button><input value="" aria-label="${lbl}"><button data-step="1" aria-label="Increase">+</button></div>`;
     return `<article class="fcard" data-cat="${cat||''}">
-      <label class="cmp"><input type="checkbox"> Compare</label>
+      <button class="savebtn" aria-label="Save to list">${clipPlusSvg}</button>
       <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
-        <div class="sku">SKU: ${sku} | <a href="#">${br}</a></div>
+        <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
         <div class="stars">${stars(rate)}<span>(${revs})</span></div>
-        <div class="price"><span class="was">${was}</span><span class="now">${now}</span> <span class="ea">each</span></div>
-        <div class="buyrow"><div class="stepper"><button data-step="-1">−</button><input value="1" aria-label="Qty"><button data-step="1">+</button></div><button class="atc">${cartSvg} Add to cart</button></div>
-        <div class="ful"><span class="ok">✓ In Stock</span> · <span class="ft">⚡ FastTrack</span><br>Get it by <b>Tomorrow</b> · Total Available: 100</div>
+        <div class="unit">
+          ${fstep('Quantity')}
+          <div class="pr"><span class="was">${was}</span><span><span class="now">${now}</span> <span class="each">each</span></span></div>
+        </div>
+        <div class="fboxsave">
+          <div class="fboxlabel">Box up &amp; save 12%</div>
+          <div class="unit">
+            ${fstep('Box quantity')}
+            <div class="pr"><span class="bp">$${boxTotal.toFixed(2)} box of ${boxQty}</span><span><span class="now">$${boxEach.toFixed(2)}</span> <span class="each">each</span></span></div>
+          </div>
+        </div>
+        <button class="atc">${cartSvg} Add to Cart</button>
+        <div class="ful">${okCircleSvg} <span>Get 15 <b>Tomorrow by 12PM</b></span> <span class="fic">${truckSvg}</span><span class="fic">${warehouseSvg}</span></div>
       </div>
     </article>`;
   }
@@ -1039,7 +1647,7 @@
   const reorderCat=['PEX','PEX','PEX','Valves','Fittings','Plumbing','Fittings','Fittings','PEX','Plumbing','Plumbing','Valves'];
   const bestCat=['Cables','Copper Fittings','Copper Fittings','Pumps','Copper Fittings','Cables','Pumps','Thermostats','Copper Fittings','Pumps','Copper Fittings','Valves'];
   const arrowSvg='<svg class="ic" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>';
-  function endCard(count,label){return `<a class="endcard" href="#"><span class="ecbtn">${label} ${arrowSvg}</span></a>`;}
+  function endCard(count,label){return `<a class="endcard" href="#"><span class="ecbtn">${label}</span></a>`;}
   // skeleton placeholders shown while the page "loads"
   function skCard(full){return `<div class="skcard${full?' full':''}"><div class="skel skimg"></div><div class="skel skline w80"></div><div class="skel skline w50"></div><div class="skel skbtn"></div></div>`;}
   function fillSkel(id,n,full){const r=document.getElementById(id);if(r){r.innerHTML=Array.from({length:n}).map(()=>skCard(full)).join('');}}
@@ -1061,7 +1669,7 @@
   const na=[['M12 ProPEX Tool Kit','2432-22','Milwaukee'],['Press Jaw Set','2773-20','Milwaukee'],['Drain Snake','2772A','Milwaukee'],['Angle Grinder','2780-20','Milwaukee']];
   document.getElementById('naCards').innerHTML=na.map((it,i)=>fcard([it[0]+' w/ 1/2", 3/4", and 1" Heads',it[1],it[2],'$26.14','$25.75',4.8,22],i)).join('');
   const partsRow=document.getElementById('partsRow');
-  partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="ph pimg" style="background:var(--sh-light-tan-1)"><span class="ms" style="font-size:40px;color:var(--sh-tan)">${ICONS[i%ICONS.length]}</span></span><span class="pl">Tool Part ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:13px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
+  partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:13px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
   // categories
   const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp']];
@@ -1201,7 +1809,7 @@
     const bt=e.target.closest('.boxtoggle');
     if(bt){e.preventDefault();const body=bt.parentNode.querySelector('.boxbody');const collapsed=body.hasAttribute('hidden');if(collapsed){body.removeAttribute('hidden');bt.setAttribute('aria-expanded','true');}else{body.setAttribute('hidden','');bt.setAttribute('aria-expanded','false');}return;}
     const step=e.target.closest('.stepper button');
-    if(step){const inp=step.parentNode.querySelector('input');inp.value=Math.max(1,(parseInt(inp.value)||1)+parseInt(step.dataset.step));return;}
+    if(step){e.preventDefault();const inp=step.parentNode.querySelector('input');let v=(parseInt(inp.value)||0)+parseInt(step.dataset.step);if(v<0)v=0;inp.value=v||'';return;}
     const atc=e.target.closest('.fcard .atc');
     if(atc){e.preventDefault();const q=parseInt(atc.closest('.fcard').querySelector('.stepper input').value)||1;if(cb)cb.textContent=(parseInt(cb.textContent)||0)+q;toast(q+' × '+titleOf(atc)+' added to cart');return;}
     // (pager arrows are wired in initPager)
@@ -1217,8 +1825,22 @@
       applyMultiFilter(map[wrap.id],wrap);return;}
     const copy=e.target.closest('#copyNum');
     if(copy){e.preventDefault();try{navigator.clipboard&&navigator.clipboard.writeText('516-310-0227');}catch(e){}toast('Phone number copied: 516-310-0227');return;}
+    // ---- marketplace / buying options drawer ----
+    const mStep=e.target.closest('.mcard.mkt .mktqtyctl button');
+    if(mStep){e.preventDefault();const card=mStep.closest('.mcard');const off=+mStep.closest('.mktqtyctl').dataset.off;const q=card._mkt.qtys;q[off]=Math.max(0,(q[off]||0)+parseInt(mStep.dataset.d));renderMktCard(card);if(mktCard===card)renderOffers();return;}
+    if(e.target.closest('#mktDrawer [data-close]')){closeMktDrawer();return;}
+    const buyopts=e.target.closest('.mcard.mkt .mktbuyopts, .mcard.mkt .mktedit');
+    if(buyopts){e.preventDefault();openMktDrawer(buyopts.closest('.mcard'));return;}
+    const mInfo=e.target.closest('.mcard.mkt .mktinfo');
+    if(mInfo){e.preventDefault();openMktInfo(mInfo);return;}
+    if(mktInfoAnchor&&!e.target.closest('.mktinfopop')){closeMktInfo();}
+    const offAdd=e.target.closest('#mktOffers .buyunit2 .add');
+    if(offAdd){e.preventDefault();const i=+offAdd.closest('.buyunit2').dataset.off;mktOfferChange(i,null,1);toast('Added — '+MKT_OFFERS[i].ful+' ('+money(MKT_OFFERS[i].price)+' each)');return;}
+    const offStep=e.target.closest('#mktOffers .qctl2 button');
+    if(offStep){e.preventDefault();const i=+offStep.closest('.buyunit2').dataset.off;mktOfferChange(i,parseInt(offStep.dataset.d));return;}
     const a=e.target.closest('a[href="#"]');if(a)e.preventDefault();
   });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){const dr=document.getElementById('mktDrawer');if(dr&&dr.classList.contains('open'))closeMktDrawer();if(mktInfoAnchor)closeMktInfo();}});
   // hover an Add button -> reveal editable qty stepper; leaving reverts if nothing entered
   document.addEventListener('mouseover',e=>{const bu=e.target.closest('.mcard .buyunit');if(bu&&bu.querySelector('.add'))bu.innerHTML=qtyHover();});
   document.addEventListener('mouseout',e=>{const bu=e.target.closest('.mcard .buyunit');if(!bu)return;if(e.relatedTarget&&bu.contains(e.relatedTarget))return;const hov=bu.querySelector('.qtyhover');if(hov&&!(parseInt(hov.querySelector('input').value)>0))bu.innerHTML=addBtn();});
@@ -1233,7 +1855,7 @@
 
   // ---------- card sizing ----------
   const GAP=12;
-  function baseWidth(railId){return railId==='bestRail'?200:184;}   // used only for auto-fit rails
+  function baseWidth(railId){return railId==='bestRail'?248:184;}   // used only for auto-fit rails
   // Fixed visible columns per breakpoint for the Reorder/Recently rails (mobile <=820 = stacked list).
   // Edit these numbers to change how many cards show at each width.
   function colsFor(railId){
@@ -1253,7 +1875,8 @@
     if(getComputedStyle(rail).display!=='grid'){rail.style.removeProperty('--cardw');return;}
     const W=rail.clientWidth; if(W<=0)return;
     const cols=colsFor(railId);
-    const n=cols?Math.max(1,cols):Math.max(1,Math.floor((W+GAP)/(baseWidth(railId)+GAP)));
+    let n=cols?Math.max(1,cols):Math.max(1,Math.floor((W+GAP)/(baseWidth(railId)+GAP)));
+    if(railId==='bestRail')n=Math.min(n,5);   // Popular products: cap at 5 cards on the largest breakpoint
     const cardW=Math.floor((W-(n-1)*GAP)/n);
     rail.style.setProperty('--cardw',cardW+'px');
   }
@@ -1398,11 +2021,173 @@
     renderRails(); layoutRails();
     ['reorderRail','recentRail','bestRail'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
   }
-  (function(){const mt=document.querySelector('.modetoggle');if(!mt)return;
-    mt.addEventListener('click',e=>{const b=e.target.closest('button[data-scn]');if(!b)return;
-      mt.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
-      applyScenario(b.dataset.scn);
+  // ---- Card states gallery (documentation view) ----
+  let galleryBuilt=false;
+  function buildGallery(){
+    if(galleryBuilt)return; galleryBuilt=true;
+    const longItem=['1/2" Nom Compr. (5/8" OD) x 3/8" O.D. Compr. Angle Stop Valve, Quarter-Turn, Chrome','243222','BrassCraft','$1.22','',true];
+    const base=reorder[1], boxItem=reorder[5], stockItem=reorder[3], mktItem=reorder[0];
+    function el(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstElementChild;}
+    function withCart(it,q){const e=el(mcard(it,0,''));e.querySelector('.buyunit').innerHTML=qtyCtl(q);return e.outerHTML;}
+    function withHover(it){const e=el(mcard(it,0,''));e.querySelector('.buyunit').innerHTML=qtyHover();const inp=e.querySelector('.qtyhover input');if(inp)inp.value='12';return e.outerHTML;}
+    function expanded(it,save){const e=el(mcard(it,0,save));const b=e.querySelector('.boxbody');if(b)b.removeAttribute('hidden');const t=e.querySelector('.boxtoggle');if(t)t.setAttribute('aria-expanded','true');return e.outerHTML;}
+    function mktAfter(it,qtys){const e=el(mcard(it,0,''));e._mkt={qtys:qtys};renderMktCard(e);return e.outerHTML;}
+    function mktVariant(v){const e=el(mcard(mktItem,0,''));const f=e.querySelector('.mktfoot');if(f)f.outerHTML=mktFootBefore(v);return e.outerHTML;}
+    const groups=[
+      ['Standard states',[
+        [mcard(base,0,''),'Default','In-stock item, not yet in cart — Add button plus unit price.'],
+        [withHover(base),'Hover / quick-add','Hovering Add reveals an editable quantity field; type a number or use the ± buttons.'],
+        [withCart(base,3),'In cart','After adding — stepper shows the current quantity with −/＋.'],
+        [withCart(base,1),'In cart — qty 1','At quantity 1 the − button becomes a trash icon to remove the line.'],
+      ]],
+      ['Bulk &amp; save variants',[
+        [mcard(boxItem,0,'box'),'Box up &amp; save — collapsed','Optional bulk-pack price, collapsed by default.'],
+        [expanded(boxItem,'box'),'Box up &amp; save — expanded','Shows box price, units per box, and the effective each price.'],
+        [mcard(stockItem,0,'stock'),'Stock up &amp; save — collapsed','Tiered quantity pricing, collapsed by default.'],
+        [expanded(stockItem,'stock'),'Stock up &amp; save — expanded','Fieldset tier table with a per-case note.'],
+      ]],
+      ['Marketplace (3rd-party suppliers)',[
+        [mktVariant('fast'),'Prompt — “Want it faster?”','Speed-oriented prompt when faster fulfilment is available.'],
+        [mktVariant('save'),'Prompt — “Wait &amp; Save”','Savings-oriented prompt when a cheaper, slower option exists.'],
+        [mktVariant('more'),'Prompt — “More Buying Options”','Neutral prompt — just the Buying Options link, no message.'],
+        [mktAfter(mktItem,[3,0,0]),'Added — single supplier','One supplier chosen: single price + standard +/− stepper.'],
+        [mktAfter(mktItem,[4,2,0]),'Added — multiple suppliers','Aggregated quantity, wrapped price range, edit-pencil control.'],
+      ]],
+      ['System &amp; edge cases',[
+        [skCard(false),'Loading skeleton','Shimmer placeholder shown while the rail hydrates.'],
+        [mcard(longItem,0,''),'Long title','Titles clamp to two lines with an ellipsis; the layout stays fixed.'],
+        [endCard('','View all'),'End-of-rail card','Closes each rail with a button linking to the full list.'],
+      ]],
+    ];
+    const mobCards=[mcard(base,0,''),withCart(reorder[2],2),expanded(boxItem,'box'),mcard(mktItem,0,''),mktAfter(mktItem,[4,2,0]),endCard('','View all')].join('');
+    const mobileFigure=`<figure class="gx gxwide"><div class="gmobile"><div class="rail">${mobCards}</div></div><figcaption><b>Mobile list layout (≤767px)</b><span>Cards stack as rows: image left, title/SKU and Add + price on the right, with bulk &amp; marketplace blocks spanning full width below. Ends with the “View all” card.</span></figcaption></figure>`;
+    document.getElementById('galleryInner').innerHTML=
+      `<div class="ghead"><h1>Product card — states &amp; edge cases</h1><p>Every visual state of the Reorder / Recently-viewed product card in one place. This is a static reference view; switch back with the Scenario toggle to use the live page.</p></div>`
+      +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>`<figure class="gx"><div class="gcard">${c[0]}</div><figcaption><b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`).join('')}</div>`).join('')
+      +`<div class="gtitle">Mobile layout</div><div class="grow">${mobileFigure}</div>`;
+  }
+  // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
+  const COHORT_BANNER={
+    'guest':['assets/banner/hero_ntm_default_L.webp','assets/banner/hero_ntm_default_S.webp'],
+    'ntm-purchaser':['assets/banner/hero_tm_apply_L.webp','assets/banner/hero_tm_apply_S.webp'],
+    'ntm-nonpurchaser':['assets/banner/hero_tm_apply_L.webp','assets/banner/hero_tm_apply_S.webp']
+  };
+  function applyCohort(name){
+    document.body.dataset.cohort=name;
+    const b=COHORT_BANNER[name];
+    if(b)document.querySelectorAll('.herobig .hbslide picture').forEach(p=>{
+      const s=p.querySelector('source'), img=p.querySelector('img');
+      if(s)s.srcset=b[1]; if(img)img.src=b[0];
     });
+  }
+  (function(){const mt=document.querySelector('.modetoggle');if(!mt)return;
+    mt.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+      const exitViews=()=>{document.body.classList.remove('gallery','banneradmin');mt.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on'));};
+      if(b.dataset.cohort){
+        exitViews();
+        b.closest('.mtrow').querySelectorAll('button[data-cohort]').forEach(x=>x.classList.toggle('on',x===b));
+        applyCohort(b.dataset.cohort); return;
+      }
+      if(b.dataset.view){
+        mt.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('on',x===b));
+        document.body.classList.remove('gallery','banneradmin');
+        if(b.dataset.view==='gallery'){buildGallery();document.body.classList.add('gallery');}
+        else if(b.dataset.view==='banneradmin'){document.body.classList.add('banneradmin');}
+        window.scrollTo(0,0); return;
+      }
+      if(b.dataset.scn){
+        exitViews();
+        b.closest('.mtrow').querySelectorAll('button[data-scn]').forEach(x=>x.classList.toggle('on',x===b));
+        applyScenario(b.dataset.scn);
+      }
+    });
+  })();
+  // ---- promo hero carousel (non-TM cohorts) ----
+  (function(){
+    const track=document.getElementById('hbTrack'); if(!track)return;
+    const slides=track.children.length; if(slides<1)return;
+    const dots=document.getElementById('hbDots'); let idx=0, timer;
+    for(let k=0;k<slides;k++){const b=document.createElement('button');b.setAttribute('aria-label','Go to banner '+(k+1));if(k===0)b.classList.add('on');b.addEventListener('click',()=>go(k));dots.appendChild(b);}
+    function render(){track.style.transform='translateX(-'+(idx*100)+'%)';[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===idx));}
+    function go(i){idx=(i+slides)%slides;render();restart();}
+    function restart(){clearInterval(timer);timer=setInterval(()=>go(idx+1),6000);}
+    document.getElementById('hbPrev').addEventListener('click',()=>go(idx-1));
+    document.getElementById('hbNext').addEventListener('click',()=>go(idx+1));
+    render(); restart();
+  })();
+  // ---- hero banner admin (toggle view) ----
+  (function(){
+    const list=document.getElementById('baList'); if(!list)return;
+    const $=id=>document.getElementById(id);
+    const SIZES={short:{h:120,hint:'Short — color band + headline, no image (e.g. TM members).'},mid:{h:240,hint:'Mid — image + text, standard promo (e.g. NTM / Guest).'},tall:{h:400,hint:'Tall — large promo banner, up to 400px (special campaigns).'}};
+    const DEF={
+      'tm':{label:'TM Purchaser',note:'Member — slim hero',size:'short',headline:'Built for the Pros',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:''},
+      'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
+      'ntm-nonpurchaser':{label:'NTM Non-Purchaser',note:'Non-member, no orders',size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
+      'guest':{label:'Guest User',note:'Not signed in',size:'mid',headline:'Everything You Need, Ready to Ship',sub:'Shop 700+ trusted brands and 350,000+ in-stock products.',h2:34,showBtn:false,btnLabel:'Shop Now',note3:false,bg:'#E2CCB8',text:'auto',image:'assets/banner/hero_ntm_default_L.webp'}
+    };
+    const KEY='sh_hero_banners_v1', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','guest'];
+    let data=loadD(), cur='tm';
+    ORDER.forEach(k=>{const c=data[k];if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});
+    function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
+    function saveD(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+    const lum=hex=>{const v=hex.replace('#','');return (0.299*parseInt(v.substr(0,2),16)+0.587*parseInt(v.substr(2,2),16)+0.114*parseInt(v.substr(4,2),16))/255;};
+    const tcolor=c=>c.text==='auto'?(lum(c.bg)>0.62?'#1A1A1A':'#fff'):c.text;
+    function buildList(){list.innerHTML=ORDER.map(k=>`<button class="ba-cohort${k===cur?' on':''}" data-k="${k}"><span class="cn">${data[k].label}</span><span class="cm">${data[k].note} · ${data[k].size}</span></button>`).join('');}
+    list.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;cur=b.dataset.k;buildList();fill();render();});
+    function render(){
+      const c=data[cur],h=SIZES[c.size].h,tc=tcolor(c);
+      $('pvBand').style.height=h+'px';$('pvBand').style.background=c.bg;
+      const img=$('pvImg'); if(c.size!=='short'&&c.image){img.style.display='';img.src=c.image;}else img.style.display='none';
+      $('pvFade').style.background='linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 52%,'+c.bg+' 100%)';
+      $('pvText').style.maxWidth=(c.textWidth||46)+'%';
+      $('pvH3').textContent=c.headline;$('pvH3').style.fontSize=c.h2+'px';$('pvH3').style.color=tc;
+      const p=$('pvP'); if(c.sub&&c.size!=='short'){p.style.display='';p.textContent=c.sub;p.style.color=tc;}else p.style.display='none';
+      $('pvCta').style.display=c.showBtn?'flex':'none';$('pvBtn').textContent=c.btnLabel||'Shop Now';$('pvNote').hidden=!(c.showBtn&&c.note3);
+      const ic=$('pvIcon'); if(c.icon){ic.hidden=false;ic.src=c.icon;ic.style.left=c.iconX+'%';ic.style.top=c.iconY+'%';ic.style.width=c.iconSize+'px';}else ic.hidden=true;
+      $('mCohort').textContent=c.label;$('mSize').textContent=c.size;$('mH').textContent=h+'px';
+    }
+    function setSeg(seg,val,attr){[...seg.children].forEach(x=>x.classList.toggle('on',x.dataset[attr]===val));}
+    function fill(){const c=data[cur];setSeg($('sizeSeg'),c.size,'size');$('sizeHint').textContent=SIZES[c.size].hint;$('fHeadline').value=c.headline;$('fH2').value=c.h2;$('fH2v').textContent=c.h2+'px';
+      $('fTW').value=c.textWidth;$('fTWv').textContent=c.textWidth+'%';
+      $('fSub').value=c.sub;$('fBtnOn').checked=c.showBtn;$('fBtnLabel').value=c.btnLabel;$('fNote').checked=c.note3;
+      $('fColor').value=/^#[0-9a-fA-F]{6}$/.test(c.bg)?c.bg:'#0066AD';$('fHex').value=c.bg.toUpperCase();
+      $('fAuto').checked=c.text==='auto'; const tcv=c.text==='auto'?tcolor(c):c.text; $('fTextColor').value=/^#[0-9a-fA-F]{6}$/.test(tcv)?tcv:'#FFFFFF'; $('fTextHex').value=tcv.toUpperCase();
+      $('fIX').value=c.iconX;$('fIXv').textContent=c.iconX+'%';$('fIY').value=c.iconY;$('fIYv').textContent=c.iconY+'%';$('fIS').value=c.iconSize;$('fISv').textContent=c.iconSize+'px';
+      $('iconHint').textContent=c.icon?'Icon set':'No icon';
+      $('imgHint').textContent=c.image?(c.image.startsWith('data:')?'Custom uploaded image':c.image):'No image set';
+      $('imgHintS').textContent=c.imageS?(c.imageS.startsWith('data:')?'Custom uploaded image':c.imageS):'No image set';}
+    function upd(p){Object.assign(data[cur],p);saveD();render();}
+    $('sizeSeg').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;setSeg($('sizeSeg'),b.dataset.size,'size');$('sizeHint').textContent=SIZES[b.dataset.size].hint;
+      const patch={size:b.dataset.size};
+      if(b.dataset.size==='tall'&&!(data[cur].image||'').startsWith('data:')){patch.image='assets/banner/hero_promo1_L.webp';patch.imageS='assets/banner/hero_promo1_S.webp';}   // Tall uses the promo banner
+      upd(patch);fill();buildList();});
+    function setTextColor(v){v=(v||'').trim();if(!/^#?[0-9a-fA-F]{6}$/.test(v))return;if(v[0]!=='#')v='#'+v;$('fAuto').checked=false;$('fTextColor').value=v;$('fTextHex').value=v.toUpperCase();upd({text:v});}
+    $('fAuto').addEventListener('change',()=>{ if($('fAuto').checked){upd({text:'auto'});fill();} else setTextColor($('fTextHex').value||'#FFFFFF'); });
+    $('fTextColor').addEventListener('input',()=>setTextColor($('fTextColor').value));
+    $('fTextHex').addEventListener('change',()=>setTextColor($('fTextHex').value));
+    $('fTW').addEventListener('input',()=>{$('fTWv').textContent=$('fTW').value+'%';upd({textWidth:+$('fTW').value});});
+    $('fIX').addEventListener('input',()=>{$('fIXv').textContent=$('fIX').value+'%';upd({iconX:+$('fIX').value});});
+    $('fIY').addEventListener('input',()=>{$('fIYv').textContent=$('fIY').value+'%';upd({iconY:+$('fIY').value});});
+    $('fIS').addEventListener('input',()=>{$('fISv').textContent=$('fIS').value+'px';upd({iconSize:+$('fIS').value});});
+    $('fIcon').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({icon:rd.result});$('iconHint').textContent='Icon set: '+f.name;};rd.readAsDataURL(f);});
+    $('fIconClear').addEventListener('click',()=>{upd({icon:''});$('iconHint').textContent='No icon';$('fIcon').value='';});
+    $('fHeadline').addEventListener('input',()=>upd({headline:$('fHeadline').value}));
+    $('fH2').addEventListener('input',()=>{$('fH2v').textContent=$('fH2').value+'px';upd({h2:+$('fH2').value});});
+    $('fSub').addEventListener('input',()=>upd({sub:$('fSub').value}));
+    $('fBtnOn').addEventListener('change',()=>upd({showBtn:$('fBtnOn').checked}));
+    $('fBtnLabel').addEventListener('input',()=>upd({btnLabel:$('fBtnLabel').value}));
+    $('fNote').addEventListener('change',()=>upd({note3:$('fNote').checked}));
+    function setHex(v){v=(v||'').trim();if(!/^#?[0-9a-fA-F]{6}$/.test(v))return;if(v[0]!=='#')v='#'+v;$('fColor').value=v;$('fHex').value=v.toUpperCase();upd({bg:v});}
+    $('fColor').addEventListener('input',()=>setHex($('fColor').value));
+    $('fHex').addEventListener('change',()=>setHex($('fHex').value));
+    $('fHex').addEventListener('keydown',e=>{if(e.key==='Enter')setHex($('fHex').value);});
+    $('fImg').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({image:rd.result});$('imgHint').textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});
+    $('fImgS').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({imageS:rd.result});$('imgHintS').textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});
+    function toastB(m){const t=$('baToast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);}
+    $('baReset').addEventListener('click',()=>{if(!confirm('Reset all banners to defaults?'))return;data=JSON.parse(JSON.stringify(DEF));saveD();buildList();fill();render();toastB('Reset to defaults');});
+    $('baExport').addEventListener('click',()=>{const out=JSON.parse(JSON.stringify(data));Object.keys(out).forEach(k=>{['image','imageS','icon'].forEach(p=>{if(out[k][p]&&out[k][p].startsWith('data:'))out[k][p]='<uploaded image>';});});const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hero-banners.json';a.click();URL.revokeObjectURL(a.href);toastB('Exported hero-banners.json');});
+    buildList();fill();render();
   })();
 </script>
 <script>
