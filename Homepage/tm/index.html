@@ -282,7 +282,7 @@
   /* topbar mode: show the bar, hide the sidebar, rails go full width */
   body.mode-topbar .acctpanel{grid-template-columns:1fr;margin-top:0;background:transparent;border:none;box-shadow:none}
   /* Reorder/Recently sit in their own white card so they don't show the blue wash */
-  body.mode-topbar .acctpanel>div{background:#fff;border-radius:8px 8px 0 0;box-shadow:0 1px 10px rgba(0,0,0,.07)}   /* Reorder: top corners rounded only */
+  body.mode-topbar .acctpanel>div{background:#fff;border-radius:8px 8px 0 0}   /* Reorder: top corners rounded only */
   body.mode-topbar .acctpanel.crpanel>div{border-radius:0}                     /* other containers: square corners */
   body.mode-topbar .acctinfo{display:none}
   body.mode-topbar .accttop{display:flex;background:transparent;position:relative;z-index:6;margin:-12px 0 8px}
@@ -609,8 +609,8 @@
   .linkrow .va{margin-left:auto;font-size:12px;font-weight:700;color:var(--sh-link)}
 
   /* rep banner (desktop: number display-only + email + copy) */
-  .repband{background:var(--sh-bestbg)}
-  .repband .wrap{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:48px;padding:28px 24px}
+  .repband{background:#EFF5FD}
+  .repband .wrap{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:48px;padding:42px 24px}
   .repband .who{display:flex;align-items:center;gap:18px}
   .repband img{width:92px;height:92px;border-radius:50%;object-fit:cover}
   .repband .rl{font-size:12px;font-weight:700;letter-spacing:.2px;color:var(--sh-tan)}
@@ -641,27 +641,31 @@
   .btn-ghost:hover{background:var(--sh-light-tan-1)}
 
   /* replacement part finder */
-  .rpf{position:relative;background:#F5F5F5;display:flex;align-items:center;gap:0;padding:0 26px 0 0;min-height:172px;overflow:hidden}
+  .rpfsec{padding-top:0}
+  .rpfsec::before{display:none}   /* flush against the rep banner above */
+  .rpf{position:relative;background:#F5F5F5;overflow:hidden}
+  .rpf .rpf-inner{position:relative;max-width:1920px;margin:0 auto;display:flex;align-items:center;gap:0;padding:0 26px 0 0;min-height:200px}
   .rpf .rpf-img{width:320px;max-width:34%;height:auto;flex-shrink:0;object-fit:contain;align-self:center}
-  .rpf .rpf-title{position:relative;flex-shrink:0;max-width:240px;font-size:30px;font-weight:400;line-height:1.08;color:var(--sh-dark-brown);padding:0 30px}
+  .rpf .rpf-title{position:relative;flex-shrink:0;max-width:240px;font-size:30px;font-weight:400;line-height:1.08;color:var(--sh-dark-brown);padding:0 30px;text-align:right}
   .rpf .rpf-new{position:absolute;top:-20px;right:24px;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;padding:3px 8px;border-radius:4px}
   .rpf .rpf-div{width:1px;align-self:stretch;background:var(--sh-border);margin:34px 0}
   .rpf .rpf-body{flex:1;min-width:0;padding:0 0 0 30px;display:flex;flex-direction:column;gap:14px}
   .rpf .rpf-sub{font-size:16px;color:var(--sh-mid-gray)}
   .rpf .rpf-ctrls{display:flex;gap:18px}
-  .rpf .rpf-select{flex:1;min-width:0;display:flex;align-items:center;gap:12px;height:54px;padding:0 16px;border:1px solid var(--sh-border);border-radius:4px;background:#fff;cursor:pointer}
+  .rpf .rpf-select{flex:0 1 290px;min-width:0;display:flex;align-items:center;gap:12px;height:54px;padding:0 16px;border:1px solid var(--sh-border);border-radius:4px;background:#fff;cursor:pointer}
   .rpf .rpf-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;border:1.5px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
   .rpf .rpf-lbl{flex:1;font-weight:700;font-size:15px;color:var(--sh-dark-brown)}
   .rpf .rpf-select .chev{color:var(--sh-dark-gray);font-size:18px}
   .rpf .rpf-collapse{position:absolute;top:16px;right:18px;background:none;border:none;cursor:pointer;color:var(--sh-tm-blue);display:flex}
   .rpf .rpf-collapse .ic{font-size:20px;stroke-width:2.4}
   @media(max-width:767px){
-    .rpf{flex-wrap:wrap;padding:18px 16px 20px;min-height:0;align-items:flex-start}
+    .rpf .rpf-inner{flex-wrap:wrap;padding:18px 16px 20px;min-height:0;align-items:flex-start}
     .rpf .rpf-img{width:46%;max-width:240px}
-    .rpf .rpf-title{flex:1;max-width:none;padding:14px 0 0 14px;font-size:25px}
+    .rpf .rpf-title{flex:1;max-width:none;padding:14px 0 0 14px;font-size:25px;text-align:left}
     .rpf .rpf-div{display:none}
     .rpf .rpf-body{flex-basis:100%;padding:18px 0 0}
     .rpf .rpf-ctrls{flex-direction:column}
+    .rpf .rpf-select{flex:0 0 auto;width:100%}
   }
 
   /* RIDGID / new arrivals */
@@ -673,7 +677,7 @@
   /* tools */
   .toolsgrid{display:grid;grid-template-columns:60% 1fr;gap:22px}
   .toolsbanner{background:#F5F5F5;padding:40px 28px 0;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
-  .toolsbanner h2{font-size:30px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:0}
+  .toolsbanner h2{font-size:26px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:0}
   .toolsbanner .seeall{margin-top:18px;border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue);background:none;font-weight:700;font-size:12px;padding:11px 30px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer}
   .toolsbanner .seeall:hover{background:#EFF5FD}
   .toolsbanner .timg{margin-top:22px;width:100%;max-width:780px;height:auto;display:block}
@@ -683,8 +687,8 @@
   .ttile .tbox img{width:100%;height:100%;object-fit:contain;display:block}
   .ttile .tl{font-size:15px;font-weight:700;color:var(--sh-dark-brown);padding:10px 2px 0;display:flex;align-items:center;justify-content:center;gap:5px}
   .ttile .tl .ic{color:var(--sh-dark-brown)}
-  @media(min-width:1400px){ .toolsbanner h2{font-size:40px} }
-  @media(min-width:1920px){ .toolsbanner h2{font-size:50px} }
+  @media(min-width:1400px){ .toolsbanner h2{font-size:34px} }
+  @media(min-width:1920px){ .toolsbanner h2{font-size:42px} }
 
   /* category promo tiles */
   .catpromo{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:4px 0}
@@ -1233,7 +1237,7 @@
 </div></section>
 
 <!-- REPLACEMENT PART FINDER -->
-<section class="section"><div class="rpf">
+<section class="section rpfsec"><div class="rpf"><div class="rpf-inner">
   <img class="rpf-img" src="assets/replacement_part.webp" alt="Replacement parts" loading="lazy">
   <div class="rpf-title">Replacement Part Finder<span class="rpf-new">NEW!</span></div>
   <div class="rpf-div"></div>
@@ -1245,7 +1249,7 @@
     </div>
   </div>
   <button class="rpf-collapse" aria-label="Collapse"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
-</div></section>
+</div></div></section>
 
 <!-- RIDGID + NEW ARRIVALS -->
 <section class="section"><div class="wrap"><div class="promogrid">
