@@ -132,7 +132,7 @@
   .herobig .hbdots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(0,0,0,.3);cursor:pointer;padding:0}
   .herobig .hbdots button.on{background:var(--sh-dark-gray)}
   .herobig .hbtext{position:absolute;left:clamp(16px,4.5vw,80px);top:108px;transform:translateY(-50%);z-index:2;max-width:min(44%,340px);pointer-events:none}
-  .herobig .hbtext h2{font-size:clamp(18px,2.7vw,34px);font-weight:700;color:var(--sh-dark-brown);line-height:1.12;margin:0;font-family:'interstate',var(--sh-font)}
+  .herobig .hbtext h2{font-size:clamp(18px,2.7vw,34px);font-weight:700;color:#111;line-height:1.12;margin:0;font-family:'interstate',var(--sh-font)}
   .herobig .hbtext p{font-size:clamp(12px,1.15vw,14px);line-height:1.3;color:var(--sh-dark-gray);margin:6px 0 0}
   /* two overlay variants: "shop" (Guest, light banner) and "apply" (NTM, blue banner) */
   .herobig .hbtext-apply{display:none;max-width:min(46%,430px)}
@@ -155,7 +155,7 @@
   body[data-cohort="guest"] .herobig{display:block}
   body[data-cohort="ntm-purchaser"] .topblue,
   body[data-cohort="ntm-nonpurchaser"] .topblue,
-  body[data-cohort="guest"] .topblue{background:#fff;padding-top:230px}
+  body[data-cohort="guest"] .topblue{background:#fff;padding-top:220px}
   /* beyond 1920 the banner image is capped; edge color fills the rest */
   body[data-cohort="guest"] .herobig{background:#E2CCB8}
   body[data-cohort="ntm-purchaser"] .herobig,
@@ -163,8 +163,14 @@
   body[data-cohort="ntm-purchaser"] .topblue>.wrap,
   body[data-cohort="ntm-nonpurchaser"] .topblue>.wrap,
   body[data-cohort="guest"] .topblue>.wrap{position:relative;z-index:1}
+  body[data-cohort="guest"] .guesttop,
+  body[data-cohort="ntm-nonpurchaser"] .guesttop{position:relative;z-index:1;padding-top:0}   /* must sit above .herobig's absolutely-positioned banner, or its content renders invisibly behind it */
   /* keep Categories + Recently container above the hero backdrop */
   body[data-cohort="ntm-purchaser"] .recentwrap, body[data-cohort="ntm-nonpurchaser"] .recentwrap, body[data-cohort="guest"] .recentwrap{position:relative;z-index:1}
+  /* dedicated-rep (Larry) banner only for TM Purchaser */
+  body[data-cohort="ntm-purchaser"] .repband,
+  body[data-cohort="ntm-nonpurchaser"] .repband,
+  body[data-cohort="guest"] .repband{display:none}
   @media(max-width:767px){
     body[data-cohort="ntm-purchaser"] .topblue,
     body[data-cohort="ntm-nonpurchaser"] .topblue,
@@ -212,16 +218,16 @@
   .acctpanel{max-width:none;margin:0;position:relative;z-index:5;background:#fff;border:1px solid var(--sh-border);box-shadow:0 2px 14px rgba(0,0,0,.08);display:grid;grid-template-columns:280px 1fr}
   .acctinfo{border-right:1px solid var(--sh-border);padding:16px}
   .acctinfo .ttl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue);margin-bottom:12px}
-  .deliv{border:1px solid var(--sh-border);padding:12px;margin-bottom:14px}
-  .deliv .dl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sh-tan)}
-  .deliv .da{font-size:14px;font-weight:700;color:var(--sh-dark-brown);margin:2px 0 4px}
-  .deliv .dm{font-size:11px;color:var(--sh-mid-gray)}
-  .deliv .prog{height:4px;background:var(--sh-border);margin:10px 0 4px;position:relative}
-  .deliv .prog i{position:absolute;left:0;top:0;height:100%;width:66%;background:var(--sh-success)}
-  .deliv .ps{font-size:11px;font-weight:700;color:var(--sh-success);text-transform:uppercase;letter-spacing:.4px}
-  .deliv .thumbs{display:flex;gap:5px;margin-top:8px}
-  .deliv .thumbs .t{width:30px;height:30px;background:var(--sh-light-tan-1);display:flex;align-items:center;justify-content:center;color:var(--sh-tan)}
-  .deliv .thumbs .more{font-size:11px;color:var(--sh-mid-gray);font-weight:700;display:flex;align-items:center}
+  .acctinfo .deliv{border:1px solid var(--sh-border);padding:12px;margin-bottom:14px}
+  .acctinfo .deliv .dl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sh-tan)}
+  .acctinfo .deliv .da{font-size:14px;font-weight:700;color:var(--sh-dark-brown);margin:2px 0 4px}
+  .acctinfo .deliv .dm{font-size:11px;color:var(--sh-mid-gray)}
+  .acctinfo .deliv .prog{height:4px;background:var(--sh-border);margin:10px 0 4px;position:relative}
+  .acctinfo .deliv .prog i{position:absolute;left:0;top:0;height:100%;width:66%;background:var(--sh-success)}
+  .acctinfo .deliv .ps{font-size:11px;font-weight:700;color:var(--sh-success);text-transform:uppercase;letter-spacing:.4px}
+  .acctinfo .deliv .thumbs{display:flex;gap:5px;margin-top:8px}
+  .acctinfo .deliv .thumbs .t{width:30px;height:30px;background:var(--sh-light-tan-1);display:flex;align-items:center;justify-content:center;color:var(--sh-tan)}
+  .acctinfo .deliv .thumbs .more{font-size:11px;color:var(--sh-mid-gray);font-weight:700;display:flex;align-items:center}
   .acctrow{display:flex;align-items:center;gap:10px;padding:12px 2px;border-top:1px solid var(--sh-border)}
   .acctrow .ic{color:var(--sh-tm-blue);font-size:18px}
   .acctrow .t b{display:block;font-size:13px;color:var(--sh-dark-brown)}
@@ -394,7 +400,7 @@
   .endcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:var(--sh-light-tan-1);scroll-snap-align:start;padding:16px;text-decoration:none;min-height:200px}
   .endcard:hover{background:var(--sh-light-tan-2)}
   .endcard .ecnum{font-size:13px;color:var(--sh-mid-gray);line-height:1.3}
-  .endcard .ecbtn{display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--sh-tm-blue);background:var(--sh-tm-blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:9px 16px}
+  .endcard .ecbtn{display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--sh-tm-blue);background:var(--sh-tm-blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 16px}
   .endcard:hover .ecbtn{background:var(--sh-dark-blue);border-color:var(--sh-dark-blue)}
   .endcard .ecbtn .ic{font-size:16px}
   .mcard .thumb{width:80px;height:80px;align-self:flex-start;margin:8px 0 0 10px;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
@@ -501,11 +507,11 @@
 
   /* best picks band */
   .best{background:#F5F5F5;padding:0}
-  .bestgrid{display:grid;grid-template-columns:250px 1fr;gap:28px;align-items:center;padding:28px 0}
-  .bestpromo{display:flex;flex-direction:column;justify-content:center;position:relative;z-index:0}
-  .bestpromo .pl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue)}
+  .bestgrid{display:grid;grid-template-columns:310px 1fr;gap:28px;align-items:stretch;padding:28px 0}
+  .bestpromo{display:flex;flex-direction:column;justify-content:center;position:relative;z-index:0;text-align:right}
+  .bestpromo .pl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue)}
   .bestpromo h2{font-size:27px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:6px 0 16px}
-  .bestpromo .pimg{width:430px;max-width:none;height:auto;object-fit:contain;display:block}   /* larger; right side tucks behind the card */
+  .bestpromo .pimg{width:500px;max-width:none;height:auto;object-fit:contain;display:block}   /* larger; right side tucks behind the card */
   .bestright{background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 1px 8px rgba(0,0,0,.07);position:relative;z-index:1}
   .bestright .filters{margin-top:0;margin-bottom:16px}
   .besthead{display:none}
@@ -519,19 +525,30 @@
     .bestright .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
     .bestright .filters::-webkit-scrollbar{display:none}
     .bestright .filters .chip-f{flex-shrink:0}
-    #bestRail{--cardw:82% !important}              /* one card per view + peek; swipe to next */
   }
   @media(max-width:767px){
     .promogrid .brandpromo{display:none}           /* hide left image on mobile */
     .promogrid .pmhead .sub{display:none}
-    .na-cards{display:flex;overflow-x:auto;gap:14px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  }
+  /* Best Picks + New Arrivals — below 991px, collapse to a single scrollable row with the pagination scrubber (matches the live site's simplified tablet/mobile layout) */
+  .na-pager{display:none}
+  @media(max-width:991px){
+    .na-cards{display:grid;grid-auto-flow:column;grid-auto-columns:var(--cardw,248px);gap:14px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
     .na-cards::-webkit-scrollbar{display:none}
-    .na-cards>.fcard{flex:0 0 82%;scroll-snap-align:start}
+    .na-cards>.fcard{scroll-snap-align:start}
+    .na-pager{display:flex}
+  }
+  @media(min-width:768px) and (max-width:991px){
+    #bestRail{--cardw:46% !important}              /* ~2 cards per view + peek */
+    #naCards{--cardw:62% !important}               /* wider — New Arrivals cards need more room for stars/box-save/Add */
+  }
+  @media(max-width:767px){
+    #bestRail{--cardw:82% !important}              /* one card per view + peek; swipe to next */
+    #naCards{--cardw:92% !important}
   }
 
   /* full card (best sellers / new arrivals) */
   .fcard{position:relative;border:none;background:#fff;display:flex;flex-direction:column;scroll-snap-align:start}
-  .fcard:hover{box-shadow:0 4px 12px rgba(0,0,0,.10)}
   .fcard .savebtn{position:absolute;top:10px;right:10px;z-index:2;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer}
   .fcard .thumb{aspect-ratio:1.15/1;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .fcard .thumb .ms{font-size:46px}
@@ -542,7 +559,7 @@
   .bestright .fcard .bd,.na-cards .fcard .bd{padding:4px 12px 12px;gap:4px}
   .bestright .fcard .title,.na-cards .fcard .title{min-height:0}
   .bestright .fcard .fboxsave,.na-cards .fcard .fboxsave{margin-top:6px}
-  .bestright .fcard .atc,.na-cards .fcard .atc{height:40px;margin-top:10px}
+  .bestright .fcard .atc,.na-cards .fcard .atc{height:36px;margin-top:10px}
   .bestright .fcard .ful,.na-cards .fcard .ful{margin-top:8px}
   .fcard .bd{padding:4px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
   .fcard .title{font-size:15px;line-height:1.3;color:var(--sh-link);font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:38px}
@@ -562,9 +579,9 @@
   .fcard .pr .bp{font-size:13px;color:var(--sh-dark-gray)}
   .fcard .fboxsave{margin-top:8px}
   .fcard .fboxlabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sh-mid-gray);margin-bottom:6px}
-  .fcard .atc{width:100%;background:var(--sh-orange);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;height:40px;text-transform:uppercase;letter-spacing:.4px;margin-top:12px;border:none;cursor:pointer}
+  .fcard .atc{width:100%;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;height:36px;text-transform:uppercase;letter-spacing:.4px;margin-top:12px;border:none;cursor:pointer}
   .fcard .atc:hover{filter:brightness(.94)}
-  .fcard .atc .ic{font-size:18px}
+  .fcard .atc .ic{font-size:15px}
   .fcard .ful{display:flex;align-items:center;gap:6px;font-size:13px;line-height:1.4;color:var(--sh-dark-gray);margin-top:10px}
   .fcard .ful b{font-weight:700;color:var(--sh-dark-brown)}
   .fcard .ful .fic{color:var(--sh-tan);display:inline-flex;margin-left:2px}
@@ -580,7 +597,7 @@
   .actcol .ah .ahic .ic{font-size:16px}
   .actcol .ah .va{margin-left:auto;font-size:12px;font-weight:700;color:var(--sh-link)}
   .arow{display:flex;align-items:center;gap:12px;padding:12px 8px;border-bottom:1px solid var(--sh-border);text-decoration:none}
-  .arow:hover{background:var(--sh-light-tan-1)}
+  .arow:hover{background:#EFF5FD}
   .arow .ti{min-width:0}
   .arow .ti b{display:block;font-size:14px;color:var(--sh-dark-brown);font-weight:700}
   .arow .ti .meta{font-size:12px;color:var(--sh-mid-gray)}
@@ -593,9 +610,16 @@
   .arow .thumbs .t .ms{font-size:16px}
   .arow .thumbs .more{font-size:12px;color:var(--sh-mid-gray);font-weight:700;margin-left:2px}
   .arow .chev{color:var(--sh-mid-gray);flex-shrink:0;font-size:18px}
+  /* account activity — empty state (no saved lists / no saved carts) */
+  .actgroup .empty{background:#FDFDFD;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:28px 16px;min-height:200px;text-align:center}
+  .actgroup .empty .emptyicon{width:88px;height:88px;border-radius:50%;background:var(--sh-light-tan-1);display:flex;align-items:center;justify-content:center;padding:18px;flex-shrink:0}
+  .actgroup .empty .emptyicon svg{width:100%;height:100%}
+  .actgroup .empty p{font-size:18px;font-weight:400;color:var(--sh-dark-gray);margin:2px 0 0}
+  .actgroup .empty .btn-start{margin-top:4px;display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 24px;border:2px solid var(--sh-tm-blue);color:var(--sh-tm-blue);background:none;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer}
+  .actgroup .empty .btn-start:hover{background:#EFF5FD}
   /* right column links */
   .linkrow{display:flex;align-items:center;gap:12px;padding:14px 8px;border-bottom:1px solid var(--sh-border);text-decoration:none}
-  .linkrow:hover{background:var(--sh-light-tan-1)}
+  .linkrow:hover{background:#EFF5FD}
   .linkrow .lic{width:30px;height:30px;background:#E7F1F8;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .linkrow .lic .ic{font-size:16px}
   .linkrow .t{min-width:0}
@@ -633,38 +657,66 @@
   }
   .repband .btn-primary{background:var(--sh-blue);border-color:var(--sh-blue)}
   .repband .btn-primary:hover{background:#055f81;border-color:#055f81}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px;height:44px;padding:0 18px;white-space:nowrap;border:2px solid transparent}
-  .btn .ic{font-size:18px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;height:36px;padding:0 18px;white-space:nowrap;border:2px solid transparent}
+  .btn .ic{font-size:15px}
   .btn-primary{background:var(--sh-tm-blue);color:#fff;border-color:var(--sh-tm-blue)}
   .btn-primary:hover{background:var(--sh-dark-blue)}
   .btn-ghost{background:#fff;color:var(--sh-tm-blue);border-color:var(--sh-tm-blue)}
   .btn-ghost:hover{background:var(--sh-light-tan-1)}
 
-  /* replacement part finder */
+  /* replacement part finder — styling matched to live supplyhouse.com widget */
   .rpfsec{padding-top:0}
   .rpfsec::before{display:none}   /* flush against the rep banner above */
-  .rpf{position:relative;background:#F5F5F5;overflow:hidden}
-  .rpf .rpf-inner{position:relative;max-width:1920px;margin:0 auto;display:flex;align-items:center;gap:0;padding:0 26px 0 0;min-height:200px}
+  .rpf{position:relative;background:#F8F8F8;overflow:hidden}
+  .rpf .rpf-inner{position:relative;max-width:1920px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:200px}
   .rpf .rpf-img{width:320px;max-width:34%;height:auto;flex-shrink:0;object-fit:contain;align-self:center}
-  .rpf .rpf-title{position:relative;flex-shrink:0;max-width:240px;font-size:30px;font-weight:400;line-height:1.08;color:var(--sh-dark-brown);padding:0 30px;text-align:right}
-  .rpf .rpf-new{position:absolute;top:-20px;right:24px;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:.4px;padding:3px 8px;border-radius:4px}
-  .rpf .rpf-div{width:1px;align-self:stretch;background:var(--sh-border);margin:34px 0}
-  .rpf .rpf-body{flex:1;min-width:0;padding:0 0 0 30px;display:flex;flex-direction:column;gap:14px}
-  .rpf .rpf-sub{font-size:16px;color:var(--sh-mid-gray)}
-  .rpf .rpf-ctrls{display:flex;gap:18px}
-  .rpf .rpf-select{flex:0 1 290px;min-width:0;display:flex;align-items:center;gap:12px;height:54px;padding:0 16px;border:1px solid var(--sh-border);border-radius:4px;background:#fff;cursor:pointer}
-  .rpf .rpf-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;border:1.5px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
-  .rpf .rpf-lbl{flex:1;font-weight:700;font-size:15px;color:var(--sh-dark-brown)}
+  .rpf .rpf-titlewrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;max-width:240px}
+  .rpf .rpf-new{display:inline-block;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px}
+  .rpf .rpf-title{font-size:34px;font-weight:400;line-height:1.2;color:#343434;text-align:right}
+  .rpf .rpf-div{width:1px;align-self:stretch;background:#C4C4C4}
+  .rpf .rpf-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:11px}
+  .rpf .rpf-sub{font-size:20px;color:#343434}
+  .rpf .rpf-ctrls{display:flex;gap:8px}
+  .rpf .rpf-select{flex:1;min-width:0;display:flex;align-items:center;gap:12px;height:50px;padding:0 16px;border:1px solid #C4C4C4;border-radius:0;background:#fff;cursor:pointer}
+  .rpf .rpf-select.is-disabled{opacity:.3}
+  .rpf .rpf-num{width:25px;height:25px;flex-shrink:0;border-radius:50%;border:2px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .rpf .rpf-lbl{flex:1;font-weight:700;font-size:16px;color:#343434}
   .rpf .rpf-select .chev{color:var(--sh-dark-gray);font-size:18px}
   .rpf .rpf-collapse{position:absolute;top:16px;right:18px;background:none;border:none;cursor:pointer;color:var(--sh-tm-blue);display:flex}
   .rpf .rpf-collapse .ic{font-size:20px;stroke-width:2.4}
+  @media(min-width:992px) and (max-width:1199px){
+    .rpf .rpf-inner{gap:22px;padding:28px 20px 28px 0}
+    .rpf .rpf-img{width:220px;max-width:30%}
+    .rpf .rpf-titlewrap{max-width:190px;gap:5px}
+    .rpf .rpf-title{font-size:27px}
+    .rpf .rpf-body{gap:10px}
+    .rpf .rpf-sub{font-size:17px}
+    .rpf .rpf-select{height:47px;gap:10px;padding:0 14px}
+    .rpf .rpf-num{width:23px;height:23px;font-size:15px}
+    .rpf .rpf-lbl{font-size:14px}
+  }
+  @media(min-width:768px) and (max-width:991px){
+    .rpf .rpf-inner{gap:18px;padding:24px 16px 24px 0}
+    .rpf .rpf-img{width:180px;max-width:28%}
+    .rpf .rpf-titlewrap{max-width:150px;gap:4px}
+    .rpf .rpf-title{font-size:23px;line-height:1.15}
+    .rpf .rpf-body{gap:9px}
+    .rpf .rpf-sub{font-size:15px}
+    .rpf .rpf-ctrls{gap:10px}
+    .rpf .rpf-select{height:44px;gap:8px;padding:0 12px}
+    .rpf .rpf-num{width:21px;height:21px;font-size:14px;border-width:1.5px}
+    .rpf .rpf-lbl{font-size:13px}
+    .rpf .rpf-select .chev{font-size:16px}
+  }
   @media(max-width:767px){
-    .rpf .rpf-inner{flex-wrap:wrap;padding:18px 16px 20px;min-height:0;align-items:flex-start}
+    .rpf .rpf-inner{flex-wrap:wrap;padding:18px 16px 20px;min-height:0;align-items:flex-start;gap:0}
     .rpf .rpf-img{width:46%;max-width:240px}
-    .rpf .rpf-title{flex:1;max-width:none;padding:14px 0 0 14px;font-size:25px;text-align:left}
+    .rpf .rpf-titlewrap{flex:1;max-width:none;align-items:flex-start;padding:14px 0 0 14px}
+    .rpf .rpf-title{font-size:25px;text-align:left}
     .rpf .rpf-div{display:none}
     .rpf .rpf-body{flex-basis:100%;padding:18px 0 0}
-    .rpf .rpf-ctrls{flex-direction:column}
+    .rpf .rpf-sub{font-size:16px}
+    .rpf .rpf-ctrls{flex-direction:column;gap:10px}
     .rpf .rpf-select{flex:0 0 auto;width:100%}
   }
 
@@ -678,7 +730,7 @@
   .toolsgrid{display:grid;grid-template-columns:60% 1fr;gap:22px}
   .toolsbanner{background:#F5F5F5;padding:40px 28px 0;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
   .toolsbanner h2{font-size:26px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:0}
-  .toolsbanner .seeall{margin-top:18px;border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue);background:none;font-weight:700;font-size:12px;padding:11px 30px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer}
+  .toolsbanner .seeall{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue);background:none;font-weight:700;font-size:11px;height:36px;padding:0 30px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer}
   .toolsbanner .seeall:hover{background:#EFF5FD}
   .toolsbanner .timg{margin-top:22px;width:100%;max-width:780px;height:auto;display:block}
   .toolstiles{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
@@ -691,16 +743,22 @@
   @media(min-width:1920px){ .toolsbanner h2{font-size:42px} }
 
   /* category promo tiles */
-  .catpromo{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:4px 0}
-  .cpt{display:flex;flex-direction:column;border:1px solid var(--sh-border);background:#fff;text-decoration:none}
+  .catpromo{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:4px 0}
+  .cpt{display:flex;flex-direction:column;border:1px solid var(--sh-border);background:#fff;text-decoration:none;overflow:hidden}
   .cpt:hover{box-shadow:0 6px 16px rgba(0,0,0,.10)}
-  .cpt .cpt-b{padding:18px 18px 12px}
-  .cpt .cpt-k{font-size:18px;font-weight:700;color:var(--sh-dark-brown)}
-  .cpt .cpt-s{font-size:12px;color:var(--sh-mid-gray);margin:6px 0 12px;line-height:1.45}
-  .cpt .cpt-cta{font-size:13px;font-weight:700;color:var(--sh-tm-blue);display:inline-flex;align-items:center;gap:6px}
-  .cpt:hover .cpt-cta{text-decoration:underline}
-  .cpt .cpt-img{margin-top:auto;height:140px;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
-  .cpt .cpt-img .ms{font-size:46px}
+  .cpt .cpt-b{padding:26px 24px 0}
+  .cpt .cpt-head{border-left:3px solid var(--sh-tm-blue);padding-left:14px}
+  .cpt .cpt-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--sh-tan)}
+  .cpt .cpt-k{font-size:26px;font-weight:400;color:var(--sh-dark-brown);line-height:1.1;margin-top:2px}
+  .cpt .cpt-s{font-size:14px;color:var(--sh-mid-gray);margin:14px 0 16px;line-height:1.45}
+  .cpt .cpt-cta{align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 22px}
+  .cpt:hover .cpt-cta{background:#EFF5FD}
+  .cpt .cpt-img{margin-top:auto;height:250px;position:relative;display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(125deg,#fff 0 56%,#EFE8DD 56% 100%);overflow:hidden}
+  .cpt .cpt-img img{max-width:90%;max-height:92%;width:auto;height:auto;object-fit:contain;display:block}
+  .cpt-plumbing .cpt-head{border-left-color:#1B6CB5}
+  .cpt-heating .cpt-head{border-left-color:#C0392B}
+  .cpt-hvac .cpt-head{border-left-color:#5E9A41}
+  .cpt-electrical .cpt-head{border-left-color:#1B6CB5}
 
   /* parts for tools */
   .parts{display:grid;grid-template-columns:repeat(6,1fr);gap:26px}
@@ -761,7 +819,6 @@
     .bestgrid,.promogrid,.toolsgrid{grid-template-columns:1fr}
     .bestpromo .pimg{width:100%;max-width:320px}
     .catpromo{grid-template-columns:repeat(2,1fr)}
-    .na-cards{grid-template-columns:repeat(2,1fr)}
     .parts{grid-template-columns:repeat(3,1fr)}
     .activities{grid-template-columns:1fr;gap:0}
     .activities .right{border-left:none;padding-left:0;margin-top:24px}
@@ -785,7 +842,6 @@
     .hero h1{font-size:20px}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
-    .na-cards{grid-template-columns:1fr 1fr}
     .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 20px}
     .repband .repright{border-left:none;padding-left:0}
     .repband .acts{flex-direction:column;max-width:none;gap:12px}
@@ -958,6 +1014,37 @@
   #cardGallery .gmobile .mcard.mkt .mktpr .price{text-align:right}
   @media(max-width:767px){ #cardGallery .ginner{padding:28px 16px 60px} #cardGallery .grow{gap:16px} #cardGallery .gx{width:100%;max-width:340px} }
 
+  /* ===== Account Activity states gallery (use cases & edge cases, documentation view) ===== */
+  #acctGallery{display:none;background:#FAFAF8;min-height:100vh}
+  body.acctstates>*{display:none!important}
+  body.acctstates>#acctGallery{display:block!important}
+  body.acctstates>.modetoggle{display:flex!important}
+  #acctGallery .ginner{max-width:1180px;margin:0 auto;padding:48px 40px 90px}
+  #acctGallery .ghead h1{font-size:30px;font-weight:700;color:var(--sh-dark-brown);margin:0 0 6px;font-family:'interstate',var(--sh-font)}
+  #acctGallery .ghead p{font-size:15px;color:var(--sh-mid-gray);margin:0 0 8px;max-width:760px}
+  #acctGallery .gtitle{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--sh-tan);margin:40px 0 6px;padding-bottom:8px;border-bottom:1px solid var(--sh-border)}
+  #acctGallery .grow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:22px}
+  #acctGallery .gx{width:280px}
+  #acctGallery .gx.gxwide{width:100%}
+  #acctGallery .gcard{border:1px solid var(--sh-border);border-radius:8px;padding:16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);pointer-events:none;min-height:56px}
+  #acctGallery .gcard *{pointer-events:none}
+  #acctGallery .gcard.note{display:flex;gap:10px;align-items:flex-start;min-height:0}
+  #acctGallery .gcard.note .noteic{flex-shrink:0;width:22px;height:22px;font-size:22px;color:var(--sh-orange)}
+  #acctGallery .gcard.note p{margin:0;font-size:13px;line-height:1.5;color:var(--sh-dark-gray)}
+  #acctGallery .gx figcaption{margin-top:11px}
+  #acctGallery .gx figcaption .tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:3px;margin-bottom:6px}
+  #acctGallery .gx figcaption .tag.live{background:#EDF7EE;color:#3C763D}
+  #acctGallery .gx figcaption .tag.gap{background:#FDEDE3;color:var(--sh-orange)}
+  #acctGallery .gx figcaption b{display:block;font-size:13px;font-weight:700;color:var(--sh-dark-brown);margin-bottom:2px}
+  #acctGallery .gx figcaption span{font-size:12px;line-height:1.45;color:var(--sh-mid-gray)}
+  #acctGallery .kpi-demo{display:flex;flex-direction:column;gap:4px}
+  #acctGallery .kpi-demo .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:2px}
+  #acctGallery .kpi-demo .atv{font-size:22px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
+  #acctGallery .kpi-demo .ats{font-size:12px;line-height:1.3;color:var(--sh-mid-gray);margin-top:4px}
+  #acctGallery .kpi-demo .ats .warn{color:var(--sh-dark-gray);font-weight:700}
+  #acctGallery .kpi-demo .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;white-space:nowrap;display:inline-block}
+  @media(max-width:767px){ #acctGallery .ginner{padding:28px 16px 60px} #acctGallery .grow{gap:16px} #acctGallery .gx{width:100%;max-width:340px} }
+
   /* ===== Hero Banner Admin (toggle view) ===== */
   #bannerAdmin{display:none;position:relative;z-index:1;min-height:100vh;background:#F4F5F7;color:#212529;font-family:'Inter','Segoe UI',Roboto,Arial,sans-serif;--ba-blue:#07729C;--ba-line:#E2E2E2;--ba-gray:#6b7280;--ba-ink:#212529}
   body.banneradmin>*{display:none!important}
@@ -979,6 +1066,13 @@
   #bannerAdmin .ba-cohort .cm{font-size:11px;color:var(--ba-gray)}
   #bannerAdmin .ba-main{padding:24px;max-width:1080px}
   #bannerAdmin .ba-pvlabel{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--ba-gray);margin:0 0 8px}
+  #bannerAdmin .ba-banners{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+  #bannerAdmin .ba-banners .bn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ba-line);border-radius:8px;background:#fff;padding:8px 12px;font-family:inherit;font-weight:700;font-size:13px;color:var(--ba-ink);cursor:pointer}
+  #bannerAdmin .ba-banners .bn.on{border-color:var(--ba-blue);background:#EAF4F8}
+  #bannerAdmin .ba-banners .bn .bn-sz{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#fff;background:var(--ba-gray);border-radius:4px;padding:1px 6px}
+  #bannerAdmin .ba-banners .bn.on .bn-sz{background:var(--ba-blue)}
+  #bannerAdmin .ba-banners .bn-del{margin-left:2px;color:var(--ba-gray);font-weight:700}
+  #bannerAdmin .ba-banners .bn-add{border-style:dashed;color:var(--ba-blue)}
   #bannerAdmin .ba-preview{border:1px solid var(--ba-line);border-radius:10px;overflow:hidden;background:#fff}
   #bannerAdmin .pv-band{position:relative;overflow:hidden}
   #bannerAdmin .pv-inner{position:relative;max-width:1400px;margin:0 auto;height:100%;overflow:hidden}
@@ -1015,6 +1109,91 @@
   #bannerAdmin .ba-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ba-ink);color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
   #bannerAdmin .ba-toast.show{opacity:1}
   @media(max-width:860px){ #bannerAdmin .ba-grid{grid-template-columns:1fr} #bannerAdmin .ba-side{border-right:none;border-bottom:1px solid var(--ba-line)} #bannerAdmin .ba-form{grid-template-columns:1fr} }
+
+  /* ===== Guest / NTM Non-Purchaser top row (Part Finder + Top Categories or Recently Viewed) ===== */
+  .guesttop{display:none;padding:24px 0}
+  body[data-cohort="guest"] .guesttop,
+  body[data-cohort="ntm-nonpurchaser"] .guesttop{display:block}
+  body[data-cohort="guest"] .acctwrap:not(.recentwrap),
+  body[data-cohort="guest"] .recentwrap,
+  body[data-cohort="guest"] .latestact,
+  body[data-cohort="guest"] .rpfsec,
+  body[data-cohort="ntm-nonpurchaser"] .acctwrap:not(.recentwrap),
+  body[data-cohort="ntm-nonpurchaser"] .rpfsec{display:none}   /* hide signed-in KPI/reorder + full-width RPF sections — replaced by the top row below for these cohorts */
+  /* NTM Non-Purchaser: Recently Viewed already shown up top in gt-recent, so hide the duplicate lower one — but keep Shop Your Categories (reused as-is from the TM Purchaser layout) */
+  body[data-cohort="ntm-nonpurchaser"] #recentSection{display:none}
+  .guesttop .gt-grid{display:grid;grid-template-columns:33% 1fr;gap:24px;align-items:stretch}
+  .guesttop .gt-grid>*{min-width:0}   /* keep the 1fr track from expanding to the flex track's content width */
+  .guesttop .gt-rpf{position:relative;overflow:hidden;background:#F5F5F5;border:1px solid var(--sh-border);border-radius:8px;padding:48px 26px 0;display:flex;flex-direction:column}
+  .guesttop .gt-rpf-img{position:absolute;top:14px;left:-56px;width:230px;height:auto}   /* enlarged top-left backdrop, left edge clipped by overflow:hidden, out of flow */
+  .guesttop .gt-rpf h3{font-size:26px;font-weight:400;color:var(--sh-dark-brown);line-height:1.12;margin:8px 0 0;text-align:right;position:relative}
+  .guesttop .gt-rpf p{font-size:13px;color:var(--sh-mid-gray);margin:10px 0 0;text-align:right;position:relative}
+  .guesttop .gt-rpf .rpf-selects{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:12px}
+  .guesttop .gt-rpf .rpf-select{display:flex;align-items:center;gap:9px;height:50px;padding:0 16px;border:1px solid var(--sh-border);border-radius:0;background:#fff;cursor:pointer;width:100%}
+  .guesttop .gt-rpf .rpf-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;border:1.5px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .guesttop .gt-rpf .rpf-lbl{font-weight:700;font-size:15px;color:var(--sh-dark-brown)}
+  .guesttop .gt-rpf .chev{margin-left:auto;color:var(--sh-dark-gray);font-size:18px}
+  .guesttop .gt-cats,.guesttop .gt-recent{background:#fff;border:1px solid var(--sh-border);border-radius:8px;padding:18px 26px 16px;display:flex;flex-direction:column}
+  /* guest shows Top Categories in the grid; NTM Non-Purchaser swaps it for Recently Viewed (Top Categories is reused from the TM Purchaser "Shop Your Categories" section below instead) */
+  .guesttop .gt-recent{display:none}
+  body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-cats{display:none}
+  body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-recent{display:flex}
+  .guesttop .gt-recent .pmhead h2{font-size:20px}
+  .guesttop .gt-cats-head{padding-top:8px;margin-bottom:14px}
+  .guesttop .gt-cats-head h2{font-size:20px;font-weight:700;color:var(--sh-dark-brown);margin:0;display:inline-block;vertical-align:middle}
+  .guesttop .gt-cats-head .sub{font-size:13px;color:var(--sh-mid-gray);margin-left:8px}
+  .guesttop .gt-circ-wrap{overflow:hidden;flex:1}
+  .guesttop .gt-circ{display:flex;gap:20px;transition:transform .3s ease}
+  .guesttop .gt-circ a{flex:0 0 auto;width:124px;text-align:center;text-decoration:none}
+  .guesttop .gt-circ .circ{width:124px;height:124px;border-radius:50%;background:var(--sh-light-tan-1);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px}
+  .guesttop .gt-circ .circ img{width:100%;height:100%;object-fit:cover}
+  .guesttop .gt-circ .cl{display:block;font-size:13px;font-weight:700;line-height:1.2;color:var(--sh-dark-brown)}
+  .guesttop .gt-pager{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:14px}
+  .guesttop .gt-pager .gt-pgnum{font-size:13px;color:var(--sh-mid-gray);min-width:42px;text-align:center}
+  .guesttop .gt-pager .gt-pg{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--sh-dark-gray);cursor:pointer;border-radius:4px}
+  .guesttop .gt-pager .gt-pg:hover{background:var(--sh-light-tan-1)}
+  .guesttop .gt-pager .gt-pg:disabled{opacity:.3;cursor:default;background:none}
+  .guesttop .gt-pager .gt-pg .ic{width:18px;height:18px}
+  @media(max-width:1199px){
+    .guesttop .gt-grid{grid-template-columns:1fr;gap:12px}   /* tighter gap once stacked */
+    .guesttop .gt-cats{order:-1}   /* stacked: Top Categories first, then Replacement Part Finder */
+    .guesttop .gt-rpf h3,.guesttop .gt-rpf p{text-align:left}
+    .guesttop .gt-rpf-img{width:200px;margin-left:-48px}
+    .guesttop .gt-circ a,.guesttop .gt-circ .circ{width:124px}
+    .guesttop .gt-circ .circ{height:124px}
+  }
+
+  /* ===== Testimonials (non-TM cohorts) ===== */
+  .testi{display:none;background:#EAF1F6;padding:48px 0 44px}
+  body[data-cohort="ntm-purchaser"] .testi,
+  body[data-cohort="ntm-nonpurchaser"] .testi,
+  body[data-cohort="guest"] .testi{display:block}
+  .testi .testi-collage{display:block}
+  .testi .testi-collage img{width:100%;height:auto;display:block}
+  .testi .testi-head{text-align:center;margin:18px 0 6px}
+  .testi .testi-head h2{font-size:34px;font-weight:800;color:var(--sh-dark-brown);margin:0}
+  .testi .testi-head h2 span{color:var(--sh-tm-blue)}
+  .testi .testi-head p{font-size:18px;color:var(--sh-dark-gray);margin:8px 0 0}
+  .testi .testi-quotes{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:28px}
+  .testi .tq{background:#fff;border-radius:6px;padding:24px 22px 22px;display:flex;flex-direction:column}
+  .testi .tq-mark{font-family:Georgia,serif;font-size:46px;line-height:.6;color:var(--sh-tm-blue);font-weight:700;margin-bottom:12px}
+  .testi .tq p{font-size:15px;line-height:1.5;color:var(--sh-dark-gray);margin:0 0 16px;flex:1}
+  .testi .tq-by{border-top:1px solid var(--sh-border);padding-top:12px;font-size:12px;color:var(--sh-mid-gray)}
+  .testi .tq-by b{display:inline-block;color:var(--sh-tm-blue);font-weight:700;margin-right:4px;text-transform:uppercase;letter-spacing:.3px}
+  .testi .testi-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid #cfdce8;margin-top:34px;padding-top:26px}
+  .testi .testi-cta-t{font-size:14px;color:var(--sh-dark-gray);max-width:62%}
+  .testi .testi-cta-t b{font-size:17px;color:var(--sh-dark-brown);margin-right:6px}
+  .testi .testi-cta-b{display:flex;gap:14px;flex-shrink:0}
+  @media(max-width:991px){ .testi .testi-quotes{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:767px){
+    .testi .testi-head h2{font-size:26px}
+    .testi .testi-head p{font-size:15px}
+    .testi .testi-quotes{grid-template-columns:1fr;gap:16px}
+    .testi .testi-cta{flex-direction:column;align-items:stretch;gap:14px}
+    .testi .testi-cta-t{max-width:none}
+    .testi .testi-cta-b{flex-direction:column}
+    .testi .testi-cta-b .btn{width:100%}
+  }
 </style>
 </head>
 <body class="mode-topbar" data-cohort="tm">
@@ -1022,7 +1201,7 @@
 <!-- prototype toggle: account-info layout -->
 <div class="modetoggle">
   <div class="mtrow">Cohort:<button data-cohort="tm" class="on">TM Purchaser</button><button data-cohort="ntm-purchaser">NTM Purchaser</button><button data-cohort="ntm-nonpurchaser">NTM Non-Purchaser</button><button data-cohort="guest">Guest User</button></div>
-  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><span class="mtsep"></span><button data-view="gallery">Card states</button><span class="mtsep"></span><button data-view="banneradmin">Banner admin</button></div>
+  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty States</button><span class="mtsep"></span><button data-view="gallery">Card states</button><button data-view="acctstates">Account Activity states</button><span class="mtsep"></span><button data-view="banneradmin">Banner admin</button></div>
 </div>
 
 <!-- MOBILE rep bar (shows on phones only) -->
@@ -1100,7 +1279,7 @@
     <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Promotion banner 2"></picture></div>
     <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Promotion banner 3"></picture></div>
   </div>
-  <div class="hbtext hbtext-shop"><h2>Everything You Need, Ready to Ship</h2><p>Shop 700+ trusted brands and 350,000+ in-stock products.</p></div>
+  <div class="hbtext hbtext-shop"><h2>Trusted by Plumbing, HVAC &amp; Electrical Pros</h2><p>Shop 700+ trusted brands and 350,000+ in-stock products.</p></div>
   <div class="hbtext hbtext-apply"><h2>Are You A Pro?</h2><p>Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!</p>
     <div class="hbcta"><a href="#" class="hbbtn">Apply Now</a><img class="hbnote-img" src="assets/text_in3mins.svg" alt="less than 3 minutes!"></div>
   </div>
@@ -1175,6 +1354,35 @@
   </div>
 </div>
 </div>
+
+<!-- GUEST / NTM NON-PURCHASER TOP ROW: Replacement Part Finder + (Top Categories or Recently Viewed), inside topblue so it overlays the banner -->
+<div class="guesttop"><div class="wrap">
+ <div class="gt-grid">
+  <div class="gt-rpf">
+    <img class="gt-rpf-img" src="assets/replacement_part.webp" alt="Replacement parts" loading="lazy">
+    <div class="gt-rpf-b">
+      <h3>Looking for<br>Replacement Parts?</h3>
+      <p>Quickly find parts from over 100,000 unique models</p>
+      <div class="rpf-selects">
+        <button class="rpf-select" type="button"><span class="rpf-num">1</span><span class="rpf-lbl">Brand</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="rpf-select" type="button"><span class="rpf-num">2</span><span class="rpf-lbl">Model</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <!-- Guest: Top Categories inside the grid -->
+  <div class="gt-cats">
+    <div class="gt-cats-head"><h2>Top Categories</h2><span class="sub">Start shopping with our top categories</span></div>
+    <div class="gt-circ-wrap"><div class="gt-circ" id="gtCircles"></div></div>
+    <div class="gt-pager"><button class="gt-pg" data-dir="-1" aria-label="Previous categories"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="gt-pgnum">1 / 1</span><button class="gt-pg" data-dir="1" aria-label="More categories"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
+  </div>
+  <!-- NTM Non-Purchaser: Recently Viewed inside the grid instead -->
+  <div class="gt-recent">
+    <div class="pmhead"><h2>Recently Viewed</h2><span class="sub">Pick up where you left off</span><span class="va">View All →</span></div>
+    <div class="railwrap"><div class="rail" id="ntmRecentRail"></div></div>
+    <div class="pager" data-rail="ntmRecentRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
+  </div>
+ </div>
+</div></div>
 </div>
 
 <!-- SHOP YOUR CATEGORIES + RECENTLY VIEWED (one container) -->
@@ -1194,7 +1402,7 @@
 <section class="best"><div class="wrap"><div class="bestgrid">
   <div class="bestpromo">
     <div class="pl">Best Pick for You</div>
-    <h2>Popular products in your categories</h2>
+    <h2>Popular products<br>in your categories</h2>
     <img class="pimg" src="assets/Group_Heating.png" alt="Popular products" loading="lazy">
   </div>
   <div class="bestright">
@@ -1206,8 +1414,8 @@
 </div></div></section>
 
 <!-- LATEST ACTIVITIES -->
-<section class="section"><div class="wrap">
-  <div class="seclabel">Latest Activities in Your Account</div>
+<section class="section latestact"><div class="wrap">
+  <div class="seclabel">Account Activity</div>
   <div class="activities" style="margin-top:8px">
     <div class="actcol" id="actLeft"></div>
     <div class="actcol right" id="rightlinks"></div>
@@ -1239,13 +1447,16 @@
 <!-- REPLACEMENT PART FINDER -->
 <section class="section rpfsec"><div class="rpf"><div class="rpf-inner">
   <img class="rpf-img" src="assets/replacement_part.webp" alt="Replacement parts" loading="lazy">
-  <div class="rpf-title">Replacement Part Finder<span class="rpf-new">NEW!</span></div>
+  <div class="rpf-titlewrap">
+    <span class="rpf-new">NEW!</span>
+    <div class="rpf-title">Replacement Part Finder</div>
+  </div>
   <div class="rpf-div"></div>
   <div class="rpf-body">
     <div class="rpf-sub">Quickly find parts from over 100,000 unique models</div>
     <div class="rpf-ctrls">
       <button class="rpf-select" type="button"><span class="rpf-num">1</span><span class="rpf-lbl">Brand</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
-      <button class="rpf-select" type="button"><span class="rpf-num">2</span><span class="rpf-lbl">Model Number</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <button class="rpf-select is-disabled" type="button" disabled><span class="rpf-num">2</span><span class="rpf-lbl">Model Number</span><svg class="ic chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
     </div>
   </div>
   <button class="rpf-collapse" aria-label="Collapse"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
@@ -1258,7 +1469,8 @@
   </div>
   <div>
     <div class="pmhead" style="margin-bottom:14px"><h2>New Arrivals</h2><span class="sub">Just for you</span><span class="va">View all →</span></div>
-    <div class="na-cards" id="naCards"></div>
+    <div class="railwrap"><div class="na-cards" id="naCards"></div></div>
+    <div class="pager na-pager" data-rail="naCards"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
   </div>
 </div></div></section>
 
@@ -1283,6 +1495,22 @@
   <div class="parts" id="partsRow"></div>
 </div></section>
 
+<!-- TESTIMONIALS (non-TM cohorts) -->
+<section class="testi"><div class="wrap">
+  <picture class="testi-collage"><source media="(max-width:767px)" srcset="assets/testimonial_s.webp"><img src="assets/testimonial_l.webp" alt="TradeMasters at work" loading="lazy"></picture>
+  <div class="testi-head"><h2>TradeMasters <span>Say&hellip;</span></h2><p>SupplyHouse makes it easy for me to be more prepared on the job site.</p></div>
+  <div class="testi-quotes">
+    <div class="tq"><span class="tq-mark">&ldquo;</span><p>SupplyHouse has all the materials we need, and they always deliver them super fast!</p><div class="tq-by"><b>Paul Y.</b> <span>TradeMaster since 2015</span></div></div>
+    <div class="tq"><span class="tq-mark">&ldquo;</span><p>The most convenient and easiest way to order parts and materials.</p><div class="tq-by"><b>Peter V.</b> <span>TradeMaster since 2020</span></div></div>
+    <div class="tq"><span class="tq-mark">&ldquo;</span><p>The return policy is super easy! SupplyHouse is by far our favorite vendor to work with on the phone and online.</p><div class="tq-by"><b>Gerson F.</b> <span>TradeMaster since 2015</span></div></div>
+    <div class="tq"><span class="tq-mark">&ldquo;</span><p>They wanted to hear our feedback, unlike other suppliers&hellip; good people, good team. Keep up the good work.</p><div class="tq-by"><b>Tommy T.</b> <span>TradeMaster since 2023</span></div></div>
+  </div>
+  <div class="testi-cta">
+    <div class="testi-cta-t"><b>Ready to experience the benefits for yourself?</b> Join the TradeMaster Program for FREE and enjoy exclusive savings, free shipping, free returns, and more.</div>
+    <div class="testi-cta-b"><a href="#" class="btn btn-primary">Apply Today</a><a href="#" class="btn btn-ghost">Learn More</a></div>
+  </div>
+</div></section>
+
 <!-- BRANDS -->
 <section class="section brands"><div class="wrap">
   <h2>700+ Brands. 340,000+ Products</h2>
@@ -1293,17 +1521,19 @@
 
 <!-- SHOP BY CATEGORY (promo tiles) -->
 <section class="section"><div class="wrap">
-  <div class="seclabel">Shop by Category</div><div class="secsub" style="margin-bottom:16px">Find everything for your next job</div>
   <div class="catpromo">
-    <a class="cpt" href="#"><div class="cpt-b"><div class="cpt-k">Plumbing</div><div class="cpt-s">Pipe, fittings, valves, fixtures and everything in between.</div><span class="cpt-cta">Shop now <svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></div><div class="cpt-img"><span class="ms">plumbing</span></div></a>
-    <a class="cpt" href="#"><div class="cpt-b"><div class="cpt-k">Heating</div><div class="cpt-s">Boilers, radiators, hydronics and zone controls.</div><span class="cpt-cta">Shop now <svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></div><div class="cpt-img"><span class="ms">water_drop</span></div></a>
-    <a class="cpt" href="#"><div class="cpt-b"><div class="cpt-k">HVAC</div><div class="cpt-s">Mini-splits, heat pumps, air handlers and parts.</div><span class="cpt-cta">Shop now <svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></div><div class="cpt-img"><span class="ms">heat_pump</span></div></a>
-    <a class="cpt" href="#"><div class="cpt-b"><div class="cpt-k">Electrical</div><div class="cpt-s">Wire, conduit, breakers, devices and tools.</div><span class="cpt-cta">Shop now <svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></span></div><div class="cpt-img"><span class="ms">bolt</span></div></a>
+    <a class="cpt cpt-plumbing" href="#"><div class="cpt-b"><div class="cpt-head"><span class="cpt-tag">Top Categories</span><div class="cpt-k">Plumbing</div></div><div class="cpt-s">Pipe, fittings, valves and fixtures.</div><span class="cpt-cta">View All</span></div><div class="cpt-img"><img src="assets/Group_plumbing.png" alt="" loading="lazy"></div></a>
+    <a class="cpt cpt-heating" href="#"><div class="cpt-b"><div class="cpt-head"><span class="cpt-tag">Top Categories</span><div class="cpt-k">Heating</div></div><div class="cpt-s">Boilers, hydronics and zone controls.</div><span class="cpt-cta">View All</span></div><div class="cpt-img"><img src="assets/Group_Heating.png" alt="" loading="lazy"></div></a>
+    <a class="cpt cpt-hvac" href="#"><div class="cpt-b"><div class="cpt-head"><span class="cpt-tag">Top Categories</span><div class="cpt-k">HVAC</div></div><div class="cpt-s">Mini-splits, heat pumps and parts.</div><span class="cpt-cta">View All</span></div><div class="cpt-img"><img src="assets/Group_HVAC.png" alt="" loading="lazy"></div></a>
+    <a class="cpt cpt-electrical" href="#"><div class="cpt-b"><div class="cpt-head"><span class="cpt-tag">Top Categories</span><div class="cpt-k">Electrical</div></div><div class="cpt-s">Wire, conduit, breakers and devices.</div><span class="cpt-cta">View All</span></div><div class="cpt-img"><img src="assets/Group_Electrical.png" alt="" loading="lazy"></div></a>
   </div>
 </div></section>
 
 <!-- CARD STATES GALLERY (documentation view) -->
 <section id="cardGallery"><div class="ginner" id="galleryInner"></div></section>
+
+<!-- ACCOUNT ACTIVITY STATES GALLERY (use cases & edge cases, documentation view) -->
+<section id="acctGallery"><div class="ginner" id="acctInner"></div></section>
 
 <!-- HERO BANNER ADMIN (toggle view) -->
 <section id="bannerAdmin">
@@ -1319,7 +1549,9 @@
       <div id="baList"></div>
     </aside>
     <main class="ba-main">
-      <p class="ba-pvlabel">Live preview</p>
+      <p class="ba-pvlabel">Banners for this cohort</p>
+      <div class="ba-banners" id="baBanners"></div>
+      <p class="ba-pvlabel" style="margin-top:18px">Live preview</p>
       <div class="ba-preview">
         <div class="pv-band" id="pvBand">
           <div class="pv-inner" id="pvInner">
@@ -1643,7 +1875,7 @@
           </div>
         </div>
         <button class="atc">${cartSvg} Add to Cart</button>
-        <div class="ful">${okCircleSvg} <span>Get 15 <b>Tomorrow by 12PM</b></span> <span class="fic">${truckSvg}</span><span class="fic">${warehouseSvg}</span></div>
+        <div class="ful">${okCircleSvg} <span>Get 15 <b>Tomorrow by 12PM</b></span></div>
       </div>
     </article>`;
   }
@@ -1660,24 +1892,51 @@
   const recentSave=i=>[1,3].includes(i)?'box':[5,7].includes(i)?'stock':'';
   function railEmpty(msg){return '<div class="railempty" style="padding:26px 4px;color:var(--sh-mid-gray);font-size:14px">'+msg+'</div>';}
   function renderRails(){
-    const rEl=document.getElementById('reorderRail'), reEl=document.getElementById('recentRail');
+    const rEl=document.getElementById('reorderRail'), reEl=document.getElementById('recentRail'), ntmEl=document.getElementById('ntmRecentRail');
     if(SCN_REORDER<=0){rEl.style.display='block';rEl.innerHTML=railEmpty("You haven't reordered anything yet.");}
     else{rEl.style.removeProperty('display');const a=Array.from({length:SCN_REORDER},(_,i)=>reorder[i%reorder.length]);rEl.innerHTML=a.map((it,i)=>mcard(it,i,reorderSave(i),reorderCat[i%reorderCat.length])).join('')+endCard('','View all');}
-    if(SCN_RECENT<=0){reEl.style.display='block';reEl.innerHTML=railEmpty("Nothing viewed recently.");}
-    else{reEl.style.removeProperty('display');const a=Array.from({length:SCN_RECENT},(_,i)=>recent[i%recent.length]);reEl.innerHTML=a.map((it,i)=>mcard(it,i,recentSave(i))).join('')+endCard('','View all');}
+    [reEl,ntmEl].forEach(el=>{
+      if(!el)return;
+      if(SCN_RECENT<=0){el.style.display='block';el.innerHTML=railEmpty("Nothing viewed recently.");}
+      else{el.style.removeProperty('display');const a=Array.from({length:SCN_RECENT},(_,i)=>recent[i%recent.length]);el.innerHTML=a.map((it,i)=>mcard(it,i,recentSave(i))).join('')+endCard('','View all');}
+    });
     document.getElementById('bestRail').innerHTML=best.map((it,i)=>fcard(it,i,bestCat[i])).join('');
   }
-  fillSkel('reorderRail',8);fillSkel('recentRail',8);fillSkel('bestRail',6,true);
+  fillSkel('reorderRail',8);fillSkel('recentRail',8);fillSkel('ntmRecentRail',8);fillSkel('bestRail',6,true);
 
   // new arrivals + parts (full/simple cards)
   const na=[['M12 ProPEX Tool Kit','2432-22','Milwaukee'],['Press Jaw Set','2773-20','Milwaukee'],['Drain Snake','2772A','Milwaukee'],['Angle Grinder','2780-20','Milwaukee']];
   document.getElementById('naCards').innerHTML=na.map((it,i)=>fcard([it[0]+' w/ 1/2", 3/4", and 1" Heads',it[1],it[2],'$26.14','$25.75',4.8,22],i)).join('');
+  initPager('naCards');
   const partsRow=document.getElementById('partsRow');
   partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:13px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
   // categories
   const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp']];
   function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} ›</span></a>`).join('');}
+  (function(){
+    const g=document.getElementById('gtCircles');if(!g)return;
+    g.innerHTML=cats.map(c=>`<a href="#"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span class="cl">${c[0]} ›</span></a>`).join('');
+    const wrap=g.closest('.gt-circ-wrap'), cats2=g.closest('.gt-cats'),
+          numEl=cats2.querySelector('.gt-pgnum'),
+          prev=cats2.querySelector('.gt-pg[data-dir="-1"]'),
+          next=cats2.querySelector('.gt-pg[data-dir="1"]');
+    const STEP=144; // 124px tile + 20px gap
+    let page=0;
+    function perPage(){return Math.max(1,Math.floor((wrap.clientWidth+20)/STEP));}
+    function pages(){return Math.max(1,Math.ceil(cats.length/perPage()));}
+    function render(){
+      const pp=perPage(),tot=pages();
+      if(page>tot-1)page=tot-1; if(page<0)page=0;
+      g.style.transform=`translateX(${-page*pp*STEP}px)`;
+      numEl.textContent=(page+1)+' / '+tot;
+      prev.disabled=page<=0; next.disabled=page>=tot-1;
+    }
+    prev.addEventListener('click',()=>{page--;render();});
+    next.addEventListener('click',()=>{page++;render();});
+    let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,120);});
+    render();
+  })();
   function fillSkelCats(){const el=document.getElementById('cats');if(el)el.innerHTML=cats.map(()=>'<div class="skcat"><span class="skel skcirc"></span><span class="skel skline"></span></div>').join('');}
   fillSkelCats();
 
@@ -1694,18 +1953,31 @@
   function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><svg class="ic" viewBox="0 0 24 24">${groupIcon[icon]}</svg></span> ${label} <a class="va" href="#">View All</a></div>`;}
   function orderRow(num,po,date,price,status,statClass,more){return `<a class="arow" href="#"><div class="ti"><b>${num} (PO#: ${po})</b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(more)}${chev}</a>`;}
   function simpleRow(title,date,more){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Last Edited: ${date}</span></div>${actThumbsHTML(more)}${chev}</a>`;}
-  document.getElementById('actLeft').innerHTML=
-    `<div class="actgroup">${ahHTML('orders','Your Orders')}`+
-      orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+
-      orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+
-      orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5)+
-    `</div>`+
-    `<div class="actgroup">${ahHTML('list','Lists')}`+
-      simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+
-    `</div>`+
-    `<div class="actgroup">${ahHTML('cart','Saved Carts')}`+
-      simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+
-    `</div>`;
+  // empty-state illustrations (inline SVG per project convention — no webfont ligatures)
+  const emptyIcon={
+    lists:'<svg viewBox="0 0 64 64" fill="none" stroke="var(--sh-tan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="28" height="36" rx="2"/><path d="M19 17h14M19 24h14M19 31h9"/><circle cx="43" cy="42" r="10" fill="#fff"/><line x1="50.5" y1="49.5" x2="57" y2="56"/></svg>',
+    carts:'<svg viewBox="0 0 64 64" fill="none" stroke="var(--sh-tan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h6l4 27h27l4-19H21"/><circle cx="23" cy="47" r="3.5" fill="var(--sh-tan)" stroke="none"/><circle cx="43" cy="47" r="3.5" fill="var(--sh-tan)" stroke="none"/></svg>'
+  };
+  const emptyCopy={lists:{msg:'No saved lists yet',cta:'Start Creating'},carts:{msg:'No saved carts yet',cta:'Start Creating'}};
+  function emptyStateHTML(kind){const c=emptyCopy[kind];return `<div class="empty"><span class="emptyicon">${emptyIcon[kind]}</span><p>${c.msg}</p><button type="button" class="btn-start">${c.cta}</button></div>`;}
+  // sample rows to draw from when a group has items — Lists and Saved Carts each pull the first N
+  const listItems=[['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5]];
+  const cartItems=[['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5]];
+  let SCN_LISTS=3, SCN_CARTS=3;
+  function renderActLeft(){
+    const el=document.getElementById('actLeft'); if(!el)return;
+    const listsHTML=SCN_LISTS>0 ? listItems.slice(0,SCN_LISTS).map(r=>simpleRow(r[0],r[1],r[2])).join('') : emptyStateHTML('lists');
+    const cartsHTML=SCN_CARTS>0 ? cartItems.slice(0,SCN_CARTS).map(r=>simpleRow(r[0],r[1],r[2])).join('') : emptyStateHTML('carts');
+    el.innerHTML=
+      `<div class="actgroup">${ahHTML('orders','Your Orders')}`+
+        orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+
+        orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+
+        orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5)+
+      `</div>`+
+      `<div class="actgroup">${ahHTML('list','Lists')}${listsHTML}</div>`+
+      `<div class="actgroup">${ahHTML('cart','Saved Carts')}${cartsHTML}</div>`;
+  }
+  renderActLeft();
 
   // brands directory
   const bd=[['PLUMBING',['Amtrol','AO Smith','Aqua-Pure','Bradford White','Brasscraft','Fluidmaster','Grundfos','Honeywell','Jones Stephens','Liberty Pumps','Little Giant','Milwaukee','Sioux Chief','Sloan','Taco','Watts','Zoeller']],['HEATING',['Beacon Morris','Bell & Gossett','Buderus','Burnham','Caleffi','Danfoss','Grundfos','Honeywell','Lochinvar','Navien','Rinnai','Slant/Fin','Taco','Taco','Triangle Tube','Weil-McLain']],['FITTINGS',['Black','Brass','Compression','Copper','Galvanized','PEX','Press','PVC']],['VALVES',['Ball Valves','Boiler Drains','Check Valves','Gas Valves','Hose Bibbs','PVC Ball Valves','Sillcocks']],['HVAC',['Aprilaire','Atco','Bell','Broan','Comfort-Aire','Diversitech','Fantech','Field Controls','Honeywell','LG','Rheem']]];
@@ -1863,7 +2135,7 @@
   // Fixed visible columns per breakpoint for the Reorder/Recently rails (mobile <=820 = stacked list).
   // Edit these numbers to change how many cards show at each width.
   function colsFor(railId){
-    if(railId==='bestRail')return null;            // Best Picks keeps auto-fit
+    if(railId==='bestRail'||railId==='ntmRecentRail')return null;   // auto-fit: sized by their own container, not the full-bleed viewport
     const w=window.innerWidth;
     if(w>=1920)return 8;   // 1920+ unchanged
     if(w>=1600)return 7;   // one fewer from 1919 down -> wider cards
@@ -1884,7 +2156,7 @@
     const cardW=Math.floor((W-(n-1)*GAP)/n);
     rail.style.setProperty('--cardw',cardW+'px');
   }
-  function layoutRails(){['reorderRail','recentRail','bestRail'].forEach(layoutRail);}
+  function layoutRails(){['reorderRail','recentRail','ntmRecentRail','bestRail'].forEach(layoutRail);}
 
   // ---------- category-pill filtering (multi-select: show union of picked categories) ----------
   function applyMultiFilter(railId,wrap){
@@ -1971,7 +2243,7 @@
     renderCats();
     document.body.classList.add('loaded');
     layoutRails();                                // size real cards before the pager measures pages
-    ['reorderRail','recentRail','bestRail'].forEach(initPager);
+    ['reorderRail','recentRail','ntmRecentRail','bestRail'].forEach(initPager);
   }, 1100);
 
   // ---------- upcoming-delivery popover ----------
@@ -1995,9 +2267,9 @@
 
   // ---------- edge-case scenario switcher ----------
   const SCENARIOS={
-    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View All</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Last Edited: 2/13/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Last Edited: 2/13/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false},
-    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Last Edited: 6/1/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Last Edited: 6/1/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false},
-    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true}
+    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View All</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Last Edited: 2/13/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Last Edited: 2/13/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false,listsN:3,cartsN:3},
+    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Last Edited: 6/1/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Last Edited: 6/1/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false,listsN:2,cartsN:1},
+    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true,listsN:0,cartsN:0}
   };
   function limitFilterChips(s){
     const rf=document.getElementById('rfilters'); if(!rf)return;
@@ -2021,9 +2293,11 @@
     const rr=document.getElementById('reorderRail'); if(rr)rr.dataset.rows=s.rows;
     const rs=document.getElementById('recentSection'); if(rs)rs.style.display=s.hideRecent?'none':'';
     SCN_REORDER=s.reorderN; SCN_RECENT=s.recentN;
+    SCN_LISTS=s.listsN; SCN_CARTS=s.cartsN;
     limitFilterChips(s);
     renderRails(); layoutRails();
-    ['reorderRail','recentRail','bestRail'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
+    renderActLeft();
+    ['reorderRail','recentRail','ntmRecentRail','bestRail'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
   }
   // ---- Card states gallery (documentation view) ----
   let galleryBuilt=false;
@@ -2070,6 +2344,89 @@
       +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>`<figure class="gx"><div class="gcard">${c[0]}</div><figcaption><b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`).join('')}</div>`).join('')
       +`<div class="gtitle">Mobile layout</div><div class="grow">${mobileFigure}</div>`;
   }
+
+  // ---- Account Activity states gallery: every use case & edge case for this component ----
+  let acctGalleryBuilt=false;
+  function buildAcctGallery(){
+    if(acctGalleryBuilt)return; acctGalleryBuilt=true;
+    const tag=s=>s==='live'?'<span class="tag live">On the page today</span>':'<span class="tag gap">Recommendation — not yet built</span>';
+    const note=html=>`<span class="noteic">${infoSvg}</span><p>${html}</p>`;
+    function kpiCell(label,value,sub,extra){
+      return `<div class="kpi-demo"><div class="atk">${label}</div><div class="atv"><span>${value}</span>${extra||''}</div><div class="ats">${sub}</div></div>`;
+    }
+    function ordersEmptyProposed(){
+      const icon='<svg viewBox="0 0 64 64" fill="none" stroke="var(--sh-tan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="30" height="6" rx="1"/><rect x="10" y="18" width="38" height="34" rx="2"/><path d="M20 28h18M20 36h12"/></svg>';
+      return `<div class="empty"><span class="emptyicon">${icon}</span><p>No orders yet</p><button type="button" class="btn-start">Start Shopping</button></div>`;
+    }
+    // real delivery-popover markup, unpinned from its absolute/hidden overlay CSS so it renders in flow
+    function deliveryPopoverSnippet(){
+      return `<div class="delivpop" style="position:static;display:block;transform:none;box-shadow:none;width:100%;max-width:100%">
+        <div class="dphead">Upcoming Deliveries (2)</div>
+        <div class="dpitem">
+          <div class="dptitle">Arriving Today, Jun 20</div>
+          <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
+          <div class="dpmeta">10 items · Riverside HVAC</div>
+          <div class="dpprog"><div class="track"><i style="width:70%;background:var(--sh-success)"></i></div><span class="dpstat ok">Shipped</span></div>
+          <div class="dpthumbs"><span class="t"><span class="ms">bolt</span></span><span class="t"><span class="ms">plumbing</span></span><span class="t"><span class="ms">valve</span></span><span class="more">+5</span></div>
+          <a href="#" class="dpbtn primary">Track package</a>
+        </div>
+        <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
+          <div class="dptitle">Arriving Tue, Jun 25</div>
+          <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
+          <div class="dpmeta">2 items · Maple Ave reno</div>
+          <div class="dpprog"><div class="track"><i style="width:38%;background:var(--sh-orange)"></i></div><span class="dpstat proc">Processing</span></div>
+        </div>
+      </div>`;
+    }
+    const groups=[
+      ['KPI bar — Active Orders',[
+        [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View All</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span></span>'),'Full — orders + upcoming delivery','Delivery badge shown next to the count when at least one order is en route.',tag('live')],
+        [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>'),'Sparse — single order, no badge','A lone order close to arrival; sub-copy leads with the date instead of a generic CTA.',tag('live')],
+        [kpiCell('Active Orders','0 Orders','No active orders'),'Empty — no active orders','No link shown — nothing to view.',tag('live')],
+      ]],
+      ['KPI bar — Open Quotes',[
+        [kpiCell('Open Quotes','3 Quotes','<span class="warn">1 expires in 2 days</span> <a href="#">View</a>'),'Full — with expiring-quote warning','The bold warning-colored sub-copy only appears when a quote is close to expiring.',tag('live')],
+        [kpiCell('Open Quotes','1 Quote','<a href="#">View</a>'),'Sparse — single quote, no warning','',tag('live')],
+        [kpiCell('Open Quotes','0 Quotes','No open quotes'),'Empty — no open quotes','',tag('live')],
+      ]],
+      ['KPI bar — Saved Lists &amp; Your Carts',[
+        [kpiCell('Saved Lists','15 Lists','Last Edited: 2/13/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
+        [kpiCell('Saved Lists','0 Lists','No saved lists'),'Saved Lists — empty','',tag('live')],
+        [kpiCell('Your Carts','8 Saved Carts','Last Edited: 2/13/26 <a href="#">View</a>'),'Your Carts — populated','',tag('live')],
+        [kpiCell('Your Carts','0 Saved Carts','No saved carts'),'Your Carts — empty','',tag('live')],
+      ]],
+      ['Upcoming Deliveries popover',[
+        [deliveryPopoverSnippet(),'Populated — 2 deliveries','Each item gets its own progress bar, status, and package thumbnails; opens on hover, click, or Enter/Space.',tag('live'),{wide:true}],
+        [note('When there\'s no order in transit, the delivery-badge trigger itself is hidden (tied to the same flag as the KPI badge above) — so there\'s no "empty popover," the entry point just disappears.'),'Hidden entirely when nothing\'s en route','',tag('live'),{cls:'note',wide:true}],
+        [note('The 8-second auto-dismiss timer only pauses on <code>mouseenter</code>. A keyboard user who opens the popover with Enter has no <code>focusin</code> equivalent to pause the countdown — a WCAG 2.2.1 (Timing Adjustable) risk if real, longer content ships here.'),'No keyboard-equivalent pause for auto-dismiss','',tag('gap'),{cls:'note',wide:true}],
+      ]],
+      ['Orders — activity feed',[
+        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5),'Populated — multiple statuses','Processing (orange) / Shipped (green) / Delivered (brown) — color plus the status word itself, not color alone.',tag('live'),{wide:true}],
+        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5),'Single order','Same row template; group still renders fine with just one item.',tag('live'),{wide:true}],
+        ['<div class="actgroup">'+ordersEmptyProposed()+'</div>','Empty state — proposed','Today the Orders group always shows 3 hardcoded rows, even in the Empty scenario — which contradicts the "0 Orders" KPI above it on the same screen. This is the proposed fix, matching the Lists/Carts pattern.',tag('gap')],
+      ]],
+      ['Lists — activity feed',[
+        [simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5),'Populated — multiple lists','',tag('live'),{wide:true}],
+        [simpleRow('RTU – Goodman','2/13/22',5),'Single list','',tag('live'),{wide:true}],
+        ['<div class="actgroup">'+emptyStateHTML('lists')+'</div>','Empty state','Icon, "No saved lists yet," and a "Start Creating" CTA — matches the Figma empty-state reference.',tag('live')],
+      ]],
+      ['Saved Carts — activity feed',[
+        [simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5),'Populated — multiple carts','',tag('live'),{wide:true}],
+        [simpleRow('RTU – Goodman','2/13/22',5),'Single cart','',tag('live'),{wide:true}],
+        ['<div class="actgroup">'+emptyStateHTML('carts')+'</div>','Empty state','Same treatment as Lists.',tag('live')],
+      ]],
+      ['Right-column account links',[
+        [links.slice(0,4).map(l=>`<a class="linkrow" href="#"><span class="lic"><svg class="ic" viewBox="0 0 24 24">${linkIcon[l[2]]||''}</svg></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`).join(''),'Populated — account links','Return/Credit Status, Invoices, Quotes, Tax Exemption (plus 3 more TradeMaster promo links below, not shown here).',tag('live'),{wide:true}],
+        [note('These links and their "Latest update" dates are static and never vary by Scenario — there\'s no modeled empty state (e.g., "No invoices yet" for a brand-new account) and the hardcoded date will read as stale content once this is real data.'),'No empty state / static content risk','',tag('gap'),{cls:'note',wide:true}],
+      ]],
+    ];
+    document.getElementById('acctInner').innerHTML=
+      `<div class="ghead"><h1>Account Activity — states, use cases &amp; edge cases</h1><p>Every state of the Account Activity component (KPI bar, Upcoming Deliveries, Orders/Lists/Saved Carts feed, and the right-column links) in one place: what's already live on the page (green tag) vs. a documented gap or recommendation (orange tag). This is a static reference view; switch back with the Scenario toggle to use the live page.</p></div>`
+      +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>{
+        const opts=c[4]||{};
+        return `<figure class="gx${opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`;
+      }).join('')}</div>`).join('');
+  }
   // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
   const COHORT_BANNER={
     'guest':['assets/banner/hero_ntm_default_L.webp','assets/banner/hero_ntm_default_S.webp'],
@@ -2086,7 +2443,7 @@
   }
   (function(){const mt=document.querySelector('.modetoggle');if(!mt)return;
     mt.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-      const exitViews=()=>{document.body.classList.remove('gallery','banneradmin');mt.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on'));};
+      const exitViews=()=>{document.body.classList.remove('gallery','banneradmin','acctstates');mt.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on'));};
       if(b.dataset.cohort){
         exitViews();
         b.closest('.mtrow').querySelectorAll('button[data-cohort]').forEach(x=>x.classList.toggle('on',x===b));
@@ -2094,9 +2451,10 @@
       }
       if(b.dataset.view){
         mt.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('on',x===b));
-        document.body.classList.remove('gallery','banneradmin');
+        document.body.classList.remove('gallery','banneradmin','acctstates');
         if(b.dataset.view==='gallery'){buildGallery();document.body.classList.add('gallery');}
         else if(b.dataset.view==='banneradmin'){document.body.classList.add('banneradmin');}
+        else if(b.dataset.view==='acctstates'){buildAcctGallery();document.body.classList.add('acctstates');}
         window.scrollTo(0,0); return;
       }
       if(b.dataset.scn){
@@ -2123,24 +2481,40 @@
   (function(){
     const list=document.getElementById('baList'); if(!list)return;
     const $=id=>document.getElementById(id);
-    const SIZES={short:{h:120,hint:'Short — color band + headline, no image (e.g. TM members).'},mid:{h:240,hint:'Mid — image + text, standard promo (e.g. NTM / Guest).'},tall:{h:400,hint:'Tall — large promo banner, up to 400px (special campaigns).'}};
+    const SIZES={short:{h:80,hint:'Short — color band + headline, optional logo on the right (e.g. TM members).'},mid:{h:220,hint:'Mid — image + text, standard promo (e.g. NTM / Guest).'},tall:{h:400,hint:'Tall — large promo banner, up to 400px (special campaigns).'}};
     const DEF={
-      'tm':{label:'TM Purchaser',note:'Member — slim hero',size:'short',headline:'Built for the Pros',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:''},
-      'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
-      'ntm-nonpurchaser':{label:'NTM Non-Purchaser',note:'Non-member, no orders',size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
-      'guest':{label:'Guest User',note:'Not signed in',size:'mid',headline:'Everything You Need, Ready to Ship',sub:'Shop 700+ trusted brands and 350,000+ in-stock products.',h2:34,showBtn:false,btnLabel:'Shop Now',note3:false,bg:'#E2CCB8',text:'auto',image:'assets/banner/hero_ntm_default_L.webp'}
+      'tm':{label:'TM Purchaser',note:'Member — slim hero',active:0,banners:[
+        {size:'short',headline:'Built for the Pros',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:''}
+      ]},
+      'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',active:0,banners:[
+        {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
+        {size:'tall',headline:'Spring Promo — Save Big',sub:'Limited-time deals on top brands, this week only.',h2:38,showBtn:true,btnLabel:'Shop Deals',note3:false,bg:'#0468AF',text:'auto',image:'assets/banner/hero_promo1_L.webp'}
+      ]},
+      'ntm-nonpurchaser':{label:'NTM Non-Purchaser',note:'Non-member, no orders',active:0,banners:[
+        {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'}
+      ]},
+      'guest':{label:'Guest User',note:'Not signed in',active:0,banners:[
+        {size:'mid',headline:'Trusted by Plumbing, HVAC & Electrical Pros',sub:'Shop 700+ trusted brands and 350,000+ in-stock products.',h2:34,showBtn:false,btnLabel:'Shop Now',note3:false,bg:'#E2CCB8',text:'auto',image:'assets/banner/hero_ntm_default_L.webp'}
+      ]}
     };
-    const KEY='sh_hero_banners_v1', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','guest'];
+    const KEY='sh_hero_banners_v2', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','guest'];
     let data=loadD(), cur='tm';
-    ORDER.forEach(k=>{const c=data[k];if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});
+    ORDER.forEach(k=>{const co=data[k];if(co.active==null)co.active=0;(co.banners||[]).forEach(c=>{if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});});
     function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
     function saveD(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
     const lum=hex=>{const v=hex.replace('#','');return (0.299*parseInt(v.substr(0,2),16)+0.587*parseInt(v.substr(2,2),16)+0.114*parseInt(v.substr(4,2),16))/255;};
-    const tcolor=c=>c.text==='auto'?(lum(c.bg)>0.62?'#1A1A1A':'#fff'):c.text;
-    function buildList(){list.innerHTML=ORDER.map(k=>`<button class="ba-cohort${k===cur?' on':''}" data-k="${k}"><span class="cn">${data[k].label}</span><span class="cm">${data[k].note} · ${data[k].size}</span></button>`).join('');}
-    list.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;cur=b.dataset.k;buildList();fill();render();});
+    const tcolor=c=>c.text==='auto'?(lum(c.bg)>0.62?'#111111':'#fff'):c.text;
+    const cfg=()=>{const c=data[cur];return c.banners[c.active]||c.banners[0];};
+    function buildList(){list.innerHTML=ORDER.map(k=>{const co=data[k];return `<button class="ba-cohort${k===cur?' on':''}" data-k="${k}"><span class="cn">${co.label}</span><span class="cm">${co.note} · ${co.banners.length} banner${co.banners.length>1?'s':''}</span></button>`;}).join('');}
+    function buildBanners(){const co=data[cur];$('baBanners').innerHTML=co.banners.map((b,i)=>`<button class="bn${i===co.active?' on':''}" data-bi="${i}">Banner ${i+1} <span class="bn-sz">${b.size}</span>${co.banners.length>1?`<span class="bn-del" data-del="${i}" title="Remove">&times;</span>`:''}</button>`).join('')+`<button class="bn bn-add" data-add="1">+ Add banner</button>`;}
+    list.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;cur=b.dataset.k;buildList();buildBanners();fill();render();});
+    $('baBanners').addEventListener('click',e=>{
+      const del=e.target.closest('[data-del]'); if(del){e.stopPropagation();const co=data[cur];if(co.banners.length<=1)return;co.banners.splice(+del.dataset.del,1);if(co.active>=co.banners.length)co.active=co.banners.length-1;saveD();buildBanners();buildList();fill();render();return;}
+      const add=e.target.closest('[data-add]'); if(add){const co=data[cur];co.banners.push(JSON.parse(JSON.stringify(cfg())));co.active=co.banners.length-1;saveD();buildBanners();buildList();fill();render();return;}
+      const bi=e.target.closest('[data-bi]'); if(bi){data[cur].active=+bi.dataset.bi;saveD();buildBanners();buildList();fill();render();}
+    });
     function render(){
-      const c=data[cur],h=SIZES[c.size].h,tc=tcolor(c);
+      const c=cfg(),h=SIZES[c.size].h,tc=tcolor(c);
       $('pvBand').style.height=h+'px';$('pvBand').style.background=c.bg;
       const img=$('pvImg'); if(c.size!=='short'&&c.image){img.style.display='';img.src=c.image;}else img.style.display='none';
       $('pvFade').style.background='linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 52%,'+c.bg+' 100%)';
@@ -2149,10 +2523,10 @@
       const p=$('pvP'); if(c.sub&&c.size!=='short'){p.style.display='';p.textContent=c.sub;p.style.color=tc;}else p.style.display='none';
       $('pvCta').style.display=c.showBtn?'flex':'none';$('pvBtn').textContent=c.btnLabel||'Shop Now';$('pvNote').hidden=!(c.showBtn&&c.note3);
       const ic=$('pvIcon'); if(c.icon){ic.hidden=false;ic.src=c.icon;ic.style.left=c.iconX+'%';ic.style.top=c.iconY+'%';ic.style.width=c.iconSize+'px';}else ic.hidden=true;
-      $('mCohort').textContent=c.label;$('mSize').textContent=c.size;$('mH').textContent=h+'px';
+      $('mCohort').textContent=data[cur].label;$('mSize').textContent=c.size;$('mH').textContent=h+'px';
     }
     function setSeg(seg,val,attr){[...seg.children].forEach(x=>x.classList.toggle('on',x.dataset[attr]===val));}
-    function fill(){const c=data[cur];setSeg($('sizeSeg'),c.size,'size');$('sizeHint').textContent=SIZES[c.size].hint;$('fHeadline').value=c.headline;$('fH2').value=c.h2;$('fH2v').textContent=c.h2+'px';
+    function fill(){const c=cfg();setSeg($('sizeSeg'),c.size,'size');$('sizeHint').textContent=SIZES[c.size].hint;$('fHeadline').value=c.headline;$('fH2').value=c.h2;$('fH2v').textContent=c.h2+'px';
       $('fTW').value=c.textWidth;$('fTWv').textContent=c.textWidth+'%';
       $('fSub').value=c.sub;$('fBtnOn').checked=c.showBtn;$('fBtnLabel').value=c.btnLabel;$('fNote').checked=c.note3;
       $('fColor').value=/^#[0-9a-fA-F]{6}$/.test(c.bg)?c.bg:'#0066AD';$('fHex').value=c.bg.toUpperCase();
@@ -2161,10 +2535,10 @@
       $('iconHint').textContent=c.icon?'Icon set':'No icon';
       $('imgHint').textContent=c.image?(c.image.startsWith('data:')?'Custom uploaded image':c.image):'No image set';
       $('imgHintS').textContent=c.imageS?(c.imageS.startsWith('data:')?'Custom uploaded image':c.imageS):'No image set';}
-    function upd(p){Object.assign(data[cur],p);saveD();render();}
+    function upd(p){Object.assign(cfg(),p);saveD();render();buildBanners();}
     $('sizeSeg').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;setSeg($('sizeSeg'),b.dataset.size,'size');$('sizeHint').textContent=SIZES[b.dataset.size].hint;
       const patch={size:b.dataset.size};
-      if(b.dataset.size==='tall'&&!(data[cur].image||'').startsWith('data:')){patch.image='assets/banner/hero_promo1_L.webp';patch.imageS='assets/banner/hero_promo1_S.webp';}   // Tall uses the promo banner
+      if(b.dataset.size==='tall'&&!(cfg().image||'').startsWith('data:')){patch.image='assets/banner/hero_promo1_L.webp';patch.imageS='assets/banner/hero_promo1_S.webp';}   // Tall uses the promo banner
       upd(patch);fill();buildList();});
     function setTextColor(v){v=(v||'').trim();if(!/^#?[0-9a-fA-F]{6}$/.test(v))return;if(v[0]!=='#')v='#'+v;$('fAuto').checked=false;$('fTextColor').value=v;$('fTextHex').value=v.toUpperCase();upd({text:v});}
     $('fAuto').addEventListener('change',()=>{ if($('fAuto').checked){upd({text:'auto'});fill();} else setTextColor($('fTextHex').value||'#FFFFFF'); });
@@ -2189,9 +2563,9 @@
     $('fImg').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({image:rd.result});$('imgHint').textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});
     $('fImgS').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({imageS:rd.result});$('imgHintS').textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});
     function toastB(m){const t=$('baToast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);}
-    $('baReset').addEventListener('click',()=>{if(!confirm('Reset all banners to defaults?'))return;data=JSON.parse(JSON.stringify(DEF));saveD();buildList();fill();render();toastB('Reset to defaults');});
-    $('baExport').addEventListener('click',()=>{const out=JSON.parse(JSON.stringify(data));Object.keys(out).forEach(k=>{['image','imageS','icon'].forEach(p=>{if(out[k][p]&&out[k][p].startsWith('data:'))out[k][p]='<uploaded image>';});});const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hero-banners.json';a.click();URL.revokeObjectURL(a.href);toastB('Exported hero-banners.json');});
-    buildList();fill();render();
+    $('baReset').addEventListener('click',()=>{if(!confirm('Reset all banners to defaults?'))return;data=JSON.parse(JSON.stringify(DEF));saveD();buildList();buildBanners();fill();render();toastB('Reset to defaults');});
+    $('baExport').addEventListener('click',()=>{const out=JSON.parse(JSON.stringify(data));Object.keys(out).forEach(k=>{(out[k].banners||[]).forEach(b=>{['image','imageS','icon'].forEach(p=>{if(b[p]&&b[p].startsWith('data:'))b[p]='<uploaded image>';});});});const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hero-banners.json';a.click();URL.revokeObjectURL(a.href);toastB('Exported hero-banners.json');});
+    buildList();buildBanners();fill();render();
   })();
 </script>
 <script>
