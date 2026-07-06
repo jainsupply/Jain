@@ -358,7 +358,7 @@
   .dpprog .track i{position:absolute;left:0;top:0;height:100%;border-radius:2px}
   .dpstat{font-size:13px;font-weight:700;white-space:nowrap}
   .dpstat.ok{color:#5E9A41} .dpstat.proc{color:var(--sh-orange)}
-  .dpthumbs{display:flex;align-items:center;gap:12px;margin:14px 0 16px}
+  .dpthumbs{display:flex;align-items:center;gap:12px;margin:14px 0 16px;overflow:hidden}
   .dpthumbs .t{width:48px;height:48px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .dpthumbs .t .ms{font-size:26px}
   .dpthumbs .more{font-size:16px;color:#777;font-weight:400;margin-left:4px}
@@ -445,10 +445,10 @@
   .pmod:first-child{padding-top:24px}   /* extra space above the Reorder title */
   #recentSection{padding-top:8px}   /* divider above Recently comes from the .pmod+.pmod rule */
   #catSection{padding-top:0}
-  #catSection .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* light gray divider above Shop Your Categories, like Recently */
+  #catSection .pmhead{border-top:1px solid var(--sh-border);padding-top:32px}   /* light gray divider above Shop Your Categories, like Recently */
   .recentwrap{padding-top:0}
   .pmod+.pmod{border-top:none;padding-top:0}
-  .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* divider aligned with content + 8px extra above title */
+  .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:32px}   /* divider aligned with content + 8px extra above title */
   .pmhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .pmhead h2{font-size:24px;font-weight:700;color:var(--sh-dark-gray)}
   .pmhead .sub{font-size:13px;color:var(--sh-mid-gray)}
@@ -712,8 +712,9 @@
   .activities .right .linkrow:last-child{border-bottom:none}
   /* mobile: roomier account-link rows, icons sized to match the Lists / Saved Carts group headers (32px) */
   @media(max-width:767px){
-    .activities .right .linkrow{padding:16px 0}
-    .activities .right .linkrow.tmrow{padding:16px 0 18px}
+    .activities .right{margin-top:36px}
+    .activities .right .linkrow{padding:28px 0}
+    .activities .right .linkrow.tmrow{padding:28px 0 30px}
     .activities .right .linkrow .lic{width:32px;height:32px}
     .activities .right .linkrow .lic .ic{font-size:24px}
   }
@@ -730,15 +731,17 @@
   .arow:hover{background:#EFF5FD}
   .arow .ti{min-width:0}
   .arow .ti b{display:block;font-size:18px;color:var(--sh-dark-gray);font-weight:400;line-height:1.4}
+  .arow .ti .po{font-size:14px;color:#777}   /* PO runs smaller than the order number */
   .arow .ti .meta{font-size:12px;color:#777;line-height:1.4}
   .arow .ti .meta em{font-style:normal;font-weight:700}
   .arow .ti .meta .proc{color:var(--sh-orange)}
   .arow .ti .meta .ship{color:#5E9A41}
   .arow .ti .meta .deliv{color:var(--sh-dark-gray)}
-  .arow .thumbs{margin-left:auto;display:flex;align-items:center;gap:4px;flex-shrink:0}
+  .arow .thumbs{flex:1;min-width:0;margin-left:12px;display:flex;align-items:center;justify-content:flex-end;gap:4px;overflow:hidden}   /* responsive: fitThumbs() shows as many as fit */
   .arow .thumbs .t{width:40px;height:40px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .arow .thumbs .t .ms{font-size:20px}
   .arow .thumbs .t img,.dpthumbs .t img{width:100%;height:100%;object-fit:contain;display:block}
+  .arow .thumbs .t,.dpthumbs .t,.arow .thumbs .more,.dpthumbs .more{flex-shrink:0}   /* thumbs never squeeze — the visible quantity reduces instead */
   /* hover tooltip on thumbnails: white rounded chip with the product name */
   .thumbs .t,.dpthumbs .t{position:relative}
   /* clamped-title tooltip lives on .bd — the title itself has overflow:hidden (line clamp) and would clip it */
@@ -750,11 +753,12 @@
   /* mobile Account Activity: stacked rows — title/meta on top, thumbnails + chevron on a second line,
      content indented to align under the group-header label */
   @media(max-width:767px){
+    .actgroup+.actgroup{margin-top:36px}   /* clear separation between Your Orders / Lists / Saved Carts */
     .actcol .ah{border-bottom:none;padding-bottom:4px;align-items:flex-start}
     .actcol .ah .ahsub{display:block}
     .arow{flex-wrap:wrap;row-gap:10px;margin-left:0;padding:14px 0}
     .arow .ti{flex:0 0 100%;min-width:0}
-    .arow .thumbs{margin-left:0}
+    .arow .thumbs{margin-left:0;justify-content:flex-start;flex-basis:70%}
     .arow .chev{margin-left:auto;color:var(--sh-link)}
   }
   /* account activity — empty state (no saved lists / no saved carts) */
@@ -794,8 +798,6 @@
   .activities .right .linkrow:last-child{border-bottom:none}
   /* mobile: roomier account-link rows, icons sized to match the Lists / Saved Carts group headers (32px) */
   @media(max-width:767px){
-    .activities .right .linkrow{padding:16px 0}
-    .activities .right .linkrow.tmrow{padding:16px 0 18px}
     .activities .right .linkrow .lic{width:32px;height:32px}
     .activities .right .linkrow .lic .ic{font-size:24px}
   }
@@ -1104,6 +1106,7 @@
     .acctwrap{padding-left:0;padding-right:0}       /* reorder/recent run full-bleed */
     /* tighten vertical rhythm on phones so more lands above the fold */
     .pmod{padding:16px}                              /* 16px inset on mobile */
+    #catSection .pmhead,.pmod+.pmod .pmhead{padding-top:36px}   /* more air above module titles, kept equal across sections */
     .pmhead h2,.seclabel{font-size:20px}             /* smaller section titles on mobile */
     .pmhead .va{font-size:12px}                       /* smaller View all */
     .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
@@ -1323,6 +1326,8 @@
   #bannerAdmin .bn .st-sched{background:#0066AD}
   #bannerAdmin .bn .st-ended,#bannerAdmin .bn .st-draft{background:#9AA0A6}
   #bannerAdmin .bn .st-default{background:#B7804E}
+  #bannerAdmin #pvNotice{background:#FDEDE3;border:1px solid #F2C29E;color:#8A4A10;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;margin:0 0 10px}
+  #bannerAdmin .ba-form.isoff>*:not(#promoFlds){opacity:.45;pointer-events:none}
   #bannerAdmin .ba-preview{border:1px solid var(--ba-line);border-radius:10px;overflow:hidden;background:#fff}
   #bannerAdmin .pv-band{position:relative;overflow:hidden}
   #bannerAdmin .pv-inner{position:relative;max-width:1920px;margin:0 auto;height:100%;overflow:hidden}   /* matches the live page's 1920 content cap */
@@ -1598,7 +1603,7 @@
             <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
             <div class="dpmeta">10 items · Riverside HVAC</div>
             <div class="dpprog"><div class="track"><i style="width:82%;background:#5E9A41"></i></div><span class="dpstat ok">Shipped</span></div>
-            <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Honeywell T1 Pro Thermostat"><img src="assets/products/th1110u4000honeywellhome01.jpg" alt=""></span><span class="t" data-name="RIDGID Pipe Wrench 18&quot;"><img src="assets/products/ridgid-78208-1.jpg" alt=""></span><span class="more">+5</span></div>
+            <div class="dpthumbs" data-total="12"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Honeywell T1 Pro Thermostat"><img src="assets/products/th1110u4000honeywellhome01.jpg" alt=""></span><span class="t" data-name="RIDGID Pipe Wrench 18&quot;"><img src="assets/products/ridgid-78208-1.jpg" alt=""></span><span class="t" data-name="Digital Wall Thermostat"><img src="assets/products/dwc-100-3.jpg" alt=""></span><span class="t" data-name="Goodman 3-Ton AC Condenser"><img src="assets/products/goodman-glxs3bn3610.jpg" alt=""></span><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/pvbvs075g-2.jpg" alt=""></span><span class="t" data-name="Electronic Pocket Thermometer"><img src="assets/products/uei-epc-1.jpg" alt=""></span><span class="more" style="display:none"></span></div>
             <a href="#" class="dpbtn primary">Track Package</a>
           </div>
           <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
@@ -1606,7 +1611,7 @@
             <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
             <div class="dpmeta">2 items · Maple Ave reno</div>
             <div class="dpprog"><div class="track"><i style="width:55%;background:var(--sh-orange)"></i></div><span class="dpstat proc">Processing</span></div>
-            <div class="dpthumbs"><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/pvbvs075g-2.jpg" alt=""></span><span class="t" data-name="M12 Copper Tubing Cutter"><img src="assets/products/49-16-2451-3.jpg" alt=""></span></div>
+            <div class="dpthumbs" data-total="2"><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/pvbvs075g-2.jpg" alt=""></span><span class="t" data-name="M12 Copper Tubing Cutter"><img src="assets/products/49-16-2451-3.jpg" alt=""></span><span class="more" style="display:none"></span></div>
           </div>
           <a href="#" class="dpbtn ghost">View All</a>
         </div></span></span></div>
@@ -1886,8 +1891,27 @@
           <button data-dev="all">All breakpoints</button>
         </div>
       </div>
+      <div id="pvNotice" hidden></div>
       <div id="pvArea"></div>
+      <div class="fld full" id="inheritFld" hidden style="margin-top:20px"><label class="check"><input type="checkbox" id="fInherit"> Use the Guest default banner for this group</label><div class="hint">NTMs with a pending TradeMaster application see the Guest default until approved. Uncheck to configure a dedicated banner.</div></div>
       <div class="ba-form">
+        <div class="fld full" id="promoFlds" hidden>
+          <h2 style="font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--ba-gray);margin:0 0 10px;border-top:none;padding-top:0">Promo override settings</h2>
+          <label class="check" style="margin-bottom:12px"><input type="checkbox" id="fPromoOn"> Promo enabled <span class="hint" id="promoStHint" style="font-weight:400;margin-left:8px"></span></label>
+          <div style="display:flex;gap:10px;margin-bottom:12px;max-width:560px">
+            <label style="flex:1;font-size:12px;font-weight:700">Starts<input type="datetime-local" id="fPromoStart" style="display:block;width:100%;margin-top:4px;font-family:inherit;font-size:13px;border:1px solid var(--ba-line);border-radius:8px;padding:8px"></label>
+            <label style="flex:1;font-size:12px;font-weight:700">Ends<input type="datetime-local" id="fPromoEnd" style="display:block;width:100%;margin-top:4px;font-family:inherit;font-size:13px;border:1px solid var(--ba-line);border-radius:8px;padding:8px"></label>
+          </div>
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px">Applies to cohorts</label>
+          <div id="promoTargets" style="display:flex;flex-wrap:wrap;gap:6px 18px">
+            <label class="check" style="font-size:13px"><input type="checkbox" data-t="tm"> TM Purchaser</label>
+            <label class="check" style="font-size:13px"><input type="checkbox" data-t="ntm-purchaser"> NTM Purchaser</label>
+            <label class="check" style="font-size:13px"><input type="checkbox" data-t="ntm-nonpurchaser"> NTM Non-Purchaser</label>
+            <label class="check" style="font-size:13px"><input type="checkbox" data-t="ntm-applied"> NTM — Applied to TM</label>
+            <label class="check" style="font-size:13px"><input type="checkbox" data-t="guest"> Guest</label>
+          </div>
+          <div class="hint" style="margin-top:8px">While the promo window is live, the selected cohorts show this promo banner instead of their own; the rest keep theirs.</div>
+        </div>
         <h2>Layout</h2>
         <div class="fld full">
           <label>Banner size</label>
@@ -2323,11 +2347,31 @@
   // ----- Latest activities: left column (Orders / Lists / Saved carts) -----
   const chev='<svg class="ic chev" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
   const actThumbs=['bolt','plumbing','valve','water_drop'];
-  function actThumbsHTML(n,count){const c=count==null?4:count;let h='';for(let k=0;k<c;k++){const src=nextProd();h+=`<span class="t" data-name="${prodName(src).replace(/"/g,'&quot;')}"><img src="${src}" alt="" loading="lazy"></span>`;}return '<div class="thumbs">'+h+(n?`<span class="more">+${n}</span>`:'')+'</div>';}
+  // responsive thumbs: render up to 8 images; fitThumbs() shows as many as fit and collapses the rest into "+N"
+  function actThumbsHTML(total){
+    const n=Math.min(total,8); let h='';
+    for(let k=0;k<n;k++){const src=nextProd();h+=`<span class="t" data-name="${prodName(src).replace(/"/g,'&quot;')}"><img src="${src}" alt="" loading="lazy"></span>`;}
+    return `<div class="thumbs" data-total="${total}">${h}<span class="more" style="display:none"></span></div>`;
+  }
+  function fitThumbs(){
+    document.querySelectorAll('.thumbs[data-total],.dpthumbs[data-total]').forEach(w=>{
+      const total=+w.dataset.total, imgs=[...w.querySelectorAll('.t')], more=w.querySelector('.more');
+      if(!imgs.length||!w.clientWidth)return;
+      imgs.forEach(t=>t.style.display='');
+      const gap=parseFloat(getComputedStyle(w).gap)||4, unit=imgs[0].getBoundingClientRect().width+gap, cw=w.clientWidth;
+      let vis=Math.min(imgs.length,total,Math.max(1,Math.floor((cw+gap)/unit)));
+      let hidden=total-vis;
+      if(hidden>0){vis=Math.min(imgs.length,Math.max(1,Math.floor((cw+gap-unit)/unit)));hidden=total-vis;}
+      imgs.forEach((t,i)=>t.style.display=i<vis?'':'none');
+      if(more){if(hidden>0){more.style.display='';more.textContent='+'+hidden;}else more.style.display='none';}
+    });
+  }
+  const thumbsRO=(typeof ResizeObserver!=='undefined')?new ResizeObserver(()=>requestAnimationFrame(fitThumbs)):null;
+  function observeThumbs(){if(!thumbsRO)return;document.querySelectorAll('.thumbs[data-total],.dpthumbs[data-total]').forEach(el=>thumbsRO.observe(el));fitThumbs();}
   const groupIcon={orders:'<path d="M9 4h6v2H9z"/><rect x="5" y="6" width="14" height="15"/><path d="M9 11l1.5 1.5L13 10M9 16l1.5 1.5L13 15"/>',list:'<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/>'};
   function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><svg class="ic" viewBox="0 0 24 24">${groupIcon[icon]}</svg></span><span class="aht">${label}<span class="ahsub">Latest Update: 03/14/24</span></span><a class="va" href="#">View</a></div>`;}
-  function orderRow(num,po,date,price,status,statClass,more,tcount){return `<a class="arow" href="#"><div class="ti"><b>${num} (PO#: ${po})</b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(more,tcount)}${chev}</a>`;}
-  function simpleRow(title,date,more){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Last Edited: ${date}</span></div>${actThumbsHTML(more)}${chev}</a>`;}
+  function orderRow(num,po,date,price,status,statClass,total){return `<a class="arow" href="#"><div class="ti"><b>${num} <span class="po">(PO#: ${po})</span></b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(total)}${chev}</a>`;}
+  function simpleRow(title,date,total){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Last Edited: ${date}</span></div>${actThumbsHTML(total)}${chev}</a>`;}
   // empty-state illustrations (inline SVG per project convention — no webfont ligatures)
   const emptyImg={lists:'assets/illust_no_list.webp',carts:'assets/illust_no_carts.webp'};
   const emptyCopy={lists:{msg:'No saved lists yet',cta:'Start Creating'},carts:{msg:'No saved carts yet',cta:'Start Creating'}};
@@ -2338,17 +2382,19 @@
   let SCN_LISTS=3, SCN_CARTS=3, SCN_ORDERS=3;
   function renderActLeft(){
     const el=document.getElementById('actLeft'); if(!el)return;
-    const listsHTML=SCN_LISTS>0 ? listItems.slice(0,SCN_LISTS).map(r=>simpleRow(r[0],r[1],r[2])).join('') : emptyStateHTML('lists');
-    const cartsHTML=SCN_CARTS>0 ? cartItems.slice(0,SCN_CARTS).map(r=>simpleRow(r[0],r[1],r[2])).join('') : emptyStateHTML('carts');
+    const rndTotal=()=>{const pool=[1,2,3,4,6,9,12,18,26];return pool[Math.floor(Math.random()*pool.length)];};   // varied demo counts: 1 through 10+
+    const listsHTML=SCN_LISTS>0 ? listItems.slice(0,SCN_LISTS).map(r=>simpleRow(r[0],r[1],rndTotal())).join('') : emptyStateHTML('lists');
+    const cartsHTML=SCN_CARTS>0 ? cartItems.slice(0,SCN_CARTS).map(r=>simpleRow(r[0],r[1],rndTotal())).join('') : emptyStateHTML('carts');
     const ordersHTML=SCN_ORDERS>=3
-      ? orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+
-        orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+
-        orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5)
-      : orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',0,2);   // sparse: one delivered order, two thumbnails (Figma 1678:91118)
+      ? orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',rndTotal())+
+        orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',rndTotal())+
+        orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',rndTotal())
+      : orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',2);   // sparse: one delivered order, two thumbnails (Figma 1678:91118)
     el.innerHTML=
       `<div class="actgroup">${ahHTML('orders','Your Orders')}${ordersHTML}</div>`+
       `<div class="actgroup">${ahHTML('list','Lists')}${listsHTML}</div>`+
       `<div class="actgroup">${ahHTML('cart','Saved Carts')}${cartsHTML}</div>`;
+    observeThumbs();
   }
   renderActLeft();
 
@@ -2822,6 +2868,9 @@
         ['<div class="actgroup">'+ordersEmptyProposed()+'</div>','Empty state — proposed','Today the Orders group always shows 3 hardcoded rows, even in the Empty scenario — which contradicts the "0 Orders" KPI above it on the same screen. This is the proposed fix, matching the Lists/Carts pattern.',tag('gap'),{half:true}],
         [orderRow('112311634','PO-2026-RIVERSIDE-HVAC-PHASE2-BLDG-A-ROOFTOP','6/20/26','$276.96','Processing','proc',5),'Edge case — long PO / job name','Contractors use PO fields for job codes that run long. Recommendation: clamp the title to one line with an ellipsis (<code>text-overflow:ellipsis</code>), keep the full value in a <code>title</code> tooltip and on the order detail page — never let it push the thumbnails off-grid.',tag('gap'),{half:true}],
         [thumbTipDemo(),'Thumbnail hover tooltip','Small thumbnails carry no visible product name, so hovering one reveals it in a white rounded chip (truncates with an ellipsis past 200px). Applies to Account Activity rows and the Upcoming Deliveries popover only — product cards already show their title, so they don\'t double up.',tag('live'),{half:true}],
+        [orderRow('112311634','678909876','6/20/26','$276.96','Shipped','ship',1),'Edge case — single item','A 1-item order shows just its thumbnail: no overflow chip, no empty gaps.',tag('live'),{half:true}],
+        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',26),'Edge case — 10+ items','The row renders as many thumbnails as physically fit its width and folds the remainder into an accurate &ldquo;+N&rdquo; chip.',tag('live'),{half:true}],
+        [note('Thumbnail rows are <b>responsive</b>: visible count is measured against the actual container width (recalculated live via ResizeObserver on any resize or when the popover opens), and the &ldquo;+N&rdquo; chip always equals the true remainder. Demo item counts are randomized per page load (1&ndash;26) so single-item, few-item, and 10+ cases all stay visible in testing instead of every row showing the same &ldquo;4 + 5&rdquo;.'),'Responsive thumbs, randomized demo counts','',tag('live'),{cls:'note',wide:true}],
         [note('Each feed group shows at most <b>3 rows</b> (newest first) — beyond that, the group header\'s View link carries the count ("View all 12"). An unbounded homepage feed competes with the rest of the page; 3 is enough to confirm recency and provide a jump-off point.'),'Cap feed groups at 3 rows','',tag('gap'),{cls:'note',wide:true}],
       ]],
       ['Lists — activity feed',[
@@ -2851,6 +2900,7 @@
         const opts=c[4]||{};
         return `<figure class="gx${opts.half?' gxhalf':opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`;
       }).join('')}</div>`).join('');
+    if(typeof observeThumbs==='function')observeThumbs();
   }
   // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
   const COHORT_BANNER={
@@ -3050,31 +3100,63 @@
       'ntm-nonpurchaser':{label:'NTM Non-Purchaser',note:'Non-member, no orders',active:0,banners:[
         {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'}
       ]},
+      'ntm-applied':{label:'NTM — Applied to TM',note:'Application pending',active:0,inherit:true,banners:[
+        {size:'mid',headline:'Everything You Need, Ready to Ship',sub:'Shop 700+ trusted brands and 350,000+ in-stock products.',h2:34,showBtn:false,btnLabel:'Shop Now',note3:false,bg:'#E2CCB8',text:'auto',image:'assets/banner/hero_ntm_default_L.webp'}
+      ]},
       'guest':{label:'Guest User',note:'Not signed in',active:0,banners:[
         {size:'mid',headline:'Everything You Need, Ready to Ship',sub:'Shop 700+ trusted brands and 350,000+ in-stock products.',h2:34,showBtn:false,btnLabel:'Shop Now',note3:false,bg:'#E2CCB8',text:'auto',image:'assets/banner/hero_ntm_default_L.webp'}
       ]}
     };
-    const KEY='sh_hero_banners_v2', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','guest'];
+    // global promo override: one banner pushed to selected cohorts while its window is live
+    const PROMO_DEF={enabled:false,start:'',end:'',targets:{'tm':true,'ntm-purchaser':true,'ntm-nonpurchaser':true,'ntm-applied':true,'guest':true},banner:{size:'tall',headline:'Spring Promo — Save Big',sub:'Limited-time deals on top brands, this week only.',h2:38,showBtn:true,btnLabel:'Shop Deals',note3:false,bg:'#0468AF',text:'auto',image:'assets/banner/hero_promo1_L.webp',imageS:'assets/banner/hero_promo1_S.webp'}};
+    const KEY='sh_hero_banners_v2', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','ntm-applied','guest'];
     let data=loadD(), cur='tm';
     ORDER.forEach(k=>{const co=data[k];if(co.active==null)co.active=0;(co.banners||[]).forEach(c=>{if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.iconMobile==null)c.iconMobile=true;if(c.tmLogo==null)c.tmLogo=(c.size==='short');if(c.countdown==null)c.countdown=false;if(c.countdownEnd==null)c.countdownEnd='';if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});});
+    if(!data.promo)data.promo=JSON.parse(JSON.stringify(PROMO_DEF));
+    if(data['ntm-applied'].inherit==null)data['ntm-applied'].inherit=true;
+    (function(c){if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.iconMobile==null)c.iconMobile=true;if(c.tmLogo==null)c.tmLogo=(c.size==='short');if(c.countdown==null)c.countdown=false;if(c.countdownEnd==null)c.countdownEnd='';if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');})(data.promo.banner);
     // one-time repair: an earlier build persisted tmLogo:false into saved state — re-enable the chip on Short banners once
     try{if(!localStorage.getItem(KEY+'_tmchip')){ORDER.forEach(k=>(data[k].banners||[]).forEach(c=>{if(c.size==='short')c.tmLogo=true;}));localStorage.setItem(KEY+'_tmchip','1');saveD();}}catch(e){}
-    function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
+    function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));m.promo=JSON.parse(JSON.stringify(PROMO_DEF));if(s.promo){Object.assign(m.promo,s.promo);m.promo.targets=Object.assign({},PROMO_DEF.targets,s.promo.targets||{});m.promo.banner=Object.assign({},PROMO_DEF.banner,s.promo.banner||{});}return m;}}catch(e){}const d=JSON.parse(JSON.stringify(DEF));d.promo=JSON.parse(JSON.stringify(PROMO_DEF));return d;}
     function saveD(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
     const lum=hex=>{const v=hex.replace('#','');return (0.299*parseInt(v.substr(0,2),16)+0.587*parseInt(v.substr(2,2),16)+0.114*parseInt(v.substr(4,2),16))/255;};
     const tcolor=c=>c.text==='auto'?(lum(c.bg)>0.62?'#111111':'#FFFFFF'):c.text;
-    const cfg=()=>{const c=data[cur];return c.banners[c.active]||c.banners[0];};
-    function buildList(){list.innerHTML=ORDER.map(k=>{const co=data[k];return `<button class="ba-cohort${k===cur?' on':''}" data-k="${k}"><span class="cn">${co.label}</span><span class="cm">${co.note} · ${co.banners.length} banner${co.banners.length>1?'s':''}</span></button>`;}).join('');}
-    function buildBanners(){const co=data[cur];$('baBanners').innerHTML=co.banners.map((b,i)=>`<button class="bn${i===co.active?' on':''}" data-bi="${i}">Banner ${i+1} <span class="bn-sz">${b.size}</span>${co.banners.length>1?`<span class="bn-del" data-del="${i}" title="Remove">&times;</span>`:''}</button>`).join('')+`<button class="bn bn-add" data-add="1">+ Add banner</button>`;}
+    const cfg=()=>{if(cur==='promo')return data.promo.banner;const c=data[cur];return c.banners[c.active]||c.banners[0];};
+    function promoActive(){const pr=data.promo;if(!pr.enabled)return false;const now=Date.now(),st=pr.start?Date.parse(pr.start):-Infinity,en=pr.end?Date.parse(pr.end):Infinity;return now>=st&&now<=en;}
+    function promoStatus(){const pr=data.promo;if(!pr.enabled)return['ended','Off'];const now=Date.now(),st=pr.start?Date.parse(pr.start):-Infinity,en=pr.end?Date.parse(pr.end):Infinity;if(now<st)return['sched','Scheduled'];if(now>en)return['ended','Ended'];return['live','Live'];}
+    function buildList(){
+      const pst=promoStatus();
+      list.innerHTML=ORDER.map(k=>{const co=data[k];const ov=promoActive()&&data.promo.targets[k];
+        const meta=co.inherit?'Inherits the Guest default':co.banners.length+' banner'+(co.banners.length>1?'s':'');
+        return `<button class="ba-cohort${k===cur?' on':''}" data-k="${k}"><span class="cn">${co.label}</span><span class="cm">${co.note} · ${meta}${ov?' · <b style="color:#B45309">promo live</b>':''}</span></button>`;}).join('')
+        +`<button class="ba-cohort${cur==='promo'?' on':''}" data-k="promo" style="margin-top:10px;border-top:1px solid var(--ba-line);border-radius:0;padding-top:14px"><span class="cn">Promo override <span class="bn-sz st-${pst[0]}" style="margin-left:6px">${pst[1]}</span></span><span class="cm">One banner, pushed to selected cohorts on a schedule</span></button>`;
+    }
+    function buildBanners(){
+      if(cur==='promo'){$('baBanners').innerHTML=`<button class="bn on" data-bi="0">Promo banner <span class="bn-sz">${data.promo.banner.size}</span></button>`;return;}
+      const co=data[cur];
+      if(co.inherit){$('baBanners').innerHTML=`<span class="hint" style="padding:9px 2px">Inheriting the Guest default banner — uncheck &ldquo;Use the Guest default banner&rdquo; below to configure a dedicated one.</span>`;return;}
+      $('baBanners').innerHTML=co.banners.map((b,i)=>`<button class="bn${i===co.active?' on':''}" data-bi="${i}">Banner ${i+1} <span class="bn-sz">${b.size}</span>${co.banners.length>1?`<span class="bn-del" data-del="${i}" title="Remove">&times;</span>`:''}</button>`).join('')+`<button class="bn bn-add" data-add="1">+ Add banner</button>`;}
     list.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;cur=b.dataset.k;buildList();buildBanners();fill();render();});
     $('baBanners').addEventListener('click',e=>{
+      if(cur==='promo')return;
       const del=e.target.closest('[data-del]'); if(del){e.stopPropagation();const co=data[cur];if(co.banners.length<=1)return;co.banners.splice(+del.dataset.del,1);if(co.active>=co.banners.length)co.active=co.banners.length-1;saveD();buildBanners();buildList();fill();render();return;}
       const add=e.target.closest('[data-add]'); if(add){const co=data[cur];co.banners.push(JSON.parse(JSON.stringify(cfg())));co.active=co.banners.length-1;saveD();buildBanners();buildList();fill();render();return;}
       const bi=e.target.closest('[data-bi]'); if(bi){data[cur].active=+bi.dataset.bi;saveD();buildBanners();buildList();fill();render();}
     });
     function render(){
-      const c=cfg(), show=pvDev==='all'?BPS:BPS.filter(b=>b.k===pvDev);
-      $('pvArea').innerHTML=show.map(bp=>pvCard(c,bp)).join('');
+      const conf=cfg(); let eff=conf; const n=$('pvNotice'); n.hidden=true;
+      if(cur==='promo'){
+        const t=ORDER.filter(k=>data.promo.targets[k]).map(k=>data[k].label).join(', ');
+        n.hidden=false; n.textContent='Promo override — status: '+promoStatus()[1]+' · targets: '+(t||'none');
+      } else if(promoActive()&&data.promo.targets[cur]){
+        eff=data.promo.banner; n.hidden=false;
+        n.textContent='Promo override is live — this cohort currently shows the promo banner. Its own banner resumes automatically when the promo window ends.';
+      } else if(data[cur]&&data[cur].inherit){
+        eff=data.guest.banners[data.guest.active]||data.guest.banners[0]; n.hidden=false;
+        n.textContent='Inheriting the Guest default banner — this group sees exactly what a signed-out guest sees.';
+      }
+      const show=pvDev==='all'?BPS:BPS.filter(b=>b.k===pvDev);
+      $('pvArea').innerHTML=show.map(bp=>pvCard(eff,bp)).join('');
       fitStages();tickCounts();
     }
     // one preview card, rendered at the breakpoint's true width and scaled down to fit
@@ -3136,7 +3218,12 @@
       $('fCount').checked=!!c.countdown;$('fCount').disabled=c.size!=='tall';
       $('fCountEnd').value=c.countdownEnd||'';$('fCountEnd').disabled=!(c.size==='tall'&&c.countdown);
       [...$('iconAnchor').children].forEach(b=>b.classList.toggle('on',+b.dataset.ax===c.iconX&&+b.dataset.ay===c.iconY));
-      hlCount();subCount();}
+      hlCount();subCount();
+      $('inheritFld').hidden=cur!=='ntm-applied';
+      if(cur==='ntm-applied')$('fInherit').checked=!!data[cur].inherit;
+      $('promoFlds').hidden=cur!=='promo';
+      if(cur==='promo'){const pr=data.promo;$('fPromoOn').checked=pr.enabled;$('fPromoStart').value=pr.start||'';$('fPromoEnd').value=pr.end||'';document.querySelectorAll('#promoTargets input[data-t]').forEach(cb=>cb.checked=!!pr.targets[cb.dataset.t]);$('promoStHint').textContent='Status: '+promoStatus()[1];}
+      document.querySelector('#heroMain .ba-form').classList.toggle('isoff',cur!=='promo'&&!!(data[cur]&&data[cur].inherit));}
     function hlCount(){const n=($('fHeadline').value||'').length;$('hlHint').innerHTML=n+' / 80 chars'+(n>45?' — <b style="color:#B45309">long headlines wrap on tablet / mobile</b>':' · recommended ≤ 45');}
     function subCount(){const n=($('fSub').value||'').length;$('subHint').innerHTML=n+' chars'+(n>120?' — <b style="color:#B45309">may clip on smaller bands; keep ≤ 120</b>':' · recommended ≤ 120');}
     function upd(p){Object.assign(cfg(),p);saveD();render();buildBanners();}
@@ -3163,10 +3250,18 @@
     $('fTmLogo').addEventListener('change',()=>upd({tmLogo:$('fTmLogo').checked}));
     $('fCount').addEventListener('change',()=>{
       const on=$('fCount').checked, patch={countdown:on};
-      if(on&&!cfg().countdownEnd){const d=new Date(Date.now()+3*86400e3);d.setSeconds(0,0);patch.countdownEnd=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}   // default: 3 days out
+      if(on&&!cfg().countdownEnd){
+        if(cur==='promo'&&data.promo.end){patch.countdownEnd=data.promo.end;}   // promo: count down to the promo's own end
+        else{const d=new Date(Date.now()+3*86400e3);d.setSeconds(0,0);patch.countdownEnd=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}   // default: 3 days out
+      }
       upd(patch);fill();
     });
     $('fCountEnd').addEventListener('change',()=>upd({countdownEnd:$('fCountEnd').value}));
+    $('fInherit').addEventListener('change',()=>{data['ntm-applied'].inherit=$('fInherit').checked;saveD();buildList();buildBanners();fill();render();});
+    $('fPromoOn').addEventListener('change',()=>{data.promo.enabled=$('fPromoOn').checked;saveD();buildList();fill();render();});
+    $('fPromoStart').addEventListener('change',()=>{data.promo.start=$('fPromoStart').value;saveD();buildList();fill();render();});
+    $('fPromoEnd').addEventListener('change',()=>{data.promo.end=$('fPromoEnd').value;saveD();buildList();fill();render();});
+    $('promoTargets').addEventListener('change',e=>{const cb=e.target.closest('input[data-t]');if(!cb)return;data.promo.targets[cb.dataset.t]=cb.checked;saveD();buildList();render();});
     $('fSub').addEventListener('input',()=>{upd({sub:$('fSub').value});subCount();});
     $('fBtnOn').addEventListener('change',()=>upd({showBtn:$('fBtnOn').checked}));
     $('fBtnLabel').addEventListener('input',()=>upd({btnLabel:$('fBtnLabel').value}));
@@ -3178,7 +3273,7 @@
     $('fImg').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({image:rd.result});$('imgHint').textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});
     $('fImgS').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({imageS:rd.result});$('imgHintS').textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});
     function toastB(m){const t=$('baToast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);}
-    $('baReset').addEventListener('click',()=>{if(!confirm('Reset all banners to defaults?'))return;data=JSON.parse(JSON.stringify(DEF));saveD();buildList();buildBanners();fill();render();toastB('Reset to defaults');});
+    $('baReset').addEventListener('click',()=>{if(!confirm('Reset all banners to defaults?'))return;data=JSON.parse(JSON.stringify(DEF));data.promo=JSON.parse(JSON.stringify(PROMO_DEF));saveD();buildList();buildBanners();fill();render();toastB('Reset to defaults');});
     $('baExport').addEventListener('click',()=>{const out=JSON.parse(JSON.stringify(data));Object.keys(out).forEach(k=>{(out[k].banners||[]).forEach(b=>{['image','imageS','icon'].forEach(p=>{if(b[p]&&b[p].startsWith('data:'))b[p]='<uploaded image>';});});});const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hero-banners.json';a.click();URL.revokeObjectURL(a.href);toastB('Exported hero-banners.json');});
     setSeg($('pvDevSeg'),pvDev,'dev');buildList();buildBanners();fill();render();
   })();
