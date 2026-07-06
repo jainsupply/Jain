@@ -208,7 +208,7 @@
   body[data-cohort="ntm-purchaser"] .herobig .hbtext-shop,
   body[data-cohort="ntm-nonpurchaser"] .herobig .hbtext-shop{display:none}
   /* guest: Best Sellers runs full-width with a title row — no left promo panel (Figma 2014:51043) */
-  body[data-cohort="guest"] .best{background:#fff}
+  body[data-cohort="guest"] .best{background:var(--merch-bestbg,#F8F8F8)}
   body[data-cohort="guest"] .best .bestpromo{display:none}
   body[data-cohort="guest"] .best .bestgrid{grid-template-columns:1fr;padding:24px 0}
   body[data-cohort="guest"] .besthead{display:flex;margin-bottom:14px}
@@ -517,7 +517,7 @@
   .mcard .rm .ic{font-size:14px}
   .mcard .bd{padding:8px 10px 10px;display:flex;flex-direction:column;gap:3px;flex:1}
   .mcard .ctx{font-size:11px;color:var(--sh-mid-gray)}
-  .mcard .title{font-size:13px;font-weight:700;line-height:1.3;color:var(--sh-link);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:34px}
+  .mcard .title{font-size:14px;font-weight:700;line-height:1.3;color:var(--sh-link);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;min-height:37px}
   .mcard .sku{font-size:11px;color:var(--sh-mid-gray)}
   .mcard .sku b{font-weight:700;color:var(--sh-dark-gray)}
   .mcard .sku a{font-weight:700}
@@ -627,10 +627,12 @@
   @media(max-width:991px){ .section::before,.best::before,.repband::before{left:16px;right:16px} }
 
   /* best picks band */
-  .best{background:#F5F5F5;padding:0}
+  .best{background:var(--merch-bestbg,#F8F8F8);padding:0}   /* whole band color is merch-admin controlled */
   .bestgrid{display:grid;grid-template-columns:310px 1fr;gap:28px;align-items:stretch;padding:28px 0}
+  @media(max-width:991px){ .bestgrid{grid-template-columns:1fr} }   /* side-by-side holds until 992px; below, the promo panel is hidden anyway */
   .bestpromo{display:flex;flex-direction:column;justify-content:center;position:relative;z-index:0;text-align:right}
   .bestpromo .pl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue)}
+  .bestpromo .bp2-logo{height:30px;width:auto;margin-left:auto;margin-bottom:10px;display:block}
   .bestpromo h2{font-size:27px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:6px 0 16px}
   .bestpromo .pimg{width:500px;max-width:none;height:auto;object-fit:contain;display:block}   /* larger; right side tucks behind the card */
   .bestright{background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 1px 8px rgba(0,0,0,.07);position:relative;z-index:1}
@@ -639,7 +641,7 @@
   .besthead h2{margin:0}
   /* Best Picks + New Arrivals: ≤991 uses the same layout as mobile (no promo image, flat panel, scrollable filter row) */
   @media(max-width:991px){
-    .best{background:#fff}
+    .best{background:var(--merch-bestbg,#F8F8F8)}   /* merch-admin band color applies on mobile too */
     .best .bestpromo{display:none}                 /* hide left promo */
     .best .bestgrid{padding:18px 0}
     .bestright{padding:0;box-shadow:none;border-radius:0}   /* .wrap already provides the 16px page margin — no extra inset */
@@ -692,7 +694,7 @@
   .fcard .pr .was{color:var(--sh-mid-gray);text-decoration:line-through;font-size:12px}
   .fcard .pr .now{font-size:15px;font-weight:700;color:var(--sh-tm-blue)}
   .fcard .pr .each{font-size:11px;color:var(--sh-mid-gray);font-weight:400}
-  .fcard .pr .bp{font-size:13px;color:var(--sh-dark-gray)}
+  .fcard .pr .bp{font-size:12px;color:var(--sh-dark-gray)}
   .fcard .fboxsave{margin-top:8px}
   .fcard .fboxlabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sh-mid-gray);margin-bottom:6px}
   .fcard .atc{width:100%;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;height:36px;text-transform:uppercase;letter-spacing:.4px;margin-top:12px;border:none;cursor:pointer}
@@ -739,6 +741,9 @@
   .arow .thumbs .t img,.dpthumbs .t img{width:100%;height:100%;object-fit:contain;display:block}
   /* hover tooltip on thumbnails: white rounded chip with the product name */
   .thumbs .t,.dpthumbs .t{position:relative}
+  /* clamped-title tooltip lives on .bd — the title itself has overflow:hidden (line clamp) and would clip it */
+  .mcard .bd[data-name],.fcard .bd[data-name]{position:relative}
+  .mcard .bd[data-name]:has(.title:hover)::after,.fcard .bd[data-name]:has(.title:hover)::after{content:attr(data-name);position:absolute;top:-8px;transform:translateY(-100%);left:0;display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.35;white-space:normal;width:max-content;max-width:240px;padding:10px 14px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
   .thumbs .t[data-name]:hover::after,.dpthumbs .t[data-name]:hover::after{content:attr(data-name);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;padding:10px 14px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
   .arow .thumbs .more{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#777;font-weight:400;margin:0}
   .arow .chev{color:var(--sh-link);flex-shrink:0;font-size:24px}
@@ -885,6 +890,7 @@
 
   /* RIDGID / new arrivals */
   .promogrid{display:grid;grid-template-columns:28% 1fr;gap:24px;align-items:stretch}
+  @media(max-width:991px){ .promogrid{grid-template-columns:1fr} }   /* side-by-side holds until 992px; below, the promo tile is hidden anyway */
   .promogrid .nawrap{min-width:0}   /* grid items default to min-width:auto — without this the 1fr track can't shrink below the card rail's min-content (~733px) and the whole page overflows horizontally below ~780px */
   /* RIDGID promo card — Figma 2104:72538: logo top, copy, collage bottom on the warm tile */
   .brandpromo{display:flex;flex-direction:column;align-items:flex-start;background:#F8F5F3;padding:40px 28px 0}
@@ -951,7 +957,7 @@
   /* Top Categories promo tiles — per Figma 1726:37118 */
   .section:has(.catpromo){background:#F8F8F8;border-top:1px solid var(--sh-border);padding:40px 0}
   .section:has(.catpromo)::before{display:none}   /* section hairline replaced by the band's own border-top */
-  .catpromo{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3.5vw,78px);padding:0}
+  .catpromo{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:0}
   .cpt{display:flex;flex-direction:column;min-height:500px;border:1px solid var(--sh-border);background:#fff;text-decoration:none;overflow:hidden}
   .cpt:hover{box-shadow:0 6px 16px rgba(0,0,0,.10)}
   .cpt .cpt-b{padding:48px 40px 0}
@@ -965,13 +971,16 @@
   /* beige swoosh (Union shape in Figma) approximated with a rotated ellipse */
   .cpt .cpt-img::before{content:"";position:absolute;left:-30%;top:38%;width:165%;height:160%;background:#EFE8DD;border-radius:50%;transform:rotate(-10deg)}
   .cpt .cpt-img img{position:relative;z-index:1;max-width:96%;max-height:94%;width:auto;height:auto;object-fit:contain;display:block}
-  /* white fade over the lower part of the collage */
-  .cpt .cpt-img::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 52%);pointer-events:none}
   .cpt-plumbing .cpt-head{border-left-color:#0066AD}
   .cpt-heating .cpt-head{border-left-color:#B00000}
   .cpt-hvac .cpt-head{border-left-color:#5E9A41}
   .cpt-electrical .cpt-head{border-left-color:#0066AD}
-  @media(max-width:1199px){ .cpt{min-height:0} .cpt .cpt-b{padding:28px 24px 0} .cpt .cpt-img{height:240px} .cpt .cpt-k{font-size:28px} .cpt .cpt-s{font-size:15px} }
+  /* smaller breakpoints: cards keep their size and slide horizontally */
+  @media(max-width:1199px){
+    .catpromo{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:300px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
+    .catpromo::-webkit-scrollbar{display:none}
+    .catpromo .cpt{scroll-snap-align:start}
+  }
 
   /* parts for tools */
   .parts{display:grid;grid-template-columns:repeat(6,1fr);gap:26px}
@@ -1047,9 +1056,8 @@
     /* NOTE: .wrap/.head side padding is owned by the canonical breakpoint set below — don't set it here */
     .acctpanel{grid-template-columns:1fr}.acctinfo{border-right:none;border-bottom:1px solid var(--sh-border)}
     .cats{grid-template-columns:repeat(4,1fr)}
-    .bestgrid,.promogrid,.toolsgrid{grid-template-columns:1fr}
+    .toolsgrid{grid-template-columns:1fr}
     .bestpromo .pimg{width:100%;max-width:320px}
-    .catpromo{grid-template-columns:repeat(2,1fr)}
     .parts{grid-template-columns:repeat(3,1fr)}
     .activities{grid-template-columns:1fr;gap:0}
     .activities .right{border-left:none;padding-left:0;margin-top:24px}
@@ -1311,6 +1319,10 @@
   #bannerAdmin .ba-banners .bn.on .bn-sz{background:var(--ba-blue)}
   #bannerAdmin .ba-banners .bn-del{margin-left:2px;color:var(--ba-gray);font-weight:700}
   #bannerAdmin .ba-banners .bn-add{border-style:dashed;color:var(--ba-blue)}
+  #bannerAdmin .bn .st-live{background:#3C763D}
+  #bannerAdmin .bn .st-sched{background:#0066AD}
+  #bannerAdmin .bn .st-ended,#bannerAdmin .bn .st-draft{background:#9AA0A6}
+  #bannerAdmin .bn .st-default{background:#B7804E}
   #bannerAdmin .ba-preview{border:1px solid var(--ba-line);border-radius:10px;overflow:hidden;background:#fff}
   #bannerAdmin .pv-band{position:relative;overflow:hidden}
   #bannerAdmin .pv-inner{position:relative;max-width:1920px;margin:0 auto;height:100%;overflow:hidden}   /* matches the live page's 1920 content cap */
@@ -1380,6 +1392,7 @@
   body[data-cohort="guest"] .latestact,
   body[data-cohort="guest"] .rpfsec,
   body[data-cohort="ntm-nonpurchaser"] .acctwrap:not(.recentwrap),
+  body[data-cohort="ntm-nonpurchaser"] .latestact,
   body[data-cohort="ntm-nonpurchaser"] .rpfsec{display:none}   /* hide signed-in KPI/reorder + full-width RPF sections — replaced by the top row below for these cohorts */
   /* NTM Non-Purchaser: Recently Viewed already shown up top in gt-recent, so hide the duplicate lower one — but keep Shop Your Categories (reused as-is from the TM Purchaser layout) */
   body[data-cohort="ntm-nonpurchaser"] #recentSection{display:none}
@@ -1465,7 +1478,7 @@
 <!-- prototype toggle: account-info layout -->
 <div class="modetoggle">
   <div class="mtrow">Cohort:<button data-cohort="tm" class="on">TM Purchaser</button><button data-cohort="ntm-purchaser">NTM Purchaser</button><button data-cohort="ntm-nonpurchaser">NTM Non-Purchaser</button><button data-cohort="guest">Guest User</button></div>
-  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty States</button><span class="mtsep"></span><button data-view="gallery">Card states</button><button data-view="acctstates">Account Activity states</button><span class="mtsep"></span><button data-view="banneradmin">Banner admin</button></div>
+  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty States</button><span class="mtsep"></span><button data-view="gallery">Card states</button><button data-view="acctstates">Account Activity states</button><span class="mtsep"></span><button data-view="banneradmin">Hero banners</button><button data-view="banneradmin" data-adminmode="promo">Section promos</button></div>
 </div>
 
 <!-- MOBILE rep bar (shows on phones only) -->
@@ -1585,7 +1598,7 @@
             <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
             <div class="dpmeta">10 items · Riverside HVAC</div>
             <div class="dpprog"><div class="track"><i style="width:82%;background:#5E9A41"></i></div><span class="dpstat ok">Shipped</span></div>
-            <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Gas Water Heater 40 Gal"><img src="assets/products/lt-160-1.jpg" alt=""></span><span class="t" data-name="RIDGID Pipe Wrench 18&quot;"><img src="assets/products/ridgid-78208-1.jpg" alt=""></span><span class="more">+5</span></div>
+            <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Honeywell T1 Pro Thermostat"><img src="assets/products/th1110u4000honeywellhome01.jpg" alt=""></span><span class="t" data-name="RIDGID Pipe Wrench 18&quot;"><img src="assets/products/ridgid-78208-1.jpg" alt=""></span><span class="more">+5</span></div>
             <a href="#" class="dpbtn primary">Track Package</a>
           </div>
           <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
@@ -1593,7 +1606,7 @@
             <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
             <div class="dpmeta">2 items · Maple Ave reno</div>
             <div class="dpprog"><div class="track"><i style="width:55%;background:var(--sh-orange)"></i></div><span class="dpstat proc">Processing</span></div>
-            <div class="dpthumbs"><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/vt3-pvcs-3.jpg" alt=""></span><span class="t" data-name="M12 Copper Tubing Cutter"><img src="assets/products/49-16-2451-3.jpg" alt=""></span></div>
+            <div class="dpthumbs"><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/pvbvs075g-2.jpg" alt=""></span><span class="t" data-name="M12 Copper Tubing Cutter"><img src="assets/products/49-16-2451-3.jpg" alt=""></span></div>
           </div>
           <a href="#" class="dpbtn ghost">View All</a>
         </div></span></span></div>
@@ -1681,6 +1694,7 @@
 <!-- BEST PICKS -->
 <section class="best"><div class="wrap"><div class="bestgrid">
   <div class="bestpromo">
+    <img class="bp2-logo" alt="" hidden>
     <div class="pl">Best Pick for You</div>
     <h2>Popular products<br>in your categories</h2>
     <img class="pimg" src="assets/Group_Heating.png" alt="Popular products" loading="lazy">
@@ -1842,17 +1856,20 @@
 <!-- HERO BANNER ADMIN (toggle view) -->
 <section id="bannerAdmin">
   <div class="ba-topbar">
-    <div><h1>Hero Banner Admin</h1><div class="ba-sub">Manage homepage hero banners per audience cohort</div></div>
+    <div><h1 id="baTitle">Homepage Content Admin</h1><div class="ba-sub" id="baSub">Hero banners per audience cohort</div></div>
+    <div class="seg" id="baModeSeg" style="margin-left:16px"><button data-m="hero" class="on">Hero Banners</button><button data-m="promo">Section Promos</button></div>
     <div class="ba-sp"></div>
     <button id="baReset">Reset to defaults</button>
     <button id="baExport" class="ba-primary">Export JSON</button>
   </div>
   <div class="ba-grid">
     <aside class="ba-side">
-      <h2>Cohorts</h2>
+      <h2 id="baSideH">Cohorts</h2>
       <div id="baList"></div>
+      <div id="promoList" hidden></div>
     </aside>
     <main class="ba-main">
+      <div id="heroMain">
       <p class="ba-pvlabel">Banners for this cohort</p>
       <div class="ba-banners" id="baBanners"></div>
       <div class="pv-head">
@@ -1903,6 +1920,32 @@
         <div class="fld"><label>Icon size <b id="fISv"></b></label><input type="range" id="fIS" min="20" max="220"></div>
         <div class="fld"><label>&nbsp;</label><button type="button" id="fIconClear" class="ba-clearbtn">Remove icon</button></div>
       </div>
+      </div>
+      <div id="promoMain" hidden>
+        <p class="ba-pvlabel">Campaigns for this section</p>
+        <div class="ba-banners" id="pmCamps"></div>
+        <p class="ba-pvlabel" style="margin-top:18px">Live preview</p>
+        <div class="ba-preview">
+          <div id="pmStage" style="padding:20px;display:flex;justify-content:center;background:#fff"><div id="pmTile" style="width:320px"></div></div>
+          <div class="pv-meta" id="pmMeta"></div>
+        </div>
+        <div class="ba-form">
+          <h2>Campaign</h2>
+          <div class="fld"><label>Campaign name</label><input type="text" id="pmName"></div>
+          <div class="fld"><label>Status</label><div id="pmStatus" style="font-size:14px;font-weight:700;padding-top:10px"></div></div>
+          <h2>Schedule</h2>
+          <div class="fld"><label>Starts</label><input type="datetime-local" id="pmStart"></div>
+          <div class="fld"><label>Ends</label><input type="datetime-local" id="pmEnd"></div>
+          <div class="fld full"><div class="hint">The campaign whose window contains &ldquo;now&rdquo; is applied to the live page automatically; the section falls back to its default campaign otherwise. When windows overlap, the latest start wins.</div></div>
+          <h2>Content</h2>
+          <div class="fld full"><label>Copy</label><input type="text" id="pmCopy" maxlength="80"></div>
+          <div class="fld"><label>Tile background color</label><div class="color"><input type="color" id="pmBg"><input type="text" id="pmBgHex" maxlength="7"></div></div>
+          <div class="fld"><label>Logo (optional)</label><input type="file" id="pmLogo" accept="image/*"><div class="hint" id="pmLogoHint"></div></div>
+          <div class="fld full"><label>Product image</label><input type="file" id="pmImg" accept="image/*"><div class="hint" id="pmImgHint"></div></div>
+          <h2>SKU group</h2>
+          <div class="fld full"><label>SKUs shown in the rail <span class="hint" style="font-weight:400">(comma or newline separated)</span></label><textarea id="pmSkus" style="min-height:70px"></textarea><div class="hint" id="pmSkuHint"></div></div>
+        </div>
+      </div>
     </main>
   </div>
   <div class="ba-toast" id="baToast"></div>
@@ -1922,11 +1965,11 @@
 <script>
   const ICONS=['plumbing','build','hardware','water_drop','valve','bolt','thermostat','propane_tank','heat_pump','cable','plumbing','build'];
   // product photo pool (assets/products) — shuffled once per load, then cycled so every card/thumb gets a random-but-varied image
-  const PRODUCT_IMGS=(function(){const f=['187873-1.jpg','329-056rp-3.jpg','49-16-2451-3.jpg','535059a-3.jpg','asq058-038-3.jpg','c240a-3.jpg','cm3-75pxz-pxo-3.jpg','dwc-100-3.jpg','goodman-glxs3bn3610.jpg','lt-160-1.jpg','ridgid-78208-1.jpg','rtg20280-1-1.jpg','uei-epc-1.jpg','vt3-pvcs-3.jpg'];for(let i=f.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[f[i],f[j]]=[f[j],f[i]];}return f;})();
+  const PRODUCT_IMGS=(function(){const f=['101401020-4.jpg','1311-102-3.jpg','187873-1.jpg','49-16-2451-3.jpg','535059a-3.jpg','78082-3.jpg','asq058-038-3.jpg','c240a-3.jpg','cm3-75pxz-pxo-3.jpg','dwc-100-3.jpg','e6081128-3.jpg','goodman-glxs3bn3610.jpg','l01333201-3.jpg','pvbvs075g-2.jpg','ridgid-78208-1.jpg','rtg20280-1-1.jpg','th1110u4000honeywellhome01.jpg','uei-epc-1.jpg','watts006660601stockdec2025.jpg'];for(let i=f.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[f[i],f[j]]=[f[j],f[i]];}return f;})();
   const prodImg=i=>'assets/products/'+PRODUCT_IMGS[Math.abs(i)%PRODUCT_IMGS.length];
   let prodSeq=0; const nextProd=()=>prodImg(prodSeq++);
   // display names for the hover tooltip on thumbnails (keyed by filename)
-  const PRODUCT_NAMES={'187873-1.jpg':'1" CxF 90\u00b0 Drop Ear Elbow','329-056rp-3.jpg':'Ignition Control Module','49-16-2451-3.jpg':'M12 Copper Tubing Cutter','535059a-3.jpg':'Circulator Pump Flange Set','asq058-038-3.jpg':'Angle Stop Valve 3/8"','c240a-3.jpg':'1" Copper Coupling CxC','cm3-75pxz-pxo-3.jpg':'Condensate Pump 75 GPH','dwc-100-3.jpg':'Digital Wall Thermostat','goodman-glxs3bn3610.jpg':'Goodman 3-Ton AC Condenser','lt-160-1.jpg':'Gas Water Heater 40 Gal','ridgid-78208-1.jpg':'RIDGID Pipe Wrench 18"','rtg20280-1-1.jpg':'Tankless Valve Kit 3/4"','uei-epc-1.jpg':'Electronic Pocket Thermometer','vt3-pvcs-3.jpg':'3/4" PVC Ball Valve'};
+  const PRODUCT_NAMES={'101401020-4.jpg':'ProPEX Brass Adapter 1\"','1311-102-3.jpg':'Gas Connector Kit 3/4\"','187873-1.jpg':'1\" CxF 90\u00b0 Drop Ear Elbow','49-16-2451-3.jpg':'M12 Copper Tubing Cutter','535059a-3.jpg':'Circulator Pump Flange Set','78082-3.jpg':'Copper Press Elbow 3/4\"','asq058-038-3.jpg':'Angle Stop Valve 3/8\"','c240a-3.jpg':'1\" Copper Coupling CxC','cm3-75pxz-pxo-3.jpg':'Condensate Pump 75 GPH','dwc-100-3.jpg':'Digital Wall Thermostat','e6081128-3.jpg':'Water Heater Element 4500W','goodman-glxs3bn3610.jpg':'Goodman 3-Ton AC Condenser','l01333201-3.jpg':'Zone Damper Actuator','pvbvs075g-2.jpg':'3/4\" PVC Ball Valve','ridgid-78208-1.jpg':'RIDGID Pipe Wrench 18\"','rtg20280-1-1.jpg':'Tankless Valve Kit 3/4\"','th1110u4000honeywellhome01.jpg':'Honeywell T1 Pro Thermostat','uei-epc-1.jpg':'Electronic Pocket Thermometer','watts006660601stockdec2025.jpg':'Watts Backflow Preventer'};
   const prodName=src=>PRODUCT_NAMES[String(src).split('/').pop()]||'Product';
   const reorder=[
     ['1/2" to 1" M12 ProPEX Expansion Tool Kit w/ Heads','BF93544','Milwaukee','$102.00','225 ordered 7/14/24',true,true],
@@ -2216,7 +2259,17 @@
       else{el.style.removeProperty('display');const a=Array.from({length:SCN_RECENT},(_,i)=>recent[i%recent.length]);el.innerHTML=a.map((it,i)=>mcard(it,i,recentSave(i))).join('')+endCard('','View all');}
     });
     document.getElementById('bestRail').innerHTML=best.map((it,i)=>fcard(it,i,bestCat[i])).join('');
+    markTruncatedTitles();
   }
+  // product-card titles clamp at 2 lines — when clamped, expose the full name for the hover tooltip
+  function markTruncatedTitles(){
+    document.querySelectorAll('.mcard .title,.fcard .title').forEach(t=>{
+      const bd=t.closest('.bd'); if(!bd)return;
+      if(t.scrollHeight>t.clientHeight+1)bd.setAttribute('data-name',t.textContent.trim());
+      else bd.removeAttribute('data-name');
+    });
+  }
+  let mtT;window.addEventListener('resize',()=>{clearTimeout(mtT);mtT=setTimeout(markTruncatedTitles,150);});
   fillSkel('reorderRail',8);fillSkel('recentRail',8);fillSkel('ntmRecentRail',8);fillSkel('bestRail',6,true);
 
   // new arrivals + parts (full/simple cards)
@@ -2225,6 +2278,7 @@
     ['PEX-A Expansion Kit','2532-22','Milwaukee'],['Threading Machine','535A','RIDGID']];
   document.getElementById('naCards').innerHTML=na.map((it,i)=>fcard([it[0]+' w/ 1/2", 3/4", and 1" Heads',it[1],it[2],'$26.14','$25.75',4.8,22],i)).join('');
   initPager('naCards');
+  markTruncatedTitles();
   const partsRow=document.getElementById('partsRow');
   partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:13px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
@@ -2694,7 +2748,7 @@
     function thumbTipDemo(){
       const chip='<span style="position:absolute;bottom:calc(100% + 10px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:nowrap">1&quot; CxF 90&deg; Drop Ear Elbow</span>';
       const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
-      return `<div style="padding:52px 4px 8px"><div style="display:flex;align-items:center;gap:4px"><span style="position:relative">${chip}${t('187873-1.jpg')}</span>${t('c240a-3.jpg')}${t('lt-160-1.jpg')}${t('ridgid-78208-1.jpg')}<span class="more" style="font-size:16px;color:#777;margin-left:4px">+5</span></div></div>`;
+      return `<div style="padding:52px 4px 8px"><div style="display:flex;align-items:center;gap:4px"><span style="position:relative">${chip}${t('187873-1.jpg')}</span>${t('c240a-3.jpg')}${t('th1110u4000honeywellhome01.jpg')}${t('ridgid-78208-1.jpg')}<span class="more" style="font-size:16px;color:#777;margin-left:4px">+5</span></div></div>`;
     }
     function ordersEmptyProposed(){
       const icon='<svg viewBox="0 0 64 64" fill="none" stroke="var(--sh-tan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="30" height="6" rx="1"/><rect x="10" y="18" width="38" height="34" rx="2"/><path d="M20 28h18M20 36h12"/></svg>';
@@ -2709,7 +2763,7 @@
           <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
           <div class="dpmeta">10 items · Riverside HVAC</div>
           <div class="dpprog"><div class="track"><i style="width:82%;background:#5E9A41"></i></div><span class="dpstat ok">Shipped</span></div>
-          <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Gas Water Heater 40 Gal"><img src="assets/products/lt-160-1.jpg" alt=""></span><span class="more">+5</span></div>
+          <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Honeywell T1 Pro Thermostat"><img src="assets/products/th1110u4000honeywellhome01.jpg" alt=""></span><span class="more">+5</span></div>
           <a href="#" class="dpbtn primary">Track Package</a>
         </div>
         <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
@@ -2832,7 +2886,7 @@
         mt.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('on',x===b));
         document.body.classList.remove('gallery','banneradmin','acctstates');
         if(b.dataset.view==='gallery'){buildGallery();document.body.classList.add('gallery');}
-        else if(b.dataset.view==='banneradmin'){document.body.classList.add('banneradmin');}
+        else if(b.dataset.view==='banneradmin'){document.body.classList.add('banneradmin');if(window.setAdminMode)setAdminMode(b.dataset.adminmode||'hero');}
         else if(b.dataset.view==='acctstates'){buildAcctGallery();document.body.classList.add('acctstates');}
         window.scrollTo(0,0); return;
       }
@@ -2843,6 +2897,108 @@
       }
     });
   })();
+  // ---- Section Promos admin: New Arrivals / Best Picks merchandising with scheduling ----
+  (function(){
+    const $=id=>document.getElementById(id);
+    if(!$('promoMain'))return;
+    const KEY='sh_section_promos_v1', ORDER=['newarrivals','bestpicks'];
+    const esc=x=>String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const DEF={
+      newarrivals:{label:'New Arrivals',note:'Brand tile + product rail',active:0,camps:[
+        {name:'RIDGID - Century of Strength',def:true,start:'',end:'',copy:'New Products Built on a Century of Strength',bg:'#F8F5F3',logo:'assets/logo_ridgid.webp',img:'assets/newarrival_group1.webp',skus:'2432-22, 2773-20, 2772A, 2780-20, 32573, CA-350, 31095, RP-241, 2532-22, 535A'}
+      ]},
+      bestpicks:{label:'Best Picks For You',note:'Left promo panel + rail',active:0,camps:[
+        {name:'Popular in your categories',def:true,start:'',end:'',copy:'Popular products in your categories',bg:'#F8F8F8',logo:'',img:'assets/Group_Heating.png',skus:'007E, T6PRO, PP20431, AE110L, TS8000, 31095'}
+      ]}
+    };
+    function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],v[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
+    function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+    let data=load(), cur='newarrivals', mode='hero';
+    try{let fixed=false;(data.bestpicks.camps||[]).forEach(c=>{if(c.def&&(!c.bg||c.bg==='#FFFFFF'||c.bg==='#F5F5F5')){c.bg='#F8F8F8';fixed=true;}});if(fixed)save();}catch(e){}
+    const cfg=()=>{const c=data[cur];return c.camps[c.active]||c.camps[0];};
+    function status(c){
+      if(!c.start&&!c.end)return c.def?['default','Default']:['draft','Draft'];
+      const now=Date.now(), st=c.start?Date.parse(c.start):-Infinity, en=c.end?Date.parse(c.end):Infinity;
+      if(now<st)return ['sched','Scheduled'];
+      if(now>en)return ['ended','Ended'];
+      return ['live','Live'];
+    }
+    function skuList(c){return (c.skus||'').split(/[\n,]+/).map(x=>x.trim()).filter(Boolean);}
+    function buildList(){$('promoList').innerHTML=ORDER.map(k=>{const co=data[k];return `<button class="ba-cohort${k===cur?' on':''}" data-k="${k}"><span class="cn">${co.label}</span><span class="cm">${co.note} &middot; ${co.camps.length} campaign${co.camps.length>1?'s':''}</span></button>`;}).join('');}
+    function buildCamps(){const co=data[cur];$('pmCamps').innerHTML=co.camps.map((c,i)=>{const st=status(c);return `<button class="bn${i===co.active?' on':''}" data-bi="${i}">${esc(c.name)} <span class="bn-sz st-${st[0]}">${st[1]}</span>${co.camps.length>1?`<span class="bn-del" data-del="${i}" title="Remove">&times;</span>`:''}</button>`;}).join('')+`<button class="bn bn-add" data-add="1">+ Add campaign</button>`;}
+    function tileHTML(c){
+      if(cur==='newarrivals')return `<div class="brandpromo" style="background:${c.bg};min-height:420px">${c.logo?`<img class="bp-logo" src="${c.logo}" alt="">`:''}<p class="bp-txt">${esc(c.copy)}</p><img class="bp-img" src="${c.img}" alt=""></div>`;
+      return `<div class="bestpromo" style="background:transparent;padding:24px;min-height:380px">${c.logo?`<img class="bp2-logo" src="${c.logo}" alt="">`:''}<div class="pl">Best Pick for You</div><h2>${esc(c.copy)}</h2><img class="pimg" src="${c.img}" alt="" style="width:100%;max-width:270px;margin-left:auto"></div>`;
+    }
+    function render(){
+      const c=cfg(); $('pmTile').innerHTML=tileHTML(c);
+      $('pmStage').style.background=cur==='bestpicks'?c.bg:'#fff';   /* Best Picks: the color is the whole band, so paint the stage */
+      const st=status(c); const win=(c.start||c.end)?`${c.start?c.start.replace('T',' '):'&hellip;'} &rarr; ${c.end?c.end.replace('T',' '):'&hellip;'}`:'no schedule';
+      $('pmMeta').innerHTML=`<span>Status <b>${st[1]}</b></span><span>Window <b>${win}</b></span><span>SKU group <b>${skuList(c).length} SKUs</b></span><span>Section <b>${data[cur].label}</b></span>`;
+    }
+    function fill(){
+      const c=cfg();
+      $('pmName').value=c.name;$('pmStart').value=c.start||'';$('pmEnd').value=c.end||'';
+      $('pmCopy').value=c.copy;$('pmBg').value=/^#[0-9a-fA-F]{6}$/.test(c.bg)?c.bg:'#FFFFFF';$('pmBgHex').value=(c.bg||'').toUpperCase();
+      $('pmLogoHint').textContent=c.logo?(c.logo.startsWith('data:')?'Custom uploaded logo':c.logo):'No logo';
+      $('pmImgHint').textContent=c.img?(c.img.startsWith('data:')?'Custom uploaded image':c.img):'No image';
+      $('pmSkus').value=c.skus||'';
+      $('pmSkuHint').textContent=skuList(c).length+' SKUs in this group';
+      $('pmStatus').textContent=status(c)[1];
+    }
+    function upd(patch){Object.assign(cfg(),patch);save();render();buildCamps();buildList();applyPromosToPage();}
+    $('promoList').addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;cur=b.dataset.k;buildList();buildCamps();fill();render();});
+    $('pmCamps').addEventListener('click',e=>{
+      const del=e.target.closest('[data-del]');
+      if(del){e.stopPropagation();const co=data[cur];if(co.camps.length<=1)return;co.camps.splice(+del.dataset.del,1);if(co.active>=co.camps.length)co.active=co.camps.length-1;save();buildCamps();buildList();fill();render();applyPromosToPage();return;}
+      if(e.target.closest('[data-add]')){const co=data[cur];const c=JSON.parse(JSON.stringify(cfg()));c.name='New campaign';c.def=false;
+        const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);
+        const st=new Date(Date.now()+86400e3), en=new Date(Date.now()+8*86400e3); st.setSeconds(0,0);en.setSeconds(0,0);
+        c.start=iso(st);c.end=iso(en);
+        co.camps.push(c);co.active=co.camps.length-1;save();buildCamps();buildList();fill();render();return;}
+      const bi=e.target.closest('[data-bi]'); if(bi){data[cur].active=+bi.dataset.bi;save();buildCamps();fill();render();}
+    });
+    [['pmName','name'],['pmCopy','copy'],['pmSkus','skus']].forEach(pair=>{const[id,k]=pair;$(id).addEventListener('input',()=>{upd({[k]:$(id).value});if(k==='skus')$('pmSkuHint').textContent=skuList(cfg()).length+' SKUs in this group';});});
+    [['pmStart','start'],['pmEnd','end']].forEach(pair=>{const[id,k]=pair;$(id).addEventListener('change',()=>{upd({[k]:$(id).value});fill();});});
+    function setBg(v){v=(v||'').trim();if(!/^#?[0-9a-fA-F]{6}$/.test(v))return;if(v[0]!=='#')v='#'+v;$('pmBg').value=v;$('pmBgHex').value=v.toUpperCase();upd({bg:v});}
+    $('pmBg').addEventListener('input',()=>setBg($('pmBg').value));
+    $('pmBgHex').addEventListener('change',()=>setBg($('pmBgHex').value));
+    [['pmLogo','logo','pmLogoHint'],['pmImg','img','pmImgHint']].forEach(tr=>{const[id,k,hint]=tr;$(id).addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{upd({[k]:rd.result});$(hint).textContent='Uploaded: '+f.name;};rd.readAsDataURL(f);});});
+    // schedule resolution: live window wins (latest start on overlap), else the default campaign
+    function activeCamp(k){
+      const co=data[k], now=Date.now();
+      const live=co.camps.filter(c=>{if(!c.start&&!c.end)return false;const st=c.start?Date.parse(c.start):-Infinity,en=c.end?Date.parse(c.end):Infinity;return now>=st&&now<=en;}).sort((a,b)=>Date.parse(b.start||0)-Date.parse(a.start||0));
+      return live[0]||co.camps.find(c=>c.def)||co.camps[0];
+    }
+    function applyPromosToPage(){
+      const na=activeCamp('newarrivals'), tile=document.querySelector('.promogrid .brandpromo');
+      if(tile&&na){tile.style.background=na.bg;
+        const l=tile.querySelector('.bp-logo'),t=tile.querySelector('.bp-txt'),i=tile.querySelector('.bp-img');
+        if(l){if(na.logo){l.src=na.logo;l.style.display='';}else l.style.display='none';}
+        if(t)t.textContent=na.copy; if(i&&na.img)i.src=na.img;}
+      const b=activeCamp('bestpicks'), el=document.querySelector('.bestpromo');
+      if(b)document.documentElement.style.setProperty('--merch-bestbg',b.bg);   /* full-width band color */
+      if(el&&b){
+        const h=el.querySelector('h2'),i=el.querySelector('.pimg'),l=el.querySelector('.bp2-logo');
+        if(h)h.textContent=b.copy; if(i&&b.img)i.src=b.img;
+        if(l){if(b.logo){l.src=b.logo;l.hidden=false;}else l.hidden=true;}}
+    }
+    window.setAdminMode=function(m){
+      mode=m==='promo'?'promo':'hero';
+      document.querySelectorAll('#baModeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.m===mode));
+      $('heroMain').hidden=mode!=='hero'; $('promoMain').hidden=mode!=='promo';
+      $('baList').hidden=mode!=='hero'; $('promoList').hidden=mode!=='promo';
+      $('baSideH').textContent=mode==='hero'?'Cohorts':'Sections';
+      $('baSub').textContent=mode==='hero'?'Hero banners per audience cohort':'Section promos: brand tile, copy, image, SKU group & schedule';
+      if(mode==='promo'){buildList();buildCamps();fill();render();}
+    };
+    $('baModeSeg').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;window.setAdminMode(b.dataset.m);});
+    // Reset / Export follow the active mode (capture phase intercepts the hero handlers)
+    $('baReset').addEventListener('click',e=>{if(mode!=='promo')return;e.stopImmediatePropagation();if(!confirm('Reset all section promos to defaults?'))return;data=JSON.parse(JSON.stringify(DEF));save();buildList();buildCamps();fill();render();applyPromosToPage();},true);
+    $('baExport').addEventListener('click',e=>{if(mode!=='promo')return;e.stopImmediatePropagation();const out=JSON.parse(JSON.stringify(data));ORDER.forEach(k=>out[k].camps.forEach(c=>{['logo','img'].forEach(pr=>{if(c[pr]&&c[pr].startsWith('data:'))c[pr]='<uploaded image>';});}));const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='section-promos.json';a.click();URL.revokeObjectURL(a.href);},true);
+    buildList();buildCamps();fill();render();applyPromosToPage();
+  })();
+
   // ---- promo hero carousel (non-TM cohorts) ----
   (function(){
     const track=document.getElementById('hbTrack'); if(!track)return;
