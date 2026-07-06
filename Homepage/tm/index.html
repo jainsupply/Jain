@@ -29,13 +29,37 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--sh-font);color:var(--sh-dark-gray);background:var(--sh-white);font-size:14px;line-height:1.5}
   a{color:var(--sh-link);text-decoration:none}a:hover{text-decoration:underline}
+  /* buttons never underline their labels — the global a:hover underline is for text links only */
+  a.btn:hover,a.dpbtn:hover,a.tmband-btn:hover,a.signin-btn:hover,a.hbbtn:hover,a.seeall:hover,a.pv-btn:hover,
+  a.endcard:hover,a.endcard:hover *,a.cpt:hover,a.cpt:hover *{text-decoration:none}
+  /* account activity rows are anchors too — no underline on hover (the row highlight is the affordance) */
+  a.arow:hover,a.arow:hover *,a.linkrow:hover,a.linkrow:hover *{text-decoration:none}
   button{font-family:var(--sh-font);cursor:pointer;border:none;background:none}
   img{max-width:100%;display:block}
-  :focus-visible{outline:3px solid var(--sh-tm-blue);outline-offset:2px}
+  :focus-visible{outline:3px solid #0066AD;outline-offset:1px}
+  /* focus ring on composite search fields: ring the whole component while typing (UI-kit focus spec);
+     when the search button itself is focused, only the button gets the ring */
+  .searchbar:focus-within:not(:has(.go:focus-visible)),.msearch:focus-within{outline:3px solid #0066AD;outline-offset:1px}
   .ms{display:inline-block;line-height:1}
   .ic{width:1em;height:1em;display:inline-block;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
   .wrap{max-width:1920px;margin:0 auto;padding:0 80px}
   .ph{background:var(--sh-light-tan-2);display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray)}
+
+  /* value-prop bar (guest only) — sits above the utility bar */
+  .valuebar{display:none;background:#fff;border-bottom:1px solid var(--sh-border);font-size:13px}
+  body[data-cohort="guest"] .valuebar{display:block}
+  @media(max-width:991px){ body[data-cohort="guest"] .valuebar{display:none} }   /* mobile uses the compact header */
+  .valuebar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:44px}
+  .valuebar .vleft{display:flex;align-items:center;gap:14px;color:var(--sh-dark-gray)}
+  .valuebar .vitem{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+  .valuebar .vitem .ic{font-size:15px;stroke-width:2.6}
+  .valuebar .vdot{color:var(--sh-mid-gray)}
+  .valuebar .vquote{display:flex;align-items:center;gap:8px;min-width:0;color:var(--sh-dark-gray)}
+  .valuebar .stars{color:#E58E1A;letter-spacing:1.5px;flex-shrink:0}
+  .valuebar .vquote span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* guest: free-shipping moves up to the value bar, so drop it from the utility row */
+  body[data-cohort="guest"] .util .free,
+  body[data-cohort="guest"] .util .free+span{display:none}
 
   /* utility bar */
   .util{background:var(--sh-white);border-bottom:1px solid var(--sh-border);font-size:12px}
@@ -46,6 +70,32 @@
   .util a.ziplink{color:var(--sh-blue)}
   .util a.ziplink .ic{font-size:15px;stroke-width:2.4}
   .util .badge{background:var(--sh-tm-blue);color:#fff;border-radius:9px;font-size:11px;padding:0 6px;margin-left:2px}
+  /* —— cohort header variants (UI-Kit 3658:4547 NTM / 6883:12437 guest) —— */
+  .ft-ntm{display:none}
+  body[data-cohort="ntm-purchaser"] .ft-tm,body[data-cohort="ntm-nonpurchaser"] .ft-tm{display:none}
+  body[data-cohort="ntm-purchaser"] .ft-ntm,body[data-cohort="ntm-nonpurchaser"] .ft-ntm{display:inline}
+  /* guest utility: logged out — only Order Status on the right */
+  body[data-cohort="guest"] .util .u-phone,
+  body[data-cohort="guest"] .util .u-phone+span,
+  body[data-cohort="guest"] .util .u-carts,
+  body[data-cohort="guest"] .util .u-lists{display:none}
+  /* plain logo (no TradeMaster tag) for NTM + guest */
+  .logo-img-plain{display:none;height:41px;width:auto}
+  body[data-cohort="ntm-purchaser"] .head .logo-img,body[data-cohort="ntm-nonpurchaser"] .head .logo-img,body[data-cohort="guest"] .head .logo-img{display:none}
+  body[data-cohort="ntm-purchaser"] .logo-img-plain,body[data-cohort="ntm-nonpurchaser"] .logo-img-plain,body[data-cohort="guest"] .logo-img-plain{display:block}
+  /* CONTACT & SUPPORT block replaces the dedicated-rep block for NTM + guest */
+  .contact-mini{display:none;align-items:center;gap:10px;font-size:12px;flex-shrink:0}
+  .contact-mini img{width:38px;height:38px;border-radius:50%}
+  .contact-mini .cs{font-size:13px;font-weight:700;color:var(--sh-dark-gray);display:flex;align-items:center;gap:5px;letter-spacing:.2px}
+  .contact-mini .cs .ic{font-size:14px}
+  .contact-mini .lc{font-size:12px;color:var(--sh-dark-gray);display:flex;align-items:center;gap:5px;margin-top:2px}
+  .contact-mini .lc .dot{width:7px;height:7px;border-radius:50%;background:#5E9A41;flex-shrink:0}
+  body[data-cohort="ntm-purchaser"] .rep-mini,body[data-cohort="ntm-nonpurchaser"] .rep-mini,body[data-cohort="guest"] .rep-mini{display:none}
+  body[data-cohort="ntm-purchaser"] .contact-mini,body[data-cohort="ntm-nonpurchaser"] .contact-mini,body[data-cohort="guest"] .contact-mini{display:flex}
+  /* guest actions: SIGN IN + CART only */
+  .ha-signin{display:none!important}
+  body[data-cohort="guest"] .head .ha-reorder,body[data-cohort="guest"] .head .ha-account{display:none}
+  body[data-cohort="guest"] .head .ha-signin{display:flex!important}
 
   /* header */
   header{background:#fff;border-bottom:1px solid var(--sh-border)}
@@ -259,7 +309,7 @@
   .acctrow .ic{color:var(--sh-tm-blue);font-size:18px}
   .acctrow .t b{display:block;font-size:13px;color:var(--sh-dark-brown)}
   .acctrow .t span{font-size:11px;color:var(--sh-mid-gray)}
-  .acctrow .va{margin-left:auto;font-size:12px;font-weight:700;color:var(--sh-link)}
+  .acctrow .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD}
 
   /* ===== top-bar account KPIs (toggled) — row of individual boxes ===== */
   .accttop{display:none;align-items:stretch;gap:8px;padding:0}
@@ -282,10 +332,10 @@
   .accttop .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:4px}
   .accttop .atv{font-size:24px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
   .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
-  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:0;color:var(--sh-tm-blue);cursor:pointer}
+  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:10px;margin:-10px;color:var(--sh-tm-blue);cursor:pointer}   /* padding+negative margin = bigger hover/click target, no layout shift */
   .accttop .delivi .ic{font-size:18px}
   .accttop .ats{font-size:12px;line-height:1.2;color:var(--sh-mid-gray);margin-top:4px}
-  .accttop .ats a{font-weight:700;color:var(--sh-link)}
+  .accttop .ats a{font-weight:700;color:#4186AD}
   .accttop .ats .warn{color:var(--sh-dark-gray);font-weight:700}
   .delivwrap{display:inline-flex;align-items:center}
   /* upcoming-delivery popover */
@@ -295,6 +345,7 @@
   .delivpop{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);width:414px;max-width:92vw;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.20);padding:24px;z-index:5000;display:none;text-transform:none;text-align:left}
   .delivpop.show{display:block}
   .delivpop::before{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(45deg);width:15px;height:15px;background:#fff;border-left:1px solid var(--sh-border);border-top:1px solid var(--sh-border)}
+  .delivpop::after{content:"";position:absolute;top:-14px;left:0;right:0;height:14px}   /* invisible hover bridge across the gap between the badge and the popover */
   .dpclose{position:absolute;top:14px;right:14px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--sh-dark-gray);background:none;border:none;cursor:pointer}
   .dpclose .ic{font-size:18px}
   .dphead{font-size:16px;font-weight:400;color:var(--sh-dark-gray);line-height:1.4;padding-bottom:14px;border-bottom:1px solid var(--sh-border);margin-bottom:18px}
@@ -333,8 +384,17 @@
   body.mode-topbar .accttop{display:flex;background:transparent;position:relative;z-index:6;margin:-12px 0 8px}
 
   /* in-flow version toggle (prototype control) — static (not fixed) so it can never contribute to viewport-width overflow on narrow screens */
-  .modetoggle{position:static;background:#fff;border-bottom:1px solid var(--sh-border);box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:8px 16px;font-size:12px;font-weight:700;color:var(--sh-mid-gray);width:100%}
+  /* prototype switcher: sticky bar pinned to the bottom of the viewport */
+  .modetoggle{position:fixed;bottom:0;left:0;right:0;z-index:4500;background:#fff;border-top:1px solid var(--sh-border);box-shadow:0 -2px 10px rgba(0,0,0,.10);display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px));font-size:12px;font-weight:700;color:var(--sh-mid-gray);width:100%}
+  body.mode-topbar{padding-bottom:110px}   /* keep page content clear of the fixed switcher */
+  @media(min-width:1200px){ body.mode-topbar{padding-bottom:60px} }
   .modetoggle .mtrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  /* mobile: keep the bottom bar short — each row scrolls horizontally instead of wrapping */
+  @media(max-width:767px){
+    .modetoggle .mtrow{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+    .modetoggle .mtrow::-webkit-scrollbar{display:none}
+    .modetoggle .mtrow button{flex-shrink:0;white-space:nowrap}
+  }
   /* one-line switcher on large screens */
   @media(min-width:1200px){
     .modetoggle{flex-direction:row;align-items:center;gap:0;padding:6px 16px}
@@ -390,9 +450,9 @@
   .pmod+.pmod{border-top:none;padding-top:0}
   .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:24px}   /* divider aligned with content + 8px extra above title */
   .pmhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  .pmhead h2{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
+  .pmhead h2{font-size:24px;font-weight:700;color:var(--sh-dark-gray)}
   .pmhead .sub{font-size:13px;color:var(--sh-mid-gray)}
-  .pmhead .va{margin-left:auto;font-size:13px;font-weight:700;color:var(--sh-link)}
+  .pmhead .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD}
   .va{cursor:pointer}
   .va:hover{text-decoration:underline}
   .toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);cursor:pointer}
@@ -410,7 +470,7 @@
   .chip-f[aria-pressed="true"]:not(.chip-reset)::after{content:"";width:11px;height:7px;border-left:2px solid var(--sh-tm-blue);border-bottom:2px solid var(--sh-tm-blue);transform:rotate(-45deg);margin-top:-2px}
   .chip-f[aria-pressed="true"]:not(:disabled):hover{background:#E4EEFA}
   /* focus (keyboard) */
-  .chip-f:focus-visible{outline:2px solid var(--sh-tm-blue);outline-offset:2px}
+  .chip-f:focus-visible{outline:3px solid #0066AD;outline-offset:1px}
   /* mute */
   .chip-f.mute{border-style:dashed;border-color:#C4C4C4;color:var(--sh-mid-gray);background:transparent}
   /* disabled */
@@ -446,8 +506,8 @@
   .endcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;background:var(--sh-light-tan-1);scroll-snap-align:start;padding:16px;text-decoration:none;min-height:200px}
   .endcard:hover{background:var(--sh-light-tan-2)}
   .endcard .ecnum{font-size:13px;color:var(--sh-mid-gray);line-height:1.3}
-  .endcard .ecbtn{display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--sh-tm-blue);background:var(--sh-tm-blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 16px}
-  .endcard:hover .ecbtn{background:var(--sh-dark-blue);border-color:var(--sh-dark-blue)}
+  .endcard .ecbtn{display:inline-flex;align-items:center;justify-content:center;border:2px solid #4186AD;background:#4186AD;color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.22px;height:36px;padding:0 16px}
+  .endcard:hover .ecbtn{background:#37719A;border-color:#37719A}
   .endcard .ecbtn .ic{font-size:16px}
   .mcard .thumb{width:80px;height:80px;align-self:flex-start;margin:8px 0 0 10px;background:var(--sh-img-bg);display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .mcard .thumb .ms{font-size:30px}
@@ -487,6 +547,7 @@
   .mcard .qtyhover button .ic{font-size:14px;stroke-width:1.7}
   .mcard .qtyhover input{flex:1;min-width:0;position:relative;z-index:1;border:1px solid #5BB3E0;border-radius:3px;margin:0;text-align:center;font-family:var(--sh-font);font-weight:700;font-size:13px;color:var(--sh-black);background:#fff;box-shadow:0 0 5px 1px rgba(91,179,224,.55)}
   .mcard .qtyhover input:focus{outline:none}
+  .mcard .qtyhover input:focus-visible{outline:2px solid #0066AD;outline-offset:-2px}
   .mcard .qtyctl input{flex:1;width:auto;min-width:0;border:none;border-left:1px solid #C4C4C4;border-right:1px solid #C4C4C4;text-align:center;font:inherit;font-weight:700;font-size:13px;color:var(--sh-dark-gray);background:#fff}
   .mcard .pr{line-height:1.2}
   .mcard .price{font-size:12px;font-weight:700;color:var(--sh-tm-blue)}
@@ -541,13 +602,14 @@
   /* categories */
   .cats{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;padding:8px 0 4px}
   .cat{text-align:center;font-size:13px;font-weight:700;color:var(--sh-dark-gray)}
-  .cat .circ{aspect-ratio:1;max-width:118px;margin:0 auto 10px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan);overflow:hidden}
-  @media(min-width:1400px){ .cat{font-size:14px} .cat .circ{max-width:140px} }
+  .cat .circ{aspect-ratio:1;max-width:140px;margin:0 auto 10px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan);overflow:hidden}
+  @media(min-width:1400px){ .cat{font-size:14px} .cat .circ{max-width:160px} }
   .cat .circ img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .cat .chevr{color:#4186AD;font-size:1.3em;font-weight:700;line-height:1;vertical-align:-1px}
   .cat .circ .ms{font-size:34px}
   .cat:hover .circ{background:var(--sh-light-tan-3)}
   .catsinner{padding:0 40px}   /* align Shop Your Categories with Reorder/Recently content */
-  .seclabel{font-size:24px;font-weight:700;color:var(--sh-dark-brown);display:inline-block;vertical-align:baseline;margin:0 10px 14px 0}
+  .seclabel{font-size:24px;font-weight:700;color:var(--sh-dark-gray);display:inline-block;vertical-align:baseline;margin:0 10px 14px 0}
   .secsub{font-size:13px;color:var(--sh-mid-gray);display:inline-block;vertical-align:baseline;margin:0 0 14px 0}
   .section{padding:36px 0}
   .section.alt{background:var(--sh-off-white)}
@@ -646,6 +708,13 @@
   .activities .right{border-left:1px solid var(--sh-border);padding-left:40px;display:flex;flex-direction:column}
   .activities .right .linkrow{flex:1}                 /* spread links to fill the column height */
   .activities .right .linkrow:last-child{border-bottom:none}
+  /* mobile: roomier account-link rows, icons sized to match the Lists / Saved Carts group headers (32px) */
+  @media(max-width:767px){
+    .activities .right .linkrow{padding:16px 0}
+    .activities .right .linkrow.tmrow{padding:16px 0 18px}
+    .activities .right .linkrow .lic{width:32px;height:32px}
+    .activities .right .linkrow .lic .ic{font-size:24px}
+  }
   .actgroup{border-bottom:1px solid var(--sh-border);padding-bottom:12px}   /* group closes with a Gray-300 rule */
   .actgroup+.actgroup{margin-top:24px}
   .actcol .ah{font-size:18px;font-weight:700;color:var(--sh-dark-gray);display:flex;align-items:center;gap:4px;padding:0;margin-bottom:8px;line-height:1.4}
@@ -654,7 +723,7 @@
   .actcol .ah .aht{display:flex;flex-direction:column;min-width:0;line-height:1.2}
   .actcol .ah .ahsub{display:none;font-size:12px;font-weight:400;color:var(--sh-mid-gray);margin-top:2px}   /* "Latest Update" line — mobile only */
   .actcol .ah .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD}
-  .arow{display:flex;align-items:center;gap:12px;margin-left:32px;padding:8px 0;border-bottom:1px solid #E3E3E3;text-decoration:none}
+  .arow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #E3E3E3;text-decoration:none}
   .actgroup .arow:last-child{border-bottom:none}
   .arow:hover{background:#EFF5FD}
   .arow .ti{min-width:0}
@@ -667,6 +736,10 @@
   .arow .thumbs{margin-left:auto;display:flex;align-items:center;gap:4px;flex-shrink:0}
   .arow .thumbs .t{width:40px;height:40px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .arow .thumbs .t .ms{font-size:20px}
+  .arow .thumbs .t img,.dpthumbs .t img{width:100%;height:100%;object-fit:contain;display:block}
+  /* hover tooltip on thumbnails: white rounded chip with the product name */
+  .thumbs .t,.dpthumbs .t{position:relative}
+  .thumbs .t[data-name]:hover::after,.dpthumbs .t[data-name]:hover::after{content:attr(data-name);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;padding:10px 14px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
   .arow .thumbs .more{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#777;font-weight:400;margin:0}
   .arow .chev{color:var(--sh-link);flex-shrink:0;font-size:24px}
   /* mobile Account Activity: stacked rows — title/meta on top, thumbnails + chevron on a second line,
@@ -674,7 +747,7 @@
   @media(max-width:767px){
     .actcol .ah{border-bottom:none;padding-bottom:4px;align-items:flex-start}
     .actcol .ah .ahsub{display:block}
-    .arow{flex-wrap:wrap;row-gap:10px;margin-left:0;padding:14px 0 14px 38px}
+    .arow{flex-wrap:wrap;row-gap:10px;margin-left:0;padding:14px 0}
     .arow .ti{flex:0 0 100%;min-width:0}
     .arow .thumbs{margin-left:0}
     .arow .chev{margin-left:auto;color:var(--sh-link)}
@@ -693,16 +766,16 @@
   .linkrow{display:flex;align-items:center;gap:12px;padding:14px 8px;border-bottom:1px solid var(--sh-border);text-decoration:none}
   .linkrow:hover{background:#EFF5FD}
   .linkrow .lic{width:30px;height:30px;background:#E7F1F8;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .linkrow .lic .ic{font-size:16px}
+  .linkrow .lic .ic{font-size:24px}   /* glyph matches the Lists / Saved Carts group-header icons */
   .linkrow .t{min-width:0}
   .linkrow .t b{display:block;font-size:14px;color:var(--sh-dark-brown)}
   .linkrow .t span{font-size:12px;color:var(--sh-mid-gray)}
-  .linkrow .va{margin-left:auto;font-size:12px;font-weight:700;color:var(--sh-link);flex-shrink:0}
-  .st.proc{color:var(--sh-orange)} .st.ship{color:var(--sh-success)} .st.deliv{color:var(--sh-mid-gray)}
+  .linkrow .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD;flex-shrink:0}
+  .st.proc{color:var(--sh-orange)} .st.ship{color:#5E9A41} .st.deliv{color:var(--sh-dark-gray)}
   /* right-column account links — per Figma 1726:37053: 30px plain icon, 18px bold title with inline 12px update, View in Link/Blue-700 */
   .linkrow{display:flex;align-items:center;gap:4px;padding:12px 0;border-bottom:1px solid var(--sh-border)}
   .linkrow .ic{color:var(--sh-tm-blue);font-size:24px}
-  .linkrow .lic{width:30px;height:30px;background:none;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .linkrow .lic{width:32px;height:32px;background:none;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}   /* matches the 32px Lists / Saved Carts group-header icons */
   .linkrow .t{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-width:0}
   .linkrow .t b{font-size:18px;color:var(--sh-dark-gray);font-weight:700;line-height:1.4}
   .linkrow .t span{font-size:12px;color:var(--sh-dark-gray);font-weight:400;line-height:1.4}
@@ -714,6 +787,13 @@
   .linkrow.tmrow .t span{display:block;font-size:13px;line-height:1.6}
   .linkrow.tmrow .va{font-size:12px}
   .activities .right .linkrow:last-child{border-bottom:none}
+  /* mobile: roomier account-link rows, icons sized to match the Lists / Saved Carts group headers (32px) */
+  @media(max-width:767px){
+    .activities .right .linkrow{padding:16px 0}
+    .activities .right .linkrow.tmrow{padding:16px 0 18px}
+    .activities .right .linkrow .lic{width:32px;height:32px}
+    .activities .right .linkrow .lic .ic{font-size:24px}
+  }
 
   /* rep banner (desktop: number display-only + email + copy) */
   .repband{background:#EFF5FD}
@@ -738,20 +818,20 @@
     .repband .acts{flex-direction:column;max-width:210px;gap:12px}
     .repband .acts .btn{width:100%;flex:none}
   }
-  .repband .btn-primary{background:var(--sh-blue);border-color:var(--sh-blue)}
-  .repband .btn-primary:hover{background:#055f81;border-color:#055f81}
+  .repband .btn-primary{background:#4186AD;border-color:#4186AD}
+  .repband .btn-primary:hover{background:#37719A;border-color:#37719A}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;height:36px;padding:0 18px;white-space:nowrap;border:2px solid transparent}
   .btn .ic{font-size:15px}
-  .btn-primary{background:var(--sh-tm-blue);color:#fff;border-color:var(--sh-tm-blue)}
-  .btn-primary:hover{background:var(--sh-dark-blue)}
-  .btn-ghost{background:#fff;color:var(--sh-tm-blue);border-color:var(--sh-tm-blue)}
-  .btn-ghost:hover{background:var(--sh-light-tan-1)}
+  .btn-primary{background:#4186AD;color:#fff;border-color:#4186AD}
+  .btn-primary:hover{background:#37719A;border-color:#37719A}
+  .btn-ghost{background:#fff;color:#4186AD;border-color:#4186AD}
+  .btn-ghost:hover{background:#EFF5FD}
 
   /* replacement part finder — styling matched to live supplyhouse.com widget */
   .rpfsec{padding-top:0}
   .rpfsec::before{display:none}   /* flush against the rep banner above */
-  .rpf{position:relative;background:#F8F8F8;overflow:hidden}
-  .rpf .rpf-inner{position:relative;max-width:1920px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:200px}
+  .rpf{position:relative;background:#F8F8F8;overflow:hidden;border-bottom:1px solid var(--sh-border)}   /* matches live widget band */
+  .rpf .rpf-inner{position:relative;max-width:1920px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:320px}   /* live: 320px @1400+ */
   .rpf .rpf-img{width:320px;max-width:34%;height:auto;flex-shrink:0;object-fit:contain;align-self:center}
   .rpf .rpf-titlewrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;max-width:240px}
   .rpf .rpf-new{display:inline-block;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px}
@@ -759,16 +839,16 @@
   .rpf .rpf-div{width:1px;align-self:stretch;background:#C4C4C4}
   .rpf .rpf-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:11px}
   .rpf .rpf-sub{font-size:20px;color:#343434}
-  .rpf .rpf-ctrls{display:flex;gap:8px}
-  .rpf .rpf-select{flex:1;min-width:0;display:flex;align-items:center;gap:12px;height:50px;padding:0 16px;border:1px solid #C4C4C4;border-radius:0;background:#fff;cursor:pointer}
+  .rpf .rpf-ctrls{display:flex;gap:16px}
+  .rpf .rpf-select{flex:1;min-width:0;display:flex;align-items:center;gap:12px;height:49px;padding:0 16px;border:1px solid #C4C4C4;border-radius:0;background:#fff;cursor:pointer}
   .rpf .rpf-select.is-disabled{opacity:.3}
   .rpf .rpf-num{width:25px;height:25px;flex-shrink:0;border-radius:50%;border:2px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center}
-  .rpf .rpf-lbl{flex:1;font-weight:700;font-size:16px;color:#343434}
+  .rpf .rpf-lbl{flex:1;font-weight:700;font-size:16px;color:#343434;text-align:left}
   .rpf .rpf-select .chev{color:var(--sh-dark-gray);font-size:18px}
   .rpf .rpf-collapse{position:absolute;top:16px;right:18px;background:none;border:none;cursor:pointer;color:var(--sh-tm-blue);display:flex}
   .rpf .rpf-collapse .ic{font-size:20px;stroke-width:2.4}
   @media(min-width:992px) and (max-width:1199px){
-    .rpf .rpf-inner{gap:22px;padding:28px 20px 28px 0}
+    .rpf .rpf-inner{gap:20px;padding:28px 20px 28px 0;min-height:300px}
     .rpf .rpf-img{width:220px;max-width:30%}
     .rpf .rpf-titlewrap{max-width:190px;gap:5px}
     .rpf .rpf-title{font-size:27px}
@@ -779,7 +859,7 @@
     .rpf .rpf-lbl{font-size:14px}
   }
   @media(min-width:768px) and (max-width:991px){
-    .rpf .rpf-inner{gap:18px;padding:24px 16px 24px 0}
+    .rpf .rpf-inner{gap:18px;padding:24px 16px 24px 0;min-height:360px}
     .rpf .rpf-img{width:180px;max-width:28%}
     .rpf .rpf-titlewrap{max-width:150px;gap:4px}
     .rpf .rpf-title{font-size:23px;line-height:1.15}
@@ -792,23 +872,39 @@
     .rpf .rpf-select .chev{font-size:16px}
   }
   @media(max-width:767px){
-    .rpf .rpf-inner{flex-wrap:wrap;padding:18px 16px 20px;min-height:0;align-items:flex-start;gap:0}
+    .rpf .rpf-inner{flex-wrap:wrap;align-content:space-between;padding:24px 16px 28px;min-height:411px;align-items:flex-start;gap:0}   /* live: 411px band on mobile */
     .rpf .rpf-img{width:46%;max-width:240px}
-    .rpf .rpf-titlewrap{flex:1;max-width:none;align-items:flex-start;padding:14px 0 0 14px}
-    .rpf .rpf-title{font-size:25px;text-align:left}
+    .rpf .rpf-titlewrap{flex:1;max-width:none;align-items:flex-end;padding:14px 0 0 14px}   /* live keeps the title right-aligned on mobile */
+    .rpf .rpf-title{font-size:25px;text-align:right}
     .rpf .rpf-div{display:none}
     .rpf .rpf-body{flex-basis:100%;padding:18px 0 0}
     .rpf .rpf-sub{font-size:16px}
-    .rpf .rpf-ctrls{flex-direction:column;gap:10px}
+    .rpf .rpf-ctrls{flex-direction:column;gap:12px}
     .rpf .rpf-select{flex:0 0 auto;width:100%}
   }
 
   /* RIDGID / new arrivals */
   .promogrid{display:grid;grid-template-columns:28% 1fr;gap:24px;align-items:stretch}
   .promogrid .nawrap{min-width:0}   /* grid items default to min-width:auto — without this the 1fr track can't shrink below the card rail's min-content (~733px) and the whole page overflows horizontally below ~780px */
-  .brandpromo{display:flex;align-items:center;justify-content:center}
-  .brandpromo .bimg{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
-  @media(min-width:992px){ .na-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px} }   /* scoped to desktop only — this unscoped rule used to win the cascade at mobile widths (declared after the ≤991px rail override) and squeeze all 4 cards into narrow columns, overflowing the page */
+  /* RIDGID promo card — Figma 2104:72538: logo top, copy, collage bottom on the warm tile */
+  .brandpromo{display:flex;flex-direction:column;align-items:flex-start;background:#F8F5F3;padding:40px 28px 0}
+  .brandpromo .bp-logo{width:52%;max-width:140px;height:auto;display:block;margin:8px 0 26px}
+  .brandpromo .bp-txt{font-size:22px;line-height:1.35;color:var(--sh-dark-gray);margin:0;align-self:flex-start;max-width:300px}
+  .brandpromo .bp-img{margin-top:auto;width:100%;max-width:300px;height:auto;display:block;padding-bottom:14px;align-self:center}
+  @media(min-width:1600px){
+    .brandpromo .bp-logo{max-width:160px;margin-left:20px}
+    .brandpromo .bp-txt{font-size:24px;padding-left:20px}
+    .brandpromo .bp-img{max-width:360px}
+  }
+  /* desktop New Arrivals: horizontally paged rail; visible card count per breakpoint (Figma 2104:72538) */
+  @media(min-width:992px){
+    .na-cards{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2*16px)/3);gap:16px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
+    .na-cards::-webkit-scrollbar{display:none}
+    .na-cards>.fcard{scroll-snap-align:start}
+    .na-pager{display:flex}
+  }
+  @media(min-width:1200px){ .na-cards{grid-auto-columns:calc((100% - 3*16px)/4)} }   /* 4 per view */
+  @media(min-width:1600px){ .na-cards{grid-auto-columns:calc((100% - 4*16px)/5)} }   /* 5 per view */
 
   /* Join the TradeMaster Program band — per Figma 2014:51710 */
   .tmband{background:linear-gradient(90deg,#1B6FC4 0%,#2C82D6 55%,#4D9BE0 100%);color:#fff;overflow:hidden}
@@ -838,8 +934,8 @@
   /* tools */
   .toolsgrid{display:grid;grid-template-columns:60% 1fr;gap:22px}
   .toolsbanner{background:#F5F5F5;padding:40px 28px 0;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
-  .toolsbanner h2{font-size:26px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:0}
-  .toolsbanner .seeall{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;border:1px solid var(--sh-tm-blue);color:var(--sh-tm-blue);background:none;font-weight:700;font-size:11px;height:36px;padding:0 30px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer}
+  .toolsbanner h2{font-size:26px;font-weight:400;color:var(--sh-dark-gray);line-height:1.15;margin:0}
+  .toolsbanner .seeall{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;border:2px solid #4186AD;color:#4186AD;background:none;font-weight:700;font-size:11px;height:36px;padding:0 30px;text-transform:uppercase;letter-spacing:.22px;cursor:pointer}
   .toolsbanner .seeall:hover{background:#EFF5FD}
   .toolsbanner .timg{margin-top:22px;width:100%;max-width:780px;height:auto;display:block}
   .toolstiles{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
@@ -884,15 +980,30 @@
   .pcard .pimg img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
   .pcard .pl{font-size:12px;font-weight:700;color:var(--sh-dark-gray);padding:10px;display:inline-flex;align-items:center;gap:4px}
 
-  /* brands directory */
-  .brands h2{font-size:30px;font-weight:700;color:var(--sh-dark-brown)}
-  .brands .sub{font-size:13px;color:var(--sh-mid-gray);margin:4px 0 22px}
-  .logos{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:space-between;padding-bottom:24px;border-bottom:1px solid var(--sh-border);margin-bottom:24px}
+  /* brands directory — type + spacing per Figma 981:93703 (desktop) / 981:93705 (mobile) */
+  .section.brands{padding:120px 0 80px}   /* Figma: 120 top / 80 bottom */
+  @media(min-width:768px) and (max-width:991px){ .section.brands{padding:72px 0 56px} }
+  @media(max-width:767px){ .section.brands{padding:48px 0 40px} }
+  .brands h2{font-size:50px;font-weight:700;line-height:1.1;color:var(--sh-dark-gray)}
+  .brands .sub{font-size:24px;line-height:1.2;color:#777;margin:8px 0 24px}
+  .logos{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:space-between;padding-bottom:24px;border-bottom:1px solid var(--sh-border);margin-bottom:30px}
   .logos span{font-size:18px;font-weight:700;color:var(--sh-mid-gray);opacity:.75}
   .bdir{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
-  .bcol h4{font-size:13px;font-weight:700;color:var(--sh-dark-brown);margin-bottom:8px}
-  .bcol a{display:block;font-size:12px;color:var(--sh-dark-gray);padding:3px 0}
+  .bcol h4{font-size:16px;font-weight:700;line-height:1.6;color:#000;text-transform:uppercase;margin-bottom:12px}
+  .bcol a{display:block;font-size:16px;line-height:1.6;color:var(--sh-dark-gray);padding:0}
   .bcol a:hover{color:var(--sh-link)}
+  @media(min-width:768px) and (max-width:991px){
+    .brands h2{font-size:36px}
+    .brands .sub{font-size:18px}
+    .bcol h4{font-size:14px}
+    .bcol a{font-size:15px}
+  }
+  @media(max-width:767px){
+    .brands h2{font-size:24px;line-height:1.25}
+    .brands .sub{font-size:13px;line-height:1.5;margin:6px 0 18px}
+    .bcol h4{font-size:13px;margin-bottom:10px}
+    .bcol a{font-size:14px}
+  }
 
   /* toast */
   .sh-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(12px);background:var(--sh-dark-brown);color:#fff;font-size:13px;font-weight:700;padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:90vw;text-align:center}
@@ -917,9 +1028,9 @@
   .skcard .skbtn{height:30px;width:90px;border-radius:6px;margin-top:6px}
   /* Shop Your Categories skeleton */
   .skcat{text-align:center}
-  .skcat .skcirc{display:block;width:100%;max-width:118px;aspect-ratio:1;border-radius:50%;margin:0 auto 10px}
+  .skcat .skcirc{display:block;width:100%;max-width:140px;aspect-ratio:1;border-radius:50%;margin:0 auto 10px}
   .skcat .skline{height:11px;width:70%;margin:0 auto;border-radius:3px}
-  @media(min-width:1400px){ .skcat .skcirc{max-width:140px} }
+  @media(min-width:1400px){ .skcat .skcirc{max-width:160px} }
   /* "Added!" confirmation popover anchored to the stepper */
   .addedpop{position:absolute;display:flex;align-items:center;z-index:9999;pointer-events:none;opacity:0;transform:translateY(6px) scale(.96);transition:opacity .18s ease,transform .18s ease}
   .addedpop.show{opacity:1;transform:translateY(0) scale(1)}
@@ -1151,6 +1262,7 @@
   #acctGallery .grow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:22px}
   #acctGallery .gx{width:280px}
   #acctGallery .gx.gxwide{width:100%}
+  #acctGallery .gx.gxhalf{width:calc(50% - 11px)}
   #acctGallery .gcard{border:1px solid var(--sh-border);border-radius:8px;padding:16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);pointer-events:none;min-height:56px}
   #acctGallery .gcard *{pointer-events:none}
   #acctGallery .gcard.note{display:flex;gap:10px;align-items:flex-start;min-height:0}
@@ -1166,9 +1278,10 @@
   #acctGallery .kpi-demo .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:2px}
   #acctGallery .kpi-demo .atv{font-size:22px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
   #acctGallery .kpi-demo .ats{font-size:12px;line-height:1.3;color:var(--sh-mid-gray);margin-top:4px}
+  #acctGallery .kpi-demo .ats a{font-weight:700;color:#4186AD}
   #acctGallery .kpi-demo .ats .warn{color:var(--sh-dark-gray);font-weight:700}
   #acctGallery .kpi-demo .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;white-space:nowrap;display:inline-block}
-  @media(max-width:767px){ #acctGallery .ginner{padding:28px 16px 60px} #acctGallery .grow{gap:16px} #acctGallery .gx{width:100%;max-width:340px} }
+  @media(max-width:767px){ #acctGallery .ginner{padding:28px 16px 60px} #acctGallery .grow{gap:16px} #acctGallery .gx{width:100%;max-width:340px} #acctGallery .gx.gxhalf{max-width:none} }
 
   /* ===== Hero Banner Admin (toggle view) ===== */
   #bannerAdmin{display:none;position:relative;z-index:1;min-height:100vh;background:#F4F5F7;color:#212529;font-family:'Inter','Segoe UI',Roboto,Arial,sans-serif;--ba-blue:#07729C;--ba-line:#E2E2E2;--ba-gray:#6b7280;--ba-ink:#212529}
@@ -1220,7 +1333,15 @@
   #bannerAdmin .fld.full{grid-column:1/-1}
   #bannerAdmin .fld label{font-size:13px;font-weight:700}
   #bannerAdmin .fld label b{color:var(--ba-blue);font-weight:700}
-  #bannerAdmin .fld input[type=text],#bannerAdmin .fld textarea{font-family:inherit;font-size:14px;border:1px solid var(--ba-line);border-radius:8px;padding:9px 11px}
+  #bannerAdmin .fld input[type=text],#bannerAdmin .fld input[type=datetime-local],#bannerAdmin .fld textarea{font-family:inherit;font-size:14px;border:1px solid var(--ba-line);border-radius:8px;padding:9px 11px}
+  /* countdown clock (Tall banners) */
+  #bannerAdmin .pv-count{display:flex;align-items:flex-start;gap:8px;margin-top:14px}
+  #bannerAdmin .pv-count .pclbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;align-self:center;margin-right:2px}
+  #bannerAdmin .pv-count .unit{display:flex;flex-direction:column;align-items:center;gap:2px}
+  #bannerAdmin .pv-count .num{min-width:38px;padding:5px 6px;background:rgba(0,0,0,.28);border-radius:4px;font-size:18px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+  #bannerAdmin .pv-count .u{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.85}
+  #bannerAdmin .pv-count .sep{font-weight:700;opacity:.7;align-self:flex-start;margin-top:6px}
+  #bannerAdmin .pv-count.mob .num{min-width:28px;font-size:13px;padding:3px 4px}
   #bannerAdmin .fld textarea{resize:vertical;min-height:60px}
   #bannerAdmin .fld input[type=range]{width:100%}
   #bannerAdmin .seg{display:flex;border:1px solid var(--ba-line);border-radius:8px;overflow:hidden;width:max-content}
@@ -1280,7 +1401,7 @@
   body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-recent{display:flex}
   .guesttop .gt-recent .pmhead h2{font-size:20px}
   .guesttop .gt-cats-head{padding-top:8px;margin-bottom:14px}
-  .guesttop .gt-cats-head h2{font-size:20px;font-weight:700;color:var(--sh-dark-brown);margin:0;display:inline-block;vertical-align:middle}
+  .guesttop .gt-cats-head h2{font-size:20px;font-weight:700;color:var(--sh-dark-gray);margin:0;display:inline-block;vertical-align:middle}
   .guesttop .gt-cats-head .sub{font-size:13px;color:var(--sh-mid-gray);margin-left:8px}
   .guesttop .gt-circ-wrap{overflow:hidden;flex:1}
   .guesttop .gt-circ{display:flex;gap:20px;transition:transform .3s ease}
@@ -1297,8 +1418,11 @@
   @media(max-width:1199px){
     .guesttop .gt-grid{grid-template-columns:1fr;gap:12px}   /* tighter gap once stacked */
     .guesttop .gt-cats{order:-1}   /* stacked: Top Categories first, then Replacement Part Finder */
+    .guesttop .gt-rpf{padding-top:20px}
     .guesttop .gt-rpf h3,.guesttop .gt-rpf p{text-align:left}
-    .guesttop .gt-rpf-img{width:200px;margin-left:-48px}
+    /* stacked card: bring the collage back into flow above the headline so it can't overlap the text */
+    .guesttop .gt-rpf-img{position:static;width:150px;height:auto;margin:0 0 6px -12px}
+    .guesttop .gt-rpf h3{margin-top:0}
     .guesttop .gt-circ a,.guesttop .gt-circ .circ{width:124px}
     .guesttop .gt-circ .circ{height:124px}
   }
@@ -1311,7 +1435,7 @@
   .testi .testi-collage{display:block;max-width:1500px;margin:0 auto}   /* cap the collage on the largest breakpoints */
   .testi .testi-collage img{width:100%;height:auto;display:block}
   .testi .testi-head{text-align:center;margin:18px 0 6px}
-  .testi .testi-head h2{font-size:34px;font-weight:800;color:var(--sh-dark-brown);margin:0}
+  .testi .testi-head h2{font-size:34px;font-weight:700;color:var(--sh-dark-gray);margin:0}
   .testi .testi-head h2 span{color:var(--sh-tm-blue)}
   .testi .testi-head p{font-size:18px;color:var(--sh-dark-gray);margin:8px 0 0}
   .testi .testi-quotes{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:28px}
@@ -1353,19 +1477,29 @@
   </span>
 </div>
 
+<!-- VALUE BAR (guest only, above the utility bar) -->
+<div class="valuebar"><div class="wrap">
+  <div class="vleft">
+    <span class="vitem"><svg class="ic" viewBox="0 0 24 24"><polyline points="4 12.5 9.5 18 20 6.5"/></svg><span><b>Free shipping</b> on orders $99+</span></span>
+    <span class="vdot">&bull;</span>
+    <span class="vitem"><svg class="ic" viewBox="0 0 24 24"><polyline points="4 12.5 9.5 18 20 6.5"/></svg><span><b>340,000+ products</b> in stock</span></span>
+  </div>
+  <div class="vquote"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span>&ldquo;Orders ship faster than anywhere else I buy from.&rdquo; &mdash; <b>Mike R., HVAC Contractor</b></span></div>
+</div></div>
+
 <!-- UTILITY -->
 <div class="util"><div class="wrap">
-  <div class="left"><span class="free">Free shipping on all orders</span><span>·</span><span>Your Zip <a href="#" class="ziplink">11743 <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a></span></div>
+  <div class="left"><span class="free"><span class="ft-tm">Free shipping on all orders</span><span class="ft-ntm">Free shipping on orders over $99</span></span><span>·</span><span>Your Zip <a href="#" class="ziplink">11743 <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a></span></div>
   <div class="right">
-    <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3l2 5-2 1.5a11 11 0 0 0 5 5L18 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg> 888-551-7600</a>
+    <a href="#" class="u-phone"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3l2 5-2 1.5a11 11 0 0 0 5 5L18 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg> 888-551-7600</a><span>·</span>
     <a href="#" id="orderStatus"><svg class="ic" viewBox="0 0 24 24"><rect x="1" y="6" width="14" height="11"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg> Order status</a>
-    <a href="#"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg> Saved carts</a><a href="#"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> Lists</a>
+    <a href="#" class="u-carts"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg> Saved carts</a><a href="#" class="u-lists"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> Lists</a>
   </div>
 </div></div>
 
 <!-- HEADER -->
 <header><div class="head">
-  <div class="logo"><img src="assets/Logo-SH-TM-color.svg" alt="SupplyHouse.com — TradeMaster" class="logo-img"></div>
+  <div class="logo"><img src="assets/Logo-SH-TM-color.svg" alt="SupplyHouse.com — TradeMaster" class="logo-img"><img src="assets/Logo-SH-color.svg" alt="SupplyHouse.com" class="logo-img-plain"></div>
   <div class="searchbar">
     <input type="search" aria-label="Search for part or SKU" placeholder="Search for part or SKU">
     <button class="go" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></button>
@@ -1374,10 +1508,15 @@
     <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=68&q=70&auto=format&fit=crop" alt="">
     <div><div class="rl">Your rep, Larry</div><div class="rp">516-310-0227</div><a href="#" class="rc">CONTACT &amp; SUPPORT <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a></div>
   </div>
+  <div class="contact-mini">
+    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=68&q=70&auto=format&fit=crop" alt="">
+    <div><a href="#" class="cs">CONTACT &amp; SUPPORT <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a><div class="lc"><span class="dot"></span> Live Chat : Online Now</div></div>
+  </div>
   <div class="hacts">
-    <button class="ha"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 1 2 4.9"/><path d="M5 17v-5h5"/></svg>REORDER</button>
-    <button class="ha"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>ACCOUNT</button>
-    <button class="ha"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg>CART<span class="cb">7</span></button>
+    <button class="ha ha-reorder"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 1 2 4.9"/><path d="M5 17v-5h5"/></svg>REORDER</button>
+    <button class="ha ha-account"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>ACCOUNT</button>
+    <button class="ha ha-signin"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>SIGN IN</button>
+    <button class="ha ha-cart"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/></svg>CART<span class="cb">7</span></button>
   </div>
 </div></header>
 
@@ -1446,7 +1585,7 @@
             <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
             <div class="dpmeta">10 items · Riverside HVAC</div>
             <div class="dpprog"><div class="track"><i style="width:82%;background:#5E9A41"></i></div><span class="dpstat ok">Shipped</span></div>
-            <div class="dpthumbs"><span class="t"><span class="ms">bolt</span></span><span class="t"><span class="ms">plumbing</span></span><span class="t"><span class="ms">valve</span></span><span class="t"><span class="ms">water_drop</span></span><span class="more">+5</span></div>
+            <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Gas Water Heater 40 Gal"><img src="assets/products/lt-160-1.jpg" alt=""></span><span class="t" data-name="RIDGID Pipe Wrench 18&quot;"><img src="assets/products/ridgid-78208-1.jpg" alt=""></span><span class="more">+5</span></div>
             <a href="#" class="dpbtn primary">Track Package</a>
           </div>
           <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
@@ -1454,7 +1593,7 @@
             <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
             <div class="dpmeta">2 items · Maple Ave reno</div>
             <div class="dpprog"><div class="track"><i style="width:55%;background:var(--sh-orange)"></i></div><span class="dpstat proc">Processing</span></div>
-            <div class="dpthumbs"><span class="t"><span class="ms">valve</span></span><span class="t"><span class="ms">build</span></span></div>
+            <div class="dpthumbs"><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/vt3-pvcs-3.jpg" alt=""></span><span class="t" data-name="M12 Copper Tubing Cutter"><img src="assets/products/49-16-2451-3.jpg" alt=""></span></div>
           </div>
           <a href="#" class="dpbtn ghost">View All</a>
         </div></span></span></div>
@@ -1606,7 +1745,9 @@
 <!-- RIDGID + NEW ARRIVALS -->
 <section class="section"><div class="wrap"><div class="promogrid">
   <div class="brandpromo">
-    <img class="bimg" src="assets/newarrival1.webp" alt="New arrivals" loading="lazy">
+    <img class="bp-logo" src="assets/logo_ridgid.webp" alt="RIDGID" loading="lazy">
+    <p class="bp-txt">New Products Built on a Century of Strength</p>
+    <img class="bp-img" src="assets/newarrival_group1.webp" alt="RIDGID new arrivals" loading="lazy">
   </div>
   <div class="nawrap">
     <div class="pmhead" style="margin-bottom:14px"><h2>New Arrivals</h2><span class="sub">Just for you</span><span class="va">View all →</span></div>
@@ -1736,6 +1877,9 @@
           <div class="seg" id="sizeSeg"><button data-size="short">Short</button><button data-size="mid">Mid</button><button data-size="tall">Tall</button></div>
           <div class="hint" id="sizeHint"></div>
         </div>
+        <div class="fld full"><label class="check"><input type="checkbox" id="fTmLogo"> Show TradeMaster logo chip on the right <span class="hint" style="font-weight:400">(Short only — mirrors the live TM hero)</span></label></div>
+        <div class="fld"><label class="check"><input type="checkbox" id="fCount"> Show countdown clock <span class="hint" style="font-weight:400">(Tall only)</span></label></div>
+        <div class="fld"><label>Countdown ends</label><input type="datetime-local" id="fCountEnd"></div>
         <h2>Content</h2>
         <div class="fld full"><label>Headline</label><input type="text" id="fHeadline" maxlength="80"><div class="hint" id="hlHint"></div></div>
         <div class="fld"><label>Headline size <b id="fH2v"></b></label><div class="seg seg-sm" id="h2Seg"><button data-h2="24">XS</button><button data-h2="28">S</button><button data-h2="34">M</button><button data-h2="42">L</button><button data-h2="52">XL</button></div><input type="range" id="fH2" min="16" max="60"><div class="hint">Desktop size — scales automatically per breakpoint (see preview)</div></div>
@@ -1777,6 +1921,13 @@
 
 <script>
   const ICONS=['plumbing','build','hardware','water_drop','valve','bolt','thermostat','propane_tank','heat_pump','cable','plumbing','build'];
+  // product photo pool (assets/products) — shuffled once per load, then cycled so every card/thumb gets a random-but-varied image
+  const PRODUCT_IMGS=(function(){const f=['187873-1.jpg','329-056rp-3.jpg','49-16-2451-3.jpg','535059a-3.jpg','asq058-038-3.jpg','c240a-3.jpg','cm3-75pxz-pxo-3.jpg','dwc-100-3.jpg','goodman-glxs3bn3610.jpg','lt-160-1.jpg','ridgid-78208-1.jpg','rtg20280-1-1.jpg','uei-epc-1.jpg','vt3-pvcs-3.jpg'];for(let i=f.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[f[i],f[j]]=[f[j],f[i]];}return f;})();
+  const prodImg=i=>'assets/products/'+PRODUCT_IMGS[Math.abs(i)%PRODUCT_IMGS.length];
+  let prodSeq=0; const nextProd=()=>prodImg(prodSeq++);
+  // display names for the hover tooltip on thumbnails (keyed by filename)
+  const PRODUCT_NAMES={'187873-1.jpg':'1" CxF 90\u00b0 Drop Ear Elbow','329-056rp-3.jpg':'Ignition Control Module','49-16-2451-3.jpg':'M12 Copper Tubing Cutter','535059a-3.jpg':'Circulator Pump Flange Set','asq058-038-3.jpg':'Angle Stop Valve 3/8"','c240a-3.jpg':'1" Copper Coupling CxC','cm3-75pxz-pxo-3.jpg':'Condensate Pump 75 GPH','dwc-100-3.jpg':'Digital Wall Thermostat','goodman-glxs3bn3610.jpg':'Goodman 3-Ton AC Condenser','lt-160-1.jpg':'Gas Water Heater 40 Gal','ridgid-78208-1.jpg':'RIDGID Pipe Wrench 18"','rtg20280-1-1.jpg':'Tankless Valve Kit 3/4"','uei-epc-1.jpg':'Electronic Pocket Thermometer','vt3-pvcs-3.jpg':'3/4" PVC Ball Valve'};
+  const prodName=src=>PRODUCT_NAMES[String(src).split('/').pop()]||'Product';
   const reorder=[
     ['1/2" to 1" M12 ProPEX Expansion Tool Kit w/ Heads','BF93544','Milwaukee','$102.00','225 ordered 7/14/24',true,true],
     ['ProPEX Expansion Head 1"','UC1816','Uponor','$118.50','120 ordered 10/14/24',true],
@@ -1918,7 +2069,7 @@
     if(!card._mkt)card._mkt={qtys:[0,0,0]};
     const dr=document.getElementById('mktDrawer');
     document.getElementById('mktProd').innerHTML=`
-      <img class="pimg" src="assets/product1.jpg" alt="" onerror="this.style.visibility='hidden'">
+      <img class="pimg" src="${(card.querySelector('.thumb .pimg')||{}).src||prodImg(0)}" alt="" onerror="this.style.visibility='hidden'">
       <div>
         <div class="pt">${card.querySelector('.title').textContent}</div>
         <div class="ps">${card.querySelector('.sku').innerHTML} <span class="stars">★★★★★<small>(337)</small></span></div>
@@ -1971,7 +2122,7 @@
     if(mkt){
       return `<article class="mcard mkt" data-cat="${cat||''}" data-pr="${pr}">
         <button class="rm" aria-label="Remove ${t.replace(/"/g,'&quot;')}">${closeSvg}</button>
-        <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="thumb"><img class="pimg" src="${prodImg(i)}" alt="" loading="lazy" onerror="this.remove()"></div>
         <div class="bd">
           <a href="#" class="title">${t}</a>
           <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
@@ -2003,7 +2154,7 @@
     }
     return `<article class="mcard" data-cat="${cat||''}">
       <button class="rm" aria-label="Remove ${t.replace(/"/g,'&quot;')}">${closeSvg}</button>
-      <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="thumb"><img class="pimg" src="${prodImg(i)}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
         <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
@@ -2022,7 +2173,7 @@
     const fstep=lbl=>`<div class="stepper"><button data-step="-1" aria-label="Decrease">−</button><input value="" aria-label="${lbl}"><button data-step="1" aria-label="Increase">+</button></div>`;
     return `<article class="fcard" data-cat="${cat||''}">
       <button class="savebtn" aria-label="Save to list">${clipPlusSvg}</button>
-      <div class="thumb"><img class="pimg" src="assets/product1.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+      <div class="thumb"><img class="pimg" src="${prodImg(i)}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
         <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
@@ -2069,7 +2220,9 @@
   fillSkel('reorderRail',8);fillSkel('recentRail',8);fillSkel('ntmRecentRail',8);fillSkel('bestRail',6,true);
 
   // new arrivals + parts (full/simple cards)
-  const na=[['M12 ProPEX Tool Kit','2432-22','Milwaukee'],['Press Jaw Set','2773-20','Milwaukee'],['Drain Snake','2772A','Milwaukee'],['Angle Grinder','2780-20','Milwaukee']];
+  const na=[['M12 ProPEX Tool Kit','2432-22','Milwaukee'],['Press Jaw Set','2773-20','Milwaukee'],['Drain Snake','2772A','Milwaukee'],['Angle Grinder','2780-20','Milwaukee'],
+    ['Compact Tubing Cutter','32573','RIDGID'],['SeeSnake Camera','CA-350','RIDGID'],['Pipe Wrench 18"','31095','RIDGID'],['Press Tool Kit','RP-241','RIDGID'],
+    ['PEX-A Expansion Kit','2532-22','Milwaukee'],['Threading Machine','535A','RIDGID']];
   document.getElementById('naCards').innerHTML=na.map((it,i)=>fcard([it[0]+' w/ 1/2", 3/4", and 1" Heads',it[1],it[2],'$26.14','$25.75',4.8,22],i)).join('');
   initPager('naCards');
   const partsRow=document.getElementById('partsRow');
@@ -2077,7 +2230,7 @@
 
   // categories
   const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp']];
-  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} ›</span></a>`).join('');}
+  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} <span class="chevr">›</span></span></a>`).join('');}
   (function(){
     const g=document.getElementById('gtCircles');if(!g)return;
     g.innerHTML=cats.map(c=>`<a href="#"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span class="cl">${c[0]} ›</span></a>`).join('');
@@ -2116,7 +2269,7 @@
   // ----- Latest activities: left column (Orders / Lists / Saved carts) -----
   const chev='<svg class="ic chev" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
   const actThumbs=['bolt','plumbing','valve','water_drop'];
-  function actThumbsHTML(n,count){return '<div class="thumbs">'+actThumbs.slice(0,count==null?4:count).map(ic=>`<span class="t"><span class="ms">${ic}</span></span>`).join('')+(n?`<span class="more">+${n}</span>`:'')+'</div>';}
+  function actThumbsHTML(n,count){const c=count==null?4:count;let h='';for(let k=0;k<c;k++){const src=nextProd();h+=`<span class="t" data-name="${prodName(src).replace(/"/g,'&quot;')}"><img src="${src}" alt="" loading="lazy"></span>`;}return '<div class="thumbs">'+h+(n?`<span class="more">+${n}</span>`:'')+'</div>';}
   const groupIcon={orders:'<path d="M9 4h6v2H9z"/><rect x="5" y="6" width="14" height="15"/><path d="M9 11l1.5 1.5L13 10M9 16l1.5 1.5L13 15"/>',list:'<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/>'};
   function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><svg class="ic" viewBox="0 0 24 24">${groupIcon[icon]}</svg></span><span class="aht">${label}<span class="ahsub">Latest Update: 03/14/24</span></span><a class="va" href="#">View</a></div>`;}
   function orderRow(num,po,date,price,status,statClass,more,tcount){return `<a class="arow" href="#"><div class="ti"><b>${num} (PO#: ${po})</b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(more,tcount)}${chev}</a>`;}
@@ -2417,11 +2570,11 @@
   (function(){
     const badge=document.getElementById('delivBadge'), pop=document.getElementById('delivPop');
     if(!badge||!pop)return;
-    const wrap=badge.closest('.delivwrap'); let autoT;
-    function show(){pop.classList.add('show');badge.setAttribute('aria-expanded','true');}
-    function hide(){pop.classList.remove('show');badge.setAttribute('aria-expanded','false');clearTimeout(autoT);}
+    const wrap=badge.closest('.delivwrap'); let autoT,hoverT;
+    function show(){clearTimeout(hoverT);pop.classList.add('show');badge.setAttribute('aria-expanded','true');}
+    function hide(){pop.classList.remove('show');badge.setAttribute('aria-expanded','false');clearTimeout(autoT);clearTimeout(hoverT);}
     wrap.addEventListener('mouseenter',()=>{clearTimeout(autoT);show();});
-    wrap.addEventListener('mouseleave',hide);
+    wrap.addEventListener('mouseleave',()=>{clearTimeout(hoverT);hoverT=setTimeout(hide,350);});   /* grace period so the pointer can travel to the popover */
     badge.addEventListener('click',e=>{e.stopPropagation();pop.classList.contains('show')?hide():show();});
     badge.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pop.classList.contains('show')?hide():show();}});
     pop.querySelector('.dpclose').addEventListener('click',e=>{e.stopPropagation();hide();});
@@ -2537,6 +2690,12 @@
         ${btns}
       </div>`;
     }
+    // static rendering of the thumbnail hover tooltip (gallery cards are non-interactive)
+    function thumbTipDemo(){
+      const chip='<span style="position:absolute;bottom:calc(100% + 10px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:nowrap">1&quot; CxF 90&deg; Drop Ear Elbow</span>';
+      const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
+      return `<div style="padding:52px 4px 8px"><div style="display:flex;align-items:center;gap:4px"><span style="position:relative">${chip}${t('187873-1.jpg')}</span>${t('c240a-3.jpg')}${t('lt-160-1.jpg')}${t('ridgid-78208-1.jpg')}<span class="more" style="font-size:16px;color:#777;margin-left:4px">+5</span></div></div>`;
+    }
     function ordersEmptyProposed(){
       const icon='<svg viewBox="0 0 64 64" fill="none" stroke="var(--sh-tan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="30" height="6" rx="1"/><rect x="10" y="18" width="38" height="34" rx="2"/><path d="M20 28h18M20 36h12"/></svg>';
       return `<div class="empty"><span class="emptyicon">${icon}</span><p>No orders yet</p><button type="button" class="btn-start">Start Shopping</button></div>`;
@@ -2550,7 +2709,7 @@
           <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
           <div class="dpmeta">10 items · Riverside HVAC</div>
           <div class="dpprog"><div class="track"><i style="width:82%;background:#5E9A41"></i></div><span class="dpstat ok">Shipped</span></div>
-          <div class="dpthumbs"><span class="t"><span class="ms">bolt</span></span><span class="t"><span class="ms">plumbing</span></span><span class="t"><span class="ms">valve</span></span><span class="more">+5</span></div>
+          <div class="dpthumbs"><span class="t" data-name="1&quot; CxF 90&#176; Drop Ear Elbow"><img src="assets/products/187873-1.jpg" alt=""></span><span class="t" data-name="1&quot; Copper Coupling CxC"><img src="assets/products/c240a-3.jpg" alt=""></span><span class="t" data-name="Gas Water Heater 40 Gal"><img src="assets/products/lt-160-1.jpg" alt=""></span><span class="more">+5</span></div>
           <a href="#" class="dpbtn primary">Track Package</a>
         </div>
         <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
@@ -2579,52 +2738,64 @@
         [kpiCell('Your Carts','0 Saved Carts','No saved carts'),'Your Carts — empty','',tag('live')],
       ]],
       ['Upcoming Deliveries popover',[
-        [deliveryPopoverSnippet(),'Populated — 2 deliveries','Each item gets its own progress bar, status, and package thumbnails; opens on hover, click, or Enter/Space.',tag('live'),{wide:true}],
-        [note('When there\'s no order in transit, the delivery-badge trigger itself is hidden (tied to the same flag as the KPI badge above) — so there\'s no "empty popover," the entry point just disappears.'),'Hidden entirely when nothing\'s en route','',tag('live'),{cls:'note',wide:true}],
-        [note('The 8-second auto-dismiss timer only pauses on <code>mouseenter</code>. A keyboard user who opens the popover with Enter has no <code>focusin</code> equivalent to pause the countdown — a WCAG 2.2.1 (Timing Adjustable) risk if real, longer content ships here.'),'No keyboard-equivalent pause for auto-dismiss','',tag('gap'),{cls:'note',wide:true}],
+        [deliveryPopoverSnippet(),'Populated — 2 deliveries','Each item gets its own progress bar, status, and package thumbnails; opens on hover, click, or Enter/Space.',tag('live'),{half:true}],
+        [note('When there\'s no order in transit, the delivery-badge trigger itself is hidden (tied to the same flag as the KPI badge above) — so there\'s no "empty popover," the entry point just disappears.'),'Hidden entirely when nothing\'s en route','',tag('live'),{cls:'note',half:true}],
+        [note('The 8-second auto-dismiss timer only pauses on <code>mouseenter</code>. A keyboard user who opens the popover with Enter has no <code>focusin</code> equivalent to pause the countdown — a WCAG 2.2.1 (Timing Adjustable) risk if real, longer content ships here.'),'No keyboard-equivalent pause for auto-dismiss','',tag('gap'),{cls:'note',half:true}],
+        [note('Below 768px the popover renders as a <b>bottom sheet</b>: fixed to the viewport bottom, full width, 16px top radius, drag-handle pill, dimmed scrim (tap to dismiss), slide-up animation, internal scroll capped at 82vh, and safe-area padding for notched phones.'),'Mobile: bottom sheet, not popover','',tag('live'),{cls:'note',half:true}],
+        [note('The popover currently hardcodes 2 deliveries. With many concurrent orders (trade pros routinely run 5+), an unbounded list outgrows the panel. Recommendation: show the <b>3 soonest</b> deliveries sorted by ETA and let the View All button carry the rest ("View all 7 deliveries") — the overflow count doubles as information.'),'Cap at 3 deliveries, View All carries the count','',tag('gap'),{cls:'note',half:true}],
+        [note('The progress bars are purely visual today. For screen readers, either mark each bar <code>role="progressbar"</code> with <code>aria-valuenow</code>/<code>aria-valuetext="Shipped"</code>, or (simpler and recommended) leave the bar <code>aria-hidden</code> and rely on the adjacent status word as the accessible name — the checkpoint fill is reinforcement, the word is the message.'),'Progress bar accessibility','',tag('gap'),{cls:'note',half:true}],
       ]],
       ['Order status system — progress bar behavior',[
-        [statusDemo('Pending','#F15C02',10,[['View Detail','ghost']]),'PENDING — 10%, orange','Order received but not yet confirmed (payment / stock check). Small fill shows the journey has started; orange = still needs the system\'s attention.',tag('gap')],
-        [statusDemo('Processing','#F15C02',30,[['View Detail','ghost']]),'PROCESSING — 30%, orange','Being picked and packed. Fill maps to the fulfillment checkpoint, not elapsed time — bars should only ever move forward.',tag('live')],
-        [statusDemo('Shipped','#5E9A41',70,[['Track Package','primary']]),'SHIPPED — 70%, green','In transit, on track. The one state with a primary CTA — tracking is the thing users want here.',tag('live')],
-        [statusDemo('Shipped','#F15C02',70,[['Track Package','primary']]),'SHIPPED (delayed) — 70%, orange','Same checkpoint, orange variant: carrier delay or ETA slip. Position stays at 70% — only the color and sub-copy change. Track Package carries the updated ETA.',tag('gap')],
-        [statusDemo('Pickup at UPS','#F15C02',85,[['View Detail','ghost']]),'PICKUP AT UPS — 85%, orange','Waiting on the customer to collect; the detail page carries location, hours, and what to bring.',tag('gap')],
-        [statusDemo('Ready for Pickup','#5E9A41',85,[['View Detail','ghost']]),'READY FOR PICKUP — 85%, green','Will-call / branch pickup ready. Green positive variant of the same checkpoint.',tag('gap')],
-        [statusDemo('Delivered','#5E9A41',100,[['View Detail','ghost']]),'DELIVERED — 100%, green','Terminal success: full green bar.',tag('live')],
-        [statusDemo('Picked Up','#343434',100,[['View Detail','ghost']]),'PICKED UP — 100%, neutral','Terminal success for pickup orders. Neutral (near-black) marks it closed/archived rather than celebratory.',tag('gap')],
-        [statusDemo('Returned','#B00000',100,[['View Detail','ghost']]),'RETURNED — 100%, red','Terminal exception: the journey completed but reversed. Full red fill so it can\'t be mistaken for "in progress." Refund status lives on the detail page.',tag('gap')],
-        [statusDemo('Canceled','#B00000',0,[['View Detail','ghost']]),'CANCELED — empty track, red','Terminal exception before fulfillment: empty track (nothing happened) + red label. Alternative: hide the bar entirely and show the label only.',tag('gap')],
-        [statusDemo('Undeliverable','#B00000',70,[['View Detail','ghost']]),'UNDELIVERABLE — frozen at 70%, red','Exception mid-journey: freeze the fill at the checkpoint where it failed so the user sees how far it got. Resolution (address fix / support) happens on the detail page.',tag('gap')],
-        [statusDemo('Undeliverable','#343434',70,[['View Detail','ghost']]),'UNDELIVERABLE (closed) — 70%, neutral','Same frozen position, neutral color: the exception was resolved or written off and the order is archived.',tag('gap')],
-        [note('Fill percentages are fixed checkpoints — placed 10% &rarr; processing 30% &rarr; shipped 70% &rarr; pickup/out-for-delivery 85% &rarr; complete 100% — never a function of elapsed time. A time-based bar stalls visibly and erodes trust; a checkpoint bar only moves when something real happens.'),'Checkpoints, not time','',tag('gap'),{cls:'note',wide:true}],
-        [note('Color semantics: <b style="color:#F15C02">orange</b> = in progress / needs attention, <b style="color:#5E9A41">green</b> = on track / success, <b style="color:#B00000">red</b> = exception, <b style="color:#343434">neutral</b> = closed/archived. The status word is always written out next to the bar — color is never the only carrier of meaning (WCAG 1.4.1).'),'Color is reinforcement, not the message','',tag('gap'),{cls:'note',wide:true}],
-        [note('CTA rules: keep it to two patterns. <b>Track Package</b> (solid primary) appears only while a shipment is trackable — Shipped and Shipped-delayed. Every other state gets the same quiet ghost <b>View Detail</b>, and the detail page owns the state-specific actions (cancel, pickup info, refund status, address fix). One consistent label means users always know where the door is, and no state is ever a dead end.'),'Two CTAs total: Track Package, or View Detail','',tag('gap'),{cls:'note',wide:true}],
+        [statusDemo('Pending','#F15C02',10,[['View Detail','ghost']]),'PENDING — 10%, orange','Order received but not yet confirmed (payment / stock check). Small fill shows the journey has started; orange = still needs the system\'s attention.',tag('gap'),{half:true}],
+        [statusDemo('Processing','#F15C02',30,[['View Detail','ghost']]),'PROCESSING — 30%, orange','Being picked and packed. Fill maps to the fulfillment checkpoint, not elapsed time — bars should only ever move forward.',tag('live'),{half:true}],
+        [statusDemo('Shipped','#5E9A41',70,[['Track Package','primary']]),'SHIPPED — 70%, green','In transit, on track. The one state with a primary CTA — tracking is the thing users want here.',tag('live'),{half:true}],
+        [statusDemo('Shipped','#F15C02',70,[['Track Package','primary']]),'SHIPPED (delayed) — 70%, orange','Same checkpoint, orange variant: carrier delay or ETA slip. Position stays at 70% — only the color and sub-copy change. Track Package carries the updated ETA.',tag('gap'),{half:true}],
+        [statusDemo('Pickup at UPS','#F15C02',85,[['View Detail','ghost']]),'PICKUP AT UPS — 85%, orange','Waiting on the customer to collect; the detail page carries location, hours, and what to bring.',tag('gap'),{half:true}],
+        [statusDemo('Ready for Pickup','#5E9A41',85,[['View Detail','ghost']]),'READY FOR PICKUP — 85%, green','Will-call / branch pickup ready. Green positive variant of the same checkpoint.',tag('gap'),{half:true}],
+        [statusDemo('Delivered','#5E9A41',100,[['View Detail','ghost']]),'DELIVERED — 100%, green','Terminal success: full green bar.',tag('live'),{half:true}],
+        [statusDemo('Picked Up','#343434',100,[['View Detail','ghost']]),'PICKED UP — 100%, neutral','Terminal success for pickup orders. Neutral (near-black) marks it closed/archived rather than celebratory.',tag('gap'),{half:true}],
+        [statusDemo('Returned','#B00000',100,[['View Detail','ghost']]),'RETURNED — 100%, red','Terminal exception: the journey completed but reversed. Full red fill so it can\'t be mistaken for "in progress." Refund status lives on the detail page.',tag('gap'),{half:true}],
+        [statusDemo('Canceled','#B00000',0,[['View Detail','ghost']]),'CANCELED — empty track, red','Terminal exception before fulfillment: empty track (nothing happened) + red label. Alternative: hide the bar entirely and show the label only.',tag('gap'),{half:true}],
+        [statusDemo('Undeliverable','#B00000',70,[['View Detail','ghost']]),'UNDELIVERABLE — frozen at 70%, red','Exception mid-journey: freeze the fill at the checkpoint where it failed so the user sees how far it got. Resolution (address fix / support) happens on the detail page.',tag('gap'),{half:true}],
+        [statusDemo('Undeliverable','#343434',70,[['View Detail','ghost']]),'UNDELIVERABLE (closed) — 70%, neutral','Same frozen position, neutral color: the exception was resolved or written off and the order is archived.',tag('gap'),{half:true}],
+        [note('Fill percentages are fixed checkpoints — placed 10% &rarr; processing 30% &rarr; shipped 70% &rarr; pickup/out-for-delivery 85% &rarr; complete 100% — never a function of elapsed time. A time-based bar stalls visibly and erodes trust; a checkpoint bar only moves when something real happens.'),'Checkpoints, not time','',tag('gap'),{cls:'note',half:true}],
+        [note('Color semantics: <b style="color:#F15C02">orange</b> = in progress / needs attention, <b style="color:#5E9A41">green</b> = on track / success, <b style="color:#B00000">red</b> = exception, <b style="color:#343434">neutral</b> = closed/archived. The status word is always written out next to the bar — color is never the only carrier of meaning (WCAG 1.4.1).'),'Color is reinforcement, not the message','',tag('gap'),{cls:'note',half:true}],
+        [note('CTA rules: keep it to two patterns. <b>Track Package</b> (solid primary) appears only while a shipment is trackable — Shipped and Shipped-delayed. Every other state gets the same quiet ghost <b>View Detail</b>, and the detail page owns the state-specific actions (cancel, pickup info, refund status, address fix). One consistent label means users always know where the door is, and no state is ever a dead end.'),'Two CTAs total: Track Package, or View Detail','',tag('gap'),{cls:'note',half:true}],
       ]],
       ['Orders — activity feed',[
-        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5),'Populated — multiple statuses','Processing (orange) / Shipped (green) / Delivered (brown) — color plus the status word itself, not color alone.',tag('live'),{wide:true}],
-        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5),'Single order','Same row template; group still renders fine with just one item.',tag('live'),{wide:true}],
-        ['<div class="actgroup">'+ordersEmptyProposed()+'</div>','Empty state — proposed','Today the Orders group always shows 3 hardcoded rows, even in the Empty scenario — which contradicts the "0 Orders" KPI above it on the same screen. This is the proposed fix, matching the Lists/Carts pattern.',tag('gap')],
+        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5),'Populated — multiple statuses','Processing (orange) / Shipped (green) / Delivered (brown) — color plus the status word itself, not color alone.',tag('live'),{half:true}],
+        [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5),'Single order','Same row template; group still renders fine with just one item.',tag('live'),{half:true}],
+        ['<div class="actgroup">'+ordersEmptyProposed()+'</div>','Empty state — proposed','Today the Orders group always shows 3 hardcoded rows, even in the Empty scenario — which contradicts the "0 Orders" KPI above it on the same screen. This is the proposed fix, matching the Lists/Carts pattern.',tag('gap'),{half:true}],
+        [orderRow('112311634','PO-2026-RIVERSIDE-HVAC-PHASE2-BLDG-A-ROOFTOP','6/20/26','$276.96','Processing','proc',5),'Edge case — long PO / job name','Contractors use PO fields for job codes that run long. Recommendation: clamp the title to one line with an ellipsis (<code>text-overflow:ellipsis</code>), keep the full value in a <code>title</code> tooltip and on the order detail page — never let it push the thumbnails off-grid.',tag('gap'),{half:true}],
+        [thumbTipDemo(),'Thumbnail hover tooltip','Small thumbnails carry no visible product name, so hovering one reveals it in a white rounded chip (truncates with an ellipsis past 200px). Applies to Account Activity rows and the Upcoming Deliveries popover only — product cards already show their title, so they don\'t double up.',tag('live'),{half:true}],
+        [note('Each feed group shows at most <b>3 rows</b> (newest first) — beyond that, the group header\'s View link carries the count ("View all 12"). An unbounded homepage feed competes with the rest of the page; 3 is enough to confirm recency and provide a jump-off point.'),'Cap feed groups at 3 rows','',tag('gap'),{cls:'note',wide:true}],
       ]],
       ['Lists — activity feed',[
-        [simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5),'Populated — multiple lists','',tag('live'),{wide:true}],
-        [simpleRow('RTU – Goodman','2/13/22',5),'Single list','',tag('live'),{wide:true}],
-        ['<div class="actgroup">'+emptyStateHTML('lists')+'</div>','Empty state','Icon, "No saved lists yet," and a "Start Creating" CTA — matches the Figma empty-state reference.',tag('live')],
+        [simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5),'Populated — multiple lists','',tag('live'),{half:true}],
+        [simpleRow('RTU – Goodman','2/13/22',5),'Single list','',tag('live'),{half:true}],
+        ['<div class="actgroup">'+emptyStateHTML('lists')+'</div>','Empty state','Icon, "No saved lists yet," and a "Start Creating" CTA — matches the Figma empty-state reference.',tag('live'),{half:true}],
       ]],
       ['Saved Carts — activity feed',[
-        [simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5),'Populated — multiple carts','',tag('live'),{wide:true}],
-        [simpleRow('RTU – Goodman','2/13/22',5),'Single cart','',tag('live'),{wide:true}],
-        ['<div class="actgroup">'+emptyStateHTML('carts')+'</div>','Empty state','Same treatment as Lists.',tag('live')],
+        [simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5)+simpleRow('RTU – Goodman','2/13/22',5),'Populated — multiple carts','',tag('live'),{half:true}],
+        [simpleRow('RTU – Goodman','2/13/22',5),'Single cart','',tag('live'),{half:true}],
+        ['<div class="actgroup">'+emptyStateHTML('carts')+'</div>','Empty state','Same treatment as Lists.',tag('live'),{half:true}],
       ]],
       ['Right-column account links',[
-        [links.slice(0,4).map(l=>`<a class="linkrow" href="#"><span class="lic"><svg class="ic" viewBox="0 0 24 24">${linkIcon[l[2]]||''}</svg></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`).join(''),'Populated — account links','Return/Credit Status, Invoices, Quotes, Tax Exemption (plus 3 more TradeMaster promo links below, not shown here).',tag('live'),{wide:true}],
+        [links.slice(0,4).map(l=>`<a class="linkrow" href="#"><span class="lic"><svg class="ic" viewBox="0 0 24 24">${linkIcon[l[2]]||''}</svg></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`).join(''),'Populated — account links','Return/Credit Status, Invoices, Quotes, Tax Exemption (plus 3 more TradeMaster promo links below, not shown here).',tag('live'),{half:true}],
         [note('These links and their "Latest update" dates are static and never vary by Scenario — there\'s no modeled empty state (e.g., "No invoices yet" for a brand-new account) and the hardcoded date will read as stale content once this is real data.'),'No empty state / static content risk','',tag('gap'),{cls:'note',wide:true}],
+      ]],
+      ['Shared component tokens (normalized across the page)',[
+        [note('<b>Links</b> ("View", "View All"): 13px Bold <b style="color:#4186AD">Link/Blue-700 #4186AD</b> everywhere — section headers, feed groups, sidebar, account links. Order numbers stay <b style="color:#07729C">Blue-700 #07729C</b> (they\'re data links, not navigation).'),'Link token','',tag('live'),{cls:'note',wide:true}],
+        [note('<b>Buttons</b>: solid primary = <b style="color:#4186AD">#4186AD</b> fill (hover #37719A); outlined tertiary = 2px #4186AD border, 11px Bold uppercase, 0.22px tracking, 36px height. Applied to rep-band CTAs, testimonial CTAs, tools See All, rail end-cards, empty states, category tiles, popover, sign-in strip. Exceptions by design: orange Add-to-Cart (commerce action) and white on-banner buttons (contrast with imagery).'),'Button tokens','',tag('live'),{cls:'note',wide:true}],
+        [note('<b>Status colors</b> everywhere a status word appears (feed rows, product cards, popover, progress bars): orange #F15C02 in-progress · green #5E9A41 positive · red #B00000 exception · Gray-800 #343434 terminal/neutral.'),'Status color token','',tag('live'),{cls:'note',wide:true}],
+        [note('<b>Section titles</b>: 24px Bold <b>Gray-800 #343434</b> (Headline3 token) — Account Activity, Reorder, New Arrivals, Best Picks/Sellers, Brands, Testimonials all match; dark brown #331811 is reserved for the brand wordmark and nav, not headings.'),'Heading token','',tag('live'),{cls:'note',wide:true}],
       ]],
     ];
     document.getElementById('acctInner').innerHTML=
       `<div class="ghead"><h1>Account Activity — states, use cases &amp; edge cases</h1><p>Every state of the Account Activity component (KPI bar, Upcoming Deliveries, Orders/Lists/Saved Carts feed, and the right-column links) in one place: what's already live on the page (green tag) vs. a documented gap or recommendation (orange tag). This is a static reference view; switch back with the Scenario toggle to use the live page.</p></div>`
       +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>{
         const opts=c[4]||{};
-        return `<figure class="gx${opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`;
+        return `<figure class="gx${opts.half?' gxhalf':opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`;
       }).join('')}</div>`).join('');
   }
   // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
@@ -2714,7 +2885,7 @@
     const cratio=(a,b)=>{const l1=relLum(a),l2=relLum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);};
     const DEF={
       'tm':{label:'TM Purchaser',note:'Member — slim hero',active:0,banners:[
-        {size:'short',headline:'Built for the Pros',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:''}
+        {size:'short',headline:'Built for the Pros',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:'',tmLogo:true}
       ]},
       'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',active:0,banners:[
         {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
@@ -2729,7 +2900,9 @@
     };
     const KEY='sh_hero_banners_v2', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','guest'];
     let data=loadD(), cur='tm';
-    ORDER.forEach(k=>{const co=data[k];if(co.active==null)co.active=0;(co.banners||[]).forEach(c=>{if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.iconMobile==null)c.iconMobile=true;if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});});
+    ORDER.forEach(k=>{const co=data[k];if(co.active==null)co.active=0;(co.banners||[]).forEach(c=>{if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.iconMobile==null)c.iconMobile=true;if(c.tmLogo==null)c.tmLogo=(c.size==='short');if(c.countdown==null)c.countdown=false;if(c.countdownEnd==null)c.countdownEnd='';if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});});
+    // one-time repair: an earlier build persisted tmLogo:false into saved state — re-enable the chip on Short banners once
+    try{if(!localStorage.getItem(KEY+'_tmchip')){ORDER.forEach(k=>(data[k].banners||[]).forEach(c=>{if(c.size==='short')c.tmLogo=true;}));localStorage.setItem(KEY+'_tmchip','1');saveD();}}catch(e){}
     function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
     function saveD(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
     const lum=hex=>{const v=hex.replace('#','');return (0.299*parseInt(v.substr(0,2),16)+0.587*parseInt(v.substr(2,2),16)+0.114*parseInt(v.substr(4,2),16))/255;};
@@ -2746,7 +2919,7 @@
     function render(){
       const c=cfg(), show=pvDev==='all'?BPS:BPS.filter(b=>b.k===pvDev);
       $('pvArea').innerHTML=show.map(bp=>pvCard(c,bp)).join('');
-      fitStages();
+      fitStages();tickCounts();
     }
     // one preview card, rendered at the breakpoint's true width and scaled down to fit
     function pvCard(c,bp){
@@ -2764,16 +2937,29 @@
       const cta=c.showBtn?(mob
         ?`<div class="pv-cta"><a class="pv-link" href="#" style="color:${tc}">${esc(c.btnLabel||'Shop Now')}</a>${note}</div>`
         :`<div class="pv-cta"><a class="pv-btn" href="#">${esc(c.btnLabel||'Shop Now')}</a>${note}</div>`):'';
+      // countdown clock (Tall banners): ticks live via tickCounts()
+      const cdEnd=c.countdownEnd?Date.parse(c.countdownEnd):Date.now()+3*86400e3;
+      const unit=u=>`<span class="unit"><span class="num">--</span><span class="u">${u}</span></span>`;
+      const count=(c.size==='tall'&&c.countdown)?`<div class="pv-count${mob?' mob':''}" data-end="${cdEnd}" style="color:${tc}"><span class="pclbl">Ends in</span>${unit('Days')}<span class="sep">:</span>${unit('Hrs')}<span class="sep">:</span>${unit('Min')}<span class="sep">:</span>${unit('Sec')}</div>`:'';
       const icon=showIcon?`<img class="pv-icon" src="${c.icon}" alt="" style="left:${c.iconX}%;top:${c.iconY}%;width:${icW}px">`:'';
+      // TradeMaster chip on the right — mirrors the live TM hero's .tmtag (Short banners only)
+      const tmChip=(c.size==='short'&&c.tmLogo)?`<span style="position:absolute;right:${bp.m}px;top:50%;transform:translateY(-50%);z-index:2;display:inline-flex;align-items:center;border:1px solid ${tc};border-radius:8px;padding:${mob?'5px 6px':'7px 8px'}"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:${mob?'8px':'11px'};display:block${tc==='#111111'?';filter:invert(1)':''}"></span>`:'';
       return `<div class="ba-preview pv-card"><div class="pv-clip"><div class="pv-stage" data-w="${bp.w}" data-h="${h}" style="width:${bp.w}px;height:${h}px;background:${c.bg}">`+
-        `<div class="pv-inner">${img?`<img class="pv-img" src="${img}" alt="">`:''}<div class="pv-fade" style="background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 52%,${c.bg} 100%)"></div>${icon}`+
-        `<div class="pv-text" style="left:${bp.m}px;max-width:${tw}%${mob?';top:14px;transform:none':''}"><h3 style="font-size:${fsH}px;color:${tc}${mob?';line-height:1.05':''}">${esc(c.headline)}</h3>${sub}${cta}</div></div>`+
+        `<div class="pv-inner">${img?`<img class="pv-img" src="${img}" alt="">`:''}<div class="pv-fade" style="background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 52%,${c.bg} 100%)"></div>${icon}${tmChip}`+
+        `<div class="pv-text" style="left:${bp.m}px;max-width:${tw}%${mob?';top:14px;transform:none':''}"><h3 style="font-size:${fsH}px;color:${tc}${mob?';line-height:1.05':''}">${esc(c.headline)}</h3>${sub}${cta}${count}</div></div>`+
         `</div></div>`+
         `<div class="pv-meta"><span>${bp.label} <b>@${bp.w}px</b></span><span>Margin <b>${bp.m}px</b></span><span>Band <b>${h}px</b></span><span>Headline <b>${fsH}px</b></span><span>Img <b>${mob?'S':'L'}</b></span>`+
         `<span>Contrast vs band <b>${r}:1</b> <span class="${pass?'ok':'warn'}">${pass?'AA ✓':'below AA'}</span></span>`+
         `${mob&&c.icon&&c.iconMobile===false?'<span>icon hidden on mobile</span>':''}</div></div>`;
     }
     function fitStages(){document.querySelectorAll('#pvArea .pv-clip').forEach(cl=>{if(!cl.clientWidth)return;const st=cl.firstElementChild,w=+st.dataset.w,h=+st.dataset.h,s=Math.min(1,cl.clientWidth/w);st.style.transform='scale('+s+')';cl.style.height=Math.round(h*s)+'px';});}
+    // live countdown ticker — updates every .pv-count in the previews once per second
+    function tickCounts(){document.querySelectorAll('#pvArea .pv-count').forEach(el=>{
+      const s=Math.max(0,Math.floor((+el.dataset.end-Date.now())/1000));
+      const v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60];
+      el.querySelectorAll('.num').forEach((n,i)=>n.textContent=String(v[i]).padStart(2,'0'));
+    });}
+    setInterval(tickCounts,1000);
     window.addEventListener('resize',()=>{if(document.body.classList.contains('banneradmin'))fitStages();});
     $('pvDevSeg').addEventListener('click',e=>{const b=e.target.closest('[data-dev]');if(!b)return;pvDev=b.dataset.dev;setSeg($('pvDevSeg'),pvDev,'dev');render();});
     // stages render at 0 width while the admin view is hidden — re-fit when it becomes visible
@@ -2790,6 +2976,9 @@
       $('imgHintS').textContent=c.imageS?(c.imageS.startsWith('data:')?'Custom uploaded image':c.imageS):'No image set';
       setSeg($('h2Seg'),String(c.h2),'h2');setSeg($('twSeg'),String(c.textWidth),'tw');
       $('fIconMob').checked=c.iconMobile!==false;
+      $('fTmLogo').checked=!!c.tmLogo;$('fTmLogo').disabled=c.size!=='short';
+      $('fCount').checked=!!c.countdown;$('fCount').disabled=c.size!=='tall';
+      $('fCountEnd').value=c.countdownEnd||'';$('fCountEnd').disabled=!(c.size==='tall'&&c.countdown);
       [...$('iconAnchor').children].forEach(b=>b.classList.toggle('on',+b.dataset.ax===c.iconX&&+b.dataset.ay===c.iconY));
       hlCount();subCount();}
     function hlCount(){const n=($('fHeadline').value||'').length;$('hlHint').innerHTML=n+' / 80 chars'+(n>45?' — <b style="color:#B45309">long headlines wrap on tablet / mobile</b>':' · recommended ≤ 45');}
@@ -2815,6 +3004,13 @@
     $('twSeg').addEventListener('click',e=>{const b=e.target.closest('[data-tw]');if(!b)return;$('fTW').value=b.dataset.tw;$('fTWv').textContent=b.dataset.tw+'%';setSeg($('twSeg'),b.dataset.tw,'tw');upd({textWidth:+b.dataset.tw});});
     $('iconAnchor').addEventListener('click',e=>{const b=e.target.closest('[data-ax]');if(!b)return;upd({iconX:+b.dataset.ax,iconY:+b.dataset.ay});fill();});
     $('fIconMob').addEventListener('change',()=>upd({iconMobile:$('fIconMob').checked}));
+    $('fTmLogo').addEventListener('change',()=>upd({tmLogo:$('fTmLogo').checked}));
+    $('fCount').addEventListener('change',()=>{
+      const on=$('fCount').checked, patch={countdown:on};
+      if(on&&!cfg().countdownEnd){const d=new Date(Date.now()+3*86400e3);d.setSeconds(0,0);patch.countdownEnd=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}   // default: 3 days out
+      upd(patch);fill();
+    });
+    $('fCountEnd').addEventListener('change',()=>upd({countdownEnd:$('fCountEnd').value}));
     $('fSub').addEventListener('input',()=>{upd({sub:$('fSub').value});subCount();});
     $('fBtnOn').addEventListener('change',()=>upd({showBtn:$('fBtnOn').checked}));
     $('fBtnLabel').addEventListener('input',()=>upd({btnLabel:$('fBtnLabel').value}));
