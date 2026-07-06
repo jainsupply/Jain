@@ -358,7 +358,7 @@
   .dpprog .track i{position:absolute;left:0;top:0;height:100%;border-radius:2px}
   .dpstat{font-size:13px;font-weight:700;white-space:nowrap}
   .dpstat.ok{color:#5E9A41} .dpstat.proc{color:var(--sh-orange)}
-  .dpthumbs{display:flex;align-items:center;gap:12px;margin:14px 0 16px;overflow:hidden}
+  .dpthumbs{display:flex;align-items:center;gap:12px;margin:14px 0 16px}
   .dpthumbs .t{width:48px;height:48px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .dpthumbs .t .ms{font-size:26px}
   .dpthumbs .more{font-size:16px;color:#777;font-weight:400;margin-left:4px}
@@ -737,11 +737,12 @@
   .arow .ti .meta .proc{color:var(--sh-orange)}
   .arow .ti .meta .ship{color:#5E9A41}
   .arow .ti .meta .deliv{color:var(--sh-dark-gray)}
-  .arow .thumbs{flex:1;min-width:0;margin-left:12px;display:flex;align-items:center;justify-content:flex-end;gap:4px;overflow:hidden}   /* responsive: fitThumbs() shows as many as fit */
+  .arow .thumbs{flex:1;min-width:0;margin-left:12px;display:flex;align-items:center;justify-content:flex-end;gap:4px}   /* responsive: fitThumbs() shows as many as fit; no overflow clip so tooltips can float above */
   .arow .thumbs .t{width:40px;height:40px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--sh-img-ic)}
   .arow .thumbs .t .ms{font-size:20px}
   .arow .thumbs .t img,.dpthumbs .t img{width:100%;height:100%;object-fit:contain;display:block}
   .arow .thumbs .t,.dpthumbs .t,.arow .thumbs .more,.dpthumbs .more{flex-shrink:0}   /* thumbs never squeeze — the visible quantity reduces instead */
+  .thumbs[data-total] .t,.dpthumbs[data-total] .t{display:none}   /* hidden until fitThumbs() reveals what fits — prevents any overflow without clipping tooltips */
   /* hover tooltip on thumbnails: white rounded chip with the product name */
   .thumbs .t,.dpthumbs .t{position:relative}
   /* clamped-title tooltip lives on .bd — the title itself has overflow:hidden (line clamp) and would clip it */
@@ -2357,12 +2358,12 @@
     document.querySelectorAll('.thumbs[data-total],.dpthumbs[data-total]').forEach(w=>{
       const total=+w.dataset.total, imgs=[...w.querySelectorAll('.t')], more=w.querySelector('.more');
       if(!imgs.length||!w.clientWidth)return;
-      imgs.forEach(t=>t.style.display='');
+      imgs.forEach(t=>t.style.display='flex');
       const gap=parseFloat(getComputedStyle(w).gap)||4, unit=imgs[0].getBoundingClientRect().width+gap, cw=w.clientWidth;
       let vis=Math.min(imgs.length,total,Math.max(1,Math.floor((cw+gap)/unit)));
       let hidden=total-vis;
       if(hidden>0){vis=Math.min(imgs.length,Math.max(1,Math.floor((cw+gap-unit)/unit)));hidden=total-vis;}
-      imgs.forEach((t,i)=>t.style.display=i<vis?'':'none');
+      imgs.forEach((t,i)=>t.style.display=i<vis?'flex':'none');
       if(more){if(hidden>0){more.style.display='';more.textContent='+'+hidden;}else more.style.display='none';}
     });
   }
