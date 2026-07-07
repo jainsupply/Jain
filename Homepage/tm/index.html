@@ -552,7 +552,7 @@
   .mcard .qtyhover input:focus-visible{outline:2px solid #0066AD;outline-offset:-2px}
   .mcard .qtyctl input{flex:1;width:auto;min-width:0;border:none;border-left:1px solid #C4C4C4;border-right:1px solid #C4C4C4;text-align:center;font:inherit;font-weight:700;font-size:13px;color:var(--sh-dark-gray);background:#fff}
   .mcard .pr{line-height:1.2}
-  .mcard .price{font-size:12px;font-weight:700;color:var(--sh-tm-blue)}
+  .mcard .price{font-size:12px;font-weight:700;color:#0066AD}
   .mcard .pr .each{font-size:11px;color:var(--sh-mid-gray)}
   /* save expanders — shared toggle */
   .mcard .boxsave{margin-top:9px}
@@ -695,7 +695,7 @@
   .fcard .stepper input{flex:1;width:auto;min-width:0;border:none;border-left:1px solid #C4C4C4;border-right:1px solid #C4C4C4;text-align:center;font:inherit;font-weight:700;font-size:13px;background:#fff}
   .fcard .pr{display:flex;flex-direction:column;justify-content:center;line-height:1.2}
   .fcard .pr .was{color:var(--sh-mid-gray);text-decoration:line-through;font-size:12px}
-  .fcard .pr .now{font-size:15px;font-weight:700;color:var(--sh-tm-blue)}
+  .fcard .pr .now{font-size:15px;font-weight:700;color:#0066AD}
   .fcard .pr .each{font-size:11px;color:var(--sh-mid-gray);font-weight:400}
   .fcard .pr .bp{font-size:12px;color:var(--sh-dark-gray)}
   .fcard .fboxsave{margin-top:8px}
@@ -1036,7 +1036,32 @@
 
   /* toast */
   .sh-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(12px);background:var(--sh-dark-brown);color:#fff;font-size:13px;font-weight:700;padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:90vw;text-align:center}
-  .sh-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .sh-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  /* light informational variant for the remove/undo notice — anchored to its rail instead of the viewport */
+  .sh-toast.undo-note{bottom:100px;background:#EFF6FC;border:1px solid #B7D5EB;color:var(--sh-dark-gray);font-weight:400;border-radius:4px;box-shadow:0 4px 14px rgba(0,0,0,.10);padding:16px 34px 16px 18px}
+  .sh-toast.undo-note .tclose{position:absolute;top:4px;right:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#777;padding:0;margin:0}
+  .sh-toast.undo-note .tclose:hover{color:var(--sh-dark-gray)}
+  .sh-toast.undo-note .tclose svg{width:11px;height:11px;display:block;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+  .sh-toast.undo-note .tclose:focus-visible{outline:3px solid #0066AD;outline-offset:1px}
+  /* remove-confirmation dialog (shown when the card being removed already has quantity in the cart) */
+  .cfm-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:6000;display:none;align-items:center;justify-content:center;padding:16px}
+  .cfm-ov.show{display:flex}
+  .cfm{position:relative;background:#fff;width:100%;max-width:430px;box-shadow:0 12px 40px rgba(0,0,0,.30);text-align:left}
+  .cfm-x{position:absolute;top:14px;right:14px;width:28px;height:28px;background:none;border:none;cursor:pointer;color:var(--sh-dark-gray);display:flex;align-items:center;justify-content:center;padding:0}
+  .cfm-x svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+  .cfm h3{margin:0;padding:46px 28px 0;font-size:26px;line-height:1.25;font-weight:400;color:var(--sh-dark-gray)}
+  .cfm p{margin:14px 0 24px;padding:0 28px;font-size:15px;line-height:1.5;color:var(--sh-dark-gray)}
+  .cfm-foot{border-top:1px solid var(--sh-border);display:flex;gap:14px;padding:20px 28px 24px}
+  .cfm-btn{flex:1;height:48px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;border-radius:2px}
+  .cfm-btn.ghost{background:#fff;border:2px solid #07729C;color:#07729C}
+  .cfm-btn.ghost:hover{background:#EFF5FD}
+  .cfm-btn.solid{background:#07729C;border:2px solid #07729C;color:#fff}
+  .cfm-btn.solid:hover{background:#065E80;border-color:#065E80}
+  .cfm-btn:focus-visible,.cfm-x:focus-visible{outline:3px solid #0066AD;outline-offset:1px}
+  @media(max-width:480px){ .cfm h3{font-size:22px} .cfm-foot{gap:10px;padding:16px 20px 20px} .cfm h3{padding:44px 20px 0} .cfm p{padding:0 20px} }
+  .sh-toast.undo-note b{font-weight:700}
+  .sh-toast.undo-note .undo{color:#0066AD;text-transform:none;letter-spacing:0;border-left:none;margin-left:28px;padding-left:0;font-size:13px}
+  .sh-toast.undo-note .undo:hover{color:#07729C;text-decoration:underline}
   .sh-toast .undo{margin-left:16px;padding-left:14px;border-left:1px solid rgba(255,255,255,.3);background:none;border-top:none;border-right:none;border-bottom:none;color:#FFB37A;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.4px;cursor:pointer}
   .sh-toast .undo:hover{color:#fff}
   /* loading state shown in place of the Add button while "adding" */
@@ -1267,7 +1292,7 @@
   .offful .ic{font-size:15px;color:var(--sh-tm-blue)}
   .offr{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding-top:30px}
   .offr .buyunit2{width:90px}
-  .offr .offprice{font-size:16px;font-weight:700;color:var(--sh-tm-blue)}
+  .offr .offprice{font-size:16px;font-weight:700;color:#0066AD}
   .offr .offprice small{font-size:12px;font-weight:400;color:var(--sh-mid-gray);margin-left:3px}
   .buyunit2 .add{width:100%;border:1px solid #C4C4C4;color:var(--sh-dark-gray);background:#fff;font-size:13px;font-weight:700;height:30px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:pointer}
   .buyunit2 .add .addplus{font-size:18px;stroke-width:3.4;color:var(--sh-orange)}
@@ -1288,7 +1313,7 @@
   .mktinfopop .mip-item.last{border-bottom:none;padding-bottom:2px}
   .mktinfopop .mip-get{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--sh-dark-brown)}
   .mktinfopop .mip-cart{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;color:var(--sh-orange);margin:5px 0}
-  .mktinfopop .mip-cart .mip-price{color:var(--sh-tm-blue)}
+  .mktinfopop .mip-cart .mip-price{color:#0066AD}
   .mktinfopop .mip-cart .mip-each{color:var(--sh-mid-gray);font-weight:400}
   .mktinfopop .mip-ful{font-size:13px;color:var(--sh-mid-gray)}
   .mktinfopop .mip-ful b{color:var(--sh-dark-brown);font-weight:700}
@@ -2521,17 +2546,62 @@
 
   // ---------- interactions ----------
   let toastEl,tt;
-  function toast(m){if(!toastEl){toastEl=document.createElement('div');toastEl.className='sh-toast';toastEl.setAttribute('role','status');document.body.appendChild(toastEl);}toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2200);}
-  // toast with an Undo action (stays ~6s)
-  function toastUndo(m,onUndo){
+  function toast(m){if(!toastEl){toastEl=document.createElement('div');toastEl.className='sh-toast';toastEl.setAttribute('role','status');document.body.appendChild(toastEl);}toastEl.className='sh-toast';toastEl.style.position='';toastEl.style.left='';toastEl.style.top='';toastEl.style.bottom='';toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2200);}
+  // remove-confirmation dialog: shown when the card already has quantity in the cart
+  let cfmEl;
+  function confirmRemove(qty,onYes){
+    if(!cfmEl){
+      cfmEl=document.createElement('div');cfmEl.className='cfm-ov';
+      cfmEl.innerHTML=`<div class="cfm" role="dialog" aria-modal="true" aria-labelledby="cfmTitle">
+        <button class="cfm-x" aria-label="Close"><svg viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg></button>
+        <h3 id="cfmTitle">Remove this item from your cart too?</h3>
+        <p id="cfmBody"></p>
+        <div class="cfm-foot"><button type="button" class="cfm-btn ghost" data-act="cancel">Cancel</button><button type="button" class="cfm-btn solid" data-act="yes">Yes, Remove It</button></div>
+      </div>`;
+      document.body.appendChild(cfmEl);
+      const hide=()=>{cfmEl.classList.remove('show');cfmEl._yes=null;};
+      cfmEl.addEventListener('click',e=>{
+        if(e.target===cfmEl||e.target.closest('.cfm-x')||e.target.closest('[data-act="cancel"]')){hide();return;}
+        const y=e.target.closest('[data-act="yes"]'); if(y){const f=cfmEl._yes;hide();if(f)f();}
+      });
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cfmEl.classList.contains('show')){hide();}});
+    }
+    cfmEl.querySelector('#cfmBody').textContent='You have '+qty+' of this item in your cart. Removing it here also removes it from your cart and the Reorder list.';
+    cfmEl._yes=onYes;
+    cfmEl.classList.add('show');
+    cfmEl.querySelector('[data-act="cancel"]').focus();
+  }
+  // light informational toast styled like the undo notice (bold label + regular text)
+  function toastNote(label,m){
     if(!toastEl){toastEl=document.createElement('div');toastEl.className='sh-toast';toastEl.setAttribute('role','status');document.body.appendChild(toastEl);}
+    toastEl.className='sh-toast undo-note';
+    toastEl.style.position='';toastEl.style.left='';toastEl.style.top='';toastEl.style.bottom='';
     toastEl.innerHTML='';
-    const span=document.createElement('span');span.textContent=m;
+    const span=document.createElement('span');
+    const bb=document.createElement('b');bb.textContent=label+': ';span.appendChild(bb);span.appendChild(document.createTextNode(m));
+    toastEl.appendChild(span);
+    toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2600);
+  }
+  // toast with an Undo action (stays ~6s)
+  function toastUndo(m,onUndo,anchorRect){
+    if(!toastEl){toastEl=document.createElement('div');toastEl.className='sh-toast';toastEl.setAttribute('role','status');document.body.appendChild(toastEl);}
+    toastEl.className='sh-toast undo-note';
+    toastEl.innerHTML='';
+    const span=document.createElement('span');
+    const bb=document.createElement('b');bb.textContent='Removed: ';span.appendChild(bb);span.appendChild(document.createTextNode(m));
     const btn=document.createElement('button');btn.className='undo';btn.textContent='Undo';
-    toastEl.appendChild(span);toastEl.appendChild(btn);
+    const x=document.createElement('button');x.className='tclose';x.setAttribute('aria-label','Dismiss');x.innerHTML='<svg viewBox="0 0 12 12" fill="none"><line x1="1.5" y1="1.5" x2="10.5" y2="10.5"/><line x1="10.5" y1="1.5" x2="1.5" y2="10.5"/></svg>';
+    toastEl.appendChild(span);toastEl.appendChild(btn);toastEl.appendChild(x);
+    if(anchorRect&&window.innerWidth<768){                   // mobile: show it right where the removed card sat
+      toastEl.style.position='absolute';
+      toastEl.style.left=(window.scrollX+anchorRect.left+anchorRect.width/2)+'px';
+      toastEl.style.top=(window.scrollY+anchorRect.top+Math.max(0,(anchorRect.height-48)/2))+'px';
+      toastEl.style.bottom='auto';
+    } else {toastEl.style.position='';toastEl.style.left='';toastEl.style.top='';toastEl.style.bottom='';}   // desktop: fixed, 100px above the bottom edge, centered
     toastEl.classList.add('show');clearTimeout(tt);
     const close=()=>toastEl.classList.remove('show');
     btn.onclick=()=>{clearTimeout(tt);close();onUndo();};
+    x.onclick=()=>{clearTimeout(tt);close();};
     tt=setTimeout(close,6000);
   }
   // "Added!" confirmation popover anchored to the stepper
@@ -2584,20 +2654,25 @@
   document.addEventListener('click',e=>{
     const rm=e.target.closest('.mcard .rm');
     if(rm){e.preventDefault();const c=rm.closest('.mcard');const nm=titleOf(rm);const rail=c.parentNode;const nextSib=c.nextSibling;
-      c.style.transition='opacity .15s';c.style.opacity='0';
-      setTimeout(()=>{c.remove();recount();try{rail.dispatchEvent(new Event('scroll'));}catch(_){}
-        if(rail&&!rail.querySelector('.mcard')){rail.style.display='block';rail.innerHTML='<div class="railempty2" style="padding:22px;color:var(--sh-mid-gray)">You\'re all caught up.</div>';}
-      },150);
-      toastUndo("Removed: "+nm, ()=>{
-        const empty=rail.querySelector('.railempty2'); if(empty){rail.innerHTML='';rail.style.removeProperty('display');}
-        c.style.opacity='';
-        const ec=rail.querySelector('.endcard');
-        if(nextSib&&nextSib.parentNode===rail)rail.insertBefore(c,nextSib);
-        else if(ec)rail.insertBefore(c,ec);
-        else rail.appendChild(c);
-        recount();try{rail.dispatchEvent(new Event('scroll'));}catch(_){}
-        toast("Restored: "+nm);
-      });
+      const doRemove=()=>{
+        const cRect=c.getBoundingClientRect();
+        c.style.transition='opacity .15s';c.style.opacity='0';
+        setTimeout(()=>{c.remove();recount();try{rail.dispatchEvent(new Event('scroll'));}catch(_){}
+          if(rail&&!rail.querySelector('.mcard')){rail.style.display='block';rail.innerHTML='<div class="railempty2" style="padding:22px;color:var(--sh-mid-gray)">You\'re all caught up.</div>';}
+        },150);
+        toastUndo(nm, ()=>{
+          const empty=rail.querySelector('.railempty2'); if(empty){rail.innerHTML='';rail.style.removeProperty('display');}
+          c.style.opacity='';
+          const ec=rail.querySelector('.endcard');
+          if(nextSib&&nextSib.parentNode===rail)rail.insertBefore(c,nextSib);
+          else if(ec)rail.insertBefore(c,ec);
+          else rail.appendChild(c);
+          recount();try{rail.dispatchEvent(new Event('scroll'));}catch(_){}
+          toastNote('Restored',nm);
+        },cRect);
+      };
+      let inCart=0;c.querySelectorAll('.qtyctl input').forEach(i=>inCart+=parseInt(i.value)||0);   // edge case: card already added to the cart
+      if(inCart>0)confirmRemove(inCart,doRemove); else doRemove();
       return;}
     // minimal card: Add -> quantity control
     const add=e.target.closest('.mcard .buyunit .add');
