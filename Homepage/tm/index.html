@@ -467,7 +467,6 @@
   .chip-f:not(:disabled):not([aria-pressed="true"]):hover{background:#F4F4F4;border:2px solid var(--sh-dark-gray);color:var(--sh-dark-brown);padding:0 13px}
   /* selected */
   .chip-f[aria-pressed="true"]{background:#EFF5FD;border:2px solid var(--sh-tm-blue);color:var(--sh-dark-brown);padding:0 13px}
-  .chip-f[aria-pressed="true"]:not(.chip-reset)::after{content:"";width:11px;height:7px;border-left:2px solid var(--sh-tm-blue);border-bottom:2px solid var(--sh-tm-blue);transform:rotate(-45deg);margin-top:-2px}
   .chip-f[aria-pressed="true"]:not(:disabled):hover{background:#E4EEFA}
   /* focus (keyboard) */
   .chip-f:focus-visible{outline:3px solid #0066AD;outline-offset:1px}
@@ -476,7 +475,6 @@
   /* disabled */
   .chip-f:disabled{background:#fff;border-color:#EEEEEE;color:#C4C4C4;cursor:default}
   .chip-f:disabled[aria-pressed="true"]{background:#F6FAFE;border-color:#D6E6EF;color:#9FC3E2}
-  .chip-f:disabled[aria-pressed="true"]:not(.chip-reset)::after{border-color:#9FC3E2}
   .railwrap{position:relative;margin-top:6px;min-width:0}
   /* flexible cards: JS sizes --cardw so a whole number of cards fills the visible width (no card clipped at the edge); count drops gradually as the container narrows */
   .rail{display:grid;grid-auto-flow:column;grid-auto-columns:var(--cardw,184px);gap:12px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
@@ -536,9 +534,9 @@
   @keyframes sh-spin{to{transform:rotate(360deg)}}
   /* stepper — momentary success confirmation: normal stepper plus a checkmark badge + "Added!" callout */
   .addedwrap{position:relative;width:100%}
-  .addedwrap .addedbadge{position:absolute;top:-9px;right:-9px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;z-index:2}
+  .addedwrap .addedbadge{position:absolute;top:-9px;right:-9px;width:22px;height:22px;border-radius:50%;background:var(--sh-orange);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;z-index:2}   /* the .ic class strokes with currentColor, so the check follows this */
   .addedwrap .addedbadge .ic{width:13px;height:13px}
-  .addedwrap .addedtip{position:absolute;bottom:30px;right:-8px;background:#fff;border:1.5px solid var(--sh-orange);color:var(--sh-orange);font-weight:700;font-size:13px;line-height:1;padding:9px 14px;white-space:nowrap;box-shadow:2px 3px 8px rgba(0,0,0,.1);z-index:1}
+  .addedwrap .addedtip{position:absolute;left:calc(100% - 2px);bottom:calc(100% + 4px);background:#fff;border:1.5px solid var(--sh-orange);color:var(--sh-orange);font-weight:700;font-size:13px;line-height:1;padding:9px 14px;white-space:nowrap;box-shadow:2px 3px 8px rgba(0,0,0,.1);z-index:1}   /* sits off the badge's top-right corner */
   /* hover state of the Add button: editable qty stepper (type qty in the middle) */
   .mcard .qtyhover{display:flex;width:100%;align-items:stretch;height:30px;border:1px solid var(--sh-orange);background:var(--sh-orange);border-radius:6px;overflow:visible}
   .mcard .qtyhover button{width:28px;flex-shrink:0;background:var(--sh-orange);color:#fff;display:flex;align-items:center;justify-content:center}
@@ -584,7 +582,8 @@
   .mcard .mktfaster svg{margin-right:-1px;color:#5E9A41}
   .mcard .mktbuyopts{font-size:12px;font-weight:700;color:var(--sh-link);align-self:flex-start;cursor:pointer;line-height:1.25}
   .mcard .mktbuyopts:hover{text-decoration:underline}
-  .mcard .mktadded{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--sh-orange);text-transform:uppercase;letter-spacing:.3px}
+  .mcard .mktadded{display:inline-flex;align-items:flex-start;gap:3px;font-size:11px;font-weight:700;line-height:1.35;color:var(--sh-orange);text-transform:uppercase;letter-spacing:.3px}
+  .mcard .mktadded svg{flex-shrink:0;margin-top:0.5px}   /* icon rides the first line when the label wraps */
   .mcard .mktunit{align-items:center}
   .mcard .mktqtybox{display:inline-flex;align-items:stretch;height:30px;width:90px;flex-shrink:0;border:1px solid #C4C4C4;border-radius:6px;overflow:hidden}
   .mcard .mktqtybox .mq{flex:1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--sh-black)}
@@ -644,7 +643,7 @@
     .best{background:var(--merch-bestbg,#F8F8F8)}   /* merch-admin band color applies on mobile too */
     .best .bestpromo{display:none}                 /* hide left promo */
     .best .bestgrid{padding:18px 0}
-    .bestright{padding:0;box-shadow:none;border-radius:0}   /* .wrap already provides the 16px page margin — no extra inset */
+    .bestright{padding:0;box-shadow:none;border-radius:0;background:transparent}   /* band color shows around the cards; the cards themselves stay white */
     .besthead{display:flex;margin-bottom:14px}
     .bestright .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
     .bestright .filters::-webkit-scrollbar{display:none}
@@ -707,6 +706,7 @@
   /* latest activities — styled per Figma 1726:37053 */
   .seclabel:has(+ .activities){color:var(--sh-dark-gray);margin-bottom:20px}
   .activities{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+  .activities .actcol{min-width:0}   /* grid items default to min-width:auto — without this the thumb rows can lock the track wider than the viewport */
   .activities .right{border-left:1px solid var(--sh-border);padding-left:40px;display:flex;flex-direction:column}
   .activities .right .linkrow{flex:1}                 /* spread links to fill the column height */
   .activities .right .linkrow:last-child{border-bottom:none}
@@ -722,13 +722,14 @@
   .actgroup+.actgroup{margin-top:24px}
   .actcol .ah{font-size:18px;font-weight:700;color:var(--sh-dark-gray);display:flex;align-items:center;gap:4px;padding:0;margin-bottom:8px;line-height:1.4}
   .actcol .ah .ahic{width:32px;height:32px;background:none;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .actcol .ah .ahic img,.linkrow .lic img{width:100%;height:100%;display:block}
   .actcol .ah .ahic .ic{font-size:24px}
   .actcol .ah .aht{display:flex;flex-direction:column;min-width:0;line-height:1.2}
   .actcol .ah .ahsub{display:none;font-size:12px;font-weight:400;color:var(--sh-mid-gray);margin-top:2px}   /* "Latest Update" line — mobile only */
   .actcol .ah .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD}
-  .arow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #E3E3E3;text-decoration:none}
+  .arow{display:flex;align-items:center;gap:12px;margin-left:8px;padding:16px 0;border-bottom:1px solid #E3E3E3;text-decoration:none}   /* rows indent 8px under their group header */
   .actgroup .arow:last-child{border-bottom:none}
-  .arow:hover{background:#EFF5FD}
+  .arow:hover{background:#F8F8F8}
   .arow .ti{min-width:0}
   .arow .ti b{display:block;font-size:18px;color:var(--sh-dark-gray);font-weight:400;line-height:1.4}
   .arow .ti .po{font-size:14px;color:#777}   /* PO runs smaller than the order number */
@@ -757,7 +758,7 @@
     .actgroup+.actgroup{margin-top:36px}   /* clear separation between Your Orders / Lists / Saved Carts */
     .actcol .ah{border-bottom:none;padding-bottom:4px;align-items:flex-start}
     .actcol .ah .ahsub{display:block}
-    .arow{flex-wrap:wrap;row-gap:10px;margin-left:0;padding:14px 0}
+    .arow{flex-wrap:wrap;row-gap:10px;margin-left:8px;padding:14px 0}
     .arow .ti{flex:0 0 100%;min-width:0}
     .arow .thumbs{margin-left:0;justify-content:flex-start;flex-basis:70%}
     .arow .chev{margin-left:auto;color:var(--sh-link)}
@@ -774,7 +775,7 @@
   .actgroup .empty .btn-start:hover{background:#EFF5FD}
   /* right column links */
   .linkrow{display:flex;align-items:center;gap:12px;padding:14px 8px;border-bottom:1px solid var(--sh-border);text-decoration:none}
-  .linkrow:hover{background:#EFF5FD}
+  .linkrow:hover{background:#F8F8F8}
   .linkrow .lic{width:30px;height:30px;background:#E7F1F8;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .linkrow .lic .ic{font-size:24px}   /* glyph matches the Lists / Saved Carts group-header icons */
   .linkrow .t{min-width:0}
@@ -804,20 +805,20 @@
   }
 
   /* rep banner (desktop: number display-only + email + copy) */
-  .repband{background:#EFF5FD}
-  .repband .wrap{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:48px;padding:42px 24px}
+  .repband{background:#EFF5FD;border-top:1px solid #C5E0F0;border-bottom:1px solid #C5E0F0}   /* Figma 1726:37054 */
+  .repband .wrap{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:48px;padding:60px 24px}
   .repband .who{display:flex;align-items:center;gap:18px}
-  .repband img{width:92px;height:92px;border-radius:50%;object-fit:cover}
-  .repband .rl{font-size:12px;font-weight:700;letter-spacing:.2px;color:var(--sh-tan)}
-  .repband .nm{font-size:24px;font-weight:700;color:var(--sh-dark-brown);line-height:1.1}
-  .repband .wait{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--sh-mid-gray);margin:5px 0 3px}
-  .repband .wait .dot{width:8px;height:8px;border-radius:50%;background:var(--sh-success);display:inline-block}
-  .repband .num{font-size:24px;font-weight:700;color:var(--sh-dark-brown)}
-  .repband .num small{font-size:12px;font-weight:400;color:var(--sh-mid-gray);margin-left:8px}
-  .repband .repright{border-left:1px solid #C7D8E8;padding-left:48px}
-  .repband .blurb{font-size:17px;color:var(--sh-dark-gray);margin-bottom:16px}
-  .repband .acts{display:flex;gap:16px;max-width:580px}
-  .repband .acts .btn{flex:1;text-transform:uppercase;letter-spacing:.4px}
+  .repband img{width:136px;height:136px;border-radius:50%;object-fit:cover}
+  .repband .rl{font-size:16px;font-weight:700;line-height:1.6;color:#996A3F}
+  .repband .nm{font-size:34px;font-weight:700;color:var(--sh-dark-gray);line-height:1.2}
+  .repband .wait{display:inline-flex;align-items:center;gap:5px;font-size:14px;color:var(--sh-dark-gray);margin:5px 0 6px}
+  .repband .wait .dot{width:10px;height:10px;border-radius:50%;background:#5E9A41;display:inline-block}
+  .repband .num{font-size:30px;font-weight:700;line-height:1.2;color:var(--sh-dark-gray)}
+  .repband .num small{font-size:14px;font-weight:400;color:var(--sh-dark-gray);margin-left:6px}
+  .repband .repright{border-left:1px solid #C4C4C4;padding-left:80px}
+  .repband .blurb{font-size:20px;line-height:1.4;color:var(--sh-black);margin-bottom:12px}
+  .repband .acts{display:flex;gap:12px;max-width:640px}
+  .repband .acts .btn{flex:1;height:50px;font-size:13px;text-transform:uppercase;letter-spacing:0;line-height:1.6}
   .repband .acts .mob-call,.repband .acts .mob-text{display:none}   /* Call / Send Text are mobile-only */
   @media(min-width:768px) and (max-width:1023px){   /* tablet: stack buttons, narrow right column so the left gets more room */
     .repband .wrap{gap:32px}
@@ -826,8 +827,17 @@
     .repband .acts{flex-direction:column;max-width:210px;gap:12px}
     .repband .acts .btn{width:100%;flex:none}
   }
-  .repband .btn-primary{background:#4186AD;border-color:#4186AD}
-  .repband .btn-primary:hover{background:#37719A;border-color:#37719A}
+  @media(min-width:768px) and (max-width:1199px){   /* smaller desktop / tablet: type steps down slightly */
+    .repband .rl{font-size:14px}
+    .repband .nm{font-size:28px}
+    .repband .num{font-size:24px}
+    .repband .num small{font-size:13px}
+    .repband .blurb{font-size:17px}
+    .repband .acts .btn{height:44px;font-size:12px}
+  }
+  .repband .btn-primary{background:#07729C;border-color:#07729C;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}   /* Secondary Btn token */
+  .repband .btn-primary:hover{background:#055F81;border-color:#055F81}
+  .repband .acts .btn-ghost{border-color:#07729C;color:#07729C}   /* Tertiary Btn in Blue-700 per this component */
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px;height:36px;padding:0 18px;white-space:nowrap;border:2px solid transparent}
   .btn .ic{font-size:15px}
   .btn-primary{background:#4186AD;color:#fff;border-color:#4186AD}
@@ -1084,19 +1094,25 @@
     .hero h1{font-size:20px}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
-    .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 20px}
+    .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 28px}   /* 28px side inset per Figma 986:31699 */
     .repband .repright{border-left:none;padding-left:0}
     .repband .acts{flex-direction:column;max-width:none;gap:12px}
-    /* mobile rep banner: blue phone, no wait time, 4 stacked buttons */
+    /* mobile rep banner per Figma 1855:51559: compact type, blue phone, no wait time, 4 stacked 40px buttons */
     .repband .who{align-items:center;gap:14px}
     .repband img{width:84px;height:84px}
-    .repband .wait{display:none}
-    .repband .num{font-size:24px;color:var(--sh-blue);margin-top:2px}
+    .repband .wait{display:inline-flex;font-size:14px;margin:2px 0 4px}   /* wait time shown on mobile per Figma 986:31699 */
+    .repband .rl{font-size:13px;line-height:1.4}
+    .repband .nm{font-size:20px}
+    .repband .num{font-size:20px;color:var(--sh-blue);margin-top:2px}
     .repband .num small{display:none}
-    .repband .acts .btn{flex:none;width:100%}
+    .repband .blurb{font-size:15px;line-height:1.45;max-width:none;margin-bottom:16px}
+    .repband .acts .btn{flex:none;width:100%;height:40px;font-size:12px}
     .repband .acts .mob-call,.repband .acts .mob-text{display:inline-flex}   /* show Call / Send Text */
-    .repband .acts .the-email{background:#fff;color:var(--sh-blue);border-color:var(--sh-blue)}   /* Email becomes outline; Call is the filled one */
+    .repband .acts .mob-text{background:#07729C;border-color:#07729C;color:#fff;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}   /* Send Text is a filled button like Call */
+    .repband .acts .mob-text:hover{background:#055F81;border-color:#055F81}
+    .repband .acts .the-email{background:#fff;color:var(--sh-blue);border-color:var(--sh-blue);box-shadow:none}   /* Email becomes outline; Call is the filled one */
     .repband .acts .the-email:hover{background:var(--sh-light-tan-1)}
+    .repband .acts .btn-ghost,.repband .acts .the-email{border-width:2px}
     .mcard .rm{opacity:1}
   }
 
@@ -1106,20 +1122,37 @@
     .wrap{padding:0 16px}                          /* page side margin */
     .acctwrap{padding-left:0;padding-right:0}       /* reorder/recent run full-bleed */
     /* tighten vertical rhythm on phones so more lands above the fold */
-    .pmod{padding:16px}                              /* 16px inset on mobile */
-    #catSection .pmhead,.pmod+.pmod .pmhead{padding-top:36px}   /* more air above module titles, kept equal across sections */
+    .pmod{padding:16px 16px 40px}   /* 40px below each module's content */                              /* 16px inset on mobile */
+    /* normalize the air above every section title to 40px */
+    /* dividers above titles run full-bleed on mobile */
+    .section::before,.best::before,.repband::before{left:0;right:0}
+    #catSection .pmhead,.pmod+.pmod .pmhead{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}
+    #catSection .pmhead{padding-top:28px}
+    .pmod+.pmod .pmhead{padding-top:28px}
+    .section.latestact{padding-top:28px}
+    .best .bestgrid{padding-top:28px;padding-bottom:40px}
+    body[data-cohort="guest"] .best .bestgrid{padding-top:28px;padding-bottom:40px}
+    .promogrid .pmhead{padding-top:4px}
+    .toolsbanner{padding-top:40px}   /* the title sits inside the gray tile, so it needs its own internal air */
+    .section.alt .seclabel{margin-top:4px}
+    .section.brands{padding-top:28px}
     .pmhead h2,.seclabel{font-size:20px}             /* smaller section titles on mobile */
     .pmhead .va{font-size:12px}                       /* smaller View all */
     .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
-    .section{padding:24px 0}
+    .section{padding:24px 0 40px}   /* 40px below each section's content */
     .bestgrid{padding:20px 0;gap:16px}
     .hero h1{font-size:20px}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
     .tmtag-img{height:7px}
-    body.mode-topbar .accttop{margin:0 0 20px}
+    body.mode-topbar .accttop{margin:0 0 4px}
     .acctpanel{margin-top:0}
 
-    /* turn the Reorder + Recently rails into a vertical list of rows */
-    .acctpanel .rail{display:block}
+    /* chip rows run to the right edge — no clipped chip in the middle of the viewport */
+    .filterrow{margin-right:-16px;padding-right:16px}
+    .bestright .filters{margin-right:-16px;padding-right:16px}
+    /* mobile keeps the list-style row cards, but lays them out as horizontally scrollable columns (5 rows per swipe) */
+    .acctpanel .rail{display:grid;grid-auto-flow:column;grid-template-rows:repeat(5,auto) !important;grid-auto-columns:100%;gap:0 24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
+    .acctpanel .rail::-webkit-scrollbar{display:none}
+    .acctpanel .mcard{scroll-snap-align:start}
     .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:12px 0;border:none;border-bottom:1px solid var(--sh-border);position:relative}
     .acctpanel .mcard:last-child{border-bottom:none}
     .acctpanel .mcard:hover{box-shadow:none}
@@ -1644,7 +1677,7 @@
       <div class="filterrow">
         <button class="toggle on" id="instock"><span class="sw"></span> Show in-stock only</button>
         <div class="filters" id="rfilters">
-          <button class="chip-f chip-reset" aria-pressed="true">Most Ordered by You</button><button class="chip-f chip-reset" aria-pressed="false">All</button><button class="chip-f" aria-pressed="false">Plumbing</button><button class="chip-f" aria-pressed="false">Heating</button><button class="chip-f" aria-pressed="false">HVAC</button><button class="chip-f" aria-pressed="false">Fittings</button><button class="chip-f" aria-pressed="false">PEX</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Thermostats</button>
+          <button class="chip-f chip-reset" aria-pressed="true">Most Ordered by You</button><button class="chip-f chip-reset" aria-pressed="false">All</button><button class="chip-f" aria-pressed="false">Plumbing</button><button class="chip-f" aria-pressed="false">Heating</button><button class="chip-f" aria-pressed="false">HVAC</button><button class="chip-f" aria-pressed="false">Electrical</button>
         </div>
       </div>
       <div class="railwrap"><div class="rail" id="reorderRail" data-rows="2"></div></div>
@@ -1964,7 +1997,7 @@
           <div class="fld full"><div class="hint">The campaign whose window contains &ldquo;now&rdquo; is applied to the live page automatically; the section falls back to its default campaign otherwise. When windows overlap, the latest start wins.</div></div>
           <h2>Content</h2>
           <div class="fld full"><label>Copy</label><input type="text" id="pmCopy" maxlength="80"></div>
-          <div class="fld"><label>Tile background color</label><div class="color"><input type="color" id="pmBg"><input type="text" id="pmBgHex" maxlength="7"></div></div>
+          <div class="fld"><label id="pmBgLbl">Background color</label><div class="color"><input type="color" id="pmBg"><input type="text" id="pmBgHex" maxlength="7"></div></div>
           <div class="fld"><label>Logo (optional)</label><input type="file" id="pmLogo" accept="image/*"><div class="hint" id="pmLogoHint"></div></div>
           <div class="fld full"><label>Product image</label><input type="file" id="pmImg" accept="image/*"><div class="hint" id="pmImgHint"></div></div>
           <h2>SKU group</h2>
@@ -2263,7 +2296,7 @@
     </article>`;
   }
   // category tag per item (drives the filter pills); labels match the chip text
-  const reorderCat=['PEX','PEX','PEX','Valves','Fittings','Plumbing','Fittings','Fittings','PEX','Plumbing','Plumbing','Valves'];
+  const reorderCat=['Plumbing','Plumbing','Plumbing','Plumbing','Heating','Plumbing','HVAC','Heating','Electrical','Plumbing','Electrical','Heating'];
   const bestCat=['Cables','Copper Fittings','Copper Fittings','Pumps','Copper Fittings','Cables','Pumps','Thermostats','Copper Fittings','Pumps','Copper Fittings','Valves'];
   const arrowSvg='<svg class="ic" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>';
   function endCard(count,label){return `<a class="endcard" href="#"><span class="ecbtn">${label}</span></a>`;}
@@ -2338,11 +2371,12 @@
 
   // right-column account links
   const links=[['Return/Credit Status','Latest Update: 03/14/24','assignment_return'],['Invoices','Latest Update: 03/14/24','description'],['Quotes','Latest Update: 03/14/24','request_quote'],['Tax Exemption','Latest Update: 03/14/24','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight!','star'],['TradeMaster Program','Learn more about our TradeMaster program!','badge']];
+  const linkIconSrc={assignment_return:'assets/icons/Account_return.svg',description:'assets/icons/Account_invoice.svg',request_quote:'assets/icons/Account_quote.svg',verified_user:'assets/icons/Account_tax.svg'};
   const linkIcon={assignment_return:'<rect x="5" y="4" width="14" height="16"/><path d="M13 9l-3 3 3 3"/><path d="M10 12h5"/>',description:'<path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6M9 16h6"/>',request_quote:'<path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6"/>',verified_user:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><polyline points="9 12 11 14 15 10"/>',school:'<path d="M3 9l9-4 9 4-9 4-9-4z"/><path d="M7 11v5c0 1 2.2 2 5 2s5-1 5-2v-5"/>',star:'<polygon points="12 3 14.5 9 21 9.5 16 14 17.5 20.5 12 17 6.5 20.5 8 14 3 9.5 9.5 9"/>',badge:'<circle cx="12" cy="9" r="5"/><path d="M9 13l-1 8 4-2 4 2-1-8"/>'};
   document.getElementById('rightlinks').innerHTML=links.map(l=>{
     const tm=['school','star','badge'].includes(l[2]);   // TradeMaster promo rows: no icon, stacked title/description
     return tm?`<a class="linkrow tmrow" href="#"><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`
-      :`<a class="linkrow" href="#"><span class="lic"><svg class="ic" viewBox="0 0 24 24">${linkIcon[l[2]]||''}</svg></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`;
+      :`<a class="linkrow" href="#"><span class="lic"><img src="${linkIconSrc[l[2]]||''}" alt=""></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`;
   }).join('');
 
   // ----- Latest activities: left column (Orders / Lists / Saved carts) -----
@@ -2370,7 +2404,8 @@
   const thumbsRO=(typeof ResizeObserver!=='undefined')?new ResizeObserver(()=>requestAnimationFrame(fitThumbs)):null;
   function observeThumbs(){if(!thumbsRO)return;document.querySelectorAll('.thumbs[data-total],.dpthumbs[data-total]').forEach(el=>thumbsRO.observe(el));fitThumbs();}
   const groupIcon={orders:'<path d="M9 4h6v2H9z"/><rect x="5" y="6" width="14" height="15"/><path d="M9 11l1.5 1.5L13 10M9 16l1.5 1.5L13 15"/>',list:'<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/>'};
-  function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><svg class="ic" viewBox="0 0 24 24">${groupIcon[icon]}</svg></span><span class="aht">${label}<span class="ahsub">Latest Update: 03/14/24</span></span><a class="va" href="#">View</a></div>`;}
+  const groupIconSrc={orders:'assets/icons/Account_order.svg',list:'assets/icons/Account_list.svg',cart:'assets/icons/Account_savedcart.svg'};
+  function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><img src="${groupIconSrc[icon]}" alt=""></span><span class="aht">${label}<span class="ahsub">Latest Update: 03/14/24</span></span><a class="va" href="#">View</a></div>`;}
   function orderRow(num,po,date,price,status,statClass,total){return `<a class="arow" href="#"><div class="ti"><b>${num} <span class="po">(PO#: ${po})</span></b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(total)}${chev}</a>`;}
   function simpleRow(title,date,total){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Last Edited: ${date}</span></div>${actThumbsHTML(total)}${chev}</a>`;}
   // empty-state illustrations (inline SVG per project convention — no webfont ligatures)
@@ -2513,9 +2548,9 @@
     if(f){const wrap=f.parentNode;const lbl=f.textContent.trim().toLowerCase();const on=f.getAttribute('aria-pressed')==='true';
       if(/^(all|most ordered)/.test(lbl)){ // these reset: clear others, select only this
         [...wrap.children].forEach(c=>c.setAttribute('aria-pressed','false'));f.setAttribute('aria-pressed','true');
-      } else { // category chips toggle independently (multi-select); clear the "all/most" chips
-        f.setAttribute('aria-pressed', on?'false':'true');
-        [...wrap.children].forEach(c=>{if(/^(all|most ordered)/.test(c.textContent.trim().toLowerCase()))c.setAttribute('aria-pressed','false');});
+      } else { // category chips are single-select everywhere: the clicked chip replaces the previous selection
+        [...wrap.children].forEach(c=>c.setAttribute('aria-pressed','false'));
+        f.setAttribute('aria-pressed','true');
       }
       const map={rfilters:'reorderRail',bfilters:'bestRail'};
       applyMultiFilter(map[wrap.id],wrap);return;}
@@ -2733,7 +2768,7 @@
     function mktVariant(v){const e=el(mcard(mktItem,0,''));const f=e.querySelector('.mktfoot');if(f)f.outerHTML=mktFootBefore(v);return e.outerHTML;}
     function withStepper(it,html){const e=el(mcard(it,0,''));e.querySelector('.buyunit').innerHTML=html;return e.outerHTML;}
     const stepperLoading='<div class="qtyctl loading"><svg class="spinner" viewBox="0 0 24 24" fill="none"><g stroke="#F15C02" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="7" x2="12" y2="3" opacity="1"/><line x1="15.54" y1="8.46" x2="18.36" y2="5.64" opacity=".87"/><line x1="17" y1="12" x2="21" y2="12" opacity=".75"/><line x1="15.54" y1="15.54" x2="18.36" y2="18.36" opacity=".62"/><line x1="12" y1="17" x2="12" y2="21" opacity=".5"/><line x1="8.46" y1="15.54" x2="5.64" y2="18.36" opacity=".37"/><line x1="7" y1="12" x2="3" y2="12" opacity=".25"/><line x1="8.46" y1="8.46" x2="5.64" y2="5.64" opacity=".12"/></g></svg></div>';
-    const stepperAdded='<div class="addedwrap">'+qtyCtl(1)+'<span class="addedbadge"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#F15C02" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 13 9 18 20 6"/></svg></span><span class="addedtip">Added!</span></div>';
+    const stepperAdded='<div class="addedwrap">'+qtyCtl(1)+'<span class="addedbadge"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 13 9 18 20 6"/></svg></span><span class="addedtip">Added!</span></div>';
     const groups=[
       ['Standard states',[
         [mcard(base,0,''),'Default','In-stock item, not yet in cart — Add button plus unit price.'],
@@ -2885,7 +2920,7 @@
         ['<div class="actgroup">'+emptyStateHTML('carts')+'</div>','Empty state','Same treatment as Lists.',tag('live'),{half:true}],
       ]],
       ['Right-column account links',[
-        [links.slice(0,4).map(l=>`<a class="linkrow" href="#"><span class="lic"><svg class="ic" viewBox="0 0 24 24">${linkIcon[l[2]]||''}</svg></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`).join(''),'Populated — account links','Return/Credit Status, Invoices, Quotes, Tax Exemption (plus 3 more TradeMaster promo links below, not shown here).',tag('live'),{half:true}],
+        [links.slice(0,4).map(l=>`<a class="linkrow" href="#"><span class="lic"><img src="${linkIconSrc[l[2]]||''}" alt=""></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`).join(''),'Populated — account links','Return/Credit Status, Invoices, Quotes, Tax Exemption (plus 3 more TradeMaster promo links below, not shown here).',tag('live'),{half:true}],
         [note('These links and their "Latest update" dates are static and never vary by Scenario — there\'s no modeled empty state (e.g., "No invoices yet" for a brand-new account) and the hardcoded date will read as stale content once this is real data.'),'No empty state / static content risk','',tag('gap'),{cls:'note',wide:true}],
       ]],
       ['Shared component tokens (normalized across the page)',[
@@ -2965,7 +3000,7 @@
     function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],v[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
     function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
     let data=load(), cur='newarrivals', mode='hero';
-    try{let fixed=false;(data.bestpicks.camps||[]).forEach(c=>{if(c.def&&(!c.bg||c.bg==='#FFFFFF'||c.bg==='#F5F5F5')){c.bg='#F8F8F8';fixed=true;}});if(fixed)save();}catch(e){}
+    try{let fixed=false;(data.bestpicks.camps||[]).forEach(c=>{if(!c.bg||c.bg==='#FFFFFF'||c.bg==='#F5F5F5'){c.bg='#F8F8F8';fixed=true;}});if(fixed)save();}catch(e){}
     const cfg=()=>{const c=data[cur];return c.camps[c.active]||c.camps[0];};
     function status(c){
       if(!c.start&&!c.end)return c.def?['default','Default']:['draft','Draft'];
@@ -2991,6 +3026,7 @@
       const c=cfg();
       $('pmName').value=c.name;$('pmStart').value=c.start||'';$('pmEnd').value=c.end||'';
       $('pmCopy').value=c.copy;$('pmBg').value=/^#[0-9a-fA-F]{6}$/.test(c.bg)?c.bg:'#FFFFFF';$('pmBgHex').value=(c.bg||'').toUpperCase();
+      $('pmBgLbl').textContent=cur==='bestpicks'?'Band background color (fills all margin around the section)':'Tile background color';
       $('pmLogoHint').textContent=c.logo?(c.logo.startsWith('data:')?'Custom uploaded logo':c.logo):'No logo';
       $('pmImgHint').textContent=c.img?(c.img.startsWith('data:')?'Custom uploaded image':c.img):'No image';
       $('pmSkus').value=c.skus||'';
@@ -3028,7 +3064,7 @@
         if(l){if(na.logo){l.src=na.logo;l.style.display='';}else l.style.display='none';}
         if(t)t.textContent=na.copy; if(i&&na.img)i.src=na.img;}
       const b=activeCamp('bestpicks'), el=document.querySelector('.bestpromo');
-      if(b)document.documentElement.style.setProperty('--merch-bestbg',b.bg);   /* full-width band color */
+      if(b)document.documentElement.style.setProperty('--merch-bestbg',b.bg);   /* full-width band color — fills all margin around the section */
       if(el&&b){
         const h=el.querySelector('h2'),i=el.querySelector('.pimg'),l=el.querySelector('.bp2-logo');
         if(h)h.textContent=b.copy; if(i&&b.img)i.src=b.img;
