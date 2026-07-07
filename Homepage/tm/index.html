@@ -1300,6 +1300,38 @@
   body.acctstates>*{display:none!important}
   body.acctstates>#acctGallery{display:block!important}
   body.acctstates>.modetoggle{display:flex!important}
+  /* ===== Banner states gallery (mirrors the Account Activity gallery chrome) ===== */
+  #bannerGallery{display:none;background:#FAFAF8;min-height:100vh}
+  body.bannergallery>*{display:none!important}
+  body.bannergallery>#bannerGallery{display:block!important}
+  body.bannergallery>.modetoggle{display:flex!important}
+  #bannerGallery .ginner{max-width:1180px;margin:0 auto;padding:48px 40px 90px}
+  #bannerGallery .ghead h1{font-size:30px;font-weight:700;color:var(--sh-dark-brown);margin:0 0 6px;font-family:'interstate',var(--sh-font)}
+  #bannerGallery .ghead p{font-size:15px;color:var(--sh-mid-gray);margin:0 0 8px;max-width:760px}
+  #bannerGallery .gtitle{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--sh-tan);margin:40px 0 6px;padding-bottom:8px;border-bottom:1px solid var(--sh-border)}
+  #bannerGallery .grow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:22px}
+  #bannerGallery .gx{width:280px}
+  #bannerGallery .gx.gxwide{width:100%}
+  #bannerGallery .gx.gxhalf{width:calc(50% - 11px)}
+  #bannerGallery .gcard{border:1px solid var(--sh-border);border-radius:8px;padding:16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);pointer-events:none;min-height:56px}
+  #bannerGallery .gcard *{pointer-events:none}
+  #bannerGallery .gcard.note{display:flex;gap:10px;align-items:flex-start;min-height:0}
+  #bannerGallery .gcard.note .noteic{flex-shrink:0;width:22px;height:22px;font-size:22px;color:var(--sh-orange)}
+  #bannerGallery .gcard.note p{margin:0;font-size:13px;line-height:1.5;color:var(--sh-dark-gray)}
+  #bannerGallery .gx figcaption{margin-top:11px}
+  #bannerGallery .gx figcaption .tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:3px;margin-bottom:6px}
+  #bannerGallery .gx figcaption .tag.live{background:#EDF7EE;color:#3C763D}
+  #bannerGallery .gx figcaption .tag.gap{background:#FDEDE3;color:var(--sh-orange)}
+  #bannerGallery .gx figcaption b{display:block;font-size:13px;font-weight:700;color:var(--sh-dark-brown);margin-bottom:2px}
+  #bannerGallery .gx figcaption span{font-size:12px;line-height:1.45;color:var(--sh-mid-gray)}
+  #bannerGallery .kpi-demo{display:flex;flex-direction:column;gap:4px}
+  #bannerGallery .kpi-demo .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:2px}
+  #bannerGallery .kpi-demo .atv{font-size:22px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
+  #bannerGallery .kpi-demo .ats{font-size:12px;line-height:1.3;color:var(--sh-mid-gray);margin-top:4px}
+  #bannerGallery .kpi-demo .ats a{font-weight:700;color:#4186AD}
+  #bannerGallery .kpi-demo .ats .warn{color:var(--sh-dark-gray);font-weight:700}
+  #bannerGallery .kpi-demo .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;white-space:nowrap;display:inline-block}
+  @media(max-width:767px){ #bannerGallery .ginner{padding:28px 16px 60px} #bannerGallery .grow{gap:16px} #bannerGallery .gx{width:100%;max-width:340px} #bannerGallery .gx.gxhalf{max-width:none} }
   #acctGallery .ginner{max-width:1180px;margin:0 auto;padding:48px 40px 90px}
   #acctGallery .ghead h1{font-size:30px;font-weight:700;color:var(--sh-dark-brown);margin:0 0 6px;font-family:'interstate',var(--sh-font)}
   #acctGallery .ghead p{font-size:15px;color:var(--sh-mid-gray);margin:0 0 8px;max-width:760px}
@@ -1517,7 +1549,7 @@
 <!-- prototype toggle: account-info layout -->
 <div class="modetoggle">
   <div class="mtrow">Cohort:<button data-cohort="tm" class="on">TM Purchaser</button><button data-cohort="ntm-purchaser">NTM Purchaser</button><button data-cohort="ntm-nonpurchaser">NTM Non-Purchaser</button><button data-cohort="guest">Guest User</button></div>
-  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty States</button><span class="mtsep"></span><button data-view="gallery">Card states</button><button data-view="acctstates">Account Activity states</button><span class="mtsep"></span><button data-view="banneradmin">Hero banners</button><button data-view="banneradmin" data-adminmode="promo">Section promos</button></div>
+  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty States</button><span class="mtsep"></span><button data-view="gallery">Card states</button><button data-view="acctstates">Account Activity states</button><button data-view="bannergallery">Banner states</button><span class="mtsep"></span><button data-view="banneradmin">Hero banners</button><button data-view="banneradmin" data-adminmode="promo">Section promos</button></div>
 </div>
 
 <!-- MOBILE rep bar (shows on phones only) -->
@@ -1891,6 +1923,7 @@
 
 <!-- ACCOUNT ACTIVITY STATES GALLERY (use cases & edge cases, documentation view) -->
 <section id="acctGallery"><div class="ginner" id="acctInner"></div></section>
+<section id="bannerGallery"><div class="ginner" id="bannerInner"></div></section>
 
 <!-- HERO BANNER ADMIN (toggle view) -->
 <section id="bannerAdmin">
@@ -2938,6 +2971,83 @@
       }).join('')}</div>`).join('');
     if(typeof observeThumbs==='function')observeThumbs();
   }
+  // ---- Banner states gallery: every banner on the page, use cases & edge cases ----
+  let bannerGalleryBuilt=false;
+  function buildBannerGallery(){
+    if(bannerGalleryBuilt)return; bannerGalleryBuilt=true;
+    const tag=x=>x==='live'?'<span class="tag live">On the page today</span>':'<span class="tag gap">Recommendation — not yet built</span>';
+    const note=html=>`<span class="noteic">${infoSvg}</span><p>${html}</p>`;
+    const heroImg=(src,h)=>`<img src="${src}" alt="" style="width:100%;height:${h||'auto'};object-fit:cover;display:block;border-radius:6px">`;
+    const tmSlim=`<div style="background:#0066AD;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:6px"><b style="font-size:19px;font-family:'interstate',var(--sh-font)">Built for the Pros</b><span style="border:1px solid #fff;border-radius:8px;padding:6px 8px;flex-shrink:0"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:9px;display:block"></span></div>`;
+    function repSnip(state){
+      const dot=c=>`<span style="width:9px;height:9px;border-radius:50%;background:${c};flex-shrink:0"></span>`;
+      let statusLine, phoneColor='#343434', ctas;
+      if(state==='online'){statusLine=`${dot('#5E9A41')}Est. wait time: 5 min`;ctas=`<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px">Email Larry</span><span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border-radius:2px">Request a Quote</span>`;}
+      else{statusLine=`${dot('#C4C4C4')}<span style="color:#ACACAC">Offline — back tomorrow at 7 AM</span>`;phoneColor='#ACACAC';ctas=`<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px">Email Larry</span><span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border-radius:2px">Request a Quote</span>`;}
+      return `<div style="background:#EFF5FD;border:1px solid #C5E0F0;border-radius:8px;padding:16px">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+          <img src="assets/help_img_tm_larry.png" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+          <div style="min-width:0">
+            <div style="font-size:11px;font-weight:700;color:#996A3F">Your Dedicated Rep</div>
+            <div style="font-size:20px;font-weight:700;color:#343434;line-height:1.15">Larry</div>
+            <div style="font-size:12px;color:#343434;display:flex;align-items:center;gap:5px;margin-top:2px">${statusLine}</div>
+            <div style="font-size:17px;font-weight:700;color:${phoneColor};margin-top:2px">516-310-0227</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">${ctas}</div>
+      </div>`;
+    }
+    function repSnipMobile(){
+      const btn=(label,kind)=>{
+        if(kind==='disabled')return `<span style="background:#E7EAED;color:#ACACAC;font-size:10px;font-weight:700;text-transform:uppercase;padding:10px 12px;border-radius:2px;text-align:center">${label}</span>`;
+        if(kind==='primary')return `<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:10px 12px;border-radius:2px;text-align:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)">${label}</span>`;
+        return `<span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px;text-align:center">${label}</span>`;
+      };
+      return `<div style="background:#EFF5FD;border:1px solid #C5E0F0;border-radius:8px;padding:16px;max-width:280px;margin:0 auto">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:6px">
+          <img src="assets/help_img_tm_larry.png" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover">
+          <div style="min-width:0">
+            <div style="font-size:11px;font-weight:700;color:#996A3F">Your Dedicated Rep</div>
+            <div style="font-size:18px;font-weight:700;color:#343434;line-height:1.15">Larry</div>
+            <div style="font-size:12px;display:flex;align-items:center;gap:5px;margin-top:2px"><span style="width:9px;height:9px;border-radius:50%;background:#C4C4C4;flex-shrink:0"></span><span style="color:#ACACAC">Offline — back tomorrow at 7 AM</span></div>
+            <div style="font-size:16px;font-weight:700;color:#ACACAC;margin-top:2px">516-310-0227</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">${btn('Call Larry','disabled')}${btn('Send Text to Larry','disabled')}${btn('Email Larry','primary')}${btn('Request a Quote','ghost')}</div>
+      </div>`;
+    }
+    const tmBand=`<div style="background:linear-gradient(90deg,#1B6FC4 0%,#2C82D6 60%,#4D9BE0 100%);color:#fff;border-radius:6px;padding:18px"><img src="assets/Logo-TM-white.svg" alt="" style="height:14px;display:block;margin-bottom:8px"><div style="font-size:20px;font-weight:700;font-family:'interstate',var(--sh-font)">Join the TradeMaster Program!</div><div style="font-size:12px;color:#DCEBF8;margin:4px 0 10px">Join for FREE and enjoy all these benefits.</div><span style="background:#fff;color:#1B6FC4;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 16px">Apply Now</span></div>`;
+    const signin=`<div style="background:#fff;border:1px solid var(--sh-border);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:#343434"><span>Sign In or Create an Account for personalized recommendations, order tracking, and more.</span><span style="background:#4186AD;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:9px 14px;align-self:flex-start">Sign In or Create Account</span></div>`;
+    const valuebar=`<div style="background:#fff;border:1px solid var(--sh-border);border-radius:6px;padding:10px 14px;font-size:12px;color:#343434;display:flex;flex-direction:column;gap:6px"><span><b>Free shipping</b> on orders $99+ &bull; <b>340,000+ products</b> in stock</span><span><span style="color:#E58E1A;letter-spacing:1px">&#9733;&#9733;&#9733;&#9733;&#9733;</span> &ldquo;Orders ship faster than anywhere else I buy from.&rdquo; &mdash; <b>Mike R., HVAC Contractor</b></span></div>`;
+    const groups=[
+      ['Hero banner — cohort use cases',[
+        [tmSlim,'TM Purchaser — Short slim hero','80px color band: greeting headline + bordered TradeMaster chip on the right. No CTA — members are already converted.',tag('live'),{half:true}],
+        [heroImg('assets/banner/hero_tm_apply_L.webp','150px'),'NTM Purchaser / Non-Purchaser — Mid apply banner','&ldquo;Are You A Pro?&rdquo; + membership benefits sub-copy, white Apply Now button and the handwritten &ldquo;less than 3 minutes!&rdquo; note.',tag('live'),{half:true}],
+        [heroImg('assets/banner/hero_ntm_default_L.webp','150px'),'Guest — Mid default banner','&ldquo;Everything You Need, Ready to Ship&rdquo; — breadth-of-catalog value prop, no membership pitch.',tag('live'),{half:true}],
+        [heroImg('assets/banner/hero_ntm_default_L.webp','150px'),'NTM — Applied to TM (inherits Guest)','Application pending: shows the Guest default until approved. The admin can break inheritance to give this group a dedicated banner.',tag('live'),{half:true}],
+        [heroImg('assets/banner/hero_promo1_L.webp','150px'),'Promo override — Tall campaign banner','One scheduled banner pushed to selected cohorts; targeted cohorts show it while the window is live, then automatically revert.',tag('live'),{half:true}],
+        [note('Sizes: <b>Short 80px</b> (color band + headline, TM members) &middot; <b>Mid 220px</b> (image + text, standard promo) &middot; <b>Tall 400px</b> (campaign banner, supports the <b>countdown clock</b>). Band heights step down per breakpoint (e.g. Mid 220&rarr;180&rarr;150).'),'Size system & countdown','',tag('live'),{cls:'note',half:true}],
+        [note('Mobile (&le;767px): the S image variant loads, the text block top-aligns and narrows to ~55% so it clears the graphic, the boxed CTA becomes an underlined text link, and the headline steps down to half the desktop size.'),'Mobile behaviors','',tag('live'),{cls:'note',half:true}],
+      ]],
+      ['Dedicated Rep banner (Larry)',[
+        [repSnip('online'),'Online — within business hours','Green dot + live wait estimate. Call/Text is the fastest path, Email Larry is the primary button.',tag('live'),{half:true}],
+        [repSnip('offline'),'Offline — after hours / weekends','Gray dot + when Larry is back; status and phone number lighten. Email stays primary (async works offline); CTAs stay unchanged. Never show a live wait time you can\'t honor.',tag('gap'),{half:true}],
+        [repSnipMobile(),'Offline — mobile','The stacked mobile layout with Call Larry and Send Text disabled after hours; Email keeps the primary slot and Request a Quote stays available.',tag('gap'),{half:true}],
+        [note('State source: rep working hours + presence. Rules — the status word always accompanies the dot color (WCAG 1.4.1); offline keeps the same CTAs but disables live channels (call/text); if the rep is out for an extended period (vacation), show the covering rep instead of a permanent offline state.'),'Status rules','',tag('gap'),{cls:'note',half:true}],
+      ]],
+      ['Other banners',[
+        [tmBand,'Join-TradeMaster band (guest)','Guest-only mid-page conversion band: benefits row + Apply Now. NTM cohorts get the apply message in the hero instead, so it never doubles up.',tag('live'),{half:true}],
+        [signin,'Sign-in strip (guest)','Bottom-of-page logged-out prompt; hidden for all signed-in cohorts.',tag('live'),{half:true}],
+        [valuebar,'Value-prop bar (guest)','Above the utility bar: shipping threshold, stock depth, and a review quote — the Baymard value-proposition checklist in one strip.',tag('live'),{half:true}],
+      ]],
+    ];
+    document.getElementById('bannerInner').innerHTML=
+      `<div class="ghead"><h1>Banners — states, use cases &amp; edge cases</h1><p>Every banner on the homepage in one place: hero banners per cohort (including the scheduled promo override), the dedicated-rep banner with its presence states, and the guest conversion bands. Green tag = live on the page; orange tag = documented recommendation.</p></div>`
+      +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>{
+        const opts=c[4]||{};
+        return `<figure class="gx${opts.half?' gxhalf':opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`;
+      }).join('')}</div>`).join('');
+  }
   // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
   const COHORT_BANNER={
     'guest':['assets/banner/hero_ntm_default_L.webp','assets/banner/hero_ntm_default_S.webp'],
@@ -2962,7 +3072,7 @@
   }
   (function(){const mt=document.querySelector('.modetoggle');if(!mt)return;
     mt.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-      const exitViews=()=>{document.body.classList.remove('gallery','banneradmin','acctstates');mt.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on'));};
+      const exitViews=()=>{document.body.classList.remove('gallery','banneradmin','acctstates','bannergallery');mt.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on'));};
       if(b.dataset.cohort){
         exitViews();
         b.closest('.mtrow').querySelectorAll('button[data-cohort]').forEach(x=>x.classList.toggle('on',x===b));
@@ -2970,10 +3080,11 @@
       }
       if(b.dataset.view){
         mt.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('on',x===b));
-        document.body.classList.remove('gallery','banneradmin','acctstates');
+        document.body.classList.remove('gallery','banneradmin','acctstates','bannergallery');
         if(b.dataset.view==='gallery'){buildGallery();document.body.classList.add('gallery');}
         else if(b.dataset.view==='banneradmin'){document.body.classList.add('banneradmin');if(window.setAdminMode)setAdminMode(b.dataset.adminmode||'hero');}
         else if(b.dataset.view==='acctstates'){buildAcctGallery();document.body.classList.add('acctstates');}
+        else if(b.dataset.view==='bannergallery'){buildBannerGallery();document.body.classList.add('bannergallery');}
         window.scrollTo(0,0); return;
       }
       if(b.dataset.scn){
