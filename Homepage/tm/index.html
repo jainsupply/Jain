@@ -316,7 +316,8 @@
   .accttop .atlabel,.accttop .atcell{background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
   .accttop .atlabel{display:flex;align-items:center;gap:10px;padding:20px 18px;flex:1;min-width:0}
   .accttop .atlabel .ic{font-size:24px;color:var(--sh-dark-brown)}
-  .accttop .atlabel .athome{align-self:center;transform:translateY(-8px)}   /* optically align the home icon with the first text line ("Welcome, Tommy!") */
+  .accttop .atlabel .athome{align-self:center;transform:translateY(-8px)}
+  .accttop .atlabel .athome img{width:24px;height:24px}   /* optically align the home icon with the first text line ("Welcome, Tommy!") */
   .accttop .atwelcome b{display:block;font-size:16px;font-weight:700;line-height:1.2;color:var(--sh-dark-brown)}
   .accttop .atwelcome small{font-size:12px;line-height:1.3;color:var(--sh-mid-gray)}
   .accttop .atcell{flex:1;min-width:0;padding:20px 18px;display:flex;flex-direction:column;justify-content:center;position:relative}
@@ -423,8 +424,10 @@
     .topblue{background:linear-gradient(180deg,#0066AD 0,#0066AD 300px,var(--sh-white) 360px)}
     body.mode-topbar .accttop{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
     /* welcome: white text directly on the blue, full width */
-    .accttop .atlabel{grid-column:1/-1;background:transparent;box-shadow:none;border-radius:0;border-top:1px solid rgba(255,255,255,.3);padding:7px 2px 0;align-items:baseline}
+    .accttop .atlabel{grid-column:1/-1;background:transparent;box-shadow:none;border-radius:0;border-top:1px solid rgba(255,255,255,.3);padding:7px 2px 0;align-items:center;gap:6px}
     .accttop .atlabel .ic{color:#fff;font-size:20px}
+    .accttop .atlabel .athome{transform:none}
+    .accttop .atlabel .athome img{width:16px;height:16px;filter:brightness(0) invert(1)}   /* white on the blue band */
     .accttop .atwelcome b{display:inline;color:#fff;font-size:14px}
     .accttop .atwelcome small{color:#cfe0ec;margin-left:6px}
     /* KPI boxes — chevron on the right, no inline View links */
@@ -750,6 +753,9 @@
   /* clamped-title tooltip lives on .bd — the title itself has overflow:hidden (line clamp) and would clip it */
   .mcard .bd[data-name],.fcard .bd[data-name]{position:relative}
   .mcard .bd[data-name]:has(.title:hover)::after,.fcard .bd[data-name]:has(.title:hover)::after{content:attr(data-name);position:absolute;top:-8px;transform:translateY(-100%);left:0;display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.35;white-space:normal;width:max-content;max-width:240px;padding:10px 14px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
+  .arow .ti b.ellip{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .arow .ti[data-name]{position:relative}
+  .arow .ti[data-name]:has(b.ellip:hover)::after{content:attr(data-name);position:absolute;top:-8px;transform:translateY(-100%);left:0;display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.35;white-space:normal;width:max-content;max-width:280px;padding:10px 14px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
   .thumbs .t[data-name]:hover::after,.dpthumbs .t[data-name]:hover::after{content:attr(data-name);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis;padding:10px 14px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
   .arow .thumbs .more{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#777;font-weight:400;margin:0}
   .arow .chev{color:var(--sh-link);flex-shrink:0;font-size:24px}
@@ -1079,9 +1085,9 @@
       linear-gradient(#E3E3E3 0 0) left 44px bottom 2px / 65% 10px no-repeat;
     animation:skelpulse 1.3s ease-in-out infinite}
   /* New Arrivals brand tile */
-  body.apierror .brandpromo{position:relative}
-  body.apierror .brandpromo>*{visibility:hidden}
-  body.apierror .brandpromo::before{content:"";position:absolute;inset:22px 20px;
+  body.apierror .promogrid .brandpromo{position:relative}
+  body.apierror .promogrid .brandpromo>*{visibility:hidden}
+  body.apierror .promogrid .brandpromo::before{content:"";position:absolute;inset:22px 20px;
     background:
       linear-gradient(#E3E3E3 0 0) left top / 130px 40px no-repeat,
       linear-gradient(#E6E6E6 0 0) left 0 top 64px / 80% 16px no-repeat,
@@ -1289,6 +1295,7 @@
 
   /* ===== Card states gallery (documentation view) ===== */
   .modetoggle .mtsep{width:1px;height:22px;background:var(--sh-border);margin:0 2px}
+  .modetoggle .mtlbl{color:var(--sh-tm-blue);flex-shrink:0}
   #cardGallery{display:none;background:#FAFAF8;min-height:100vh}
   body.gallery>*{display:none!important}
   body.gallery>#cardGallery{display:block!important}
@@ -1588,8 +1595,8 @@
 
 <!-- prototype toggle: account-info layout -->
 <div class="modetoggle">
-  <div class="mtrow">Cohort:<button data-cohort="tm" class="on">TM Purchaser</button><button data-cohort="ntm-purchaser">NTM Purchaser</button><button data-cohort="ntm-nonpurchaser">NTM Non-Purchaser</button><button data-cohort="guest">Guest User</button></div>
-  <div class="mtrow">Scenario:<button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty States</button><button data-err>API Error</button><span class="mtsep"></span><button data-view="gallery">Card states</button><button data-view="acctstates">Account Activity states</button><button data-view="bannergallery">Banner states</button><span class="mtsep"></span><button data-view="banneradmin">Hero banners</button><button data-view="banneradmin" data-adminmode="promo">Section promos</button></div>
+  <div class="mtrow"><span class="mtlbl">Cohort:</span><button data-cohort="tm" class="on">TM Purchaser</button><button data-cohort="ntm-purchaser">NTM Purchaser</button><button data-cohort="ntm-nonpurchaser">NTM Non-Purchaser</button><button data-cohort="guest">Guest User</button></div>
+  <div class="mtrow"><span class="mtlbl">Scenario:</span><button data-scn="full" class="on">Full</button><button data-scn="sparse">Sparse</button><button data-scn="empty">Empty</button><button data-err>API Error</button><span class="mtsep"></span><span class="mtlbl">States:</span><button data-view="gallery">Cards</button><button data-view="acctstates">Account Activity</button><button data-view="bannergallery">Banners</button><span class="mtsep"></span><span class="mtlbl">Admin:</span><button data-view="banneradmin">Hero</button><button data-view="banneradmin" data-adminmode="promo">Sections</button></div>
 </div>
 
 <!-- MOBILE rep bar (shows on phones only) -->
@@ -1697,7 +1704,7 @@
 <div class="wrap acctwrap" style="padding-bottom:0">
   <!-- TOP-BAR account KPI bar (separate card above reorder, shown when toggled) -->
   <div class="accttop">
-    <div class="atlabel"><span class="athome"><img src="assets/icons/Account_home.svg" alt="" style="width:24px;height:24px;display:block"></span><span class="atwelcome"><b>Welcome, Tommy!</b><small>Check your account info.</small></span></div>
+    <div class="atlabel"><span class="athome"><img src="assets/icons/Account_home.svg" alt="" style="display:block"></span><span class="atwelcome"><b>Welcome, Tommy!</b><small>Check your account info.</small></span></div>
     <div class="atcell">
       <div class="atk">Active Orders</div>
       <div class="atv"><span id="kOrders">2 Orders</span> <span class="delivgrp" id="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" id="delivBadge" aria-label="Upcoming delivery details" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button>
@@ -2941,6 +2948,11 @@
       </div>`;
     }
     // static rendering of the thumbnail hover tooltip (gallery cards are non-interactive)
+    const LONG_NAME='Boiler room retrofit \u2013 3rd floor mechanical \u2013 Johnson Controls upgrade phase 2 (Spring 2026)';
+    function longNameRow(ellip){
+      const chip=ellip?`<span style="position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:normal;width:max-content;max-width:280px;line-height:1.35">${LONG_NAME}</span>`:'';
+      return `<div style="padding-top:${ellip?'70px':'0'}"><a class="arow" href="#" style="margin-left:8px"><div class="ti" style="position:relative">${chip}<b${ellip?' class="ellip"':''}>${LONG_NAME}</b><span class="meta">Last Edited: 2/13/26</span></div>${actThumbsHTML(4)}${chev}</a></div>`;
+    }
     function thumbTipDemo(){
       const chip='<span style="position:absolute;bottom:calc(100% + 10px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:nowrap">1&quot; CxF 90&deg; Drop Ear Elbow</span>';
       const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
@@ -3018,6 +3030,8 @@
         ['<div class="actgroup">'+ordersEmptyProposed()+'</div>','Empty state — proposed','Today the Orders group always shows 3 hardcoded rows, even in the Empty scenario — which contradicts the "0 Orders" KPI above it on the same screen. This is the proposed fix, matching the Lists/Carts pattern.',tag('gap'),{half:true}],
         [orderRow('112311634','PO-2026-RIVERSIDE-HVAC-PHASE2-BLDG-A-ROOFTOP','6/20/26','$276.96','Processing','proc',5),'Edge case — long PO / job name','Contractors use PO fields for job codes that run long. Recommendation: clamp the title to one line with an ellipsis (<code>text-overflow:ellipsis</code>), keep the full value in a <code>title</code> tooltip and on the order detail page — never let it push the thumbnails off-grid.',tag('gap'),{half:true}],
         [thumbTipDemo(),'Thumbnail hover tooltip','Small thumbnails carry no visible product name, so hovering one reveals it in a white rounded chip (truncates with an ellipsis past 200px). Applies to Account Activity rows and the Upcoming Deliveries popover only — product cards already show their title, so they don\'t double up.',tag('live'),{half:true}],
+        ['<div class="actgroup">'+longNameRow(false)+'</div>','Long name — default behavior','User-generated list and cart names have no length limit. Today a long name wraps onto multiple lines, which makes row heights uneven and pushes the thumbnails and chevron around.',tag('live'),{half:true}],
+        ['<div class="actgroup">'+longNameRow(true)+'</div>','Long name — ellipsis truncation','Clamp the name to one line with an ellipsis so every row keeps the same height; hover the truncated name to reveal the full text in the same white rounded tooltip the thumbnails use.',tag('gap'),{half:true}],
         [orderRow('112311634','678909876','6/20/26','$276.96','Shipped','ship',1),'Edge case — single item','A 1-item order shows just its thumbnail: no overflow chip, no empty gaps.',tag('live'),{half:true}],
         [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',26),'Edge case — 10+ items','The row renders as many thumbnails as physically fit its width and folds the remainder into an accurate &ldquo;+N&rdquo; chip.',tag('live'),{half:true}],
         [note('Thumbnail rows are <b>responsive</b>: visible count is measured against the actual container width (recalculated live via ResizeObserver on any resize or when the popover opens), and the &ldquo;+N&rdquo; chip always equals the true remainder. Demo item counts are randomized per page load (1&ndash;26) so single-item, few-item, and 10+ cases all stay visible in testing instead of every row showing the same &ldquo;4 + 5&rdquo;.'),'Responsive thumbs, randomized demo counts','',tag('live'),{cls:'note',wide:true}],
