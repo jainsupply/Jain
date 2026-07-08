@@ -644,11 +644,12 @@
   .besthead h2{margin:0}
   /* Best Picks + New Arrivals: ≤991 uses the same layout as mobile (no promo image, flat panel, scrollable filter row) */
   @media(max-width:991px){
-    .best{background:var(--merch-bestbg,#F8F8F8)}   /* merch-admin band color applies on mobile too */
+    .best,body[data-cohort="guest"] .best{background:#fff}   /* mobile: no band color — everything sits on white */
     .best .bestpromo{display:none}                 /* hide left promo */
     .best .bestgrid{padding:18px 0}
     .bestright{padding:0;box-shadow:none;border-radius:0;background:transparent}   /* band color shows around the cards; the cards themselves stay white */
     .besthead{display:flex;margin-bottom:14px}
+    .besthead .va{display:none}   /* no "View all" on mobile Best Picks */
     .bestright .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
     .bestright .filters::-webkit-scrollbar{display:none}
     .bestright .filters .chip-f{flex-shrink:0}
@@ -714,8 +715,8 @@
   .activities .right{border-left:1px solid var(--sh-border);padding-left:40px;display:flex;flex-direction:column}
   .activities .right .linkrow{flex:1}                 /* spread links to fill the column height */
   .activities .right .linkrow:last-child{border-bottom:none}
-  /* mobile: roomier account-link rows, icons sized to match the Lists / Saved Carts group headers (32px) */
-  @media(max-width:767px){
+  /* roomier account-link rows once the column stacks (≤1000px) — matches mobile spacing; icons sized to the Lists / Saved Carts group headers (32px) */
+  @media(max-width:1000px){
     .activities .right{margin-top:36px}
     .activities .right .linkrow{padding:28px 0}
     .activities .right .linkrow.tmrow{padding:28px 0 30px}
@@ -782,7 +783,6 @@
   .actgroup .empty .btn-start:hover{background:#EFF5FD}
   /* right column links */
   .linkrow{display:flex;align-items:center;gap:12px;padding:14px 8px;border-bottom:1px solid var(--sh-border);text-decoration:none}
-  .linkrow:hover{background:#F8F8F8}
   .linkrow .lic{width:30px;height:30px;background:#E7F1F8;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .linkrow .lic .ic{font-size:24px}   /* glyph matches the Lists / Saved Carts group-header icons */
   .linkrow .t{min-width:0}
@@ -1414,6 +1414,11 @@
   #acctGallery .gx.gxhalf{width:calc(50% - 11px)}
   #acctGallery .gcard{border:1px solid var(--sh-border);border-radius:8px;padding:16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);pointer-events:none;min-height:56px}
   #acctGallery .gcard *{pointer-events:none}
+  /* the many-deliveries demo popover scrolls inside a fixed height — re-enable pointer events on just the scroll area so wheel/drag scrolling works (inner links stay inert) */
+  #acctGallery .gcard .dpscroll{pointer-events:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#C4C4C4 transparent}
+  #acctGallery .gcard .dpscroll::-webkit-scrollbar{width:10px}
+  #acctGallery .gcard .dpscroll::-webkit-scrollbar-thumb{background:#C4C4C4;border-radius:5px;border:2px solid #fff}
+  #acctGallery .gcard .dpscroll::-webkit-scrollbar-track{background:transparent}
   #acctGallery .gcard.note{display:flex;gap:10px;align-items:flex-start;min-height:0}
   #acctGallery .gcard.note .noteic{flex-shrink:0;width:22px;height:22px;font-size:22px;color:var(--sh-orange)}
   #acctGallery .gcard.note p{margin:0;font-size:13px;line-height:1.5;color:var(--sh-dark-gray)}
@@ -1763,12 +1768,12 @@
     <div class="atcell">
       <div class="atk">Saved Lists</div>
       <div class="atv"><span id="kLists">15 Lists</span></div>
-      <div class="ats" id="kListsSub">Last Edited: 2/13/26 <a href="#">View</a></div>
+      <div class="ats" id="kListsSub">Latest Update: 05/14/26 <a href="#">View</a></div>
     </div>
     <div class="atcell">
       <div class="atk">Your Carts</div>
       <div class="atv"><span id="kCarts">8 Saved Carts</span></div>
-      <div class="ats" id="kCartsSub">Last Edited: 2/13/26 <a href="#">View</a></div>
+      <div class="ats" id="kCartsSub">Latest Update: 05/14/26 <a href="#">View</a></div>
     </div>
   </div>
 <div class="acctpanel">
@@ -2403,6 +2408,15 @@
   // category tag per item (drives the filter pills); labels match the chip text
   const reorderCat=['Plumbing','Plumbing','Plumbing','Plumbing','Heating','Plumbing','HVAC','Heating','Electrical','Plumbing','Electrical','Heating'];
   const bestCat=['Cables','Copper Fittings','Copper Fittings','Pumps','Copper Fittings','Cables','Pumps','Thermostats','Copper Fittings','Pumps','Copper Fittings','Valves'];
+  // Best Picks: only show chips that actually match at least one card — no dead filters, no empty-state message
+  function pruneBestChips(){
+    const bf=document.getElementById('bfilters'); if(!bf)return;
+    const avail=new Set(bestCat.map(c=>c.toLowerCase()));
+    bf.querySelectorAll('.chip-f').forEach(c=>{
+      const l=c.textContent.trim().toLowerCase();
+      c.style.display=(l==='all'||avail.has(l))?'':'none';
+    });
+  }
   const arrowSvg='<svg class="ic" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>';
   function endCard(count,label){return `<a class="endcard" href="#"><span class="ecbtn">${label}</span></a>`;}
   // skeleton placeholders shown while the page "loads"
@@ -2422,6 +2436,7 @@
       else{el.style.removeProperty('display');const a=Array.from({length:SCN_RECENT},(_,i)=>recent[i%recent.length]);el.innerHTML=a.map((it,i)=>mcard(it,i,recentSave(i))).join('')+endCard('','View all');}
     });
     document.getElementById('bestRail').innerHTML=best.map((it,i)=>fcard(it,i,bestCat[i])).join('');
+    pruneBestChips();
     markTruncatedTitles();
   }
   // product-card titles clamp at 2 lines — when clamped, expose the full name for the hover tooltip
@@ -2476,14 +2491,20 @@
   fillSkelCats();
 
   // right-column account links
-  const links=[['Return/Credit Status','Latest Update: 03/14/24','assignment_return'],['Invoices','Latest Update: 03/14/24','description'],['Quotes','Latest Update: 03/14/24','request_quote'],['Tax Exemption','Latest Update: 03/14/24','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight!','star'],['TradeMaster Program','Learn more about our TradeMaster program!','badge']];
+  const links=[['Return/Credit Status','Latest Update: 05/14/26','assignment_return'],['Invoices','Latest Update: 05/14/26','description'],['Quotes','Latest Update: 05/14/26','request_quote'],['Tax Exemption','Latest Update: 05/14/26','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight!','star'],['TradeMaster Program','Learn more about our TradeMaster program!','badge']];
   const linkIconSrc={assignment_return:'assets/icons/Account_return.svg',description:'assets/icons/Account_invoice.svg',request_quote:'assets/icons/Account_quote.svg',verified_user:'assets/icons/Account_tax.svg'};
   const linkIcon={assignment_return:'<rect x="5" y="4" width="14" height="16"/><path d="M13 9l-3 3 3 3"/><path d="M10 12h5"/>',description:'<path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6M9 16h6"/>',request_quote:'<path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6"/>',verified_user:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><polyline points="9 12 11 14 15 10"/>',school:'<path d="M3 9l9-4 9 4-9 4-9-4z"/><path d="M7 11v5c0 1 2.2 2 5 2s5-1 5-2v-5"/>',star:'<polygon points="12 3 14.5 9 21 9.5 16 14 17.5 20.5 12 17 6.5 20.5 8 14 3 9.5 9.5 9"/>',badge:'<circle cx="12" cy="9" r="5"/><path d="M9 13l-1 8 4-2 4 2-1-8"/>'};
-  document.getElementById('rightlinks').innerHTML=links.map(l=>{
-    const tm=['school','star','badge'].includes(l[2]);   // TradeMaster promo rows: no icon, stacked title/description
-    return tm?`<a class="linkrow tmrow" href="#"><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`
-      :`<a class="linkrow" href="#"><span class="lic"><img src="${linkIconSrc[l[2]]||''}" alt=""></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`;
-  }).join('');
+  let SCN_NAME='full';
+  function renderRightLinks(){
+    const el=document.getElementById('rightlinks'); if(!el)return;
+    el.innerHTML=links.map(l=>{
+      const tm=['school','star','badge'].includes(l[2]);   // TradeMaster promo rows: no icon, stacked title/description
+      const sub=(!tm&&SCN_NAME==='empty')?'No updates yet':l[1];   // brand-new account: nothing has happened on these yet
+      return tm?`<a class="linkrow tmrow" href="#"><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`
+        :`<a class="linkrow" href="#"><span class="lic"><img src="${linkIconSrc[l[2]]||''}" alt=""></span><div class="t"><b>${l[0]}</b><span class="${SCN_NAME==='empty'?'noupd':''}">${sub}</span></div><span class="va">View</span></a>`;
+    }).join('');
+  }
+  renderRightLinks();
 
   // ----- Latest activities: left column (Orders / Lists / Saved carts) -----
   const chev='<svg class="ic chev" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
@@ -2511,16 +2532,16 @@
   function observeThumbs(){if(!thumbsRO)return;document.querySelectorAll('.thumbs[data-total],.dpthumbs[data-total]').forEach(el=>thumbsRO.observe(el));fitThumbs();}
   const groupIcon={orders:'<path d="M9 4h6v2H9z"/><rect x="5" y="6" width="14" height="15"/><path d="M9 11l1.5 1.5L13 10M9 16l1.5 1.5L13 15"/>',list:'<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/>'};
   const groupIconSrc={orders:'assets/icons/Account_order.svg',list:'assets/icons/Account_list.svg',cart:'assets/icons/Account_savedcart.svg'};
-  function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><img src="${groupIconSrc[icon]}" alt=""></span><span class="aht">${label}<span class="ahsub">Latest Update: 03/14/24</span></span><a class="va" href="#">View</a></div>`;}
+  function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><img src="${groupIconSrc[icon]}" alt=""></span><span class="aht">${label}<span class="ahsub">Latest Update: 05/14/26</span></span><a class="va" href="#">View</a></div>`;}
   function orderRow(num,po,date,price,status,statClass,total){return `<a class="arow" href="#"><div class="ti"><b>${num} <span class="po">(PO#: ${po})</span></b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(total)}${chev}</a>`;}
-  function simpleRow(title,date,total){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Last Edited: ${date}</span></div>${actThumbsHTML(total)}${chev}</a>`;}
+  function simpleRow(title,date,total){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Latest Update: ${date}</span></div>${actThumbsHTML(total)}${chev}</a>`;}
   // empty-state illustrations (inline SVG per project convention — no webfont ligatures)
   const emptyImg={lists:'assets/illust_no_list.webp',carts:'assets/illust_no_carts.webp'};
   const emptyCopy={lists:{msg:'No saved lists yet',cta:'Start Creating'},carts:{msg:'No saved carts yet',cta:'Start Creating'}};
   function emptyStateHTML(kind){const c=emptyCopy[kind];return `<div class="empty"><img class="emptyimg" src="${emptyImg[kind]}" alt="" loading="lazy"><p>${c.msg}</p><button type="button" class="btn-start">${c.cta}</button></div>`;}
   // sample rows to draw from when a group has items — Lists and Saved Carts each pull the first N
-  const listItems=[['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5]];
-  const cartItems=[['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5],['RTU – Goodman','2/13/22',5]];
+  const listItems=[['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5]];
+  const cartItems=[['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5]];
   let SCN_LISTS=3, SCN_CARTS=3, SCN_ORDERS=3;
   function renderActLeft(){
     const el=document.getElementById('actLeft'); if(!el)return;
@@ -2910,7 +2931,7 @@
     if(!document.body.classList.contains('apierror'))return;
     document.body.classList.remove('apierror');
     document.querySelectorAll('.errtoast').forEach(t=>t.remove());
-    renderRails();renderCats();renderActLeft();renderNA();markTruncatedTitles();
+    renderRails();renderCats();renderActLeft();renderRightLinks();renderNA();markTruncatedTitles();
     document.body.classList.add('loaded');
     layoutRails();
     ['reorderRail','recentRail','ntmRecentRail','bestRail','naCards'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
@@ -2918,9 +2939,9 @@
   }
   // ---------- edge-case scenario switcher ----------
   const SCENARIOS={
-    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Last Edited: 2/13/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Last Edited: 2/13/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false,listsN:3,cartsN:3},
-    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Last Edited: 6/1/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Last Edited: 6/1/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false,listsN:2,cartsN:1},
-    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true,listsN:0,cartsN:0}
+    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Latest Update: 05/14/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Latest Update: 05/14/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false,listsN:3,cartsN:3,ordersN:3},
+    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Latest Update: 05/14/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Latest Update: 05/14/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false,listsN:2,cartsN:1,ordersN:1},
+    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true,listsN:0,cartsN:0,ordersN:1}
   };
   function limitFilterChips(s){
     const rf=document.getElementById('rfilters'); if(!rf)return;
@@ -2935,6 +2956,7 @@
   }
   function applyScenario(name){
     const s=SCENARIOS[name]||SCENARIOS.full;
+    SCN_NAME=SCENARIOS[name]?name:'full';
     const set=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};
     set('kOrders',s.orders); set('kOrdersSub',s.ordersSub);
     set('kQuotes',s.quotes); set('kQuotesSub',s.quotesSub);
@@ -2944,10 +2966,11 @@
     const rr=document.getElementById('reorderRail'); if(rr)rr.dataset.rows=s.rows;
     const rs=document.getElementById('recentSection'); if(rs)rs.style.display=s.hideRecent?'none':'';
     SCN_REORDER=s.reorderN; SCN_RECENT=s.recentN;
-    SCN_LISTS=s.listsN; SCN_CARTS=s.cartsN;
+    SCN_LISTS=s.listsN; SCN_CARTS=s.cartsN; SCN_ORDERS=(s.ordersN!=null?s.ordersN:3);
     limitFilterChips(s);
     renderRails(); layoutRails();
     renderActLeft();
+    renderRightLinks();
     ['reorderRail','recentRail','ntmRecentRail','bestRail'].forEach(id=>{const r=document.getElementById(id);if(r)r.dispatchEvent(new Event('scroll'));});
   }
   // ---- Card states gallery (documentation view) ----
@@ -3024,18 +3047,22 @@
     }
     // static rendering of the thumbnail hover tooltip (gallery cards are non-interactive)
     const LONG_NAME='Boiler room retrofit \u2013 3rd floor mechanical \u2013 Johnson Controls upgrade phase 2 (Spring 2026)';
-    function longNameRow(ellip){
-      const chip=ellip?`<span style="position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:normal;width:max-content;max-width:280px;line-height:1.35">${LONG_NAME}</span>`:'';
-      return `<div style="padding-top:${ellip?'70px':'0'}"><a class="arow" href="#" style="margin-left:8px"><div class="ti" style="position:relative">${chip}<b${ellip?' class="ellip"':''}>${LONG_NAME}</b><span class="meta">Last Edited: 2/13/26</span></div>${actThumbsHTML(4)}${chev}</a></div>`;
+    function longNameRow(){
+      const chip=`<span style="position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:normal;width:max-content;max-width:280px;line-height:1.35">${LONG_NAME}</span>`;
+      const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
+      const thumbs=`<span style="display:flex;align-items:center;gap:4px;flex-shrink:0;margin-left:auto">${t('187873-1.jpg')}${t('c240a-3.jpg')}${t('th1110u4000honeywellhome01.jpg')}<span style="font-size:16px;color:#777;margin-left:2px">+2</span></span>`;
+      return `<div style="padding-top:70px"><a class="arow" href="#" style="margin-left:8px"><div class="ti" style="position:relative;flex:0 1 auto;min-width:0">${chip}<b class="ellip">${LONG_NAME}</b><span class="meta">Latest Update: 05/14/26</span></div>${thumbs}${chev}</a></div>`;
+    }
+    function longPoRow(){
+      const po='PO-2026-RIVERSIDE-HVAC-PHASE2-BLDG-A-ROOFTOP';
+      const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
+      const thumbs=`<span style="display:flex;align-items:center;gap:4px;flex-shrink:0;margin-left:auto">${t('ridgid-78208-1.jpg')}${t('dwc-100-3.jpg')}${t('pvbvs075g-2.jpg')}<span style="font-size:16px;color:#777;margin-left:2px">+2</span></span>`;
+      return `<a class="arow" href="#"><div class="ti" style="flex:0 1 auto;min-width:0"><b class="ellip" title="112311634 (PO#: ${po})">112311634 <span class="po">(PO#: ${po})</span></b><span class="meta">Order placed: 6/20/26 &middot; $276.96 &middot; <em class="proc">Processing</em></span></div>${thumbs}${chev}</a>`;
     }
     function thumbTipDemo(){
       const chip='<span style="position:absolute;bottom:calc(100% + 10px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:nowrap">1&quot; CxF 90&deg; Drop Ear Elbow</span>';
       const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
       return `<div style="padding:52px 4px 8px"><div style="display:flex;align-items:center;gap:4px"><span style="position:relative">${chip}${t('187873-1.jpg')}</span>${t('c240a-3.jpg')}${t('th1110u4000honeywellhome01.jpg')}${t('ridgid-78208-1.jpg')}<span class="more" style="font-size:16px;color:#777;margin-left:4px">+5</span></div></div>`;
-    }
-    function ordersEmptyProposed(){
-      const icon='<svg viewBox="0 0 64 64" fill="none" stroke="var(--sh-tan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="30" height="6" rx="1"/><rect x="10" y="18" width="38" height="34" rx="2"/><path d="M20 28h18M20 36h12"/></svg>';
-      return `<div class="empty"><span class="emptyicon">${icon}</span><p>No orders yet</p><button type="button" class="btn-start">Start Shopping</button></div>`;
     }
     // real delivery-popover markup, unpinned from its absolute/hidden overlay CSS so it renders in flow
     function deliveryPopoverSnippet(){
@@ -3057,6 +3084,37 @@
         </div>
       </div>`;
     }
+    // edge case: many concurrent orders at once — the popover holds a fixed height and the delivery list scrolls internally, so the header/count stays pinned
+    function deliveryPopoverSnippetMany(){
+      const thumb=(f,n)=>`<span class="t" data-name="${n}"><img src="assets/products/${f}" alt=""></span>`;
+      const rows=[
+        {t:'Arriving Today, Jun 20',o:'194678123',po:'343293583',items:'10 items · Riverside HVAC',pct:82,color:'#5E9A41',stat:'Shipped',sc:'ok',cta:'Track Package',ctaClass:'primary',
+         thumbs:thumb('187873-1.jpg','1&quot; CxF 90&#176; Drop Ear Elbow')+thumb('c240a-3.jpg','1&quot; Copper Coupling CxC')+thumb('th1110u4000honeywellhome01.jpg','Honeywell T1 Pro Thermostat')+'<span class="more">+7</span>'},
+        {t:'Arriving Tue, Jun 25',o:'194678140',po:'343293591',items:'2 items · Maple Ave reno',pct:55,color:'var(--sh-orange)',stat:'Processing',sc:'proc',cta:'View Detail',ctaClass:'ghost',
+         thumbs:thumb('pvbvs075g-2.jpg','3/4&quot; PVC Ball Valve')+thumb('49-16-2451-3.jpg','M12 Copper Tubing Cutter')},
+        {t:'Arriving Wed, Jun 26',o:'194678155',po:'343293604',items:'6 items · Downtown loft',pct:70,color:'#5E9A41',stat:'Shipped',sc:'ok',cta:'Track Package',ctaClass:'primary',
+         thumbs:thumb('ridgid-78208-1.jpg','RIDGID Pipe Wrench 18&quot;')+thumb('dwc-100-3.jpg','Digital Wall Thermostat')+thumb('uei-epc-1.jpg','Electronic Pocket Thermometer')+'<span class="more">+3</span>'},
+        {t:'Arriving Fri, Jun 28',o:'194678172',po:'343293618',items:'4 items · Oakwood service call',pct:30,color:'var(--sh-orange)',stat:'Processing',sc:'proc',cta:'View Detail',ctaClass:'ghost',
+         thumbs:thumb('goodman-glxs3bn3610.jpg','Goodman 3-Ton AC Condenser')+thumb('watts006660601stockdec2025.jpg','Watts Backflow Preventer')},
+        {t:'Arriving Mon, Jul 1',o:'194678190',po:'343293625',items:'1 item · Shop stock',pct:10,color:'var(--sh-orange)',stat:'Pending',sc:'proc',cta:'View Detail',ctaClass:'ghost',
+         thumbs:thumb('e6081128-3.jpg','Copper Fitting Assortment'),last:true}
+      ];
+      const item=r=>`
+        <div class="dpitem"${r.last?' style="border-bottom:none;padding-bottom:8px;margin-bottom:0"':''}>
+          <div class="dptitle">${r.t}</div>
+          <div class="dpmeta">Order#: <a href="#">${r.o}</a> (PO#: ${r.po})</div>
+          <div class="dpmeta">${r.items}</div>
+          <div class="dpprog"><div class="track"><i style="width:${r.pct}%;background:${r.color}"></i></div><span class="dpstat ${r.sc}">${r.stat}</span></div>
+          <div class="dpthumbs">${r.thumbs}</div>
+          <a href="#" class="dpbtn ${r.ctaClass}">${r.cta}</a>
+        </div>`;
+      return `<div class="delivpop" style="position:static;display:block;transform:none;box-shadow:none;width:100%;max-width:100%">
+        <div class="dphead">You have 5 upcoming deliveries.</div>
+        <div class="dpscroll" style="max-height:320px;overflow-y:auto;margin:0 -24px;padding:0 24px">
+          ${rows.map(item).join('')}
+        </div>
+      </div>`;
+    }
     const groups=[
       ['KPI bar — Active Orders',[
         [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span></span>'),'Full — orders + upcoming delivery','Delivery badge shown next to the count when at least one order is en route.',tag('live')],
@@ -3069,13 +3127,14 @@
         [kpiCell('Open Quotes','0 Quotes','No open quotes'),'Empty — no open quotes','',tag('live')],
       ]],
       ['KPI bar — Saved Lists &amp; Your Carts',[
-        [kpiCell('Saved Lists','15 Lists','Last Edited: 2/13/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
+        [kpiCell('Saved Lists','15 Lists','Latest Update: 05/14/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
         [kpiCell('Saved Lists','0 Lists','No saved lists'),'Saved Lists — empty','',tag('live')],
-        [kpiCell('Your Carts','8 Saved Carts','Last Edited: 2/13/26 <a href="#">View</a>'),'Your Carts — populated','',tag('live')],
+        [kpiCell('Your Carts','8 Saved Carts','Latest Update: 05/14/26 <a href="#">View</a>'),'Your Carts — populated','',tag('live')],
         [kpiCell('Your Carts','0 Saved Carts','No saved carts'),'Your Carts — empty','',tag('live')],
       ]],
       ['Upcoming Deliveries popover',[
         [deliveryPopoverSnippet(),'Populated — 2 deliveries','Each item gets its own progress bar, status, and package thumbnails; opens on hover, click, or Enter/Space.',tag('live'),{half:true}],
+        [deliveryPopoverSnippetMany(),'Edge case — 5 deliveries (fixed height, scrolls)','When several orders are en route at once, the popover keeps a fixed height and the delivery list scrolls internally, so the header and count stay pinned. Deliveries are ordered soonest-first. See the "Cap at 3 + View All" note below for the alternative approach.',tag('gap'),{half:true}],
         [note('When there\'s no order in transit, the delivery-badge trigger itself is hidden (tied to the same flag as the KPI badge above) — so there\'s no "empty popover," the entry point just disappears.'),'Hidden entirely when nothing\'s en route','',tag('live'),{cls:'note',half:true}],
         [note('The 8-second auto-dismiss timer only pauses on <code>mouseenter</code>. A keyboard user who opens the popover with Enter has no <code>focusin</code> equivalent to pause the countdown — a WCAG 2.2.1 (Timing Adjustable) risk if real, longer content ships here.'),'No keyboard-equivalent pause for auto-dismiss','',tag('gap'),{cls:'note',half:true}],
         [note('Below 768px the popover renders as a <b>bottom sheet</b>: fixed to the viewport bottom, full width, 16px top radius, drag-handle pill, dimmed scrim (tap to dismiss), slide-up animation, internal scroll capped at 82vh, and safe-area padding for notched phones.'),'Mobile: bottom sheet, not popover','',tag('live'),{cls:'note',half:true}],
@@ -3102,11 +3161,9 @@
       ['Orders — activity feed',[
         [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5)+orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',5)+orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',5),'Populated — multiple statuses','Processing (orange) / Shipped (green) / Delivered (brown) — color plus the status word itself, not color alone.',tag('live'),{half:true}],
         [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',5),'Single order','Same row template; group still renders fine with just one item.',tag('live'),{half:true}],
-        ['<div class="actgroup">'+ordersEmptyProposed()+'</div>','Empty state — proposed','Today the Orders group always shows 3 hardcoded rows, even in the Empty scenario — which contradicts the "0 Orders" KPI above it on the same screen. This is the proposed fix, matching the Lists/Carts pattern.',tag('gap'),{half:true}],
-        [orderRow('112311634','PO-2026-RIVERSIDE-HVAC-PHASE2-BLDG-A-ROOFTOP','6/20/26','$276.96','Processing','proc',5),'Edge case — long PO / job name','Contractors use PO fields for job codes that run long. Recommendation: clamp the title to one line with an ellipsis (<code>text-overflow:ellipsis</code>), keep the full value in a <code>title</code> tooltip and on the order detail page — never let it push the thumbnails off-grid.',tag('gap'),{half:true}],
+        ['<div class="actgroup">'+longPoRow()+'</div>','Edge case — long PO / job name','Contractors use PO fields for job codes that run long. The order line clamps to one line with an ellipsis so the product thumbnails keep their spot on the right — the full PO stays available in a tooltip and on the order detail page.',tag('gap'),{half:true}],
         [thumbTipDemo(),'Thumbnail hover tooltip','Small thumbnails carry no visible product name, so hovering one reveals it in a white rounded chip (truncates with an ellipsis past 200px). Applies to Account Activity rows and the Upcoming Deliveries popover only — product cards already show their title, so they don\'t double up.',tag('live'),{half:true}],
-        ['<div class="actgroup">'+longNameRow(false)+'</div>','Long name — default behavior','User-generated list and cart names have no length limit. Today a long name wraps onto multiple lines, which makes row heights uneven and pushes the thumbnails and chevron around.',tag('live'),{half:true}],
-        ['<div class="actgroup">'+longNameRow(true)+'</div>','Long name — ellipsis truncation','Clamp the name to one line with an ellipsis so every row keeps the same height; hover the truncated name to reveal the full text in the same white rounded tooltip the thumbnails use.',tag('gap'),{half:true}],
+        ['<div class="actgroup">'+longNameRow()+'</div>','Long name — ellipsis truncation','User-generated names have no length limit, so clamp them to one line with an ellipsis — the product thumbnails keep their spot on the right and every row keeps the same height. Hovering the truncated name reveals the full text in the same white rounded tooltip the thumbnails use.',tag('gap'),{half:true}],
         [orderRow('112311634','678909876','6/20/26','$276.96','Shipped','ship',1),'Edge case — single item','A 1-item order shows just its thumbnail: no overflow chip, no empty gaps.',tag('live'),{half:true}],
         [orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',26),'Edge case — 10+ items','The row renders as many thumbnails as physically fit its width and folds the remainder into an accurate &ldquo;+N&rdquo; chip.',tag('live'),{half:true}],
         [note('Thumbnail rows are <b>responsive</b>: visible count is measured against the actual container width (recalculated live via ResizeObserver on any resize or when the popover opens), and the &ldquo;+N&rdquo; chip always equals the true remainder. Demo item counts are randomized per page load (1&ndash;26) so single-item, few-item, and 10+ cases all stay visible in testing instead of every row showing the same &ldquo;4 + 5&rdquo;.'),'Responsive thumbs, randomized demo counts','',tag('live'),{cls:'note',wide:true}],
@@ -3124,7 +3181,7 @@
       ]],
       ['Right-column account links',[
         [links.slice(0,4).map(l=>`<a class="linkrow" href="#"><span class="lic"><img src="${linkIconSrc[l[2]]||''}" alt=""></span><div class="t"><b>${l[0]}</b><span>${l[1]}</span></div><span class="va">View</span></a>`).join(''),'Populated — account links','Return/Credit Status, Invoices, Quotes, Tax Exemption (plus 3 more TradeMaster promo links below, not shown here).',tag('live'),{half:true}],
-        [note('These links and their "Latest update" dates are static and never vary by Scenario — there\'s no modeled empty state (e.g., "No invoices yet" for a brand-new account) and the hardcoded date will read as stale content once this is real data.'),'No empty state / static content risk','',tag('gap'),{cls:'note',wide:true}],
+        [note('In the Empty scenario (brand-new account) the four account links drop their "Latest Update" date and show "No updates yet" instead — a date can\'t exist before any activity. The TradeMaster promo rows keep their static descriptions since they\'re marketing copy, not account data.'),'No updates yet — brand-new account','',tag('live'),{cls:'note',wide:true}],
       ]],
       ['Shared component tokens (normalized across the page)',[
         [note('<b>Links</b> ("View", "View All"): 13px Bold <b style="color:#4186AD">Link/Blue-700 #4186AD</b> everywhere — section headers, feed groups, sidebar, account links. Order numbers stay <b style="color:#07729C">Blue-700 #07729C</b> (they\'re data links, not navigation).'),'Link token','',tag('live'),{cls:'note',wide:true}],
