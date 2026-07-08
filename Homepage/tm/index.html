@@ -165,7 +165,7 @@
   .hero .tbd{position:absolute;right:5%;top:30px;font-size:46px;font-weight:700;color:rgba(255,255,255,.18);letter-spacing:2px}
   /* only set vertical padding; left/right inherit .wrap's 80px so hero text lines up with main content */
   .hero .wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;height:92px;padding-top:0;padding-bottom:12px}
-  .hero h1{font-size:34px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
+  .hero h1{font-size:28px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
   .hero .tmtag{display:inline-flex;align-items:center;border:1px solid #fff;border-radius:8px;padding:7px 8px}
   /* full promo banner backdrop + carousel (non-TM cohorts): whole banner shown behind hero/KPI/reorder, fading to white */
   .herobig{display:none;position:absolute;top:0;left:0;right:0;min-height:800px;z-index:0;overflow:hidden}
@@ -1709,7 +1709,7 @@
 <div class="topblue">
 <section class="hero">
   <div class="wrap">
-    <h1>Built for the Pros</h1>
+    <h1>Your House for Every Job.</h1>
     <span class="tmtag"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" class="tmtag-img"></span>
   </div>
 </section>
@@ -3205,7 +3205,7 @@
     const tag=x=>x==='live'?'<span class="tag live">On the page today</span>':'<span class="tag gap">Recommendation — not yet built</span>';
     const note=html=>`<span class="noteic">${infoSvg}</span><p>${html}</p>`;
     const heroImg=(src,h)=>`<img src="${src}" alt="" style="width:100%;height:${h||'auto'};object-fit:cover;display:block;border-radius:6px">`;
-    const tmSlim=`<div style="background:#0066AD;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:6px"><b style="font-size:19px;font-family:'interstate',var(--sh-font)">Built for the Pros</b><span style="border:1px solid #fff;border-radius:8px;padding:6px 8px;flex-shrink:0"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:9px;display:block"></span></div>`;
+    const tmSlim=`<div style="background:#0066AD;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:6px"><b style="font-size:19px;font-family:'interstate',var(--sh-font)">Your House for Every Job.</b><span style="border:1px solid #fff;border-radius:8px;padding:6px 8px;flex-shrink:0"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:9px;display:block"></span></div>`;
     function repSnip(state){
       const dot=c=>`<span style="width:9px;height:9px;border-radius:50%;background:${c};flex-shrink:0"></span>`;
       let statusLine, phoneColor='#343434', ctas;
@@ -3474,7 +3474,7 @@
     const cratio=(a,b)=>{const l1=relLum(a),l2=relLum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);};
     const DEF={
       'tm':{label:'TM Purchaser',note:'Member — slim hero',active:0,banners:[
-        {size:'short',headline:'Built for the Pros',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:'',tmLogo:true}
+        {size:'short',headline:'Your House for Every Job.',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:'',tmLogo:true}
       ]},
       'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',active:0,banners:[
         {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
