@@ -556,8 +556,8 @@
   .mcard .pr .each{font-size:11px;color:var(--sh-mid-gray)}
   /* save expanders — shared toggle */
   .mcard .boxsave{margin-top:9px}
-  .mcard .boxtoggle{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;width:100%}
-  .mcard .boxtoggle .ic{font-size:14px;transition:transform .15s}
+  .mcard .boxtoggle{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--sh-mid-gray);text-transform:uppercase;letter-spacing:.3px;width:100%}
+  .mcard .boxtoggle .ic{font-size:16px;transition:transform .15s;color:#07729C}
   .mcard .boxtoggle[aria-expanded="true"] .ic{transform:rotate(180deg)}
   .mcard .boxbody{margin-top:8px}
   .mcard .boxbody[hidden]{display:none}
@@ -608,7 +608,8 @@
   .cat .circ{aspect-ratio:1;max-width:140px;margin:0 auto 10px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan);overflow:hidden}
   @media(min-width:1400px){ .cat{font-size:14px} .cat .circ{max-width:160px} }
   .cat .circ img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-  .cat .chevr{color:#4186AD;font-size:1.3em;font-weight:700;line-height:1;vertical-align:-1px}
+  .cat>span:not(.circ){display:inline;line-height:1.35}   /* inline text so the chevron trails the last word (end of 2nd line when wrapping) */
+  .cat .ic{color:#07729C;vertical-align:middle}   /* same chevron arrow as the Bundle section, centered on its text line */
   .cat .circ .ms{font-size:34px}
   .cat:hover .circ{background:var(--sh-light-tan-3)}
   .catsinner{padding:0 40px}   /* align Shop Your Categories with Reorder/Recently content */
@@ -869,7 +870,7 @@
   .rpf .rpf-select.is-disabled{opacity:.3}
   .rpf .rpf-num{width:25px;height:25px;flex-shrink:0;border-radius:50%;border:2px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center}
   .rpf .rpf-lbl{flex:1;font-weight:700;font-size:16px;color:#343434;text-align:left}
-  .rpf .rpf-select .chev{color:var(--sh-dark-gray);font-size:18px}
+  .rpf .rpf-select .chev{color:#07729C;font-size:20px}
   .rpf .rpf-collapse{position:absolute;top:16px;right:18px;background:none;border:none;cursor:pointer;color:var(--sh-tm-blue);display:flex}
   .rpf .rpf-collapse .ic{font-size:20px;stroke-width:2.4}
   @media(min-width:992px) and (max-width:1199px){
@@ -968,8 +969,8 @@
   .ttile{display:flex;flex-direction:column;text-decoration:none}
   .ttile .tbox{background:#F5F5F5;aspect-ratio:1.35/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .ttile .tbox img{width:100%;height:100%;object-fit:contain;display:block}
-  .ttile .tl{font-size:15px;font-weight:700;color:var(--sh-dark-brown);padding:10px 2px 0;display:flex;align-items:center;justify-content:center;gap:5px}
-  .ttile .tl .ic{color:var(--sh-dark-brown)}
+  .ttile .tl{font-size:15px;font-weight:700;color:var(--sh-dark-brown);padding:10px 2px 0;display:flex;align-items:center;justify-content:center;gap:3px}
+  .ttile .tl .ic{color:#07729C}
   @media(min-width:1400px){ .toolsbanner h2{font-size:34px} }
   @media(min-width:1920px){ .toolsbanner h2{font-size:42px} }
 
@@ -1007,7 +1008,8 @@
   .pcard{border:1px solid var(--sh-border);text-align:center;background:#fff;border-radius:8px;overflow:hidden}
   .pcard .pimg{aspect-ratio:1.33/1;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:18px}
   .pcard .pimg img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
-  .pcard .pl{font-size:12px;font-weight:700;color:var(--sh-dark-gray);padding:10px;display:inline-flex;align-items:center;gap:4px}
+  .pcard .pl{font-size:14px;font-weight:700;color:var(--sh-dark-gray);padding:10px;display:inline-flex;align-items:center;gap:2px}
+  .pcard .pl .ic{color:#07729C}
 
   /* brands directory — type + spacing per Figma 981:93703 (desktop) / 981:93705 (mobile) */
   .section.brands{padding:120px 0 80px}   /* Figma: 120 top / 80 bottom */
@@ -1354,7 +1356,8 @@
   #cardGallery .gmobile .mcard .unit{grid-area:buy;flex-direction:column;align-items:flex-end;gap:3px;margin-top:0}
   #cardGallery .gmobile .mcard .pr{text-align:right}   /* right-align price/box/each lines to match the real mobile card */
   #cardGallery .gmobile .mcard .buyunit{width:84px}
-  #cardGallery .gmobile .mcard .boxsave{grid-area:box;margin-top:8px}
+  #cardGallery .gmobile .mcard .boxsave{grid-area:box;margin-top:8px;text-align:right}
+  #cardGallery .gmobile .mcard .boxsave .boxtoggle{justify-content:flex-end;width:100%;text-align:right}   /* right-align the "Box up / Stock up & save" line, matching the real mobile card */
   #cardGallery .gmobile .mcard .boxsave.stock:has([aria-expanded="true"]){margin-left:auto;max-width:200px;width:100%}   /* capped so the tier table doesn't stretch the full row */
   #cardGallery .gmobile .mcard .boxsave.stock:has([aria-expanded="true"]) .boxtoggle{left:auto;right:11px}
   #cardGallery .gmobile .mcard .boxbody .bm{display:inline;white-space:nowrap;margin-left:6px}   /* "$55.00 box of 50" one line */
@@ -1435,6 +1438,9 @@
   #acctGallery .kpi-demo .ats a{font-weight:700;color:#4186AD}
   #acctGallery .kpi-demo .ats .warn{color:var(--sh-dark-gray);font-weight:700}
   #acctGallery .kpi-demo .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;white-space:nowrap;display:inline-block}
+  #acctGallery .kpi-demo .delivgrp{display:inline-flex;align-items:center;gap:6px}
+  #acctGallery .kpi-demo .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:0;color:var(--sh-tm-blue)}
+  #acctGallery .kpi-demo .delivi .ic{font-size:18px}
   @media(max-width:767px){ #acctGallery .ginner{padding:28px 16px 60px} #acctGallery .grow{gap:16px} #acctGallery .gx{width:100%;max-width:340px} #acctGallery .gx.gxhalf{max-width:none} }
 
   /* ===== Hero Banner Admin (toggle view) ===== */
@@ -1554,7 +1560,7 @@
   .guesttop .gt-rpf .rpf-select{display:flex;align-items:center;gap:9px;height:50px;padding:0 16px;border:1px solid var(--sh-border);border-radius:0;background:#fff;cursor:pointer;width:100%}
   .guesttop .gt-rpf .rpf-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;border:1.5px solid #5E9A41;color:#5E9A41;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
   .guesttop .gt-rpf .rpf-lbl{font-weight:700;font-size:15px;color:var(--sh-dark-brown)}
-  .guesttop .gt-rpf .chev{margin-left:auto;color:var(--sh-dark-gray);font-size:18px}
+  .guesttop .gt-rpf .chev{margin-left:auto;color:#07729C;font-size:20px}
   .guesttop .gt-cats,.guesttop .gt-recent{background:#fff;border:1px solid var(--sh-border);border-radius:8px;padding:18px 26px 16px;display:flex;flex-direction:column}
   /* guest shows Top Categories in the grid; NTM Non-Purchaser swaps it for Recently Viewed (Top Categories is reused from the TM Purchaser "Shop Your Categories" section below instead) */
   .guesttop .gt-recent{display:none}
@@ -1829,7 +1835,7 @@
 <!-- SHOP YOUR CATEGORIES + RECENTLY VIEWED (one container) -->
 <div class="wrap acctwrap recentwrap"><div class="acctpanel crpanel"><div>
   <section class="pmod" id="catSection">
-    <div class="pmhead"><h2>Shop Your Categories</h2><span class="sub">Top picks categories for you</span></div>
+    <div class="pmhead"><h2>Shop Your Categories</h2><span class="sub">Top pick categories for you</span></div>
     <div class="cats" id="cats"></div>
   </section>
   <section class="pmod" id="recentSection">
@@ -1942,10 +1948,10 @@
     <img class="timg" src="assets/tool_hero.webp" alt="Pro tools" loading="lazy">
   </div>
   <div class="toolstiles">
-    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_plumbing.webp" alt="" loading="lazy"></span><span class="tl">Plumbing Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_pex.webp" alt="" loading="lazy"></span><span class="tl">PEX Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_hvac.webp" alt="" loading="lazy"></span><span class="tl">HVAC Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_electrial.webp" alt="" loading="lazy"></span><span class="tl">Electrical Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:14px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_plumbing.webp" alt="" loading="lazy"></span><span class="tl">Plumbing Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:18px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_pex.webp" alt="" loading="lazy"></span><span class="tl">PEX Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:18px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_hvac.webp" alt="" loading="lazy"></span><span class="tl">HVAC Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:18px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+    <a class="ttile" href="#"><span class="tbox"><img src="assets/tool_electrial.webp" alt="" loading="lazy"></span><span class="tl">Electrical Tools <svg class="ic" viewBox="0 0 24 24" style="font-size:18px"><polyline points="9 6 15 12 9 18"/></svg></span></a>
   </div>
 </div></div></section>
 
@@ -2459,11 +2465,11 @@
   initPager('naCards');
   markTruncatedTitles();
   const partsRow=document.getElementById('partsRow');
-  partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:13px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
+  partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:17px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
   // categories
   const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp']];
-  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} <span class="chevr">›</span></span></a>`).join('');}
+  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} <svg class="ic" viewBox="0 0 24 24" style="font-size:17px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
   (function(){
     const g=document.getElementById('gtCircles');if(!g)return;
     g.innerHTML=cats.map(c=>`<a href="#"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span class="cl">${c[0]} ›</span></a>`).join('');
@@ -3018,8 +3024,8 @@
         [endCard('','View all'),'End-of-rail card','Closes each rail with a button linking to the full list.'],
       ]],
     ];
-    const mobCards=[mcard(base,0,''),withCart(reorder[2],2),expanded(boxItem,'box'),mcard(mktItem,0,''),mktAfter(mktItem,[4,2,0]),endCard('','View all')].join('');
-    const mobileFigure=`<figure class="gx gxwide"><div class="gmobile"><div class="rail">${mobCards}</div></div><figcaption><b>Mobile list layout (≤767px)</b><span>Cards stack as rows: image left, title/SKU and Add + price on the right, with bulk &amp; marketplace blocks spanning full width below. Ends with the “View all” card.</span></figcaption></figure>`;
+    const mobCards=[mcard(base,0,''),withCart(reorder[2],2),expanded(boxItem,'box'),expanded(stockItem,'stock'),mcard(mktItem,0,''),mktAfter(mktItem,[4,2,0]),endCard('','View all')].join('');
+    const mobileFigure=`<figure class="gx gxwide"><div class="gmobile"><div class="rail">${mobCards}</div></div><figcaption><b>Mobile list layout (≤767px)</b><span>Cards stack as rows: image left, title/SKU and Add + price on the right, with bulk (box-up and stock-up) &amp; marketplace blocks spanning full width below. Ends with the “View all” card.</span></figcaption></figure>`;
     document.getElementById('galleryInner').innerHTML=
       `<div class="ghead"><h1>Product card — states &amp; edge cases</h1><p>Every visual state of the Reorder / Recently-viewed product card in one place. This is a static reference view; switch back with the Scenario toggle to use the live page.</p></div>`
       +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>`<figure class="gx"><div class="gcard">${c[0]}</div><figcaption><b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`).join('')}</div>`).join('')
@@ -3117,14 +3123,14 @@
     }
     const groups=[
       ['KPI bar — Active Orders',[
-        [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span></span>'),'Full — orders + upcoming delivery','Delivery badge shown next to the count when at least one order is en route.',tag('live')],
-        [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>'),'Sparse — single order, no badge','A lone order close to arrival; sub-copy leads with the date instead of a generic CTA.',tag('live')],
+        [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Full — orders + upcoming delivery','Green delivery badge and info icon shown next to the count when at least one order is en route; the icon opens the Upcoming Deliveries popover.',tag('live')],
+        [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Sparse — single order + upcoming delivery','A lone order that\'s en route — same green delivery badge and info icon as the full state; sub-copy leads with the arrival date.',tag('live')],
         [kpiCell('Active Orders','0 Orders','No active orders'),'Empty — no active orders','No link shown — nothing to view.',tag('live')],
       ]],
       ['KPI bar — Open Quotes',[
         [kpiCell('Open Quotes','3 Quotes','<span class="warn">1 expires in 2 days</span> <a href="#">View</a>'),'Full — with expiring-quote warning','The bold warning-colored sub-copy only appears when a quote is close to expiring.',tag('live')],
-        [kpiCell('Open Quotes','1 Quote','<a href="#">View</a>'),'Sparse — single quote, no warning','',tag('live')],
-        [kpiCell('Open Quotes','0 Quotes','No open quotes'),'Empty — no open quotes','',tag('live')],
+        [kpiCell('Open Quotes','1 Quote','Latest Update: 05/14/26 <a href="#">View</a>'),'Sparse — single quote, no warning','Last-updated line precedes the View link when no quote is close to expiring.',tag('live')],
+        [kpiCell('Open Quotes','0 Quotes',''),'Empty — no open quotes','No sub-copy shown — nothing to view.',tag('live')],
       ]],
       ['KPI bar — Saved Lists &amp; Your Carts',[
         [kpiCell('Saved Lists','15 Lists','Latest Update: 05/14/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
