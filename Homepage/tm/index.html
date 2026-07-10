@@ -3712,6 +3712,31 @@
     const cfg=()=>{if(cur==='promo')return data.promo.banner;const c=data[cur];return c.banners[c.active]||c.banners[0];};
     function promoActive(){const pr=data.promo;if(!pr.enabled)return false;const now=Date.now(),st=pr.start?Date.parse(pr.start):-Infinity,en=pr.end?Date.parse(pr.end):Infinity;return now>=st&&now<=en;}
     function promoStatus(){const pr=data.promo;if(!pr.enabled)return['ended','Off'];const now=Date.now(),st=pr.start?Date.parse(pr.start):-Infinity,en=pr.end?Date.parse(pr.end):Infinity;if(now<st)return['sched','Scheduled'];if(now>en)return['ended','Ended'];return['live','Live'];}
+    // ---- real-page-slice preview (identical rendering to the States/Banners page, for a consistent look) ----
+    const PV_END=Date.now()+(14*86400+8*3600+32*60+17)*1000;
+    function pvTds(){const u=l=>`<span class="u"><span class="tdsnum">--</span><span class="ul">${l}</span></span>`;
+      return `<div class="tds"><div class="tds-in"><h2>TradeDay Big Sale!</h2><p class="tds-sub">The most exciting day for trade professionals to stock up.</p>`+
+        `<div class="tds-clock" data-end="${PV_END}">${u('Days')}<span class="sep">:</span>${u('Hours')}<span class="sep">:</span>${u('Mins')}<span class="sep">:</span>${u('Secs')}</div>`+
+        `<a class="tds-btn" href="#">Start Shopping</a><a class="tds-link" href="#">Start Shopping</a></div></div>`;}
+    let PV_SLICE=null;
+    function pvSlice(){if(PV_SLICE)return PV_SLICE;const q=s=>document.querySelector(s),oh=el=>el?el.outerHTML:'';
+      PV_SLICE={hero:oh(q('.topblue')),kpi:oh(q('.acctwrap'))};return PV_SLICE;}
+    const PV_IMG={'guest':['hero_ntm_default_L.webp','hero_ntm_default_S.webp'],'ntm-purchaser':['hero_tm_apply_L.webp','hero_tm_apply_S.webp'],'ntm-nonpurchaser':['hero_tm_apply_L.webp','hero_tm_apply_S.webp'],'ntm-applied':['hero_ntm_default_L.webp','hero_ntm_default_S.webp']};
+    function pvHeroFor(cohort){let h=pvSlice().hero;const im=PV_IMG[cohort];if(im)h=h.replace(/hero_[a-z0-9_]+_L\.webp/g,im[0]).replace(/hero_[a-z0-9_]+_S\.webp/g,im[1]);return h;}
+    const pvTick='<'+'script>function tk(){document.querySelectorAll(".tds-clock[data-end]").forEach(function(el){var s=Math.max(0,Math.floor((+el.dataset.end-Date.now())/1000));var v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60];el.querySelectorAll(".tdsnum").forEach(function(n,i){n.textContent=String(v[i]).padStart(2,"0")})})}tk();setInterval(tk,1000);<'+'/script>';
+    function curItem(){
+      if(cur==='promo')return{type:'promo',cohort:'ntm-purchaser'};
+      const c=cfg();
+      if((promoActive()&&data.promo&&data.promo.targets[cur])||(c&&c.size==='tall'&&/hero_promo2/.test(c.image||'')))return{type:'promo',cohort:'ntm-purchaser'};
+      return{type:'hero',cohort:cur};}
+    function pvDoc(){const s=pvSlice(),it=curItem();
+      const body=it.type==='promo'
+        ?`<div style="background:linear-gradient(180deg,#ef6019 0,#ef6019 500px,#fff 800px)"><div class="tds-wrap">${pvTds()}</div>${s.kpi}</div>`
+        :pvHeroFor(it.cohort);
+      const cls=(document.body.className||'').replace(/\b(gallery|bannergallery|acctstates|banneradmin)\b/g,'').replace(/\s+/g,' ').trim();
+      const links=[...document.querySelectorAll('head link[rel="stylesheet"]')].map(l=>l.outerHTML).join('');
+      const css=document.querySelector('style')?document.querySelector('style').textContent:'';
+      return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${location.href}">${links}<style>${css}</style><style>html,body{margin:0;padding:0;background:#fff;overflow-x:hidden}body{padding-bottom:0!important}</style></head><body class="${cls}" data-cohort="${it.cohort}">${body}${pvTick}</body></html>`;}
     function buildList(){
       const pst=promoStatus();
       list.innerHTML=ORDER.map(k=>{const co=data[k];const ov=promoActive()&&data.promo.targets[k];
@@ -3745,38 +3770,15 @@
       }
       const show=pvDev==='all'?BPS:BPS.filter(b=>b.k===pvDev);
       $('pvArea').innerHTML=show.map(bp=>pvCard(eff,bp)).join('');
-      fitStages();tickCounts();
+      const doc=pvDoc();
+      document.querySelectorAll('#pvArea .pv-fr').forEach(fr=>{fr.srcdoc=doc;});
+      fitStages();
     }
-    // one preview card, rendered at the breakpoint's true width and scaled down to fit
+    // one preview stage: the real page slice rendered in an iframe at the breakpoint's true width, scaled down to fit (same as the States/Banners preview)
     function pvCard(c,bp){
-      const h=SIZES[c.size].h[bp.hk], tc=tcolor(c), mob=!!bp.mob;
-      const img=(c.size!=='short'&&(mob?(c.imageS||c.image):c.image))||'';
-      const fsH=Math.max(14,Math.round(c.h2*bp.fs));
-      const tw=mob?55:(c.textWidth||46);   /* mobile: keep the text block off the right-side graphic */
-      const showIcon=!!c.icon&&(!mob||c.iconMobile!==false);
-      const icW=Math.max(16,Math.round(c.iconSize*(mob?.7:bp.fs)));
-      const tcHex=/^#[0-9a-fA-F]{6}$/.test(tc)?tc:'#FFFFFF';
-      const r=Math.round(cratio(tcHex,c.bg)*10)/10, need=fsH>=24?3:4.5, pass=r>=need;
-      // mobile: no subtext, text block top-aligned with the graphic, button becomes an underlined text link
-      const sub=(c.sub&&c.size!=='short'&&!mob)?`<p style="color:${tc};font-size:${Math.max(12,Math.round(14*bp.fs))}px">${esc(c.sub)}</p>`:'';
-      const note=c.note3?`<img class="pv-note" src="assets/text_in3mins.svg" alt=""${mob?' style="height:22px"':''}>`:'';
-      const cta=c.showBtn?(mob
-        ?`<div class="pv-cta"><a class="pv-link" href="#" style="color:${tc}">${esc(c.btnLabel||'Shop Now')}</a>${note}</div>`
-        :`<div class="pv-cta"><a class="pv-btn" href="#">${esc(c.btnLabel||'Shop Now')}</a>${note}</div>`):'';
-      // countdown clock (Tall banners): ticks live via tickCounts()
-      const cdEnd=c.countdownEnd?Date.parse(c.countdownEnd):Date.now()+3*86400e3;
-      const unit=u=>`<span class="unit"><span class="num">--</span><span class="u">${u}</span></span>`;
-      const count=(c.size==='tall'&&c.countdown)?`<div class="pv-count${mob?' mob':''}" data-end="${cdEnd}" style="color:${tc}"><span class="pclbl">Ends in</span>${unit('Days')}<span class="sep">:</span>${unit('Hrs')}<span class="sep">:</span>${unit('Min')}<span class="sep">:</span>${unit('Sec')}</div>`:'';
-      const icon=showIcon?`<img class="pv-icon" src="${c.icon}" alt="" style="left:${c.iconX}%;top:${c.iconY}%;width:${icW}px">`:'';
-      // TradeMaster chip on the right — mirrors the live TM hero's .tmtag (Short banners only)
-      const tmChip=(c.size==='short'&&c.tmLogo)?`<span style="position:absolute;right:${bp.m}px;top:50%;transform:translateY(-50%);z-index:2;display:inline-flex;align-items:center;border:1px solid ${tc};border-radius:8px;padding:${mob?'5px 6px':'7px 8px'}"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:${mob?'8px':'11px'};display:block${tc==='#111111'?';filter:invert(1)':''}"></span>`:'';
-      return `<div class="ba-preview pv-card"><div class="pv-clip"><div class="pv-stage" data-w="${bp.w}" data-h="${h}" style="width:${bp.w}px;height:${h}px;background:${c.bg}">`+
-        `<div class="pv-inner">${img?`<img class="pv-img" src="${img}" alt="">`:''}<div class="pv-fade" style="background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 52%,${c.bg} 100%)"></div>${icon}${tmChip}`+
-        `<div class="pv-text" style="left:${bp.m}px;max-width:${tw}%${mob?';top:14px;transform:none':''}"><h3 style="font-size:${fsH}px;color:${tc}${mob?';line-height:1.05':''}">${esc(c.headline)}</h3>${sub}${cta}${count}</div></div>`+
-        `</div></div>`+
-        `<div class="pv-meta"><span>${bp.label} <b>@${bp.w}px</b></span><span>Margin <b>${bp.m}px</b></span><span>Band <b>${h}px</b></span><span>Headline <b>${fsH}px</b></span><span>Img <b>${mob?'S':'L'}</b></span>`+
-        `<span>Contrast vs band <b>${r}:1</b> <span class="${pass?'ok':'warn'}">${pass?'AA ✓':'below AA'}</span></span>`+
-        `${mob&&c.icon&&c.iconMobile===false?'<span>icon hidden on mobile</span>':''}</div></div>`;
+      const H=720;
+      return `<div class="ba-preview pv-card"><div class="pv-clip"><iframe class="pv-stage pv-fr" data-w="${bp.w}" data-h="${H}" style="width:${bp.w}px;height:${H}px;border:0;display:block;background:#fff"></iframe></div>`+
+        `<div class="pv-meta"><span>${bp.label} <b>@${bp.w}px</b></span></div></div>`;
     }
     function fitStages(){document.querySelectorAll('#pvArea .pv-clip').forEach(cl=>{if(!cl.clientWidth)return;const st=cl.firstElementChild,w=+st.dataset.w,h=+st.dataset.h,s=Math.min(1,cl.clientWidth/w);st.style.transform='scale('+s+')';cl.style.height=Math.round(h*s)+'px';});}
     // live countdown ticker — updates every .pv-count in the previews once per second
