@@ -838,15 +838,15 @@
   .repband{background:#EFF5FD;border-top:1px solid #C5E0F0;border-bottom:1px solid #C5E0F0}   /* Figma 1726:37054 */
   .repband .wrap{display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:48px;padding:60px 24px}
   .repband .who{display:flex;align-items:center;gap:18px}
-  .repband img{width:136px;height:136px;border-radius:50%;object-fit:cover}
-  .repband .rl{font-size:16px;font-weight:700;line-height:1.6;color:#996A3F}
-  .repband .nm{font-size:34px;font-weight:700;color:var(--sh-dark-gray);line-height:1.2}
-  .repband .wait{display:inline-flex;align-items:center;gap:5px;font-size:14px;color:var(--sh-dark-gray);margin:5px 0 6px}
-  .repband .wait .dot{width:10px;height:10px;border-radius:50%;background:#5E9A41;display:inline-block}
-  .repband .num{font-size:30px;font-weight:700;line-height:1.2;color:var(--sh-dark-gray)}
-  .repband .num small{font-size:14px;font-weight:400;color:var(--sh-dark-gray);margin-left:6px}
+  .repband img{width:104px;height:104px;border-radius:50%;object-fit:cover}
+  .repband .rl{font-size:13px;font-weight:700;line-height:1.5;color:#996A3F}
+  .repband .nm{font-size:24px;font-weight:700;color:var(--sh-dark-gray);line-height:1.2}
+  .repband .wait{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--sh-dark-gray);margin:4px 0 5px}
+  .repband .wait .dot{width:9px;height:9px;border-radius:50%;background:#5E9A41;display:inline-block}
+  .repband .num{font-size:22px;font-weight:700;line-height:1.2;color:var(--sh-dark-gray)}
+  .repband .num small{font-size:12px;font-weight:400;color:var(--sh-dark-gray);margin-left:6px}
   .repband .repright{border-left:1px solid #C4C4C4;padding-left:80px}
-  .repband .blurb{font-size:20px;line-height:1.4;color:var(--sh-black);margin-bottom:12px}
+  .repband .blurb{font-size:15px;line-height:1.4;color:var(--sh-black);margin-bottom:12px}
   .repband .acts{display:flex;gap:12px;max-width:640px}
   .repband .acts .btn{flex:1;height:50px;font-size:13px;text-transform:uppercase;letter-spacing:0;line-height:1.6}
   .repband .acts .mob-call,.repband .acts .mob-text{display:none}   /* Call / Send Text are mobile-only */
@@ -1195,7 +1195,7 @@
     /* mobile rep banner per Figma 1855:51559: compact type, blue phone, no wait time, 4 stacked 40px buttons */
     .repband .who{align-items:center;gap:14px}
     .repband img{width:84px;height:84px}
-    .repband .wait{display:inline-flex;font-size:14px;margin:2px 0 4px}   /* wait time shown on mobile per Figma 986:31699 */
+    .repband .wait{display:inline-flex;font-size:11px;margin:2px 0 4px}   /* smaller wait/offline status on mobile */
     .repband .rl{font-size:13px;line-height:1.4}
     .repband .nm{font-size:20px}
     .repband .num{font-size:20px;color:var(--sh-blue);margin-top:2px}
@@ -3360,15 +3360,15 @@
       const dot=c=>`<span style="width:9px;height:9px;border-radius:50%;background:${c};flex-shrink:0"></span>`;
       let statusLine, phoneColor='#343434', ctas;
       if(state==='online'){statusLine=`${dot('#5E9A41')}Est. wait time: 5 min`;ctas=`<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px">Email Larry</span><span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border-radius:2px">Request a Quote</span>`;}
-      else{statusLine=`${dot('#C4C4C4')}<span style="color:#ACACAC">Offline — back tomorrow at 7 AM</span>`;phoneColor='#ACACAC';ctas=`<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px">Email Larry</span><span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border-radius:2px">Request a Quote</span>`;}
+      else{statusLine=`${dot('#C4C4C4')}<span style="color:#ACACAC">Offline — back tomorrow at XX AM</span>`;phoneColor='#ACACAC';ctas=`<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px">Email Larry</span><span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border-radius:2px">Request a Quote</span>`;}
       return `<div style="background:#EFF5FD;border:1px solid #C5E0F0;border-radius:8px;padding:16px">
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
           <img src="assets/help_img_tm_larry.png" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
           <div style="min-width:0">
             <div style="font-size:11px;font-weight:700;color:#996A3F">Your Dedicated Rep</div>
             <div style="font-size:20px;font-weight:700;color:#343434;line-height:1.15">Larry</div>
-            <div style="font-size:12px;color:#343434;display:flex;align-items:center;gap:5px;margin-top:2px">${statusLine}</div>
-            <div style="font-size:17px;font-weight:700;color:${phoneColor};margin-top:2px">516-310-0227</div>
+            <div style="font-size:10px;color:#343434;display:flex;align-items:center;gap:5px;margin-top:2px">${statusLine}</div>
+            <div style="font-size:16px;font-weight:700;color:${phoneColor};margin-top:2px">516-310-0227</div>
           </div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">${ctas}</div>
@@ -3386,7 +3386,7 @@
           <div style="min-width:0">
             <div style="font-size:11px;font-weight:700;color:#996A3F">Your Dedicated Rep</div>
             <div style="font-size:18px;font-weight:700;color:#343434;line-height:1.15">Larry</div>
-            <div style="font-size:12px;display:flex;align-items:center;gap:5px;margin-top:2px"><span style="width:9px;height:9px;border-radius:50%;background:#C4C4C4;flex-shrink:0"></span><span style="color:#ACACAC">Offline — back tomorrow at 7 AM</span></div>
+            <div style="font-size:12px;display:flex;align-items:center;gap:5px;margin-top:2px"><span style="width:9px;height:9px;border-radius:50%;background:#C4C4C4;flex-shrink:0"></span><span style="color:#ACACAC">Offline — back tomorrow at XX AM</span></div>
             <div style="font-size:16px;font-weight:700;color:#ACACAC;margin-top:2px">516-310-0227</div>
           </div>
         </div>
@@ -3407,9 +3407,9 @@
         [note('Mobile (&le;767px): the S image variant loads, the text block top-aligns and narrows to ~55% so it clears the graphic, the boxed CTA becomes an underlined text link, and the headline steps down to half the desktop size.'),'Mobile behaviors','',tag('live'),{cls:'note',half:true}],
       ]],
       ['Dedicated Rep banner (Larry)',[
-        [repSnip('online'),'Online — within business hours','Green dot + live wait estimate. Call/Text is the fastest path, Email Larry is the primary button.',tag('live'),{half:true}],
-        [repSnip('offline'),'Offline — after hours / weekends','Gray dot + when Larry is back; status and phone number lighten. Email stays primary (async works offline); CTAs stay unchanged. Never show a live wait time you can\'t honor.',tag('gap'),{half:true}],
-        [repSnipMobile(),'Offline — mobile','The stacked mobile layout with Call Larry and Send Text disabled after hours; Email keeps the primary slot and Request a Quote stays available.',tag('gap'),{half:true}],
+        [repSnip('online'),'Online — within business hours','Green dot + live wait estimate. Call/Text is the fastest path, Email Larry is the primary button.',tag('live'),{half:true,pvType:'repband',pvCohort:'tm'}],
+        [repSnip('offline'),'Offline — after hours / weekends','Gray dot + when Larry is back; status and phone number lighten. Email stays primary (async works offline); CTAs stay unchanged. Never show a live wait time you can\'t honor.',tag('gap'),{half:true,pvType:'repband',pvCohort:'tm',pvOffline:true}],
+        [repSnipMobile(),'Offline — mobile','The stacked mobile layout with Call Larry and Send Text disabled after hours; Email keeps the primary slot and Request a Quote stays available.',tag('gap'),{half:true,pvType:'repband',pvCohort:'tm',pvOffline:true,pvw:375}],
         [note('State source: rep working hours + presence. Rules — the status word always accompanies the dot color (WCAG 1.4.1); offline keeps the same CTAs but disables live channels (call/text); if the rep is out for an extended period (vacation), show the covering rep instead of a permanent offline state.'),'Status rules','',tag('gap'),{cls:'note',half:true}],
       ]],
       ['Other banners',[
@@ -3424,7 +3424,7 @@
       +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>{
         const opts=c[4]||{};
         let btn='';
-        if(opts.cls!=='note'){const idx=PVMAP.push({title:c[1],html:opts.pv||c[0],w:opts.pvw||1280,type:opts.pvType||'standalone',cohort:opts.pvCohort||'guest'})-1;
+        if(opts.cls!=='note'){const idx=PVMAP.push({title:c[1],html:opts.pv||c[0],w:opts.pvw||1280,type:opts.pvType||'standalone',cohort:opts.pvCohort||'guest',offline:!!opts.pvOffline})-1;
           btn=`<button class="pvbtn" data-pv="${idx}" type="button">${pvIcon}Preview at breakpoints</button>`;}
         return `<figure class="gx${opts.half?' gxhalf':opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span>${btn}</figcaption></figure>`;
       }).join('')}</div>`).join('');
@@ -3444,7 +3444,7 @@
     function grabSlice(){ if(SLICE)return SLICE;
       PGCSS=document.querySelector('style')?document.querySelector('style').textContent:'';
       const q=s=>document.querySelector(s), oh=el=>el?el.outerHTML:'';
-      SLICE={hero:oh(q('.topblue')), kpi:oh(q('.acctwrap')), guest:oh(q('.guesttop'))};   // .acctwrap already wraps the KPI bar + Reorder panel
+      SLICE={hero:oh(q('.topblue')), kpi:oh(q('.acctwrap')), guest:oh(q('.guesttop')), rep:oh(q('.repband'))};   // .acctwrap already wraps the KPI bar + Reorder panel
       return SLICE; }
     const HERO_IMG={'guest':['hero_ntm_default_L.webp','hero_ntm_default_S.webp'],'ntm-purchaser':['hero_tm_apply_L.webp','hero_tm_apply_S.webp'],'ntm-nonpurchaser':['hero_tm_apply_L.webp','hero_tm_apply_S.webp'],'ntm-applied':['hero_ntm_default_L.webp','hero_ntm_default_S.webp']};
     function heroFor(cohort){let h=grabSlice().hero; const im=HERO_IMG[cohort];
@@ -3456,6 +3456,10 @@
       // .topblue already contains hero + KPI bar + Reorder + guesttop, so it's the whole slice — don't append them again
       if(it.type==='promo'){body=`<div style="background:linear-gradient(180deg,#ef6019 0,#ef6019 500px,#fff 800px)"><div class="tds-wrap">${tdsBanner()}</div>${s.kpi}</div>`;}
       else if(it.type==='hero'){body=heroFor(it.cohort);}
+      else if(it.type==='repband'){let rep=s.rep;
+        if(it.offline){rep=rep.replace('Est. wait time: 5 min','<span style="color:#ACACAC">Offline — back tomorrow at XX AM</span>').replace('class="dot"','class="dot" style="background:#C4C4C4"').replace('class="num"','class="num" style="color:#ACACAC"').replace('<small>Call or Text</small>','<small style="color:#ACACAC">Call or Text</small>')
+          .replace('class="btn btn-primary mob-call"','class="btn mob-call" style="background:#E7EAED;color:#ACACAC;border:none;box-shadow:none;pointer-events:none"').replace('class="btn btn-ghost mob-text"','class="btn mob-text" style="background:#E7EAED;color:#ACACAC;border:none;box-shadow:none;pointer-events:none"');}
+        body=rep;}   // the real Dedicated-Rep banner, full width (actual size)
       else{body=`<div class="wrap" style="padding:28px 0">${it.html}</div>`;}
       // copy the live body's hydration classes (mode-topbar, loaded, …) so KPI/Reorder render as on the real page; drop the states-view classes
       const cls=(document.body.className||'').replace(/\b(gallery|bannergallery|acctstates|banneradmin)\b/g,'').replace(/\s+/g,' ').trim();
