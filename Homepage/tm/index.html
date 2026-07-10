@@ -185,22 +185,21 @@
   .herobig .hbdots{display:none}
   .herobig .hbdots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(0,0,0,.3);cursor:pointer;padding:0}
   .herobig .hbdots button.on{background:var(--sh-dark-gray)}
-  .herobig .hbtext{position:absolute;left:80px;top:108px;transform:translateY(-50%);z-index:2;max-width:min(44%,340px);pointer-events:none}
+  .herobig .hbtext{position:absolute;left:6%;top:108px;transform:translateY(-50%);z-index:2;max-width:min(44%,340px);pointer-events:none}
   .herobig .hbtext h2{font-size:clamp(18px,2.7vw,34px);font-weight:700;color:#111;line-height:1.12;margin:0;font-family:'interstate',var(--sh-font)}
   .herobig .hbtext p{font-size:clamp(12px,1.15vw,14px);line-height:1.3;color:var(--sh-dark-gray);margin:6px 0 0}
   /* hero text container follows the canonical page margins; arrows shrink toward the edge below 1400px
      so the chevron always stays inside the margin gutter and never covers text or image */
-  @media(min-width:1400px) and (max-width:1599px){ .herobig .hbtext{left:52px} }
-  @media(min-width:1200px) and (max-width:1399px){ .herobig .hbtext{left:32px} }
-  @media(min-width:992px) and (max-width:1199px){ .herobig .hbtext{left:20px} }
-  @media(max-width:991px){ .herobig .hbtext{left:16px} }
+  /* hero banner text uses a 6% left inset (matches the promo banner); tighter fixed inset ≤991px */
+  @media(max-width:991px){ .herobig .hbtext{left:24px} }
   @media(max-width:1399px){ .herobig .hbchev{width:22px;height:22px} .herobig .hbarrow{padding:4px} .herobig .hbarrow.prev{left:2px} .herobig .hbarrow.next{right:2px} }   /* glyph 6-28px inside the 32px gutter */
   @media(max-width:1199px){ .herobig .hbchev{width:16px;height:16px} .herobig .hbarrow{padding:3px} .herobig .hbarrow.prev{left:0} .herobig .hbarrow.next{right:0} }        /* glyph 3-19px inside the 20px gutter */
-  @media(max-width:991px){ .herobig .hbchev{width:14px;height:14px} .herobig .hbarrow{padding:2px} }                                                                        /* glyph 2-16px inside the 16px gutter */
+  @media(max-width:991px){ .herobig .hbarrow{display:none} }                                                                        /* no carousel side arrows ≤991px */
   /* two overlay variants: "shop" (Guest, light banner) and "apply" (NTM, blue banner) */
   .herobig .hbtext-apply{display:none;max-width:min(46%,430px)}
   .herobig .hbtext-apply h2{color:#fff}
   .herobig .hbtext-apply p{color:#dce9f3}
+  .herobig .hbtext .hbsub-m{display:none}   /* short benefit sub-line — mobile only (desktop shows the full paragraph) */
   .herobig .hbcta{display:flex;align-items:center;gap:14px;margin-top:14px}
   .herobig .hbbtn{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 24px;pointer-events:auto;flex-shrink:0}
   .herobig .hbbtn:hover{background:#EFF5FD}
@@ -222,19 +221,24 @@
   /* cohort visibility: TM keeps the slim hero; others get the promo banner backdrop */
   body[data-cohort="ntm-purchaser"] .hero,
   body[data-cohort="ntm-nonpurchaser"] .hero,
+  body[data-cohort="ntm-applied"] .hero,
   body[data-cohort="guest"] .hero{display:none}
   body[data-cohort="ntm-purchaser"] .herobig,
   body[data-cohort="ntm-nonpurchaser"] .herobig,
+  body[data-cohort="ntm-applied"] .herobig,
   body[data-cohort="guest"] .herobig{display:block}
   body[data-cohort="ntm-purchaser"] .topblue,
   body[data-cohort="ntm-nonpurchaser"] .topblue,
+  body[data-cohort="ntm-applied"] .topblue,
   body[data-cohort="guest"] .topblue{background:#fff;padding-top:220px}
   /* beyond 1920 the banner image is capped; edge color fills the rest */
-  body[data-cohort="guest"] .herobig{background:#E2CCB8}
+  body[data-cohort="ntm-applied"] .herobig,
+  body[data-cohort="guest"] .herobig{background:#E2CCB8}   /* NTM-applied inherits the Guest banner (tan edge + default image) */
   body[data-cohort="ntm-purchaser"] .herobig,
   body[data-cohort="ntm-nonpurchaser"] .herobig{background:#0468AF}
   body[data-cohort="ntm-purchaser"] .topblue>.wrap,
   body[data-cohort="ntm-nonpurchaser"] .topblue>.wrap,
+  body[data-cohort="ntm-applied"] .topblue>.wrap,
   body[data-cohort="guest"] .topblue>.wrap{position:relative;z-index:1}
   body[data-cohort="guest"] .guesttop,
   body[data-cohort="ntm-nonpurchaser"] .guesttop{position:relative;z-index:1;padding-top:0}   /* must sit above .herobig's absolutely-positioned banner, or its content renders invisibly behind it */
@@ -247,14 +251,18 @@
   @media(max-width:767px){
     body[data-cohort="ntm-purchaser"] .topblue,
     body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="ntm-applied"] .topblue,
     body[data-cohort="guest"] .topblue{padding-top:96px}   /* shorter banner band; rest sits behind the KPI section */
     .herobig{min-height:360px}
-    .herobig::after{background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 55%,#fff 100%)}
+    .herobig::after{background:none}   /* mobile: no white-fade gradient — clean solid banner background */
     .herobig .hbarrow{top:48px}   /* size/edge offsets inherit from the ≤991px arrow rules */
     .herobig .hbdots{display:none}
-    .herobig .hbtext{top:48px;max-width:min(58%,230px)}
-    .herobig .hbtext h2{line-height:1.05}
-    .herobig .hbtext p{display:none}   /* headline only on mobile */
+    .herobig .hbtext{top:48px;left:20px;max-width:min(58%,230px)}
+    .herobig .hbtext h2{font-size:14px;line-height:1}
+    .herobig .hbtext-shop{max-width:min(52%,200px)}   /* Guest default: narrower text block so it clears the graphic on the right */
+    .herobig .hbtext-shop h2{font-size:16px}          /* Guest default: slightly bigger headline */
+    .herobig .hbtext p{display:none;line-height:1.15}   /* full paragraph hidden on mobile */
+    .herobig .hbtext-apply .hbsub-m{display:block;font-size:11px;line-height:1.2;color:#dce9f3;margin-top:4px}   /* short benefit sub-line shown on mobile */
     .herobig .hbcta{margin-top:8px;gap:10px}
     .herobig .hbbtn{background:none;color:#fff;height:auto;padding:0;font-size:11px;letter-spacing:.3px;text-decoration:underline}   /* underlined text link on mobile */
     .herobig .hbbtn:hover{background:none;color:#fff}
@@ -263,6 +271,7 @@
   @media(min-width:768px) and (max-width:991px){
     body[data-cohort="ntm-purchaser"] .topblue,
     body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="ntm-applied"] .topblue,
     body[data-cohort="guest"] .topblue{padding-top:150px}   /* shorter banner band at tablet */
     .herobig .hbarrow{top:72px}
     .herobig .hbdots{top:130px}
@@ -271,6 +280,7 @@
   @media(max-width:400px){
     body[data-cohort="ntm-purchaser"] .topblue,
     body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="ntm-applied"] .topblue,
     body[data-cohort="guest"] .topblue{padding-top:68px}   /* shortest banner band on small phones */
     .herobig .hbarrow{top:34px}
     .herobig .hbtext{top:34px}
@@ -282,6 +292,7 @@
   @media(min-width:992px) and (max-width:1199px){
     body[data-cohort="ntm-purchaser"] .topblue,
     body[data-cohort="ntm-nonpurchaser"] .topblue,
+    body[data-cohort="ntm-applied"] .topblue,
     body[data-cohort="guest"] .topblue{padding-top:170px}   /* shorter banner band around 1000px */
     .herobig .hbarrow{top:82px}
     .herobig .hbdots{top:150px}
@@ -318,8 +329,8 @@
   .accttop .atlabel .ic{font-size:24px;color:var(--sh-dark-brown)}
   .accttop .atlabel .athome{align-self:center;transform:translateY(-8px)}
   .accttop .atlabel .athome img{width:24px;height:24px}   /* optically align the home icon with the first text line ("Welcome, Tommy!") */
-  .accttop .atwelcome b{display:block;font-size:16px;font-weight:700;line-height:1.2;color:var(--sh-dark-brown)}
-  .accttop .atwelcome small{font-size:12px;line-height:1.3;color:var(--sh-mid-gray)}
+  .accttop .atwelcome b{display:block;font-size:16px;font-weight:700;line-height:1.1;color:var(--sh-dark-brown)}
+  .accttop .atwelcome small{display:block;margin-top:3px;font-size:12px;line-height:1.05;color:var(--sh-mid-gray)}
   .accttop .atcell{flex:1;min-width:0;padding:20px 18px;display:flex;flex-direction:column;justify-content:center;position:relative}
   /* skeleton shimmer on the KPI boxes until the page hydrates */
   body:not(.loaded) .accttop .atcell>*{visibility:hidden}
@@ -333,15 +344,15 @@
   @keyframes skelpulse{0%,100%{opacity:1}50%{opacity:.45}}
   .accttop .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:4px}
   .accttop .atv{font-size:24px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
-  .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
-  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:10px;margin:-10px;color:var(--sh-tm-blue);cursor:pointer}   /* padding+negative margin = bigger hover/click target, no layout shift */
+  .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 6px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
+  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:6px;margin:-6px;color:var(--sh-tm-blue);cursor:pointer}   /* padding+negative margin = bigger hover/click target, no layout shift */
   .accttop .delivi .ic{font-size:18px}
   .accttop .ats{font-size:12px;line-height:1.2;color:var(--sh-mid-gray);margin-top:4px}
   .accttop .ats a{font-weight:700;color:#4186AD}
   .accttop .ats .warn{color:var(--sh-dark-gray);font-weight:700}
   .delivwrap{display:inline-flex;align-items:center}
   /* upcoming-delivery popover */
-  .delivgrp{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .delivgrp{display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
   .delivwrap{position:relative;display:inline-block}
   /* Upcoming Deliveries popover — styled per Figma 1589:110647 */
   .delivpop{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);width:414px;max-width:92vw;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.20);padding:24px;z-index:5000;display:none;text-transform:none;text-align:left}
@@ -366,7 +377,7 @@
   .dpthumbs .more{font-size:16px;color:#777;font-weight:400;margin-left:4px}
   /* mobile: the popover becomes a bottom sheet — fixed to the viewport bottom, full width, scrim behind, drag handle on top */
   @media(max-width:767px){
-    .delivpop{position:fixed;top:auto;bottom:0;left:0;right:0;transform:none;width:100%;max-width:100%;border:none;border-radius:16px 16px 0 0;max-height:82vh;overflow-y:auto;padding:26px 16px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25),0 0 0 100vmax rgba(0,0,0,.45)}
+    .delivpop{position:fixed;top:auto;bottom:0;left:0;right:0;transform:none;width:100%;max-width:100%;border:none;border-radius:0;max-height:82vh;overflow-y:auto;padding:26px 16px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25),0 0 0 100vmax rgba(0,0,0,.45)}
     .delivpop::before{top:8px;left:50%;transform:translateX(-50%);width:40px;height:4px;border-radius:2px;background:#DCDCDC;border:none}   /* caret becomes a drag handle */
     .delivpop.show{animation:dpSlideUp .28s ease-out}
     .dpclose{top:16px;right:12px}
@@ -414,22 +425,33 @@
     .accttop .atbadge{font-size:11px;padding:2px 7px}
     .accttop .ats{font-size:11px;margin-top:5px}
   }
-  @media(min-width:768px) and (max-width:980px){
-    .accttop .atlabel{display:none}              /* reclaim space at the tightest widths */
-    .accttop .atcell{padding:10px 12px}
-    .accttop .atv{font-size:16px}
+  @media(min-width:768px) and (max-width:991px){
+    .accttop .atlabel{flex:1;padding:10px 12px;gap:8px}   /* Welcome stays in the row; text wraps to fit */
+    .accttop .atlabel .athome{transform:none}
+    .accttop .atcell{flex:1;padding:10px 12px}
+    .accttop .atv{font-size:16px;line-height:1.05}
+    .accttop .atk{line-height:1.1}
+    .accttop .ats{line-height:1.2}
+    .accttop .atwelcome b{line-height:1}
+    .accttop .atwelcome small{line-height:1}
   }
   /* top bar on mobile: 2-up grid of boxes with chevrons, welcome on the blue */
   @media(max-width:767px){
     .topblue{background:linear-gradient(180deg,#0066AD 0,#0066AD 300px,var(--sh-white) 360px)}
-    body.mode-topbar .accttop{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+    body.mode-topbar .accttop{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}   /* 16px below the KPI boxes */
     /* welcome: white text directly on the blue, full width */
     .accttop .atlabel{grid-column:1/-1;background:transparent;box-shadow:none;border-radius:0;border-top:1px solid rgba(255,255,255,.3);padding:7px 2px 0;align-items:center;gap:6px}
     .accttop .atlabel .ic{color:#fff;font-size:20px}
     .accttop .atlabel .athome{transform:none}
-    .accttop .atlabel .athome img{width:16px;height:16px;filter:brightness(0) invert(1)}   /* white on the blue band */
-    .accttop .atwelcome b{display:inline;color:#fff;font-size:14px}
-    .accttop .atwelcome small{color:#cfe0ec;margin-left:6px}
+    .accttop .atlabel .athome img{width:14px;height:14px;filter:brightness(0) invert(1)}   /* white on the blue band */
+    .accttop .atwelcome b{display:inline;color:#fff;font-size:13px}
+    .accttop .atwelcome small{display:inline;margin-top:0;color:#fff;opacity:.7;margin-left:6px}
+    /* NTM-applied shows the light shop/default banner — Welcome text + icon go dark to match its (dark) hero headline */
+    body[data-cohort="ntm-applied"] .accttop .atlabel{border-top-color:rgba(0,0,0,.15)}
+    body[data-cohort="ntm-applied"] .accttop .atlabel .ic,
+    body[data-cohort="ntm-applied"] .accttop .atwelcome b,
+    body[data-cohort="ntm-applied"] .accttop .atwelcome small{color:#111}
+    body[data-cohort="ntm-applied"] .accttop .atlabel .athome img{filter:brightness(0)}
     /* KPI boxes — chevron on the right, no inline View links */
     .accttop .atcell{position:relative;max-height:none;padding:13px 32px 13px 15px}
     .accttop .atcell::after{content:"";position:absolute;right:15px;top:50%;width:9px;height:9px;border-top:2px solid var(--sh-tm-blue);border-right:2px solid var(--sh-tm-blue);transform:translateY(-50%) rotate(45deg)}
@@ -1164,7 +1186,7 @@
     .filterrow .chip-f{flex-shrink:0}
   }
   @media(max-width:767px){
-    .hero h1{font-size:20px}
+    .hero h1{font-size:16px;line-height:1.05}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
     .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 28px}   /* 28px side inset per Figma 986:31699 */
@@ -1214,7 +1236,7 @@
     .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
     .section{padding:24px 0 40px}   /* 40px below each section's content */
     .bestgrid{padding:20px 0;gap:16px}
-    .hero h1{font-size:20px}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
+    .hero h1{font-size:16px;line-height:1.05}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
     .tmtag-img{height:7px}
     body.mode-topbar .accttop{margin:0 0 4px}
     .acctpanel{margin-top:0}
@@ -1380,6 +1402,7 @@
   body.bannergallery>*{display:none!important}
   body.bannergallery>#bannerGallery{display:block!important}
   body.bannergallery>.modetoggle{display:flex!important}
+  body.bannergallery>#bpvModal.show{display:flex!important}   /* preview modal must win over the view's blanket hide of body children */
   #bannerGallery .ginner{max-width:1180px;margin:0 auto;padding:48px 40px 90px}
   #bannerGallery .ghead h1{font-size:30px;font-weight:700;color:var(--sh-dark-brown);margin:0 0 6px;font-family:'interstate',var(--sh-font)}
   #bannerGallery .ghead p{font-size:15px;color:var(--sh-mid-gray);margin:0 0 8px;max-width:760px}
@@ -1407,6 +1430,74 @@
   #bannerGallery .kpi-demo .ats .warn{color:var(--sh-dark-gray);font-weight:700}
   #bannerGallery .kpi-demo .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 9px;white-space:nowrap;display:inline-block}
   @media(max-width:767px){ #bannerGallery .ginner{padding:28px 16px 60px} #bannerGallery .grow{gap:16px} #bannerGallery .gx{width:100%;max-width:340px} #bannerGallery .gx.gxhalf{max-width:none} }
+  /* ===== TradeDay tall promo banner — container-query responsive (reflows to its own width, in the card + preview) ===== */
+  .tds-wrap{container-type:inline-size;width:100%;background:#ef6019}   /* solid #ef6019 fills the sides beyond the 1920 banner cap */
+  /* only a thin bottom edge fades into #ef6019 (keeps the image visible on top of the orange while still softening the seam into the bottom wash) */
+  .tds{position:relative;width:100%;max-width:1920px;margin:0 auto;height:500px;overflow:hidden;background:linear-gradient(180deg,rgba(239,96,25,0) 90%,#ef6019 100%),url('assets/banner/hero_promo2_L.webp') right top/cover no-repeat,#ef6019;font-family:'interstate',var(--sh-font)}
+  .tds .tds-in{position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:46%;z-index:2;color:#fff}
+  /* fluid type — scales smoothly with the banner width (same idea as the .hbtext hero banners' clamp() sizing) */
+  .tds h2{margin:0;font-size:clamp(34px,3.9cqw,58px);font-weight:700;line-height:1.05;font-family:'interstate',var(--sh-font)}
+  .tds .tds-sub{margin:12px 0 0;font-size:clamp(13px,1.4cqw,16px);line-height:1.3;color:#FCE7DB;font-family:var(--sh-font),sans-serif}
+  .tds-clock{display:flex;align-items:flex-start;gap:8px;margin:clamp(14px,1.9cqw,20px) 0 0}
+  .tds-clock .u{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .tds-clock .tdsnum{min-width:clamp(40px,4.2cqw,54px);padding:8px 7px;background:rgba(18,24,30,.82);border-radius:8px;font-size:clamp(18px,2.1cqw,27px);font-weight:700;line-height:1;text-align:center;font-variant-numeric:tabular-nums}
+  .tds-clock .ul{font-size:clamp(8px,.8cqw,10px);font-weight:700;letter-spacing:.5px;opacity:.9}
+  .tds-clock .sep{align-self:flex-start;margin-top:clamp(6px,.9cqw,9px);font-size:clamp(17px,1.8cqw,24px);font-weight:700;opacity:.55}
+  .tds-btn{display:inline-flex;align-items:center;justify-content:center;margin-top:22px;background:#0A6C97;color:#fff;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;height:44px;padding:0 30px;text-decoration:none}
+  .tds-link{display:none}
+  /* ≤1399px: slide the graphic rightward so ~15% crops off the right edge, freeing room for the text + button */
+  @container (max-width:1399px){ .tds{background-position-x:70%} }
+  @container (max-width:991px){ .tds{height:400px} .tds .tds-in{left:24px} }   /* fonts scale via clamp() above; tighter left inset ≤991px */
+  @container (max-width:767px){
+    .tds{height:min(180px,50cqw);background-image:url('assets/banner/hero_promo2_S.webp');background-size:auto 26cqw;background-position:right top;background-repeat:no-repeat}   /* ≤767px: 180px (shrinks below ~360px); image top-aligned */
+    .tds .tds-in{position:absolute;left:20px;top:50%;transform:translateY(-50%);max-width:56%;padding:0}   /* text overlaid + vertically centered, with a little left indent */
+    .tds h2{font-size:17px;line-height:1.05}
+    .tds .tds-sub{font-size:11px;margin-top:5px;line-height:1.15}
+    .tds-clock{gap:5px;margin-top:12px}
+    .tds-clock .tdsnum{min-width:28px;font-size:13px;padding:4px 3px}
+    .tds-clock .ul{font-size:7px}
+    .tds-clock .sep{font-size:12px;margin-top:4px}
+    .tds-btn{display:none}
+    .tds-link{display:inline-block;margin-top:12px;color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;text-decoration:underline;text-underline-offset:3px}
+  }
+  @container (min-width:576px) and (max-width:767px){ .tds{background-size:auto 44cqw} }   /* 576–767px: image bumped ~30% larger again (from 34→44cqw) */
+  @container (max-width:575px){ .tds{background-size:auto 45cqw} }   /* ≤575px: image ~40% bigger (top-aligned inherited above) */
+  /* gallery card: show the desktop composition scaled down to the card width */
+  #bannerGallery .tds-clip{position:relative;overflow:hidden;border-radius:6px}
+  #bannerGallery .tds-stage{transform-origin:top left}
+  /* preview button under each banner card */
+  #bannerGallery .pvbtn{margin-top:9px;display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid var(--sh-border);border-radius:6px;padding:5px 11px;font-family:inherit;font-size:12px;font-weight:700;color:#07729C;cursor:pointer}
+  #bannerGallery .pvbtn:hover{background:#F1F7FA;border-color:#9CC7DA}
+  #bannerGallery .pvbtn .ic{width:15px;height:15px}
+  /* ===== banner breakpoint preview modal (resizable / draggable frame) ===== */
+  .bpv{position:fixed;inset:0;z-index:9000;display:none;background:rgba(18,20,23,.55)}
+  .bpv.show{display:flex;flex-direction:column}
+  .bpv-bar{flex-shrink:0;background:#fff;border-bottom:1px solid var(--sh-border);display:flex;align-items:center;gap:14px;padding:12px 18px;flex-wrap:wrap}
+  .bpv-bar .bpv-title{font-size:14px;font-weight:700;color:var(--sh-dark-brown);margin-right:auto}
+  .bpv-seg{display:inline-flex;border:1px solid var(--sh-border);border-radius:8px;overflow:hidden}
+  .bpv-seg button{border:none;border-left:1px solid var(--sh-border);background:#fff;font-family:inherit;font-weight:700;font-size:12px;color:var(--sh-dark-gray);padding:7px 12px;cursor:pointer}
+  .bpv-seg button:first-child{border-left:none}
+  .bpv-seg button.on{background:#07729C;color:#fff}
+  .bpv-w{font-size:13px;font-weight:700;color:var(--sh-mid-gray);font-variant-numeric:tabular-nums;min-width:64px;text-align:right}
+  .bpv-x{background:none;border:none;color:var(--sh-dark-gray);cursor:pointer;font-size:24px;line-height:1;padding:2px 8px}
+  .bpv-body{flex:1;overflow:auto;padding:14px 28px 44px;display:flex;justify-content:center;align-items:flex-start}
+  .bpv-col{display:flex;flex-direction:column;align-items:flex-start;margin:0 auto;flex-shrink:0}
+  .bpv-frame{position:relative;flex-shrink:0;background:#fff;width:1280px;height:76vh;box-shadow:0 0 0 1px rgba(0,0,0,.10),0 14px 46px rgba(0,0,0,.28)}
+  .bpv-iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+  /* horizontal ruler above the frame — shows the pixel scale + which breakpoint the current width sits in */
+  .bpv-ruler{position:relative;width:1280px;height:26px;background:#fff;border:1px solid var(--sh-border);border-bottom:none;overflow:hidden;flex-shrink:0}
+  .bpv-ruler-inner{position:absolute;left:0;top:0;bottom:0;width:5000px;
+    background-image:repeating-linear-gradient(90deg,#D6DADF 0 1px,transparent 1px 20px),repeating-linear-gradient(90deg,#9AA0A6 0 1px,transparent 1px 100px);
+    background-position:0 100%,0 100%;background-size:100% 7px,100% 12px;background-repeat:repeat-x,repeat-x}
+  .bpv-ruler-inner .rk{position:absolute;top:3px;font-size:9px;color:#6B7177;font-variant-numeric:tabular-nums;transform:translateX(3px)}
+  .bpv-ruler-inner .bpflag{position:absolute;top:0;bottom:0}
+  .bpv-ruler-inner .bpflag i{position:absolute;top:0;bottom:0;left:0;width:1px;background:#07729C;opacity:.55}
+  .bpv-ruler-inner .bpflag em{position:absolute;top:2px;left:4px;font-size:9px;font-weight:700;font-style:normal;color:#07729C;white-space:nowrap}
+  .bpv-now{position:absolute;top:0;bottom:0;right:0;border-right:2px solid #ef6019;z-index:3}
+  .bpv-now span{position:absolute;top:3px;right:4px;background:#ef6019;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;white-space:nowrap}
+  .bpv-handle{position:absolute;top:0;right:-8px;width:16px;height:100%;cursor:ew-resize;display:flex;align-items:center;justify-content:center;z-index:5;touch-action:none}
+  .bpv-handle::before{content:"";width:6px;height:54px;border-radius:3px;background:#07729C;box-shadow:0 0 0 3px #fff}
+  .bpv-handle::after{content:"";position:absolute;top:0;bottom:0;left:7px;width:1px;background:rgba(7,114,156,.35)}
   #acctGallery .ginner{max-width:1180px;margin:0 auto;padding:48px 40px 90px}
   #acctGallery .ghead h1{font-size:30px;font-weight:700;color:var(--sh-dark-brown);margin:0 0 6px;font-family:'interstate',var(--sh-font)}
   #acctGallery .ghead p{font-size:15px;color:var(--sh-mid-gray);margin:0 0 8px;max-width:760px}
@@ -1727,7 +1818,7 @@
     <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Promotion banner 3"></picture></div>
   </div>
   <div class="hbtext hbtext-shop"><h2>Everything You Need, Ready to Ship</h2><p>Shop 700+ trusted brands and 350,000+ in-stock products.</p></div>
-  <div class="hbtext hbtext-apply"><h2>Are You A Pro?</h2><p>Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!</p>
+  <div class="hbtext hbtext-apply"><h2>Are You A Pro?</h2><p>Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!</p><div class="hbsub-m">Unlock Member-only benefits for Free!</div>
     <div class="hbcta"><a href="#" class="hbbtn">Apply Now</a><img class="hbnote-img" src="assets/text_in3mins.svg" alt="less than 3 minutes!"></div>
   </div>
   <button class="hbarrow prev" id="hbPrev" aria-label="Previous banner"><svg class="hbchev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline class="o" points="15 5 8 12 15 19"/><polyline class="i" points="15 5 8 12 15 19"/></svg></button>
@@ -2007,6 +2098,31 @@
 <!-- ACCOUNT ACTIVITY STATES GALLERY (use cases & edge cases, documentation view) -->
 <section id="acctGallery"><div class="ginner" id="acctInner"></div></section>
 <section id="bannerGallery"><div class="ginner" id="bannerInner"></div></section>
+
+<!-- BANNER BREAKPOINT PREVIEW MODAL (resizable / draggable frame) -->
+<div class="bpv" id="bpvModal" role="dialog" aria-modal="true" aria-label="Banner preview">
+  <div class="bpv-bar">
+    <span class="bpv-title" id="bpvTitle">Preview</span>
+    <div class="bpv-seg" id="bpvSeg">
+      <button data-w="375">Mobile 375</button>
+      <button data-w="768">Tablet 768</button>
+      <button data-w="991">991</button>
+      <button data-w="1280">Laptop 1280</button>
+      <button data-w="1600">Desktop 1600</button>
+    </div>
+    <span class="bpv-w" id="bpvW">1280px</span>
+    <button class="bpv-x" id="bpvX" aria-label="Close preview">&times;</button>
+  </div>
+  <div class="bpv-body" id="bpvBody">
+    <div class="bpv-col" id="bpvCol">
+      <div class="bpv-ruler" id="bpvRuler"><div class="bpv-ruler-inner" id="bpvRulerInner"></div><div class="bpv-now" id="bpvNow"><span id="bpvNowLbl">1280px</span></div></div>
+      <div class="bpv-frame" id="bpvFrame">
+        <iframe class="bpv-iframe" id="bpvIframe" title="Banner preview"></iframe>
+        <div class="bpv-handle" id="bpvHandle" title="Drag to resize"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- HERO BANNER ADMIN (toggle view) -->
 <section id="bannerAdmin">
@@ -3211,7 +3327,35 @@
     const tag=x=>x==='live'?'<span class="tag live">On the page today</span>':'<span class="tag gap">Recommendation — not yet built</span>';
     const note=html=>`<span class="noteic">${infoSvg}</span><p>${html}</p>`;
     const heroImg=(src,h)=>`<img src="${src}" alt="" style="width:100%;height:${h||'auto'};object-fit:cover;display:block;border-radius:6px">`;
+    // hero card thumbnail with the real overlay text + CTA (matches the live .hbtext overlays)
+    const heroCard=(img,kind)=>{const apply=kind==='apply';
+      const head=apply?'Are You A Pro?':'Everything You Need, Ready to Ship';
+      const sub=apply?'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!':'Shop 700+ trusted brands and 350,000+ in-stock products.';
+      const cta=apply?`<span style="display:inline-flex;align-items:center;gap:8px;margin-top:10px"><span style="background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px 16px">Apply Now</span><img src="assets/text_in3mins.svg" alt="less than 3 minutes!" style="height:18px"></span>`:'';
+      return `<div style="position:relative;height:170px;border-radius:6px;overflow:hidden"><img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:54%;color:${apply?'#fff':'#111'};font-family:'interstate',var(--sh-font)"><div style="font-size:20px;font-weight:700;line-height:1.1">${head}</div><div style="font-size:11px;line-height:1.3;margin-top:6px;color:${apply?'#dce9f3':'#4a4a4a'};font-family:var(--sh-font),sans-serif">${sub}</div>${cta}</div></div>`;};
     const tmSlim=`<div style="background:#0066AD;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:6px"><b style="font-size:19px;font-family:'interstate',var(--sh-font)">Your House for Every Job.</b><span style="border:1px solid #fff;border-radius:8px;padding:6px 8px;flex-shrink:0"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:9px;display:block"></span></div>`;
+    // TradeDay tall promo banner — hero_promo2 background + overlay copy, live countdown, CTA (becomes a text link on mobile). Reflows via container queries.
+    const PROMO2_END=Date.now()+(14*86400+8*3600+32*60+17)*1000;
+    const tdsBanner=()=>{const u=l=>`<span class="u"><span class="tdsnum">--</span><span class="ul">${l}</span></span>`;
+      return `<div class="tds"><div class="tds-in">`+
+        `<h2>TradeDay Big Sale!</h2>`+
+        `<p class="tds-sub">The most exciting day for trade professionals to stock up.</p>`+
+        `<div class="tds-clock" data-end="${PROMO2_END}">${u('Days')}<span class="sep">:</span>${u('Hours')}<span class="sep">:</span>${u('Mins')}<span class="sep">:</span>${u('Secs')}</div>`+
+        `<a class="tds-btn" href="#">Start Shopping</a><a class="tds-link" href="#">Start Shopping</a>`+
+        `</div></div>`;};
+    const tdsCard=`<div class="tds-clip"><div class="tds-stage" style="width:1120px"><div class="tds-wrap">${tdsBanner()}</div></div></div>`;
+    // live countdown ticker (updates every .tds-clock in the document — card + open preview)
+    function tickTds(){document.querySelectorAll('.tds-clock[data-end]').forEach(el=>{
+      const s=Math.max(0,Math.floor((+el.dataset.end-Date.now())/1000));
+      const v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60];
+      el.querySelectorAll('.tdsnum').forEach((n,i)=>n.textContent=String(v[i]).padStart(2,'0'));});}
+    // scale each gallery card's fixed-width desktop stage down to the card width
+    function fitTdsStages(){document.querySelectorAll('#bannerGallery .tds-clip').forEach(cl=>{
+      const st=cl.firstElementChild; if(!st||!cl.clientWidth)return;
+      const w=parseFloat(st.style.width)||1120, s=cl.clientWidth/w;
+      st.style.transform='scale('+s+')'; cl.style.height=Math.round(500*s)+'px';});}
+    window.__fitTds=fitTdsStages;
+    const PVMAP=[];   // previewable banners, indexed by the data-pv on each card's button
     function repSnip(state){
       const dot=c=>`<span style="width:9px;height:9px;border-radius:50%;background:${c};flex-shrink:0"></span>`;
       let statusLine, phoneColor='#343434', ctas;
@@ -3254,11 +3398,11 @@
     const valuebar=`<div style="background:#fff;border:1px solid var(--sh-border);border-radius:6px;padding:10px 14px;font-size:12px;color:#343434;display:flex;flex-direction:column;gap:6px"><span><b>Free shipping</b> on orders $99+ &bull; <b>340,000+ products</b> in stock</span><span><span style="color:#E58E1A;letter-spacing:1px">&#9733;&#9733;&#9733;&#9733;&#9733;</span> &ldquo;Orders ship faster than anywhere else I buy from.&rdquo; &mdash; <b>Mike R., HVAC Contractor</b></span></div>`;
     const groups=[
       ['Hero banner — cohort use cases',[
-        [tmSlim,'TM Purchaser — Short slim hero','80px color band: greeting headline + bordered TradeMaster chip on the right. No CTA — members are already converted.',tag('live'),{half:true}],
-        [heroImg('assets/banner/hero_tm_apply_L.webp','150px'),'NTM Purchaser / Non-Purchaser — Mid apply banner','&ldquo;Are You A Pro?&rdquo; + membership benefits sub-copy, white Apply Now button and the handwritten &ldquo;less than 3 minutes!&rdquo; note.',tag('live'),{half:true}],
-        [heroImg('assets/banner/hero_ntm_default_L.webp','150px'),'Guest — Mid default banner','&ldquo;Everything You Need, Ready to Ship&rdquo; — breadth-of-catalog value prop, no membership pitch.',tag('live'),{half:true}],
-        [heroImg('assets/banner/hero_ntm_default_L.webp','150px'),'NTM — Applied to TM (inherits Guest)','Application pending: shows the Guest default until approved. The admin can break inheritance to give this group a dedicated banner.',tag('live'),{half:true}],
-        [heroImg('assets/banner/hero_promo1_L.webp','150px'),'Promo override — Tall campaign banner','One scheduled banner pushed to selected cohorts; targeted cohorts show it while the window is live, then automatically revert.',tag('live'),{half:true}],
+        [tmSlim,'TM Purchaser — Short slim hero','80px color band: greeting headline + bordered TradeMaster chip on the right. No CTA — members are already converted.',tag('live'),{half:true,pvType:'hero',pvCohort:'tm'}],
+        [heroCard('assets/banner/hero_tm_apply_L.webp','apply'),'NTM Purchaser / Non-Purchaser — Mid apply banner','&ldquo;Are You A Pro?&rdquo; + membership benefits sub-copy, white Apply Now button and the handwritten &ldquo;less than 3 minutes!&rdquo; note.',tag('live'),{half:true,pvType:'hero',pvCohort:'ntm-purchaser'}],
+        [heroCard('assets/banner/hero_ntm_default_L.webp','shop'),'Guest — Mid default banner','&ldquo;Everything You Need, Ready to Ship&rdquo; — breadth-of-catalog value prop, no membership pitch.',tag('live'),{half:true,pvType:'hero',pvCohort:'guest'}],
+        [heroCard('assets/banner/hero_ntm_default_L.webp','shop'),'NTM — Applied to TM (inherits Guest)','Application pending: shows the Guest default banner, but as a signed-in cohort it keeps the Welcome + KPI bar (unlike a guest). The admin can break inheritance to give this group a dedicated banner.',tag('live'),{half:true,pvType:'hero',pvCohort:'ntm-applied'}],
+        [tdsCard,'Promo override — Tall campaign banner + countdown (TradeDay)','One scheduled banner pushed to selected cohorts: targeted cohorts show it while the window is live, then automatically revert. Tall 400px with overlay headline, subtitle, a live countdown clock, and a Start Shopping CTA (becomes an underlined text link on mobile); background swaps to the S image ≤767px. Use “Preview at breakpoints” to see it reflow at actual size with the KPI bar and Reorder row.',tag('live'),{half:true,pvType:'promo',pvCohort:'ntm-purchaser',pvw:1280}],
         [note('Sizes: <b>Short 80px</b> (color band + headline, TM members) &middot; <b>Mid 220px</b> (image + text, standard promo) &middot; <b>Tall 400px</b> (campaign banner, supports the <b>countdown clock</b>). Band heights step down per breakpoint (e.g. Mid 220&rarr;180&rarr;150).'),'Size system & countdown','',tag('live'),{cls:'note',half:true}],
         [note('Mobile (&le;767px): the S image variant loads, the text block top-aligns and narrows to ~55% so it clears the graphic, the boxed CTA becomes an underlined text link, and the headline steps down to half the desktop size.'),'Mobile behaviors','',tag('live'),{cls:'note',half:true}],
       ]],
@@ -3274,12 +3418,65 @@
         [valuebar,'Value-prop bar (guest)','Above the utility bar: shipping threshold, stock depth, and a review quote — the Baymard value-proposition checklist in one strip.',tag('live'),{half:true}],
       ]],
     ];
+    const pvIcon='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
     document.getElementById('bannerInner').innerHTML=
-      `<div class="ghead"><h1>Banners — states, use cases &amp; edge cases</h1><p>Every banner on the homepage in one place: hero banners per cohort (including the scheduled promo override), the dedicated-rep banner with its presence states, and the guest conversion bands. Green tag = live on the page; orange tag = documented recommendation.</p></div>`
+      `<div class="ghead"><h1>Banners — states, use cases &amp; edge cases</h1><p>Every banner on the homepage in one place: hero banners per cohort (including the scheduled promo override), the dedicated-rep banner with its presence states, and the guest conversion bands. Green tag = live on the page; orange tag = documented recommendation. Use <b>Preview at breakpoints</b> on any card to open it at actual size and drag the frame across breakpoints.</p></div>`
       +groups.map(g=>`<div class="gtitle">${g[0]}</div><div class="grow">${g[1].map(c=>{
         const opts=c[4]||{};
-        return `<figure class="gx${opts.half?' gxhalf':opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span></figcaption></figure>`;
+        let btn='';
+        if(opts.cls!=='note'){const idx=PVMAP.push({title:c[1],html:opts.pv||c[0],w:opts.pvw||1280,type:opts.pvType||'standalone',cohort:opts.pvCohort||'guest'})-1;
+          btn=`<button class="pvbtn" data-pv="${idx}" type="button">${pvIcon}Preview at breakpoints</button>`;}
+        return `<figure class="gx${opts.half?' gxhalf':opts.wide?' gxwide':''}"><div class="gcard${opts.cls?' '+opts.cls:''}">${c[0]}</div><figcaption>${c[3]}<b>${c[1]}</b><span>${c[2]}</span>${btn}</figcaption></figure>`;
       }).join('')}</div>`).join('');
+    fitTdsStages(); tickTds();
+    if(!window.__tdsTick)window.__tdsTick=setInterval(tickTds,1000);
+    window.addEventListener('resize',fitTdsStages);
+    // ---- resizable / draggable breakpoint preview: renders the real page top slice (hero + KPI bar + Reorder) at the frame width via an iframe, so it reflows exactly like the live page ----
+    const modal=document.getElementById('bpvModal'), frame=document.getElementById('bpvFrame'),
+          ifr=document.getElementById('bpvIframe'), wOut=document.getElementById('bpvW'),
+          seg=document.getElementById('bpvSeg'), handle=document.getElementById('bpvHandle'),
+          ruler=document.getElementById('bpvRuler'), nowLbl=document.getElementById('bpvNowLbl');
+    (function(){const inner=document.getElementById('bpvRulerInner'); if(!inner||inner.dataset.built)return; inner.dataset.built='1';
+      let h=''; for(let x=0;x<=5000;x+=200)h+=`<span class="rk" style="left:${x}px">${x}</span>`;
+      [[375,'Mobile'],[768,'Tablet'],[992,'Small laptop'],[1280,'Laptop'],[1600,'Desktop']].forEach(b=>h+=`<span class="bpflag" style="left:${b[0]}px"><i></i><em>${b[1]}</em></span>`);
+      inner.innerHTML=h;})();
+    let PGCSS=null, SLICE=null;
+    function grabSlice(){ if(SLICE)return SLICE;
+      PGCSS=document.querySelector('style')?document.querySelector('style').textContent:'';
+      const q=s=>document.querySelector(s), oh=el=>el?el.outerHTML:'';
+      SLICE={hero:oh(q('.topblue')), kpi:oh(q('.acctwrap')), guest:oh(q('.guesttop'))};   // .acctwrap already wraps the KPI bar + Reorder panel
+      return SLICE; }
+    const HERO_IMG={'guest':['hero_ntm_default_L.webp','hero_ntm_default_S.webp'],'ntm-purchaser':['hero_tm_apply_L.webp','hero_tm_apply_S.webp'],'ntm-nonpurchaser':['hero_tm_apply_L.webp','hero_tm_apply_S.webp'],'ntm-applied':['hero_ntm_default_L.webp','hero_ntm_default_S.webp']};
+    function heroFor(cohort){let h=grabSlice().hero; const im=HERO_IMG[cohort];
+      if(im)h=h.replace(/hero_[a-z0-9_]+_L\.webp/g,im[0]).replace(/hero_[a-z0-9_]+_S\.webp/g,im[1]);
+      return h;}
+    const fontHead=()=>[...document.querySelectorAll('head link[rel="stylesheet"]')].map(l=>l.outerHTML).join('');
+    const tickJs='<'+'script>function tk(){document.querySelectorAll(".tds-clock[data-end]").forEach(function(el){var s=Math.max(0,Math.floor((+el.dataset.end-Date.now())/1000));var v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60];el.querySelectorAll(".tdsnum").forEach(function(n,i){n.textContent=String(v[i]).padStart(2,"0")})})}tk();setInterval(tk,1000);<'+'/script>';
+    function docFor(it){const s=grabSlice(); let body;
+      // .topblue already contains hero + KPI bar + Reorder + guesttop, so it's the whole slice — don't append them again
+      if(it.type==='promo'){body=`<div style="background:linear-gradient(180deg,#ef6019 0,#ef6019 500px,#fff 800px)"><div class="tds-wrap">${tdsBanner()}</div>${s.kpi}</div>`;}
+      else if(it.type==='hero'){body=heroFor(it.cohort);}
+      else{body=`<div class="wrap" style="padding:28px 0">${it.html}</div>`;}
+      // copy the live body's hydration classes (mode-topbar, loaded, …) so KPI/Reorder render as on the real page; drop the states-view classes
+      const cls=(document.body.className||'').replace(/\b(gallery|bannergallery|acctstates|banneradmin)\b/g,'').replace(/\s+/g,' ').trim();
+      return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${location.href}">${fontHead()}<style>${PGCSS}</style><style>html,body{margin:0;padding:0;background:#fff;overflow-x:hidden}body{padding-bottom:0!important}</style></head><body class="${cls}" data-cohort="${it.cohort||'guest'}">${body}${tickJs}</body></html>`;}
+    function setW(w){w=Math.max(240,Math.min(5000,Math.round(w)));frame.style.width=w+'px';ruler.style.width=w+'px';wOut.textContent=w+'px';nowLbl.textContent=w+'px';
+      [...seg.children].forEach(b=>b.classList.toggle('on',+b.dataset.w===w));
+      // <320px: lay the iframe out at 320 and scale the whole thing down to fit — everything shrinks together (matches the live site)
+      if(w<320){const s=w/320;ifr.style.width='320px';ifr.style.height=(100/s)+'%';ifr.style.transformOrigin='top left';ifr.style.transform='scale('+s+')';}
+      else{ifr.style.width='100%';ifr.style.height='100%';ifr.style.transform='none';}}
+    function openPv(i){const it=PVMAP[i];if(!it)return;document.getElementById('bpvTitle').textContent=it.title;
+      ifr.srcdoc=docFor(it);setW(it.w||1280);modal.classList.add('show');}
+    function closePv(){modal.classList.remove('show');ifr.srcdoc='';}
+    document.getElementById('bannerInner').addEventListener('click',e=>{const b=e.target.closest('.pvbtn');if(b)openPv(+b.dataset.pv);});
+    seg.addEventListener('click',e=>{const b=e.target.closest('button');if(b)setW(+b.dataset.w);});
+    document.getElementById('bpvX').addEventListener('click',closePv);
+    modal.addEventListener('click',e=>{if(e.target===modal||e.target===document.getElementById('bpvBody'))closePv();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show'))closePv();});
+    let drag=false,sx=0,sw=0;
+    handle.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX;sw=frame.offsetWidth;handle.setPointerCapture(e.pointerId);e.preventDefault();});
+    handle.addEventListener('pointermove',e=>{if(drag)setW(sw+(e.clientX-sx));});
+    handle.addEventListener('pointerup',()=>{drag=false;});
   }
   // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
   const COHORT_BANNER={
@@ -3303,6 +3500,8 @@
       renderActLeft();
     }
   }
+  // <320px viewports: lock to a 320px layout and let the browser scale the whole page down to fit — everything shrinks together instead of reflowing individually (matches the live site)
+  (function(){const vp=document.querySelector('meta[name="viewport"]');if(!vp)return;function fit(){vp.setAttribute('content',screen.width<320?'width=320':'width=device-width, initial-scale=1.0');}addEventListener('resize',fit);addEventListener('orientationchange',fit);fit();})();
   (function(){const mt=document.querySelector('.modetoggle');if(!mt)return;
     mt.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
       const exitViews=()=>{document.body.classList.remove('gallery','banneradmin','acctstates','bannergallery');mt.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on'));};
@@ -3324,7 +3523,7 @@
         if(b.dataset.view==='gallery'){buildGallery();document.body.classList.add('gallery');}
         else if(b.dataset.view==='banneradmin'){document.body.classList.add('banneradmin');if(window.setAdminMode)setAdminMode(b.dataset.adminmode||'hero');}
         else if(b.dataset.view==='acctstates'){buildAcctGallery();document.body.classList.add('acctstates');}
-        else if(b.dataset.view==='bannergallery'){buildBannerGallery();document.body.classList.add('bannergallery');}
+        else if(b.dataset.view==='bannergallery'){document.body.classList.add('bannergallery');buildBannerGallery();requestAnimationFrame(()=>{if(window.__fitTds)window.__fitTds();});}
         window.scrollTo(0,0); return;
       }
       if(b.dataset.scn){
@@ -3484,7 +3683,7 @@
       ]},
       'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',active:0,banners:[
         {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
-        {size:'tall',headline:'Spring Promo — Save Big',sub:'Limited-time deals on top brands, this week only.',h2:38,showBtn:true,btnLabel:'Shop Deals',note3:false,bg:'#0468AF',text:'auto',image:'assets/banner/hero_promo1_L.webp'}
+        {size:'tall',headline:'TradeDay Big Sale!',sub:'The most exciting day for trade professionals to stock up.',h2:48,showBtn:true,btnLabel:'Start Shopping',note3:false,bg:'#ef6019',text:'auto',image:'assets/banner/hero_promo2_L.webp',countdown:true,countdownEnd:'2026-07-23T18:00'}
       ]},
       'ntm-nonpurchaser':{label:'NTM Non-Purchaser',note:'Non-member, no orders',active:0,banners:[
         {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'}
@@ -3497,8 +3696,8 @@
       ]}
     };
     // global promo override: one banner pushed to selected cohorts while its window is live
-    const PROMO_DEF={enabled:false,start:'',end:'',targets:{'tm':true,'ntm-purchaser':true,'ntm-nonpurchaser':true,'ntm-applied':true,'guest':true},banner:{size:'tall',headline:'Spring Promo — Save Big',sub:'Limited-time deals on top brands, this week only.',h2:38,showBtn:true,btnLabel:'Shop Deals',note3:false,bg:'#0468AF',text:'auto',image:'assets/banner/hero_promo1_L.webp',imageS:'assets/banner/hero_promo1_S.webp'}};
-    const KEY='sh_hero_banners_v2', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','ntm-applied','guest'];
+    const PROMO_DEF={enabled:true,start:'',end:'2026-07-23T18:00',targets:{'tm':true,'ntm-purchaser':true,'ntm-nonpurchaser':true,'ntm-applied':true,'guest':true},banner:{size:'tall',headline:'TradeDay Big Sale!',sub:'The most exciting day for trade professionals to stock up.',h2:48,showBtn:true,btnLabel:'Start Shopping',note3:false,bg:'#ef6019',text:'auto',image:'assets/banner/hero_promo2_L.webp',imageS:'assets/banner/hero_promo2_S.webp',countdown:true,countdownEnd:'2026-07-23T18:00'}};
+    const KEY='sh_hero_banners_v3', ORDER=['tm','ntm-purchaser','ntm-nonpurchaser','ntm-applied','guest'];
     let data=loadD(), cur='tm';
     ORDER.forEach(k=>{const co=data[k];if(co.active==null)co.active=0;(co.banners||[]).forEach(c=>{if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.iconMobile==null)c.iconMobile=true;if(c.tmLogo==null)c.tmLogo=(c.size==='short');if(c.countdown==null)c.countdown=false;if(c.countdownEnd==null)c.countdownEnd='';if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');});});
     if(!data.promo)data.promo=JSON.parse(JSON.stringify(PROMO_DEF));
@@ -3618,7 +3817,7 @@
     function upd(p){Object.assign(cfg(),p);saveD();render();buildBanners();}
     $('sizeSeg').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;setSeg($('sizeSeg'),b.dataset.size,'size');$('sizeHint').textContent=SIZES[b.dataset.size].hint;
       const patch={size:b.dataset.size};
-      if(b.dataset.size==='tall'&&!(cfg().image||'').startsWith('data:')){patch.image='assets/banner/hero_promo1_L.webp';patch.imageS='assets/banner/hero_promo1_S.webp';}   // Tall uses the promo banner
+      if(b.dataset.size==='tall'&&!(cfg().image||'').startsWith('data:')){patch.image='assets/banner/hero_promo2_L.webp';patch.imageS='assets/banner/hero_promo2_S.webp';}   // Tall uses the promo banner
       upd(patch);fill();buildList();});
     function setTextColor(v){v=(v||'').trim();if(!/^#?[0-9a-fA-F]{6}$/.test(v))return;if(v[0]!=='#')v='#'+v;$('fAuto').checked=false;$('fTextColor').value=v;$('fTextHex').value=v.toUpperCase();upd({text:v});}
     $('fAuto').addEventListener('change',()=>{ if($('fAuto').checked){upd({text:'auto'});fill();} else setTextColor($('fTextHex').value||'#FFFFFF'); });
