@@ -344,8 +344,8 @@
   @keyframes skelpulse{0%,100%{opacity:1}50%{opacity:.45}}
   .accttop .atk{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--sh-mid-gray);margin-bottom:4px}
   .accttop .atv{font-size:24px;font-weight:400;color:var(--sh-dark-brown);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;line-height:1.05}
-  .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 6px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
-  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:6px;margin:-6px;color:var(--sh-tm-blue);cursor:pointer}   /* padding+negative margin = bigger hover/click target, no layout shift */
+  .accttop .atbadge{font-size:11px;font-weight:700;color:#3C763D;background:#EDF7EE;border:1px solid #C2E2C9;border-radius:4px;padding:3px 4px;letter-spacing:0;text-transform:none;line-height:1.3;white-space:nowrap}
+  .accttop .delivi{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:4px;margin:-4px;color:var(--sh-tm-blue);cursor:pointer}   /* padding+negative margin = bigger hover/click target, no layout shift */
   .accttop .delivi .ic{font-size:18px}
   .accttop .ats{font-size:12px;line-height:1.2;color:var(--sh-mid-gray);margin-top:4px}
   .accttop .ats a{font-weight:700;color:#4186AD}
@@ -3063,7 +3063,7 @@
   const SCENARIOS={
     full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Latest Update: 05/14/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Latest Update: 05/14/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false,listsN:3,cartsN:3,ordersN:3},
     sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Latest Update: 05/14/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Latest Update: 05/14/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false,listsN:2,cartsN:1,ordersN:1},
-    empty:{orders:'0 Orders',badge:false,ordersSub:'No active orders',quotes:'0 Quotes',quotesSub:'No open quotes',lists:'0 Lists',listsSub:'No saved lists',carts:'0 Saved Carts',cartsSub:'No saved carts',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true,listsN:0,cartsN:0,ordersN:1}
+    empty:{orders:'0 Orders',badge:false,ordersSub:'<a href="#">View</a>',quotes:'0 Quotes',quotesSub:'<a href="#">View</a>',lists:'0 Lists',listsSub:'<a href="#">View</a>',carts:'0 Saved Carts',cartsSub:'<a href="#">View</a>',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true,listsN:0,cartsN:0,ordersN:1}
   };
   function limitFilterChips(s){
     const rf=document.getElementById('rfilters'); if(!rf)return;
@@ -3241,18 +3241,18 @@
       ['KPI bar — Active Orders',[
         [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Full — orders + upcoming delivery','Green delivery badge and info icon shown next to the count when at least one order is en route; the icon opens the Upcoming Deliveries popover.',tag('live')],
         [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Sparse — single order + upcoming delivery','A lone order that\'s en route — same green delivery badge and info icon as the full state; sub-copy leads with the arrival date.',tag('live')],
-        [kpiCell('Active Orders','0 Orders','No active orders'),'Empty — no active orders','No link shown — nothing to view.',tag('live')],
+        [kpiCell('Active Orders','0 Orders','<a href="#">View</a>'),'Empty — no active orders','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
       ['KPI bar — Open Quotes',[
         [kpiCell('Open Quotes','3 Quotes','<span class="warn">1 expires in 2 days</span> <a href="#">View</a>'),'Full — with expiring-quote warning','The bold warning-colored sub-copy only appears when a quote is close to expiring.',tag('live')],
         [kpiCell('Open Quotes','1 Quote','Latest Update: 05/14/26 <a href="#">View</a>'),'Sparse — single quote, no warning','Last-updated line precedes the View link when no quote is close to expiring.',tag('live')],
-        [kpiCell('Open Quotes','0 Quotes',''),'Empty — no open quotes','No sub-copy shown — nothing to view.',tag('live')],
+        [kpiCell('Open Quotes','0 Quotes','<a href="#">View</a>'),'Empty — no open quotes','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
       ['KPI bar — Saved Lists &amp; Your Carts',[
         [kpiCell('Saved Lists','15 Lists','Latest Update: 05/14/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
-        [kpiCell('Saved Lists','0 Lists','No saved lists'),'Saved Lists — empty','',tag('live')],
+        [kpiCell('Saved Lists','0 Lists','<a href="#">View</a>'),'Saved Lists — empty','No "empty" sub-copy — just the View link.',tag('live')],
         [kpiCell('Your Carts','8 Saved Carts','Latest Update: 05/14/26 <a href="#">View</a>'),'Your Carts — populated','',tag('live')],
-        [kpiCell('Your Carts','0 Saved Carts','No saved carts'),'Your Carts — empty','',tag('live')],
+        [kpiCell('Your Carts','0 Saved Carts','<a href="#">View</a>'),'Your Carts — empty','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
       ['Upcoming Deliveries popover',[
         [deliveryPopoverSnippet(),'Populated — 2 deliveries','Each item gets its own progress bar, status, and package thumbnails; opens on hover, click, or Enter/Space.',tag('live'),{half:true}],
