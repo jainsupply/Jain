@@ -166,6 +166,7 @@
   /* only set vertical padding; left/right inherit .wrap's 80px so hero text lines up with main content */
   .hero .wrap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;height:92px;padding-top:0;padding-bottom:12px}
   .hero h1{font-size:28px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
+  @media(min-width:768px) and (max-width:991px){ .hero h1{font-size:23px} }   /* slightly smaller on tablet */
   .hero .tmtag{display:inline-flex;align-items:center;border:1px solid #fff;border-radius:8px;padding:7px 8px}
   /* full promo banner backdrop + carousel (non-TM cohorts): whole banner shown behind hero/KPI/reorder, fading to white */
   .herobig{display:none;position:absolute;top:0;left:0;right:0;min-height:800px;z-index:0;overflow:hidden}
@@ -456,14 +457,20 @@
     .accttop .atcell{position:relative;max-height:none;padding:13px 32px 13px 15px}
     .accttop .atcell::after{content:"";position:absolute;right:15px;top:50%;width:9px;height:9px;border-top:2px solid var(--sh-tm-blue);border-right:2px solid var(--sh-tm-blue);transform:translateY(-50%) rotate(45deg)}
     .accttop .ats a{display:none}
-    .accttop .atv{font-size:18px;gap:6px;flex-wrap:wrap}
-    .accttop .atbadge{font-size:11px;padding:2px 7px}
+    .accttop .atv{font-size:18px;gap:2px 6px;flex-wrap:wrap}   /* tighter vertical gap when the count + badge wrap */
+    .accttop .atbadge{font-size:9px;padding:2px 6px}
     .accttop .atk{margin-bottom:4px}
     .accttop .ats{margin-top:4px;font-size:11px}
     /* reorder sits flush on white (no card edge) */
     body.mode-topbar .acctpanel>div{box-shadow:none;border-radius:0}
     .acctpanel .pager{justify-content:flex-end}
     .acctpanel .pager .scrubber{display:none}
+  }
+  @media(max-width:575px){
+    .accttop .atcell{justify-content:flex-start;padding-right:24px}   /* top-align the KPI cell text; tighter right padding */
+    .accttop .atcell::after{top:28px;right:12px;transform:translateY(-50%) rotate(45deg)}   /* chevron aligned with the label + count, not the cell's vertical center */
+    .accttop .atk{font-size:10px}                  /* smaller top label line (Active Orders, etc.) */
+    .accttop .ats{font-size:10px}                  /* smaller "Latest Update: …" line */
   }
 
   /* module / rails */
@@ -1186,7 +1193,7 @@
     .filterrow .chip-f{flex-shrink:0}
   }
   @media(max-width:767px){
-    .hero h1{font-size:16px;line-height:1.05}
+    .hero h1{font-size:15px;line-height:1.05}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
     .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 28px}   /* 28px side inset per Figma 986:31699 */
@@ -1236,7 +1243,7 @@
     .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
     .section{padding:24px 0 40px}   /* 40px below each section's content */
     .bestgrid{padding:20px 0;gap:16px}
-    .hero h1{font-size:16px;line-height:1.05}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
+    .hero h1{font-size:15px;line-height:1.05}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
     .tmtag-img{height:7px}
     body.mode-topbar .accttop{margin:0 0 4px}
     .acctpanel{margin-top:0}
@@ -1251,10 +1258,10 @@
     .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:12px 0;border:none;border-bottom:1px solid var(--sh-border);position:relative}
     .acctpanel .mcard:last-child{border-bottom:none}
     .acctpanel .mcard:hover{box-shadow:none}
-    .acctpanel .mcard .thumb{width:64px;height:64px;flex-shrink:0;position:relative;margin:0}
+    .acctpanel .mcard .thumb{width:64px;height:64px;flex-shrink:0;position:relative;margin:20px 0 0}   /* push image below the top-left X button */
     .acctpanel .mcard .thumb .ms{font-size:30px}
     /* X sits on the top-left corner of the product image */
-    .acctpanel .mcard .rm{top:6px;left:6px;right:auto;width:20px;height:20px}
+    .acctpanel .mcard .rm{top:1px;left:6px;right:auto;width:20px;height:20px}
     .acctpanel .mcard .rm .ic{font-size:12px}
     .acctpanel .mcard .bd{flex:1;min-width:0;padding:0;display:grid;grid-template-columns:1fr auto;grid-template-areas:'title buy' 'sku buy' 'box box';column-gap:10px;row-gap:2px}
     .acctpanel .mcard .ctx{grid-area:ctx}
@@ -1806,7 +1813,7 @@
 <div class="topblue">
 <section class="hero">
   <div class="wrap">
-    <h1>Your House for Every Job.</h1>
+    <h1>Our House is Your House</h1>
     <span class="tmtag"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" class="tmtag-img"></span>
   </div>
 </section>
@@ -3333,7 +3340,7 @@
       const sub=apply?'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!':'Shop 700+ trusted brands and 350,000+ in-stock products.';
       const cta=apply?`<span style="display:inline-flex;align-items:center;gap:8px;margin-top:10px"><span style="background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px 16px">Apply Now</span><img src="assets/text_in3mins.svg" alt="less than 3 minutes!" style="height:18px"></span>`:'';
       return `<div style="position:relative;height:170px;border-radius:6px;overflow:hidden"><img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:54%;color:${apply?'#fff':'#111'};font-family:'interstate',var(--sh-font)"><div style="font-size:20px;font-weight:700;line-height:1.1">${head}</div><div style="font-size:11px;line-height:1.3;margin-top:6px;color:${apply?'#dce9f3':'#4a4a4a'};font-family:var(--sh-font),sans-serif">${sub}</div>${cta}</div></div>`;};
-    const tmSlim=`<div style="background:#0066AD;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:6px"><b style="font-size:19px;font-family:'interstate',var(--sh-font)">Your House for Every Job.</b><span style="border:1px solid #fff;border-radius:8px;padding:6px 8px;flex-shrink:0"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:9px;display:block"></span></div>`;
+    const tmSlim=`<div style="background:#0066AD;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:6px"><b style="font-size:19px;font-family:'interstate',var(--sh-font)">Our House is Your House</b><span style="border:1px solid #fff;border-radius:8px;padding:6px 8px;flex-shrink:0"><img src="assets/Logo-TM-white.svg" alt="TradeMaster" style="height:9px;display:block"></span></div>`;
     // TradeDay tall promo banner — hero_promo2 background + overlay copy, live countdown, CTA (becomes a text link on mobile). Reflows via container queries.
     const PROMO2_END=Date.now()+(14*86400+8*3600+32*60+17)*1000;
     const tdsBanner=()=>{const u=l=>`<span class="u"><span class="tdsnum">--</span><span class="ul">${l}</span></span>`;
@@ -3683,7 +3690,7 @@
     const cratio=(a,b)=>{const l1=relLum(a),l2=relLum(b),hi=Math.max(l1,l2),lo=Math.min(l1,l2);return (hi+.05)/(lo+.05);};
     const DEF={
       'tm':{label:'TM Purchaser',note:'Member — slim hero',active:0,banners:[
-        {size:'short',headline:'Your House for Every Job.',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:'',tmLogo:true}
+        {size:'short',headline:'Our House is Your House',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:'',tmLogo:true}
       ]},
       'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',active:0,banners:[
         {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
