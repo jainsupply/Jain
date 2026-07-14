@@ -168,6 +168,7 @@
   .hero h1{font-size:28px;font-weight:700;line-height:1.1;font-family:'interstate',var(--sh-font)}
   @media(min-width:768px) and (max-width:991px){ .hero h1{font-size:23px} }   /* slightly smaller on tablet */
   .hero .tmtag{display:inline-flex;align-items:center;border:1px solid #fff;border-radius:8px;padding:7px 8px}
+  @media(max-width:767px){ .hero .tmtag{padding:4px 5px;border-radius:6px} }   /* tighter TradeMaster badge padding + corners on mobile */
   /* full promo banner backdrop + carousel (non-TM cohorts): whole banner shown behind hero/KPI/reorder, fading to white */
   .herobig{display:none;position:absolute;top:0;left:0;right:0;min-height:800px;z-index:0;overflow:hidden}
   .herobig .hbtrack{display:flex;transition:transform .22s ease-out}
@@ -356,7 +357,7 @@
   .delivgrp{display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
   .delivwrap{position:relative;display:inline-block}
   /* Upcoming Deliveries popover — styled per Figma 1589:110647 */
-  .delivpop{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);width:414px;max-width:92vw;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.20);padding:24px;z-index:5000;display:none;text-transform:none;text-align:left}
+  .delivpop{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);width:414px;max-width:92vw;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.20);padding:32px 40px 16px;z-index:5000;display:none;text-transform:none;text-align:left}
   .delivpop.show{display:block}
   .delivpop::before{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(45deg);width:15px;height:15px;background:#fff;border-left:1px solid var(--sh-border);border-top:1px solid var(--sh-border)}
   .delivpop::after{content:"";position:absolute;top:-14px;left:0;right:0;height:14px}   /* invisible hover bridge across the gap between the badge and the popover */
@@ -378,7 +379,7 @@
   .dpthumbs .more{font-size:16px;color:#777;font-weight:400;margin-left:4px}
   /* mobile: the popover becomes a bottom sheet — fixed to the viewport bottom, full width, scrim behind, drag handle on top */
   @media(max-width:767px){
-    .delivpop{position:fixed;top:auto;bottom:0;left:0;right:0;transform:none;width:100%;max-width:100%;border:none;border-radius:0;max-height:82vh;overflow-y:auto;padding:26px 16px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25),0 0 0 100vmax rgba(0,0,0,.45)}
+    .delivpop{position:fixed;top:auto;bottom:0;left:0;right:0;transform:none;width:100%;max-width:100%;border:none;border-radius:0;max-height:82vh;overflow-y:auto;padding:26px 28px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25),0 0 0 100vmax rgba(0,0,0,.45)}
     .delivpop::before{top:8px;left:50%;transform:translateX(-50%);width:40px;height:4px;border-radius:2px;background:#DCDCDC;border:none}   /* caret becomes a drag handle */
     .delivpop.show{animation:dpSlideUp .28s ease-out}
     .dpclose{top:16px;right:12px}
@@ -749,6 +750,7 @@
   @media(max-width:1000px){
     .activities .right{margin-top:36px}
     .activities .right .linkrow{padding:28px 0}
+    .activities .right .linkrow:first-child{padding-top:0}   /* no extra top padding on the first link (Return/Credit Status) */
     .activities .right .linkrow.tmrow{padding:28px 0 30px}
     .activities .right .linkrow .lic{width:32px;height:32px}
     .activities .right .linkrow .lic .ic{font-size:24px}
@@ -794,8 +796,9 @@
      content indented to align under the group-header label */
   @media(max-width:767px){
     .actgroup+.actgroup{margin-top:36px}   /* clear separation between Your Orders / Lists / Saved Carts */
-    .actcol .ah{border-bottom:none;padding-bottom:4px;align-items:flex-start}
+    .actcol .ah{border-bottom:none;padding-bottom:4px;align-items:flex-start}   /* group sub-titles (Your Orders, Lists…) stay 18px on mobile */
     .actcol .ah .ahsub{display:block}
+    .arow .ti b{font-size:16px}   /* smaller order number on mobile */
     .arow{flex-wrap:wrap;row-gap:10px;margin-left:8px;padding:14px 0}
     .arow .ti{flex:0 0 100%;min-width:0}
     .arow .thumbs{margin-left:0;justify-content:flex-start;flex-basis:70%}
@@ -824,9 +827,9 @@
   .linkrow{display:flex;align-items:center;gap:4px;padding:12px 0;border-bottom:1px solid var(--sh-border)}
   .linkrow .ic{color:var(--sh-tm-blue);font-size:24px}
   .linkrow .lic{width:32px;height:32px;background:none;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}   /* matches the 32px Lists / Saved Carts group-header icons */
-  .linkrow .t{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;min-width:0}
-  .linkrow .t b{font-size:18px;color:var(--sh-dark-gray);font-weight:700;line-height:1.4}
-  .linkrow .t span{font-size:12px;color:var(--sh-dark-gray);font-weight:400;line-height:1.4}
+  .linkrow .t{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0}   /* always stack title above the update line */
+  .linkrow .t b{font-size:18px;color:var(--sh-dark-gray);font-weight:700;line-height:1.2}
+  .linkrow .t span{font-size:12px;color:var(--sh-dark-gray);font-weight:400;line-height:1.2}
   .linkrow .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD;flex-shrink:0}
   /* TradeMaster promo rows: no icon, stacked title + 13px description, 12px View */
   .linkrow.tmrow{padding:12px 0 16px}
@@ -1193,7 +1196,7 @@
     .filterrow .chip-f{flex-shrink:0}
   }
   @media(max-width:767px){
-    .hero h1{font-size:15px;line-height:1.05}
+    .hero h1{font-size:17px;line-height:1.05}
     .cats{grid-template-columns:repeat(3,1fr)}
     .parts{grid-template-columns:repeat(2,1fr)}
     .repband .wrap{grid-template-columns:1fr;gap:16px;padding:24px 28px}   /* 28px side inset per Figma 986:31699 */
@@ -1238,12 +1241,12 @@
     .toolsbanner{padding-top:40px}   /* the title sits inside the gray tile, so it needs its own internal air */
     .section.alt .seclabel{margin-top:4px}
     .section.brands{padding-top:28px}
-    .pmhead h2,.seclabel{font-size:20px}             /* smaller section titles on mobile */
+    .pmhead h2,.seclabel{font-size:18px}             /* smaller section titles on mobile */
     .pmhead .va{font-size:12px}                       /* smaller View all */
     .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
     .section{padding:24px 0 40px}   /* 40px below each section's content */
     .bestgrid{padding:20px 0;gap:16px}
-    .hero h1{font-size:15px;line-height:1.05}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
+    .hero h1{font-size:17px;line-height:1.05}.hero .wrap{height:48px;padding-top:0;padding-bottom:0}
     .tmtag-img{height:7px}
     body.mode-topbar .accttop{margin:0 0 4px}
     .acctpanel{margin-top:0}
@@ -1665,6 +1668,7 @@
   body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-cats{display:none}
   body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-recent{display:flex}
   .guesttop .gt-recent .pmhead h2{font-size:20px}
+  @media(max-width:767px){ .guesttop .gt-recent .pmhead h2{font-size:18px} }   /* match the smaller mobile section titles */
   .guesttop .gt-cats-head{padding-top:8px;margin-bottom:14px}
   .guesttop .gt-cats-head h2{font-size:20px;font-weight:700;color:var(--sh-dark-gray);margin:0;display:inline-block;vertical-align:middle}
   .guesttop .gt-cats-head .sub{font-size:13px;color:var(--sh-mid-gray);margin-left:8px}
