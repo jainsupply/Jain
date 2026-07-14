@@ -333,7 +333,19 @@
   .accttop .atlabel .athome img{width:24px;height:24px}   /* optically align the home icon with the first text line ("Welcome, Tommy!") */
   .accttop .atwelcome b{display:block;font-size:16px;font-weight:700;line-height:1.1;color:var(--sh-dark-brown)}
   .accttop .atwelcome small{display:block;margin-top:3px;font-size:12px;line-height:1.05;color:var(--sh-mid-gray)}
+  /* long user name: truncate with an ellipsis + hover tooltip (same pattern as the account-row titles) */
+  .accttop .atwelcome{min-width:0}
+  .atwelcome b.ellip{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .atwelcome[data-name]{position:relative}
+  .atwelcome[data-name]:has(b.ellip:hover)::after{content:attr(data-name);position:absolute;top:-6px;left:0;transform:translateY(-100%);display:block;background:#fff;color:var(--sh-dark-gray);font-size:13px;font-weight:700;line-height:1.35;white-space:nowrap;padding:8px 12px;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);z-index:30;pointer-events:none}
   .accttop .atcell{flex:1;min-width:0;padding:20px 18px;display:flex;flex-direction:column;justify-content:center;position:relative}
+  /* API error: per-box error message covering the skeleton */
+  .accttop .atcell>.kpierr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;background:#fff;padding:6px;z-index:3}
+  .accttop .atcell>.kpierr .eticon{width:18px;height:18px;flex-shrink:0}
+  .accttop .atcell>.kpierr span{font-size:12px;font-weight:700;color:var(--sh-dark-gray);line-height:1.2}
+  .accttop .atcell>.kpierr .kpiretry{font-family:inherit;font-size:12px;font-weight:700;color:#07729C;background:none;border:none;cursor:pointer;padding:0}
+  .accttop .atcell>.kpierr .kpiretry:hover{text-decoration:underline}
+  body:not(.loaded) .accttop .atcell>.kpierr{visibility:visible}
   /* skeleton shimmer on the KPI boxes until the page hydrates */
   body:not(.loaded) .accttop .atcell>*{visibility:hidden}
   body:not(.loaded) .accttop .atcell::after{display:none}
@@ -829,7 +841,7 @@
   .linkrow .lic{width:32px;height:32px;background:none;color:var(--sh-tm-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}   /* matches the 32px Lists / Saved Carts group-header icons */
   .linkrow .t{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0}   /* always stack title above the update line */
   .linkrow .t b{font-size:18px;color:var(--sh-dark-gray);font-weight:700;line-height:1.2}
-  .linkrow .t span{font-size:12px;color:var(--sh-dark-gray);font-weight:400;line-height:1.2}
+  .linkrow .t span{font-size:12px;color:#757575;font-weight:400;line-height:1.2}
   .linkrow .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD;flex-shrink:0}
   /* TradeMaster promo rows: no icon, stacked title + 13px description, 12px View */
   .linkrow.tmrow{padding:12px 0 16px}
@@ -1152,6 +1164,15 @@
       linear-gradient(#E6E6E6 0 0) left 0 top 64px / 80% 16px no-repeat,
       linear-gradient(#E6E6E6 0 0) left 0 top 88px / 55% 16px no-repeat,
       linear-gradient(#E9E9E9 0 0) center bottom / 85% 55% no-repeat;
+    animation:skelpulse 1.3s ease-in-out infinite}
+  /* Best Picks left hero panel — skeleton on API error */
+  body.apierror .best .bestpromo{position:relative}
+  body.apierror .best .bestpromo>*{visibility:hidden}
+  body.apierror .best .bestpromo::before{content:"";position:absolute;inset:8px 0;
+    background:
+      linear-gradient(#E6E6E6 0 0) right 0 top 4px / 62% 18px no-repeat,
+      linear-gradient(#E6E6E6 0 0) right 0 top 32px / 46% 18px no-repeat,
+      linear-gradient(#E9E9E9 0 0) center bottom / 90% 66% no-repeat;
     animation:skelpulse 1.3s ease-in-out infinite}
   .errtoast .eticon{width:20px;height:20px;flex-shrink:0;display:block}
   .errtoast .etxt{min-width:0}
@@ -1876,12 +1897,12 @@
     <div class="atcell">
       <div class="atk">Saved Lists</div>
       <div class="atv"><span id="kLists">15 Lists</span></div>
-      <div class="ats" id="kListsSub">Latest Update: 05/14/26 <a href="#">View</a></div>
+      <div class="ats" id="kListsSub">Latest Update: 5/14/26 <a href="#">View</a></div>
     </div>
     <div class="atcell">
       <div class="atk">Your Carts</div>
       <div class="atv"><span id="kCarts">8 Saved Carts</span></div>
-      <div class="ats" id="kCartsSub">Latest Update: 05/14/26 <a href="#">View</a></div>
+      <div class="ats" id="kCartsSub">Latest Update: 5/14/26 <a href="#">View</a></div>
     </div>
   </div>
 <div class="acctpanel">
@@ -2579,6 +2600,12 @@
       if(t.scrollHeight>t.clientHeight+1)bd.setAttribute('data-name',t.textContent.trim());
       else bd.removeAttribute('data-name');
     });
+    // KPI welcome: long user name truncates with an ellipsis + hover tooltip
+    document.querySelectorAll('.accttop .atwelcome').forEach(w=>{
+      const b=w.querySelector('b'); if(!b)return; b.classList.add('ellip');
+      if(b.scrollWidth>b.clientWidth+1)w.setAttribute('data-name',b.textContent.trim());
+      else w.removeAttribute('data-name');
+    });
   }
   let mtT;window.addEventListener('resize',()=>{clearTimeout(mtT);mtT=setTimeout(markTruncatedTitles,150);});
   fillSkel('reorderRail',8);fillSkel('recentRail',8);fillSkel('ntmRecentRail',8);fillSkel('bestRail',6,true);
@@ -2624,7 +2651,7 @@
   fillSkelCats();
 
   // right-column account links
-  const links=[['Return/Credit Status','Latest Update: 05/14/26','assignment_return'],['Invoices','Latest Update: 05/14/26','description'],['Quotes','Latest Update: 05/14/26','request_quote'],['Tax Exemption','Latest Update: 05/14/26','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight!','star'],['TradeMaster Program','Learn more about our TradeMaster program!','badge']];
+  const links=[['Return/Credit Status','Latest Update: 5/14/26','assignment_return'],['Invoices','Latest Update: 5/14/26','description'],['Quotes','Latest Update: 5/14/26','request_quote'],['Tax Exemption','Latest Update: 5/14/26','verified_user'],['TradeMaster Trainings','Sharpen your skills with live and on-demand webinars','school'],['TradeMaster Spotlights','Putting the skilled trades in the spotlight!','star'],['TradeMaster Program','Learn more about our TradeMaster program!','badge']];
   const linkIconSrc={assignment_return:'assets/icons/Account_return.svg',description:'assets/icons/Account_invoice.svg',request_quote:'assets/icons/Account_quote.svg',verified_user:'assets/icons/Account_tax.svg'};
   const linkIcon={assignment_return:'<rect x="5" y="4" width="14" height="16"/><path d="M13 9l-3 3 3 3"/><path d="M10 12h5"/>',description:'<path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6M9 16h6"/>',request_quote:'<path d="M7 3h7l4 4v14H7z"/><path d="M9 13h6"/>',verified_user:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><polyline points="9 12 11 14 15 10"/>',school:'<path d="M3 9l9-4 9 4-9 4-9-4z"/><path d="M7 11v5c0 1 2.2 2 5 2s5-1 5-2v-5"/>',star:'<polygon points="12 3 14.5 9 21 9.5 16 14 17.5 20.5 12 17 6.5 20.5 8 14 3 9.5 9.5 9"/>',badge:'<circle cx="12" cy="9" r="5"/><path d="M9 13l-1 8 4-2 4 2-1-8"/>'};
   let SCN_NAME='full';
@@ -2665,16 +2692,16 @@
   function observeThumbs(){if(!thumbsRO)return;document.querySelectorAll('.thumbs[data-total],.dpthumbs[data-total]').forEach(el=>thumbsRO.observe(el));fitThumbs();}
   const groupIcon={orders:'<path d="M9 4h6v2H9z"/><rect x="5" y="6" width="14" height="15"/><path d="M9 11l1.5 1.5L13 10M9 16l1.5 1.5L13 15"/>',list:'<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 12h11l2-8H6"/>'};
   const groupIconSrc={orders:'assets/icons/Account_order.svg',list:'assets/icons/Account_list.svg',cart:'assets/icons/Account_savedcart.svg'};
-  function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><img src="${groupIconSrc[icon]}" alt=""></span><span class="aht">${label}<span class="ahsub">Latest Update: 05/14/26</span></span><a class="va" href="#">View</a></div>`;}
-  function orderRow(num,po,date,price,status,statClass,total){return `<a class="arow" href="#"><div class="ti"><b>${num} <span class="po">(PO#: ${po})</span></b><span class="meta">Order placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(total)}${chev}</a>`;}
+  function ahHTML(icon,label){return `<div class="ah"><span class="ahic"><img src="${groupIconSrc[icon]}" alt=""></span><span class="aht">${label}<span class="ahsub">Latest Update: 5/14/26</span></span><a class="va" href="#">View</a></div>`;}
+  function orderRow(num,po,date,price,status,statClass,total){return `<a class="arow" href="#"><div class="ti"><b>${num} <span class="po">(PO#: ${po})</span></b><span class="meta">Order Placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(total)}${chev}</a>`;}
   function simpleRow(title,date,total){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Latest Update: ${date}</span></div>${actThumbsHTML(total)}${chev}</a>`;}
   // empty-state illustrations (inline SVG per project convention — no webfont ligatures)
   const emptyImg={lists:'assets/illust_no_list.webp',carts:'assets/illust_no_carts.webp'};
   const emptyCopy={lists:{msg:'No saved lists yet',cta:'Start Creating'},carts:{msg:'No saved carts yet',cta:'Start Creating'}};
   function emptyStateHTML(kind){const c=emptyCopy[kind];return `<div class="empty"><img class="emptyimg" src="${emptyImg[kind]}" alt="" loading="lazy"><p>${c.msg}</p><button type="button" class="btn-start">${c.cta}</button></div>`;}
   // sample rows to draw from when a group has items — Lists and Saved Carts each pull the first N
-  const listItems=[['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5]];
-  const cartItems=[['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5],['RTU – Goodman','05/14/26',5]];
+  const listItems=[['RTU – Goodman','5/14/26',5],['RTU – Goodman','5/14/26',5],['RTU – Goodman','5/14/26',5]];
+  const cartItems=[['RTU – Goodman','5/14/26',5],['RTU – Goodman','5/14/26',5],['RTU – Goodman','5/14/26',5]];
   let SCN_LISTS=3, SCN_CARTS=3, SCN_ORDERS=3;
   function renderActLeft(){
     const el=document.getElementById('actLeft'); if(!el)return;
@@ -3016,15 +3043,19 @@
   (function(){
     const badge=document.getElementById('delivBadge'), pop=document.getElementById('delivPop');
     if(!badge||!pop)return;
-    const wrap=badge.closest('.delivwrap'); let autoT,hoverT;
-    function show(){clearTimeout(hoverT);pop.classList.add('show');badge.setAttribute('aria-expanded','true');}
-    function hide(){pop.classList.remove('show');badge.setAttribute('aria-expanded','false');clearTimeout(autoT);clearTimeout(hoverT);}
+    const wrap=badge.closest('.delivwrap'); let autoT,hoverT,loadT;
+    const realHTML=pop.innerHTML;
+    const dpClose='<button class="dpclose" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>';
+    const skItem='<div class="dpitem"><span class="skel" style="display:block;height:18px;width:55%;border-radius:3px;margin-bottom:12px"></span><span class="skel" style="display:block;height:11px;width:78%;border-radius:3px;margin-bottom:6px"></span><span class="skel" style="display:block;height:11px;width:48%;border-radius:3px;margin-bottom:16px"></span><span class="skel" style="display:block;height:4px;width:100%;border-radius:2px;margin-bottom:16px"></span><div style="display:flex;gap:12px;margin-bottom:16px"><span class="skel" style="width:48px;height:48px;border-radius:4px"></span><span class="skel" style="width:48px;height:48px;border-radius:4px"></span><span class="skel" style="width:48px;height:48px;border-radius:4px"></span></div><span class="skel" style="display:block;height:44px;width:100%;border-radius:2px"></span></div>';
+    const SKEL=dpClose+'<div class="dphead"><span class="skel" style="display:block;height:16px;width:70%;border-radius:3px"></span></div>'+skItem+skItem;
+    function show(){clearTimeout(hoverT);clearTimeout(loadT);pop.innerHTML=SKEL;pop.classList.add('show');badge.setAttribute('aria-expanded','true');
+      loadT=setTimeout(()=>{pop.innerHTML=realHTML;if(typeof fitThumbs==='function')fitThumbs();},650);}   /* brief skeleton loader before the real content */
+    function hide(){pop.classList.remove('show');badge.setAttribute('aria-expanded','false');clearTimeout(autoT);clearTimeout(hoverT);clearTimeout(loadT);}
     wrap.addEventListener('mouseenter',()=>{clearTimeout(autoT);show();});
     wrap.addEventListener('mouseleave',()=>{clearTimeout(hoverT);hoverT=setTimeout(hide,350);});   /* grace period so the pointer can travel to the popover */
     badge.addEventListener('click',e=>{e.stopPropagation();pop.classList.contains('show')?hide():show();});
     badge.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pop.classList.contains('show')?hide():show();}});
-    pop.querySelector('.dpclose').addEventListener('click',e=>{e.stopPropagation();hide();});
-    pop.addEventListener('click',e=>{const a=e.target.closest('a[href="#"]');if(a)e.preventDefault();e.stopPropagation();});
+    pop.addEventListener('click',e=>{if(e.target.closest('.dpclose')){e.stopPropagation();hide();return;}const a=e.target.closest('a[href="#"]');if(a)e.preventDefault();e.stopPropagation();});
     document.addEventListener('click',e=>{if(!wrap.contains(e.target))hide();});
     // auto-open on landing in this view, dismiss after 8s
     autoDeliv=function(){show();clearTimeout(autoT);autoT=setTimeout(hide,8000);};
@@ -3036,6 +3067,12 @@
     const d=document.createElement('div');d.className='errtoast';d.setAttribute('role','alert');
     d.innerHTML=ERR_ICON+'<span class="etxt">Oops, something went wrong!</span><button type="button" class="etrefresh">Refresh</button>';
     d.querySelector('.etrefresh').addEventListener('click',clearApiError);
+    return d;
+  }
+  function kpiErrEl(){
+    const d=document.createElement('div');d.className='kpierr';
+    d.innerHTML=ERR_ICON+'<span>Couldn’t load</span><button type="button" class="kpiretry">Refresh</button>';
+    d.querySelector('.kpiretry').addEventListener('click',clearApiError);
     return d;
   }
   function skelActLeft(){
@@ -3053,8 +3090,13 @@
     fillSkelCats();
     skelActLeft();
     layoutRails();
-    // one floating toast on top of each failed module's skeleton
-    ['.acctwrap .accttop','.acctwrap .pmod .railwrap','#recentSection .railwrap','#catSection .cats','.bestright .railwrap','.gt-recent .railwrap','.latestact .activities','.nawrap .railwrap'].forEach(sel=>{
+    // KPI bar: an individual error message inside each box (not one toast over the whole bar)
+    document.querySelectorAll('.accttop .atcell').forEach(c=>{
+      if(getComputedStyle(c).position==='static')c.style.position='relative';
+      c.appendChild(kpiErrEl());
+    });
+    // one floating toast on top of each other failed module's skeleton
+    ['.acctwrap .pmod .railwrap','#recentSection .railwrap','#catSection .cats','.bestright .railwrap','.gt-recent .railwrap','.latestact .activities','.nawrap .railwrap'].forEach(sel=>{
       const t=document.querySelector(sel); if(!t)return;
       if(getComputedStyle(t).position==='static')t.style.position='relative';
       t.appendChild(errToastEl());
@@ -3063,7 +3105,7 @@
   function clearApiError(){
     if(!document.body.classList.contains('apierror'))return;
     document.body.classList.remove('apierror');
-    document.querySelectorAll('.errtoast').forEach(t=>t.remove());
+    document.querySelectorAll('.errtoast,.kpierr').forEach(t=>t.remove());
     renderRails();renderCats();renderActLeft();renderRightLinks();renderNA();markTruncatedTitles();
     document.body.classList.add('loaded');
     layoutRails();
@@ -3072,8 +3114,8 @@
   }
   // ---------- edge-case scenario switcher ----------
   const SCENARIOS={
-    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Latest Update: 05/14/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Latest Update: 05/14/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false,listsN:3,cartsN:3,ordersN:3},
-    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Latest Update: 05/14/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Latest Update: 05/14/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false,listsN:2,cartsN:1,ordersN:1},
+    full:{orders:'2 Orders',badge:true,ordersSub:'Keep an eye on deliveries. <a href="#">View</a>',quotes:'3 Quotes',quotesSub:'<span class="warn">1 expires in 2 days</span> <a href="#">View</a>',lists:'15 Lists',listsSub:'Latest Update: 5/14/26 <a href="#">View</a>',carts:'8 Saved Carts',cartsSub:'Latest Update: 5/14/26 <a href="#">View</a>',reorderN:56,recentN:12,rows:'2',limitChips:false,hideRecent:false,listsN:3,cartsN:3,ordersN:3},
+    sparse:{orders:'1 Order',badge:false,ordersSub:'Arriving Tue, Jun 25 <a href="#">View</a>',quotes:'1 Quote',quotesSub:'<a href="#">View</a>',lists:'2 Lists',listsSub:'Latest Update: 5/14/26 <a href="#">View</a>',carts:'1 Saved Cart',cartsSub:'Latest Update: 5/14/26 <a href="#">View</a>',reorderN:1,recentN:3,rows:'1',limitChips:true,hideRecent:false,listsN:2,cartsN:1,ordersN:1},
     empty:{orders:'0 Orders',badge:false,ordersSub:'<a href="#">View</a>',quotes:'0 Quotes',quotesSub:'<a href="#">View</a>',lists:'0 Lists',listsSub:'<a href="#">View</a>',carts:'0 Saved Carts',cartsSub:'<a href="#">View</a>',reorderN:1,recentN:0,rows:'1',limitChips:true,hideRecent:true,listsN:0,cartsN:0,ordersN:1}
   };
   function limitFilterChips(s){
@@ -3184,13 +3226,13 @@
       const chip=`<span style="position:absolute;bottom:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:normal;width:max-content;max-width:280px;line-height:1.35">${LONG_NAME}</span>`;
       const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
       const thumbs=`<span style="display:flex;align-items:center;gap:4px;flex-shrink:0;margin-left:auto">${t('187873-1.jpg')}${t('c240a-3.jpg')}${t('th1110u4000honeywellhome01.jpg')}<span style="font-size:16px;color:#777;margin-left:2px">+2</span></span>`;
-      return `<div style="padding-top:70px"><a class="arow" href="#" style="margin-left:8px"><div class="ti" style="position:relative;flex:0 1 auto;min-width:0">${chip}<b class="ellip">${LONG_NAME}</b><span class="meta">Latest Update: 05/14/26</span></div>${thumbs}${chev}</a></div>`;
+      return `<div style="padding-top:70px"><a class="arow" href="#" style="margin-left:8px"><div class="ti" style="position:relative;flex:0 1 auto;min-width:0">${chip}<b class="ellip">${LONG_NAME}</b><span class="meta">Latest Update: 5/14/26</span></div>${thumbs}${chev}</a></div>`;
     }
     function longPoRow(){
       const po='PO-2026-RIVERSIDE-HVAC-PHASE2-BLDG-A-ROOFTOP';
       const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
       const thumbs=`<span style="display:flex;align-items:center;gap:4px;flex-shrink:0;margin-left:auto">${t('ridgid-78208-1.jpg')}${t('dwc-100-3.jpg')}${t('pvbvs075g-2.jpg')}<span style="font-size:16px;color:#777;margin-left:2px">+2</span></span>`;
-      return `<a class="arow" href="#"><div class="ti" style="flex:0 1 auto;min-width:0"><b class="ellip" title="112311634 (PO#: ${po})">112311634 <span class="po">(PO#: ${po})</span></b><span class="meta">Order placed: 6/20/26 &middot; $276.96 &middot; <em class="proc">Processing</em></span></div>${thumbs}${chev}</a>`;
+      return `<a class="arow" href="#"><div class="ti" style="flex:0 1 auto;min-width:0"><b class="ellip" title="112311634 (PO#: ${po})">112311634 <span class="po">(PO#: ${po})</span></b><span class="meta">Order Placed: 6/20/26 &middot; $276.96 &middot; <em class="proc">Processing</em></span></div>${thumbs}${chev}</a>`;
     }
     function thumbTipDemo(){
       const chip='<span style="position:absolute;bottom:calc(100% + 10px);left:0;background:#fff;border:1px solid var(--sh-border);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.14);padding:10px 14px;font-size:13px;font-weight:700;color:var(--sh-dark-gray);white-space:nowrap">1&quot; CxF 90&deg; Drop Ear Elbow</span>';
@@ -3254,15 +3296,22 @@
         [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Sparse — single order + upcoming delivery','A lone order that\'s en route — same green delivery badge and info icon as the full state; sub-copy leads with the arrival date.',tag('live')],
         [kpiCell('Active Orders','0 Orders','<a href="#">View</a>'),'Empty — no active orders','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
+      ['KPI bar — Welcome (long name edge case)',[
+        [`<div class="kpi-demo" style="max-width:280px"><div style="display:flex;align-items:center;gap:10px">`+
+          `<span style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center"><img src="assets/icons/Account_home.svg" alt="" style="width:24px;height:24px"></span>`+
+          `<span class="atwelcome" data-name="Welcome, Bartholomew Fitzgerald III!" style="min-width:0"><b class="ellip" style="display:block;font-size:16px;font-weight:700;line-height:1.1;color:var(--sh-dark-brown)">Welcome, Bartholomew Fitzgerald III!</b><small style="display:block;margin-top:3px;font-size:12px;color:var(--sh-mid-gray)">Check your account info.</small></span>`+
+          `</div></div>`,'Long user name — ellipsis + tooltip','When the greeting is too wide for the label cell it truncates with an ellipsis and reveals the full name in a hover tooltip (same pattern as the account-row titles), so a long name never pushes the KPI cells out of alignment. Hover the name to see it.',tag('live'),{half:true}],
+        [note('Detected at render/resize by measuring the name against the label width — the ellipsis + <code>data-name</code> tooltip are only applied when it actually overflows, so normal-length names show no tooltip.'),'How truncation is decided','',tag('live'),{cls:'note',half:true}],
+      ]],
       ['KPI bar — Open Quotes',[
         [kpiCell('Open Quotes','3 Quotes','<span class="warn">1 expires in 2 days</span> <a href="#">View</a>'),'Full — with expiring-quote warning','The bold warning-colored sub-copy only appears when a quote is close to expiring.',tag('live')],
-        [kpiCell('Open Quotes','1 Quote','Latest Update: 05/14/26 <a href="#">View</a>'),'Sparse — single quote, no warning','Last-updated line precedes the View link when no quote is close to expiring.',tag('live')],
+        [kpiCell('Open Quotes','1 Quote','Latest Update: 5/14/26 <a href="#">View</a>'),'Sparse — single quote, no warning','Last-updated line precedes the View link when no quote is close to expiring.',tag('live')],
         [kpiCell('Open Quotes','0 Quotes','<a href="#">View</a>'),'Empty — no open quotes','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
       ['KPI bar — Saved Lists &amp; Your Carts',[
-        [kpiCell('Saved Lists','15 Lists','Latest Update: 05/14/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
+        [kpiCell('Saved Lists','15 Lists','Latest Update: 5/14/26 <a href="#">View</a>'),'Saved Lists — populated','',tag('live')],
         [kpiCell('Saved Lists','0 Lists','<a href="#">View</a>'),'Saved Lists — empty','No "empty" sub-copy — just the View link.',tag('live')],
-        [kpiCell('Your Carts','8 Saved Carts','Latest Update: 05/14/26 <a href="#">View</a>'),'Your Carts — populated','',tag('live')],
+        [kpiCell('Your Carts','8 Saved Carts','Latest Update: 5/14/26 <a href="#">View</a>'),'Your Carts — populated','',tag('live')],
         [kpiCell('Your Carts','0 Saved Carts','<a href="#">View</a>'),'Your Carts — empty','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
       ['Upcoming Deliveries popover',[
