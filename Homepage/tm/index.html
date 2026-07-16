@@ -1212,7 +1212,7 @@
   @media(max-width:991px){
     .filterrow{flex-wrap:nowrap;overflow-x:auto;gap:12px;scrollbar-width:none}
     .filterrow::-webkit-scrollbar{display:none}
-    .filterrow>.toggle{flex-shrink:0}
+    .filterrow>.toggle{flex-shrink:0;font-size:12px}
     .filterrow .filters{flex-wrap:nowrap;overflow:visible;flex-shrink:0}
     .filterrow .chip-f{flex-shrink:0}
   }
@@ -1262,6 +1262,8 @@
     .toolsbanner{padding-top:40px}   /* the title sits inside the gray tile, so it needs its own internal air */
     .section.alt .seclabel{margin-top:4px}
     .section.brands{padding-top:28px}
+    /* divider between the section title area and the product cards (Reorder / Recently Viewed) */
+    .acctpanel .pmod .railwrap,#recentSection .railwrap,.gt-recent .railwrap{border-top:1px solid var(--sh-border);padding-top:0;margin-top:8px}   /* 4px extra air above the divider, none below */
     .pmhead h2,.seclabel{font-size:18px}             /* smaller section titles on mobile */
     .pmhead .va{font-size:12px}                       /* smaller View all */
     .pmhead .sub,.secsub{display:none}                /* drop subtitles on mobile */
@@ -1277,15 +1279,16 @@
     .bestright .filters{margin-right:-16px;padding-right:16px}
     /* mobile keeps the list-style row cards, but lays them out as horizontally scrollable columns (5 rows per swipe) */
     .acctpanel .rail{display:grid;grid-auto-flow:column;grid-template-rows:repeat(5,auto) !important;grid-auto-columns:100%;gap:0 24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
+    #reorderRail[data-rows="2"]{row-gap:0}   /* desktop 2-row gap leaks in via ID specificity — even out with Recently Viewed */
     .acctpanel .rail::-webkit-scrollbar{display:none}
     .acctpanel .mcard{scroll-snap-align:start}
-    .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:12px 0;border:none;border-bottom:1px solid var(--sh-border);position:relative}
+    .acctpanel .mcard{display:flex;flex-direction:row;align-items:flex-start;gap:12px;padding:20px 0 8px;border:none;border-bottom:1px solid var(--sh-border);position:relative}
     .acctpanel .mcard:last-child{border-bottom:none}
     .acctpanel .mcard:hover{box-shadow:none}
     .acctpanel .mcard .thumb{width:64px;height:64px;flex-shrink:0;position:relative;margin:20px 0 0}   /* push image below the top-left X button */
     .acctpanel .mcard .thumb .ms{font-size:30px}
     /* X sits on the top-left corner of the product image */
-    .acctpanel .mcard .rm{top:1px;left:6px;right:auto;width:20px;height:20px}
+    .acctpanel .mcard .rm{top:8px;left:0;right:auto;width:20px;height:20px}   /* flush left, nudged down */
     .acctpanel .mcard .rm .ic{font-size:12px}
     .acctpanel .mcard .bd{flex:1;min-width:0;padding:0;display:grid;grid-template-columns:1fr auto;grid-template-areas:'title buy' 'sku buy' 'box box';column-gap:10px;row-gap:2px}
     .acctpanel .mcard .ctx{grid-area:ctx}
