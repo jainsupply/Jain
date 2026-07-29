@@ -42,7 +42,8 @@
   .searchbar:focus-within:not(:has(.go:focus-visible)),.msearch:focus-within{outline:3px solid #0066AD;outline-offset:1px}
   .ms{display:inline-block;line-height:1}
   .ic{width:1em;height:1em;display:inline-block;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-  .wrap{max-width:1920px;margin:0 auto;padding:0 80px}
+  .wrap{max-width:1980px;margin:0 auto;padding:0 80px}
+  .wrap.acctwrap{max-width:2060px}   /* KPI bar, Reorder, Shop Your Categories + Recently Viewed extend wider */
   .ph{background:var(--sh-light-tan-2);display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray)}
 
   /* value-prop bar (guest only) — sits above the utility bar */
@@ -99,7 +100,7 @@
 
   /* header */
   header{background:#fff;border-bottom:1px solid var(--sh-border)}
-  .head{display:flex;align-items:center;gap:22px;height:90px;padding:0 80px;max-width:1920px;margin:0 auto}
+  .head{display:flex;align-items:center;gap:22px;height:90px;padding:0 80px;max-width:1980px;margin:0 auto}
   .logo{flex-shrink:0;line-height:1}
   .logo-img{height:41px;width:auto;display:block}
   .tmtag-img{height:11px;width:auto;display:block}
@@ -172,7 +173,7 @@
   /* full promo banner backdrop + carousel (non-TM cohorts): whole banner shown behind hero/KPI/reorder, fading to white */
   .herobig{display:none;position:absolute;top:0;left:0;right:0;min-height:800px;z-index:0;overflow:hidden}
   .herobig .hbtrack{display:flex;transition:transform .22s ease-out}
-  .herobig .hbinner{position:relative;max-width:1920px;margin:0 auto;overflow:hidden}   /* clip slides at 1920 so the image never peeks into the extended side color */
+  .herobig .hbinner{position:relative;max-width:1980px;margin:0 auto;overflow:hidden}   /* clip slides at 1920 so the image never peeks into the extended side color */
   .herobig .hbslide{flex:0 0 100%}
   .herobig .hbslide picture{display:block;width:100%}
   .herobig .hbslide img{width:100%;height:auto;display:block}
@@ -538,7 +539,7 @@
   .pgbtn{width:26px;height:26px;border:1px solid transparent;border-radius:0;background:none;display:flex;align-items:center;justify-content:center;color:var(--sh-tm-blue);flex-shrink:0;transition:background .12s,border-color .12s}
   .pgbtn .ic{font-size:20px;stroke-width:2.5}
   .pgbtn:not(:disabled):hover{background:#EFF5FD;border-color:var(--sh-tm-blue)}
-  .pgbtn:disabled{color:#A0D3E8;cursor:default}
+  .pgbtn:disabled{color:var(--sh-tm-blue);opacity:.3;cursor:default}   /* disabled arrows: blue at 30% */
   /* hover scrubber — appears left of the pager and shows scroll position */
   .scrubber{flex:1;min-width:0;height:6px;background:var(--sh-light-tan-2);border-radius:3px;position:relative;opacity:0;transition:opacity .15s;cursor:pointer}
   .pager:hover .scrubber,.scrubber.dragging,.scrubber.show{opacity:1}
@@ -669,8 +670,8 @@
   .section::before,.best::before,.repband::before{content:"";position:absolute;top:0;left:80px;right:80px;height:1px;background:var(--sh-border)}
   /* ≥1920: content capped at 1920 and centered, keeping a minimum 80px side margin
      (base .wrap rule already provides the 80px padding; beyond 2080px viewport the centering adds more) */
-  @media(min-width:1920px){
-    .section::before,.best::before,.repband::before{left:max(80px,calc((100% - 1760px)/2));right:max(80px,calc((100% - 1760px)/2))}
+  @media(min-width:1980px){
+    .section::before,.best::before,.repband::before{left:max(80px,calc((100% - 1820px)/2));right:max(80px,calc((100% - 1820px)/2))}
   }
   @media(min-width:1400px) and (max-width:1599px){ .section::before,.best::before,.repband::before{left:52px;right:52px} }
   @media(min-width:1200px) and (max-width:1399px){ .section::before,.best::before,.repband::before{left:32px;right:32px} }
@@ -906,7 +907,7 @@
   .rpf{position:relative;background:#F8F8F8;overflow:hidden;border-top:1px solid var(--sh-border);border-bottom:1px solid var(--sh-border)}   /* matches live widget band */
   .rpfsec::before{content:none}   /* divider comes from the .rpf border-top */
   .rpfsec{padding:0}   /* no section top/bottom padding */
-  .rpf .rpf-inner{position:relative;max-width:1920px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:320px}   /* live: 320px @1400+ */
+  .rpf .rpf-inner{position:relative;max-width:1980px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:320px}   /* live: 320px @1400+ */
   .rpf .rpf-img{width:320px;max-width:34%;height:auto;flex-shrink:0;object-fit:contain;align-self:center}
   .rpf .rpf-titlewrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;max-width:240px}
   .rpf .rpf-new{display:inline-block;background:var(--sh-orange);color:#fff;font-size:13px;font-weight:700;padding:2px 6px;border-radius:4px}
@@ -1195,6 +1196,7 @@
   /* —— canonical page side margins ——
      ≥1920: 0 (content capped/centered) · 1600-1919: 80px (base .wrap rule) · 1400-1599: 52px
      1200-1399: 32px · 992-1199: 20px · ≤991 (incl. 576-767 and ≤575): 16px */
+  @media(min-width:1600px) and (max-width:2060px){ .wrap.acctwrap{padding-left:52px;padding-right:52px} }   /* KPI/Reorder + Categories/Recently Viewed: 52px sides in this range */
   @media(min-width:1400px) and (max-width:1599px){ .wrap{padding:0 52px} .head{padding:0 52px} }
   @media(min-width:1200px) and (max-width:1399px){ .wrap{padding:0 32px} .head{padding:0 32px} }
   @media(max-width:1000px){
@@ -1472,7 +1474,7 @@
   /* ===== TradeDay tall promo banner — container-query responsive (reflows to its own width, in the card + preview) ===== */
   .tds-wrap{container-type:inline-size;width:100%;background:#ef6019}   /* solid #ef6019 fills the sides beyond the 1920 banner cap */
   /* only a thin bottom edge fades into #ef6019 (keeps the image visible on top of the orange while still softening the seam into the bottom wash) */
-  .tds{position:relative;width:100%;max-width:1920px;margin:0 auto;height:500px;overflow:hidden;background:linear-gradient(180deg,rgba(239,96,25,0) 90%,#ef6019 100%),url('assets/banner/hero_promo2_L.webp') right top/cover no-repeat,#ef6019;font-family:'interstate',var(--sh-font)}
+  .tds{position:relative;width:100%;max-width:1980px;margin:0 auto;height:500px;overflow:hidden;background:linear-gradient(180deg,rgba(239,96,25,0) 90%,#ef6019 100%),url('assets/banner/hero_promo2_L.webp') right top/cover no-repeat,#ef6019;font-family:'interstate',var(--sh-font)}
   .tds .tds-in{position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:46%;z-index:2;color:#fff}
   /* fluid type — scales smoothly with the banner width (same idea as the .hbtext hero banners' clamp() sizing) */
   .tds h2{margin:0;font-size:clamp(34px,3.9cqw,58px);font-weight:700;line-height:1.05;font-family:'interstate',var(--sh-font)}
@@ -1609,7 +1611,7 @@
   #bannerAdmin .ba-form.isoff>*:not(#promoFlds){opacity:.45;pointer-events:none}
   #bannerAdmin .ba-preview{border:1px solid var(--ba-line);border-radius:10px;overflow:hidden;background:#fff}
   #bannerAdmin .pv-band{position:relative;overflow:hidden}
-  #bannerAdmin .pv-inner{position:relative;max-width:1920px;margin:0 auto;height:100%;overflow:hidden}   /* matches the live page's 1920 content cap */
+  #bannerAdmin .pv-inner{position:relative;max-width:1980px;margin:0 auto;height:100%;overflow:hidden}   /* matches the live page's 1920 content cap */
   #bannerAdmin .pv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
   #bannerAdmin .pv-fade{position:absolute;inset:0;pointer-events:none}
   #bannerAdmin .pv-text{position:absolute;left:6%;top:50%;transform:translateY(-50%);z-index:2;max-width:46%}
@@ -1874,7 +1876,7 @@
     <div class="atlabel"><span class="athome"><img src="assets/icons/Account_home.svg" alt="" style="display:block"></span><span class="atwelcome"><b>Welcome, Tommy!</b><small>Check your account info.</small></span></div>
     <div class="atcell">
       <div class="atk">Active Orders</div>
-      <div class="atv"><span id="kOrders">2 Orders</span> <span class="delivgrp" id="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap">
+      <div class="atv"><span id="kOrders">2 Orders</span> <span class="delivgrp" id="delivgrp"><span class="atbadge">Ready Soon</span><span class="delivwrap">
         <div class="delivpop" id="delivPop" role="dialog" aria-label="Upcoming deliveries">
           <button class="dpclose" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
           <div class="dphead">You have 2 upcoming deliveries.</div>
@@ -2406,7 +2408,7 @@
         <div class="thumb"><img class="pimg" src="${prodImg(i)}" alt="" loading="lazy" onerror="this.remove()"></div>
         <div class="bd">
           <a href="#" class="title">${t}</a>
-          <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
+          <div class="sku"><b>${sku}</b> | <a href="#">${br}</a></div>
           <div class="mktwrap">${mktBuyBefore(pr)}</div>
         </div>
       </article>`;
@@ -2429,7 +2431,6 @@
           <div class="boxbody" hidden>
             <div class="tier"><span class="tq">2-3</span><span class="tp"><b>$7.00</b> each</span></div>
             <div class="tier"><span class="tq">4+</span><span class="tp"><b>$6.00</b> each</span></div>
-            <div class="tcase">10 units per case</div>
           </div>
         </div>`;
     }
@@ -2438,7 +2439,7 @@
       <div class="thumb"><img class="pimg" src="${prodImg(i)}" alt="" loading="lazy" onerror="this.remove()"></div>
       <div class="bd">
         <a href="#" class="title">${t}</a>
-        <div class="sku">SKU: <b>${sku}</b> | <a href="#">${br}</a></div>
+        <div class="sku"><b>${sku}</b> | <a href="#">${br}</a></div>
         <div class="unit">
           <div class="buyunit" data-unit="each">${addBtn()}</div>
           <div class="pr"><span class="price">${pr}</span> <span class="each">each</span></div>
@@ -2723,7 +2724,11 @@
         if(body&&body.hasAttribute('hidden')){body.removeAttribute('hidden');if(bt)bt.setAttribute('aria-expanded','true');}
         card.querySelectorAll('.buyunit').forEach(u=>{ if(u===unit)u.innerHTML=qtyCtlSet(qty); else if(!u.querySelector('.qtyctl'))u.innerHTML=qtyCtlSet(0); });
         normalizeSet(card);                       // roll 50 each -> 1 box if needed
-      } else { unit.innerHTML=qtyCtl(qty); }
+      } else {
+        unit.innerHTML=qtyCtl(qty);
+        const sbt=card&&card.querySelector('.boxsave.stock .boxtoggle'),sbody=card&&card.querySelector('.boxsave.stock .boxbody');
+        if(sbody&&sbody.hasAttribute('hidden')){sbody.removeAttribute('hidden');if(sbt)sbt.setAttribute('aria-expanded','true');}   /* auto-expand Stock up & save on add */
+      }
       recount(); showAdded(unit.querySelector('.qtyctl'));
     },550);
   }
@@ -3209,8 +3214,8 @@
     }
     const groups=[
       ['KPI bar — Active Orders',[
-        [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Full — orders + upcoming delivery','Green delivery badge and info icon shown next to the count when at least one order is en route; the icon opens the Upcoming Deliveries popover.',tag('live')],
-        [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Upcoming Delivery</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Sparse — single order + upcoming delivery','A lone order that\'s en route — same green delivery badge and info icon as the full state; sub-copy leads with the arrival date.',tag('live')],
+        [kpiCell('Active Orders','2 Orders','Keep an eye on deliveries. <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Ready Soon</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Full — orders + upcoming delivery','Green delivery badge and info icon shown next to the count when at least one order is en route; the icon opens the Upcoming Deliveries popover.',tag('live')],
+        [kpiCell('Active Orders','1 Order','Arriving Tue, Jun 25 <a href="#">View</a>',' <span class="delivgrp"><span class="atbadge">Ready Soon</span><span class="delivwrap"><button class="delivi" aria-label="Upcoming delivery details"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/></svg></button></span></span>'),'Sparse — single order + upcoming delivery','A lone order that\'s en route — same green delivery badge and info icon as the full state; sub-copy leads with the arrival date.',tag('live')],
         [kpiCell('Active Orders','0 Orders','<a href="#">View</a>'),'Empty — no active orders','No "empty" sub-copy — just the View link.',tag('live')],
       ]],
       ['KPI bar — Welcome (long name edge case)',[
