@@ -488,7 +488,7 @@
   }
 
   /* module / rails */
-  .pmod{padding:16px 40px}
+  .pmod{padding:16px 24px}
   .pmod:first-child{padding-top:24px}   /* extra space above the Reorder title */
   #recentSection{padding-top:8px}   /* divider above Recently comes from the .pmod+.pmod rule */
   #catSection{padding-top:0}
@@ -497,6 +497,7 @@
   .pmod+.pmod{border-top:none;padding-top:0}
   .pmod+.pmod .pmhead{border-top:1px solid var(--sh-border);padding-top:32px}   /* divider aligned with content + 8px extra above title */
   .pmhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .acctpanel .pmhead .sub{font-size:14px}   /* Reorder / Categories / Recently Viewed subtext */
   .pmhead h2{font-size:24px;font-weight:700;color:var(--sh-dark-gray)}
   .pmhead .sub{font-size:13px;color:var(--sh-mid-gray)}
   .pmhead .va{margin-left:auto;font-size:13px;font-weight:700;color:#4186AD}
@@ -646,21 +647,21 @@
   .mcard .mktinfo .ic{font-size:16px}
 
   /* categories */
-  .cats{display:grid;grid-auto-flow:column;grid-auto-columns:var(--cardw,160px);gap:12px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding:8px 0 0;scrollbar-width:none}
-  .cats::-webkit-scrollbar{display:none}
-  .cats>.cat{scroll-snap-align:start}
-  #cats[data-rows="2"]{grid-template-rows:repeat(2,auto);row-gap:8px}
-  #cats[data-rows="3"]{grid-template-rows:repeat(3,auto);row-gap:8px}
-  .acctpanel .pager[data-rail="cats"]{margin-top:16px}   /* 16px between list and pagination, all breakpoints */
+  .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:8px 0 0}   /* flexible tile widths — even, natural spacing */
+  #cats>*:nth-child(n+7){display:none}   /* Shop Your Categories: show 6 total at every breakpoint */
+  @media(max-width:1399px){ .cats{grid-template-columns:repeat(3,1fr);row-gap:24px} }   /* 2 lines of 3 below 1400 */
   .cat{text-align:center;font-size:13px;font-weight:700;color:var(--sh-dark-gray)}
-  .cat .circ{aspect-ratio:1;max-width:140px;margin:0 auto 10px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan);overflow:hidden}
-  @media(min-width:1400px){ .cat{font-size:14px} .cat .circ{max-width:160px} }
+  .cat .circ{aspect-ratio:1;max-width:160px;margin:0 auto 10px;background:var(--sh-light-tan-1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sh-tan);overflow:hidden}
+  @media(min-width:1400px){ .cat{font-size:14px} .cat .circ{max-width:200px} }
+  @media(max-width:767px){ .cat .circ{max-width:100px} }
+  .cat>span:last-of-type{display:block;width:calc(100% + 24px);margin-left:-12px;line-height:1.1}   /* overhang exactly offset by the 12px inner padding — text never exceeds the cell */
+  @media(max-width:767px){ .cat{font-size:12px} }
   .cat .circ img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-  .cat>span:not(.circ){display:inline;line-height:1.35}   /* inline text so the chevron trails the last word (end of 2nd line when wrapping) */
+  .cat>span:not(.circ){display:block;line-height:1;padding:0 12px}   /* 12px side padding keeps neighboring labels apart; chevron still trails inside the span */
   .cat .ic{color:#07729C;vertical-align:middle}   /* same chevron arrow as the Bundle section, centered on its text line */
   .cat .circ .ms{font-size:34px}
   .cat:hover .circ{background:var(--sh-light-tan-3)}
-  .catsinner{padding:0 40px}   /* align Shop Your Categories with Reorder/Recently content */
+  .catsinner{padding:0 24px}   /* align Shop Your Categories with Reorder/Recently content */
   .seclabel{font-size:24px;font-weight:700;color:var(--sh-dark-gray);display:inline-block;vertical-align:baseline;margin:0 10px 14px 0}
   .secsub{font-size:13px;color:var(--sh-mid-gray);display:inline-block;vertical-align:baseline;margin:0 0 14px 0}
   .section{padding:36px 0}
@@ -1091,7 +1092,7 @@
   .sh-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(12px);background:var(--sh-dark-brown);color:#fff;font-size:13px;font-weight:700;padding:12px 18px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:90vw;text-align:center}
   .sh-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
   /* light informational variant for the remove/undo notice — anchored to its rail instead of the viewport */
-  .sh-toast.undo-note{bottom:100px;background:#EFF6FC;border:1px solid #B7D5EB;color:var(--sh-dark-gray);font-weight:400;border-radius:4px;box-shadow:0 4px 14px rgba(0,0,0,.10);padding:16px 34px 16px 18px}
+  .sh-toast.undo-note{bottom:100px;background:#EFF6FC;border:1px solid #B7D5EB;color:var(--sh-dark-gray);font-weight:400;border-radius:0;box-shadow:0 4px 14px rgba(0,0,0,.10);padding:16px 34px 16px 18px}
   .sh-toast.undo-note .tclose{position:absolute;top:4px;right:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#777;padding:0;margin:0}
   .sh-toast.undo-note .tclose:hover{color:var(--sh-dark-gray)}
   .sh-toast.undo-note .tclose svg{width:11px;height:11px;display:block;stroke:currentColor;stroke-width:2;stroke-linecap:round}
@@ -1211,7 +1212,7 @@
   }
   @media(min-width:992px) and (max-width:1199px){ .wrap{padding:0 20px} .head{padding:0 20px} }
   @media(min-width:768px) and (max-width:991px){ .wrap{padding:0 16px} .head{padding:0 16px} }
-  @media(min-width:768px) and (max-width:1199px){ .pmod{padding-left:28px;padding-right:28px} .catsinner{padding:0 28px} }   /* tighter side padding for reorder/recent */
+  @media(min-width:768px) and (max-width:1399px){ .pmod{padding-left:20px;padding-right:20px} .catsinner{padding:0 20px} .acctpanel .pmhead h2{font-size:20px} .acctpanel .pmhead .sub{font-size:12px} }   /* tighter side padding + smaller titles for reorder/categories/recent */
   @media(max-width:767px){ .catsinner{padding:0} }
   /* mobile header: wrap to two rows (search full-width), hide rep mini — prevents overflow */
   @media(max-width:991px){ header{display:none} .util{display:none} nav.cat{display:none} .mhead{display:block} .repbar{display:flex} }
@@ -1254,11 +1255,11 @@
     .wrap{padding:0 16px}                          /* page side margin */
     .acctwrap{padding-left:0;padding-right:0}       /* reorder/recent run full-bleed */
     /* tighten vertical rhythm on phones so more lands above the fold */
-    .pmod{padding:16px 16px 40px}   /* 40px below each module's content */                              /* 16px inset on mobile */
+    .pmod{padding:16px 15px 40px}   /* 40px below each module's content */                              /* 15px inset on mobile */
     /* normalize the air above every section title to 40px */
     /* dividers above titles run full-bleed on mobile */
     .section::before,.best::before,.repband::before{left:0;right:0}
-    #catSection .pmhead,.pmod+.pmod .pmhead{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}
+    #catSection .pmhead,.pmod+.pmod .pmhead{margin-left:-15px;margin-right:-15px;padding-left:15px;padding-right:15px}
     #catSection .pmhead{padding-top:28px}
     .pmod+.pmod .pmhead{padding-top:28px}
     .section.latestact{padding-top:28px}
@@ -1282,7 +1283,7 @@
     .acctpanel{margin-top:0}
 
     /* chip rows run to the right edge — no clipped chip in the middle of the viewport */
-    .filterrow{margin-right:-16px;padding-right:16px}
+    .filterrow{margin-right:-15px;padding-right:15px}
     .bestright .filters{margin-right:-16px;padding-right:16px}
     /* mobile keeps the list-style row cards, but lays them out as horizontally scrollable columns (5 rows per swipe) */
     .acctpanel .rail{display:grid;grid-auto-flow:column;grid-template-rows:repeat(5,auto) !important;grid-auto-columns:100%;gap:0 24px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
@@ -1970,7 +1971,6 @@
   <section class="pmod" id="catSection">
     <div class="pmhead"><h2>Shop Your Categories</h2><span class="sub">Top pick categories for you</span></div>
     <div class="railwrap"><div class="cats" id="cats"></div></div>
-    <div class="pager" data-rail="cats"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
   </section>
   <section class="pmod" id="recentSection">
     <div class="pmhead"><h2>Recently Viewed</h2><span class="sub">Pick up where you left off</span><span class="va">View all →</span></div>
@@ -2539,8 +2539,8 @@
   if(partsRow)partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:17px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
   // categories
-  const cats=[['Tankless Water Heaters','Cat_waterHeater.webp'],['Hot Water Boilers','Cat_Boilers.webp'],['PEX Pipe & Tubing','Cat_Pex.webp'],['Copper Fittings','Cat_Fittings.webp'],['Expansion Tanks','Cat_tanks.webp'],['Taco Cast Iron Pumps','Cat_Pumps.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp'],['Ball Valves','Cat_Fittings.webp'],['Circulator Pumps','Cat_Pumps.webp'],['Radiant Heating','Cat_Boilers.webp'],['Water Filters','Cat_waterHeater.webp'],['Pipe Fittings','Cat_Fittings.webp'],['Zone Valves','Cat_tanks.webp'],['Baseboard Heaters','Cat_Boilers.webp'],['Gas Valves','Cat_Eletricals.webp'],['Mini-Split Systems','Cat_Thermostat.webp'],['Pressure Tanks','Cat_tanks.webp'],['PEX Fittings','Cat_Pex.webp'],['Sump Pumps','Cat_Pumps.webp']];
-  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]} <svg class="ic" viewBox="0 0 24 24" style="font-size:17px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
+  const cats=[['Motors & Motor Parts','Cat_Pumps.webp'],['Thermostat Controls & Accessories','Cat_Thermostat.webp'],['Boiler Parts & Accessories','Cat_Boilers.webp'],['Hydronic Valves, Controls & Parts','Cat_tanks.webp'],['Copper Fittings & Nipples','Cat_Fittings.webp'],['Valves','Cat_Eletricals.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp'],['Ball Valves','Cat_Fittings.webp'],['Circulator Pumps','Cat_Pumps.webp'],['Radiant Heating','Cat_Boilers.webp'],['Water Filters','Cat_waterHeater.webp'],['Pipe Fittings','Cat_Fittings.webp'],['Zone Valves','Cat_tanks.webp'],['Baseboard Heaters','Cat_Boilers.webp'],['Gas Valves','Cat_Eletricals.webp'],['Mini-Split Systems','Cat_Thermostat.webp'],['Pressure Tanks','Cat_tanks.webp'],['PEX Fittings','Cat_Pex.webp'],['Sump Pumps','Cat_Pumps.webp']];
+  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]}<svg class="ic" viewBox="0 0 24 24" style="font-size:17px;margin-left:-1px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
   (function(){
     const g=document.getElementById('gtCircles');if(!g)return;
     g.innerHTML=cats.map(c=>`<a href="#"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span class="cl">${c[0]} ›</span></a>`).join('');
@@ -2860,7 +2860,7 @@
   function layoutRail(railId){
     const rail=document.getElementById(railId);
     if(!rail)return;
-    if(railId==='cats'){var _w=window.innerWidth;rail.dataset.rows=_w>=1400?'1':(_w>=992?'2':'3');}
+    if(railId==='cats'){rail.dataset.rows=window.innerWidth>=1400?'1':'2';rail.style.removeProperty('--cardw');return;}   // fixed tile sizes come from CSS; no pager
     // only size when the rail is the horizontal grid scroller (mobile turns it into a block list)
     if(getComputedStyle(rail).display!=='grid'){rail.style.removeProperty('--cardw');return;}
     const W=rail.clientWidth; if(W<=0)return;
@@ -2957,7 +2957,7 @@
     renderCats();
     document.body.classList.add('loaded');
     layoutRails();                                // size real cards before the pager measures pages
-    ['reorderRail','recentRail','ntmRecentRail','bestRail','cats'].forEach(initPager);
+    ['reorderRail','recentRail','ntmRecentRail','bestRail'].forEach(initPager);
   }, 1100);
 
   // ---------- upcoming-delivery popover ----------
