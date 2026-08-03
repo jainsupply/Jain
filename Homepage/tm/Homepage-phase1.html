@@ -582,7 +582,7 @@
   @keyframes sh-spin{to{transform:rotate(360deg)}}
   /* stepper — momentary success confirmation: normal stepper plus a checkmark badge + "Added!" callout */
   .addedwrap{position:relative;width:100%}
-  .addedwrap .addedbadge{position:absolute;top:-9px;right:-9px;width:22px;height:22px;border-radius:50%;background:var(--sh-orange);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;z-index:2}   /* the .ic class strokes with currentColor, so the check follows this */
+  .addedwrap .addedbadge{position:absolute;top:-16px;right:-11px;width:22px;height:22px;border-radius:50%;background:var(--sh-orange);color:#fff;border:2px solid #fff;box-sizing:content-box;box-shadow:0 2px 6px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;z-index:2}   /* white ring; offsets bumped so the ring stays centered on the corner */
   .addedwrap .addedbadge .ic{width:13px;height:13px}
   .addedwrap .addedtip{position:absolute;left:calc(100% - 2px);bottom:calc(100% + 4px);background:#fff;border:1.5px solid var(--sh-orange);color:var(--sh-orange);font-weight:700;font-size:13px;line-height:1;padding:9px 14px;white-space:nowrap;box-shadow:2px 3px 8px rgba(0,0,0,.1);z-index:1}   /* sits off the badge's top-right corner */
   /* hover state of the Add button: editable qty stepper (type qty in the middle) */
@@ -1190,14 +1190,18 @@
   /* "Added!" confirmation popover anchored to the stepper */
   .addedpop{position:absolute;display:flex;align-items:center;z-index:9999;pointer-events:none;opacity:0;transform:translateY(6px) scale(.96);transition:opacity .18s ease,transform .18s ease}
   .addedpop.show{opacity:1;transform:translateY(0) scale(1)}
-  .addedpop .chk{width:22px;height:22px;border-radius:50%;background:var(--sh-orange);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);z-index:2;flex-shrink:0}
-  .addedpop .lbl{margin-left:-9px;border:1.5px solid #F4B68B;background:#fff;color:var(--sh-orange);font-weight:700;font-size:14px;line-height:1;padding:10px 16px 10px 20px;white-space:nowrap;box-shadow:0 6px 14px rgba(0,0,0,.08)}
+  .addedpop .chk{width:22px;height:22px;border-radius:50%;background:var(--sh-orange);color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);z-index:2;flex-shrink:0;box-sizing:content-box}
+  .addedpop .lbl{position:absolute;left:calc(100% - 13px);bottom:calc(100% - 15px);z-index:1;border:1.5px solid var(--sh-orange);background:#fff;color:var(--sh-orange);font-weight:700;font-size:13px;line-height:1;padding:9px 14px;white-space:nowrap;box-shadow:2px 3px 8px rgba(0,0,0,.1)}   /* tucked at the circle's top-right, same geometry as the documented state */
+  .addedpop.left .lbl{left:auto;right:calc(100% - 13px);bottom:calc(100% - 13px)}   /* mobile: callout sits on top of the stepper, opening left; circle overlaps its corner */
 
   /* responsive */
   /* —— canonical page side margins ——
      ≥1920: 0 (content capped/centered) · 1600-1919: 80px (base .wrap rule) · 1400-1599: 52px
      1200-1399: 32px · 992-1199: 20px · ≤991 (incl. 576-767 and ≤575): 16px */
   @media(min-width:1600px) and (max-width:2060px){ .wrap.acctwrap{padding-left:52px;padding-right:52px} }   /* KPI/Reorder + Categories/Recently Viewed: 52px sides in this range */
+  @media(min-width:1600px){ .hero .wrap{padding-left:52px;padding-right:52px} }   /* hero band: 52px so "Our House is Your House" aligns with the section content */
+  .hero .wrap{max-width:2060px}   /* hero container matches the wider account sections */
+  @media(min-width:2061px){ .hero .wrap{padding-left:80px;padding-right:80px} }   /* once the 2060 container is centered, step back up to 80px */
   @media(min-width:1400px) and (max-width:1599px){ .wrap{padding:0 52px} .head{padding:0 52px} }
   @media(min-width:1200px) and (max-width:1399px){ .wrap{padding:0 32px} .head{padding:0 32px} }
   @media(max-width:1000px){
@@ -2704,12 +2708,17 @@
   }
   // "Added!" confirmation popover anchored to the stepper
   let addedEl;
-  function showAdded(anchor){
+  function showAdded(anchor,checkOnly){
     if(!anchor)return;
     if(!addedEl){addedEl=document.createElement('div');addedEl.className='addedpop';addedEl.setAttribute('role','status');addedEl.innerHTML=`<span class="chk">${checkSvg}</span><span class="lbl">Added!</span>`;document.body.appendChild(addedEl);}
+    const _lbl=addedEl.querySelector('.lbl');_lbl.style.visibility=checkOnly?'hidden':'';_lbl.style.display='';   // repeat tweaks: hide the label but keep its space so the check circle never moves
+    const isMob=window.innerWidth<=767;
+    addedEl.classList.toggle('left',isMob);   // mobile cards: callout opens leftward
     const r=anchor.getBoundingClientRect();
-    let left=window.scrollX+r.right-11, top=window.scrollY+r.top-22;   // badge sits just above the top-right corner
-    left=Math.min(left, window.scrollX+window.innerWidth-150);   // keep on screen
+    let left,top;
+    if(isMob){ left=window.scrollX+r.right-13; top=window.scrollY+r.top-15; }   // circle centered on the + button's top-right corner, nudged 2px up
+    else { left=window.scrollX+r.right-11; top=window.scrollY+r.top-22;         // desktop: badge just above the corner
+           left=Math.min(left, window.scrollX+window.innerWidth-150); }
     addedEl.style.left=left+'px'; addedEl.style.top=top+'px';
     addedEl.classList.remove('show'); void addedEl.offsetWidth; addedEl.classList.add('show');
     clearTimeout(addedEl._t); addedEl._t=setTimeout(()=>addedEl.classList.remove('show'),1600);
@@ -2791,9 +2800,10 @@
         // when the whole set hits 0, collapse back to two Add buttons
         const total=[...card.querySelectorAll('.buyunit input')].reduce((s,i)=>s+(parseInt(i.value)||0),0);
         if(total<=0){card.querySelectorAll('.buyunit').forEach(u=>u.innerHTML=addBtn());const bt=card.querySelector('.boxtoggle'),body=card.querySelector('.boxbody');if(body)body.setAttribute('hidden','');if(bt)bt.setAttribute('aria-expanded','false');toast('Removed from cart');}
+        else showAdded(unit.querySelector('.qtyctl'),true);   // qty tweaked: check circle only
         recount();return;
       }
-      if(q<=0){unit.innerHTML=addBtn();toast('Removed from cart');}else{unit.innerHTML=qtyCtl(q);}recount();return;}
+      if(q<=0){unit.innerHTML=addBtn();toast('Removed from cart');}else{unit.innerHTML=qtyCtl(q);showAdded(unit.querySelector('.qtyctl'),true);}recount();return;}
     // box up & save expand/collapse
     const bt=e.target.closest('.boxtoggle');
     if(bt){e.preventDefault();const body=bt.parentNode.querySelector('.boxbody');const collapsed=body.hasAttribute('hidden');if(collapsed){body.removeAttribute('hidden');bt.setAttribute('aria-expanded','true');}else{body.setAttribute('hidden','');bt.setAttribute('aria-expanded','false');}return;}
@@ -3085,6 +3095,7 @@
     function withStepper(it,html){const e=el(mcard(it,0,''));e.querySelector('.buyunit').innerHTML=html;return e.outerHTML;}
     const stepperLoading='<div class="qtyctl loading"><svg class="spinner" viewBox="0 0 24 24" fill="none"><g stroke="#F15C02" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="7" x2="12" y2="3" opacity="1"/><line x1="15.54" y1="8.46" x2="18.36" y2="5.64" opacity=".87"/><line x1="17" y1="12" x2="21" y2="12" opacity=".75"/><line x1="15.54" y1="15.54" x2="18.36" y2="18.36" opacity=".62"/><line x1="12" y1="17" x2="12" y2="21" opacity=".5"/><line x1="8.46" y1="15.54" x2="5.64" y2="18.36" opacity=".37"/><line x1="7" y1="12" x2="3" y2="12" opacity=".25"/><line x1="8.46" y1="8.46" x2="5.64" y2="5.64" opacity=".12"/></g></svg></div>';
     const stepperAdded='<div class="addedwrap">'+qtyCtl(1)+'<span class="addedbadge"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 13 9 18 20 6"/></svg></span><span class="addedtip">Added!</span></div>';
+    const stepperChecked='<div class="addedwrap">'+qtyCtl(2)+'<span class="addedbadge"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 13 9 18 20 6"/></svg></span></div>';
     const groups=[
       ['Standard states',[
         [mcard(base,0,''),'Default','In-stock item, not yet in cart — Add button plus unit price.'],
@@ -3096,6 +3107,7 @@
         [skCard(false),'Skeleton loader','Shimmer placeholder shown while the rail hydrates — image, title, and Add button are all blocked out.'],
         [withStepper(base,stepperLoading),'Stepper — loading','Brief spinner shown in place of the −/＋ controls while a quantity change is being processed.'],
         [withStepper(base,stepperAdded),'Stepper — added confirmation','Momentary success treatment confirms the item was added before settling into the standard stepper.'],
+        [withStepper(base,stepperChecked),'Stepper — quantity adjusted','After the first add, further ＋/− changes confirm with just the check circle — the &ldquo;Added!&rdquo; callout only shows once.'],
       ]],
       ['Bulk &amp; save variants',[
         [mcard(boxItem,0,'box'),'Box up &amp; save — collapsed','Optional bulk-pack price, collapsed by default.'],
