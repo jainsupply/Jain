@@ -656,11 +656,10 @@
   @media(max-width:767px){ .cat .circ{max-width:100px} }
   .cat>span:last-of-type{display:block;width:calc(100% + 24px);margin-left:-12px;line-height:1.1}   /* overhang exactly offset by the 12px inner padding — text never exceeds the cell */
   @media(max-width:767px){ .cat{font-size:12px} }
-  .cat .circ img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .cat .circ img{width:82%;height:82%;object-fit:contain}   /* product shot slightly inset within the circle */
   .cat>span:not(.circ){display:block;line-height:1;padding:0 12px}   /* 12px side padding keeps neighboring labels apart; chevron still trails inside the span */
   .cat .ic{color:#07729C;vertical-align:middle}   /* same chevron arrow as the Bundle section, centered on its text line */
   .cat .circ .ms{font-size:34px}
-  .cat:hover .circ{background:var(--sh-light-tan-3)}
   .catsinner{padding:0 24px}   /* align Shop Your Categories with Reorder/Recently content */
   .seclabel{font-size:24px;font-weight:700;color:var(--sh-dark-gray);display:inline-block;vertical-align:baseline;margin:0 10px 14px 0}
   .secsub{font-size:13px;color:var(--sh-mid-gray);display:inline-block;vertical-align:baseline;margin:0 0 14px 0}
@@ -686,8 +685,8 @@
   .bestpromo{display:flex;flex-direction:column;justify-content:center;position:relative;z-index:0;text-align:right}
   .bestpromo .pl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--sh-tm-blue)}
   .bestpromo .bp2-logo{height:30px;width:auto;margin-left:auto;margin-bottom:10px;display:block}
-  .bestpromo h2{font-size:27px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:6px 0 16px}
-  .bestpromo .pimg{width:500px;max-width:none;height:auto;object-fit:contain;display:block}   /* larger; right side tucks behind the card */
+  .bestpromo h2{font-size:27px;font-weight:400;color:var(--sh-dark-brown);line-height:1.15;margin:6px 0 8px}
+  .bestpromo .pimg{width:410px;max-width:none;height:auto;object-fit:contain;display:block;margin:-6px 0 0 auto}   /* slightly smaller, hugging the copy; right side tucks behind the card */
   .bestright{background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 1px 8px rgba(0,0,0,.07);position:relative;z-index:1}
   .bestright .filters{margin-top:0;margin-bottom:16px}
   .besthead{display:none}
@@ -967,12 +966,18 @@
   /* RIDGID promo card — Figma 2104:72538: logo top, copy, collage bottom on the warm tile */
   .brandpromo{display:flex;flex-direction:column;align-items:flex-start;background:#F8F5F3;padding:40px 28px 0}
   .brandpromo .bp-logo{width:52%;max-width:140px;height:auto;display:block;margin:8px 0 26px}
-  .brandpromo .bp-txt{font-size:22px;line-height:1.35;color:var(--sh-dark-gray);margin:0;align-self:flex-start;max-width:300px}
-  .brandpromo .bp-img{margin-top:auto;width:100%;max-width:300px;height:auto;display:block;padding-bottom:14px;align-self:center}
+  .brandpromo .bp-txt{font-size:22px;line-height:1.35;color:var(--sh-dark-gray);margin:0;align-self:flex-start;max-width:300px;position:relative;z-index:2}
+  .brandpromo .bp-img{margin-top:-72px;width:100%;max-width:340px;height:auto;display:block;padding-bottom:4px;align-self:center;position:relative;z-index:1}   /* square hero shot tucks up under the copy */
+  @media(min-width:992px) and (max-width:1399px){   /* narrower tiles: bigger image (into the side padding), pinned to the bottom */
+    .promogrid .brandpromo{padding-left:16px;padding-right:16px}
+    .brandpromo .bp-txt{padding-left:12px}
+    .brandpromo .bp-logo{margin-left:12px}
+    .brandpromo .bp-img{margin-top:auto;width:calc(100% + 16px);max-width:none;margin-left:-8px;margin-right:-8px;padding-bottom:0}
+  }
   @media(min-width:1600px){
     .brandpromo .bp-logo{max-width:160px;margin-left:20px}
     .brandpromo .bp-txt{font-size:24px;padding-left:20px}
-    .brandpromo .bp-img{max-width:360px}
+    .brandpromo .bp-img{max-width:400px}
   }
   /* desktop New Arrivals: horizontally paged rail; visible card count per breakpoint (Figma 2104:72538) */
   @media(min-width:992px){
@@ -1070,7 +1075,28 @@
   .section.brands::before{content:none}   /* no top divider on Brands */
   .brands .sub{font-size:24px;line-height:1.2;color:#777;margin:8px 0 24px}
   .logos{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:space-between}
-  .logos span{font-size:18px;font-weight:700;color:var(--sh-mid-gray);opacity:.75}
+  .logos .blogo{display:inline-flex;align-items:center;cursor:pointer}
+  .logos .blogo img{width:clamp(100px,8.5vw,130px);height:auto;display:block}   /* 130px max, easing down to 100px on narrow screens */
+  /* the source files carry uneven baked-in left whitespace — shift each logo so its visible mark sits flush left */
+  .logos .blogo:nth-child(1) img{transform:translateX(-9%)}   /* Bluefin */
+  .logos .blogo:nth-child(2) img{transform:translateX(-8%)}   /* Resideo */
+  .logos .blogo:nth-child(3) img{transform:translateX(-8%)}   /* Uponor */
+  .logos .blogo:nth-child(4) img{transform:translateX(-4%)}   /* A.O. Smith */
+  .logos .blogo:nth-child(5) img{transform:translateX(-4%)}   /* Honeywell */
+  .logos .blogo:nth-child(6) img{transform:translateX(-7%)}   /* Kohler */
+  .logos .blogo:nth-child(7) img{transform:translateX(-1%)}   /* Grundfos */
+  .logos .blogo:nth-child(8) img{transform:translateX(-5%)}   /* Milwaukee */
+  .logos .blogo .fc{display:none}
+  .logos .blogo:hover .bw{display:none}
+  .logos .blogo:hover .fc{display:block}
+  @media(max-width:1399px){   /* 2 lines of 4 below 1400 */
+    .logos{row-gap:28px}
+    .logos .blogo{flex:0 0 calc(25% - 26px);justify-content:flex-start}
+  }
+  @media(max-width:767px){   /* no hover on touch: always show the color version */
+    .logos .blogo .bw{display:none}
+    .logos .blogo .fc{display:block}
+  }
   .bdir{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
   .bcol h4{font-size:16px;font-weight:700;line-height:1.6;color:#000;text-transform:uppercase;margin-bottom:12px}
   .bcol a{display:block;font-size:16px;line-height:1.6;color:var(--sh-dark-gray);padding:0}
@@ -1775,7 +1801,7 @@
 
 <!-- MOBILE rep bar (shows on phones only) -->
 <div class="repbar">
-  <span class="who"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&q=70&auto=format&fit=crop" alt=""><span class="dot"></span> Your Rep Larry</span>
+  <span class="who"><img src="assets/help_rep_bubble/help_img_tm_larry.png" alt=""><span class="dot"></span> Your Rep Larry</span>
   <span class="acts">
     <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M5 4h3l2 5-2 1.5a11 11 0 0 0 5 5L18 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg> Call</a>
     <a href="#"><svg class="ic" viewBox="0 0 24 24"><path d="M5 5h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H9l-4 4V6a1 1 0 0 1 1-1z"/></svg> Text</a>
@@ -1810,11 +1836,11 @@
     <button class="go" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></button>
   </div>
   <div class="rep-mini">
-    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=68&q=70&auto=format&fit=crop" alt="">
+    <img src="assets/help_rep_bubble/help_img_tm_larry.png" alt="">
     <div><div class="rl">Your rep, Larry</div><div class="rp">516-310-0227</div><a href="#" class="rc">CONTACT &amp; SUPPORT <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a></div>
   </div>
   <div class="contact-mini">
-    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=68&q=70&auto=format&fit=crop" alt="">
+    <img src="assets/help_rep_bubble/help_img_tm_larry.png" alt="">
     <div><a href="#" class="cs">CONTACT &amp; SUPPORT <svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a><div class="lc"><span class="dot"></span> Live Chat : Online Now</div></div>
   </div>
   <div class="hacts">
@@ -2037,7 +2063,7 @@
 <section class="section brands"><div class="wrap">
   <h2>700+ Brands. 340,000+ Products</h2>
   <div class="sub">Shop from the industry's most reliable brands and manufacturers</div>
-  <div class="logos"><span>Bluefin</span><span>resideo</span><span>uponor</span><span>A.O.Smith</span><span>Honeywell</span><span>Taco</span><span>Grundfos</span><span>Milwaukee</span></div>
+  <div class="logos"><span class="blogo"><img class="bw" src="assets/logo_brands/Bluefin-logo-bw-@2x.webp" alt="Bluefin"><img class="fc" src="assets/logo_brands/Bluefin-logo-fc-@2x.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/Resideo-logo-bw-@2x.webp" alt="Resideo"><img class="fc" src="assets/logo_brands/Resideo-logo-fc-@2x.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/Uponor-logo-bw-@2x.webp" alt="Uponor"><img class="fc" src="assets/logo_brands/Uponor-logo-fc-@2x.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/AOsmith-logo-bw-@2x.webp" alt="A.O. Smith"><img class="fc" src="assets/logo_brands/AOsmith-logo-fc-@2x.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/Honeywell-logo-bw-@2x.webp" alt="Honeywell"><img class="fc" src="assets/logo_brands/Honeywell-logo-fc-@2x.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/Kohler-logo-bw-@2x1.webp" alt="Kohler"><img class="fc" src="assets/logo_brands/Kohler-logo-fc-@2x1.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/Grundfos-logo-bw-2@2.webp" alt="Grundfos"><img class="fc" src="assets/logo_brands/Grundfos-logo-fc-2@2.webp" alt=""></span><span class="blogo"><img class="bw" src="assets/logo_brands/Milwaukee-logo-bw-@2x.webp" alt="Milwaukee"><img class="fc" src="assets/logo_brands/Milwaukee-logo-fc-@2x.webp" alt=""></span></div>
 </div></section>
 
 <!-- SIGN IN STRIP (guest only) -->
@@ -2544,7 +2570,8 @@
 
   // categories
   const cats=[['Motors & Motor Parts','Cat_Pumps.webp'],['Thermostat Controls & Accessories','Cat_Thermostat.webp'],['Boiler Parts & Accessories','Cat_Boilers.webp'],['Hydronic Valves, Controls & Parts','Cat_tanks.webp'],['Copper Fittings & Nipples','Cat_Fittings.webp'],['Valves','Cat_Eletricals.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp'],['Ball Valves','Cat_Fittings.webp'],['Circulator Pumps','Cat_Pumps.webp'],['Radiant Heating','Cat_Boilers.webp'],['Water Filters','Cat_waterHeater.webp'],['Pipe Fittings','Cat_Fittings.webp'],['Zone Valves','Cat_tanks.webp'],['Baseboard Heaters','Cat_Boilers.webp'],['Gas Valves','Cat_Eletricals.webp'],['Mini-Split Systems','Cat_Thermostat.webp'],['Pressure Tanks','Cat_tanks.webp'],['PEX Fittings','Cat_Pex.webp'],['Sump Pumps','Cat_Pumps.webp']];
-  function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<a href="#" class="cat"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span>${c[0]}<svg class="ic" viewBox="0 0 24 24" style="font-size:17px;margin-left:-1px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
+  const CAT_IMGS=['CatImage_40880_s.webp','CatImage_40881_s.webp','CatImage_40882_s.webp','CatImage_40883_s.webp','CatImage_40884_s.webp','CatImage_40890_s.webp'].sort(()=>Math.random()-.5);   // small category shots, shuffled each load
+  function renderCats(){document.getElementById('cats').innerHTML=cats.map((c,i)=>`<a href="#" class="cat"><span class="circ"><img src="assets/category/${CAT_IMGS[i%CAT_IMGS.length]}" alt="" loading="lazy"></span><span>${c[0]}<svg class="ic" viewBox="0 0 24 24" style="font-size:17px;margin-left:-1px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
   (function(){
     const g=document.getElementById('gtCircles');if(!g)return;
     g.innerHTML=cats.map(c=>`<a href="#"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span class="cl">${c[0]} ›</span></a>`).join('');
@@ -3357,7 +3384,7 @@
       else{statusLine=`${dot('#C4C4C4')}<span style="color:#ACACAC">Offline — back tomorrow at XX AM</span>`;phoneColor='#ACACAC';ctas=`<span style="background:#07729C;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:8px 12px;border-radius:2px">Email Larry</span><span style="border:2px solid #07729C;color:#07729C;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border-radius:2px">Request a Quote</span>`;}
       return `<div style="background:#EFF5FD;border:1px solid #C5E0F0;border-radius:8px;padding:16px">
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
-          <img src="assets/help_img_tm_larry.png" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+          <img src="assets/help_rep_bubble/help_img_tm_larry.png" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
           <div style="min-width:0">
             <div style="font-size:11px;font-weight:700;color:#996A3F">Your Dedicated Rep</div>
             <div style="font-size:20px;font-weight:700;color:#343434;line-height:1.15">Larry</div>
@@ -3376,7 +3403,7 @@
       };
       return `<div style="background:#EFF5FD;border:1px solid #C5E0F0;border-radius:8px;padding:16px;max-width:280px;margin:0 auto">
         <div style="display:flex;gap:12px;align-items:center;margin-bottom:6px">
-          <img src="assets/help_img_tm_larry.png" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover">
+          <img src="assets/help_rep_bubble/help_img_tm_larry.png" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover">
           <div style="min-width:0">
             <div style="font-size:11px;font-weight:700;color:#996A3F">Your Dedicated Rep</div>
             <div style="font-size:18px;font-weight:700;color:#343434;line-height:1.15">Larry</div>
@@ -3540,15 +3567,16 @@
     const esc=x=>String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const DEF={
       newarrivals:{label:'New Arrivals',note:'Brand tile + product rail',active:0,camps:[
-        {name:'RIDGID - Century of Strength',def:true,start:'',end:'',copy:'New Products Built on a Century of Strength',bg:'#F8F5F3',logo:'assets/logo_ridgid.webp',img:'assets/newarrival_group1.webp',skus:'2432-22, 2773-20, 2772A, 2780-20, 32573, CA-350, 31095, RP-241, 2532-22, 535A'}
+        {name:'RIDGID - Century of Strength',def:true,start:'',end:'',copy:'New Products Built on a Century of Strength',bg:'#F8F5F3',logo:'assets/logo_ridgid.webp',img:'assets/category/CatImage_new001_l.webp',skus:'2432-22, 2773-20, 2772A, 2780-20, 32573, CA-350, 31095, RP-241, 2532-22, 535A'}
       ]},
       bestpicks:{label:'Best Picks For You',note:'Left promo panel + rail',active:0,camps:[
-        {name:'Popular in your categories',def:true,start:'',end:'',copy:'Popular products in your categories',bg:'#F8F8F8',logo:'',img:'assets/Group_Heating.png',skus:'007E, T6PRO, PP20431, AE110L, TS8000, 31095'}
+        {name:'Popular in your categories',def:true,start:'',end:'',copy:'Popular products in your categories',bg:'#F8F8F8',logo:'',img:'assets/category/CatImage_heating_l.webp',skus:'007E, T6PRO, PP20431, AE110L, TS8000, 31095'}
       ]}
     };
     function load(){try{const v=JSON.parse(localStorage.getItem(KEY));if(v){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],v[k]||{}));return m;}}catch(e){}return JSON.parse(JSON.stringify(DEF));}
     function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
     let data=load(), cur='newarrivals', mode='hero';
+    ORDER.forEach(k=>{(data[k]&&data[k].camps||[]).forEach(c=>{if(c.img==='assets/newarrival_group1.webp')c.img='assets/category/CatImage_new001_l.webp';if(c.img==='assets/Group_Heating.png')c.img='assets/category/CatImage_heating_l.webp';});save();});   // migrate old default hero image
     try{let fixed=false;(data.bestpicks.camps||[]).forEach(c=>{if(!c.bg||c.bg==='#FFFFFF'||c.bg==='#F5F5F5'){c.bg='#F8F8F8';fixed=true;}});if(fixed)save();}catch(e){}
     const cfg=()=>{const c=data[cur];return c.camps[c.active]||c.camps[0];};
     function status(c){
