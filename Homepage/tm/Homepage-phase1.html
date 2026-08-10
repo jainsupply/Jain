@@ -491,7 +491,8 @@
   .pmod{padding:16px 24px}
   .pmod:first-child{padding-top:24px}   /* extra space above the Reorder title */
   #recentSection{padding-top:8px}   /* divider above Recently comes from the .pmod+.pmod rule */
-  #catSection{padding-top:0}
+  #catSection{padding-top:0;padding-bottom:32px}   /* base 16 + 16 extra below Top Categories */
+  @media(max-width:767px){ #catSection{padding-bottom:56px} }   /* mobile base 40 + 16 extra */
   #catSection .pmhead{border-top:1px solid var(--sh-border);padding-top:32px}   /* light gray divider above Shop Your Categories, like Recently */
   .recentwrap{padding-top:0;padding-bottom:36px}
   .pmod+.pmod{border-top:none;padding-top:0}
@@ -1999,7 +2000,7 @@
 <!-- SHOP YOUR CATEGORIES + RECENTLY VIEWED (one container) -->
 <div class="wrap acctwrap recentwrap"><div class="acctpanel crpanel"><div>
   <section class="pmod" id="catSection">
-    <div class="pmhead"><h2>Shop Your Categories</h2><span class="sub">Top pick categories for you</span></div>
+    <div class="pmhead"><h2>Top Categories</h2><span class="sub">Our most-shopped categories</span></div>
     <div class="railwrap"><div class="cats" id="cats"></div></div>
   </section>
   <section class="pmod" id="recentSection">
@@ -2569,9 +2570,9 @@
   if(partsRow)partsRow.innerHTML=Array.from({length:6}).map((_,i)=>`<a class="pcard" href="#"><span class="pimg"><img src="assets/Bundle1.webp" alt="" loading="lazy"></span><span class="pl">Bundle ${i+1} <svg class="ic" viewBox="0 0 24 24" style="font-size:17px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');
 
   // categories
-  const cats=[['Motors & Motor Parts','Cat_Pumps.webp'],['Thermostat Controls & Accessories','Cat_Thermostat.webp'],['Boiler Parts & Accessories','Cat_Boilers.webp'],['Hydronic Valves, Controls & Parts','Cat_tanks.webp'],['Copper Fittings & Nipples','Cat_Fittings.webp'],['Valves','Cat_Eletricals.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp'],['Ball Valves','Cat_Fittings.webp'],['Circulator Pumps','Cat_Pumps.webp'],['Radiant Heating','Cat_Boilers.webp'],['Water Filters','Cat_waterHeater.webp'],['Pipe Fittings','Cat_Fittings.webp'],['Zone Valves','Cat_tanks.webp'],['Baseboard Heaters','Cat_Boilers.webp'],['Gas Valves','Cat_Eletricals.webp'],['Mini-Split Systems','Cat_Thermostat.webp'],['Pressure Tanks','Cat_tanks.webp'],['PEX Fittings','Cat_Pex.webp'],['Sump Pumps','Cat_Pumps.webp']];
+  const cats=[['Motors & Motor Parts','Cat_Pumps.webp','https://www.supplyhouse.com/Motors-and-Motor-Parts-40890000','CatImage_40890_s.webp'],['Thermostat Controls & Accessories','Cat_Thermostat.webp','https://www.supplyhouse.com/Thermostat-Controls-and-Accessories-40881000','CatImage_40881_s.webp'],['Boiler Parts & Accessories','Cat_Boilers.webp','https://www.supplyhouse.com/Boiler-Parts-and-Accessories-40884000','CatImage_40884_s.webp'],['Hydronic Valves, Controls & Parts','Cat_tanks.webp','https://www.supplyhouse.com/Hydronic-Valves-Controls-and-Parts-40882000','CatImage_40882_s.webp'],['Copper Fittings & Nipples','Cat_Fittings.webp','https://www.supplyhouse.com/Copper-Fittings-and-Nipples-40880000','CatImage_40880_s.webp'],['Valves','Cat_Eletricals.webp','https://www.supplyhouse.com/Valves-40883000','CatImage_40883_s.webp'],['Thermostats','Cat_Thermostat.webp'],['Switches','Cat_Eletricals.webp'],['Ball Valves','Cat_Fittings.webp'],['Circulator Pumps','Cat_Pumps.webp'],['Radiant Heating','Cat_Boilers.webp'],['Water Filters','Cat_waterHeater.webp'],['Pipe Fittings','Cat_Fittings.webp'],['Zone Valves','Cat_tanks.webp'],['Baseboard Heaters','Cat_Boilers.webp'],['Gas Valves','Cat_Eletricals.webp'],['Mini-Split Systems','Cat_Thermostat.webp'],['Pressure Tanks','Cat_tanks.webp'],['PEX Fittings','Cat_Pex.webp'],['Sump Pumps','Cat_Pumps.webp']];
   const CAT_IMGS=['CatImage_40880_s.webp','CatImage_40881_s.webp','CatImage_40882_s.webp','CatImage_40883_s.webp','CatImage_40884_s.webp','CatImage_40890_s.webp'].sort(()=>Math.random()-.5);   // small category shots, shuffled each load
-  function renderCats(){document.getElementById('cats').innerHTML=cats.map((c,i)=>`<a href="#" class="cat"><span class="circ"><img src="assets/category/${CAT_IMGS[i%CAT_IMGS.length]}" alt="" loading="lazy"></span><span>${c[0]}<svg class="ic" viewBox="0 0 24 24" style="font-size:17px;margin-left:-1px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
+  function renderCats(){document.getElementById('cats').innerHTML=cats.map((c,i)=>`<a href="${c[2]||'#'}" class="cat"><span class="circ"><img src="assets/category/${c[3]||CAT_IMGS[i%CAT_IMGS.length]}" alt="" loading="lazy"></span><span>${c[0]}<svg class="ic" viewBox="0 0 24 24" style="font-size:17px;margin-left:-1px"><polyline points="9 6 15 12 9 18"/></svg></span></a>`).join('');}
   (function(){
     const g=document.getElementById('gtCircles');if(!g)return;
     g.innerHTML=cats.map(c=>`<a href="#"><span class="circ"><img src="assets/${c[1]}" alt="" loading="lazy"></span><span class="cl">${c[0]} ›</span></a>`).join('');
