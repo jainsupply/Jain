@@ -42,8 +42,8 @@
   .searchbar:focus-within:not(:has(.go:focus-visible)),.msearch:focus-within{outline:3px solid #0066AD;outline-offset:1px}
   .ms{display:inline-block;line-height:1}
   .ic{width:1em;height:1em;display:inline-block;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-  .wrap{max-width:1980px;margin:0 auto;padding:0 80px}
-  .wrap.acctwrap{max-width:2060px}   /* KPI bar, Reorder, Shop Your Categories + Recently Viewed extend wider */
+  .wrap{max-width:1938px;margin:0 auto;padding:0 80px}
+  .wrap.acctwrap{max-width:2018px}   /* KPI bar, Reorder, Shop Your Categories + Recently Viewed extend wider */
   .ph{background:var(--sh-light-tan-2);display:flex;align-items:center;justify-content:center;color:var(--sh-mid-gray)}
 
   /* value-prop bar (guest only) — sits above the utility bar */
@@ -100,7 +100,7 @@
 
   /* header */
   header{background:#fff;border-bottom:1px solid var(--sh-border)}
-  .head{display:flex;align-items:center;gap:22px;height:90px;padding:0 80px;max-width:1980px;margin:0 auto}
+  .head{display:flex;align-items:center;gap:22px;height:90px;padding:0 80px;max-width:1938px;margin:0 auto}
   .logo{flex-shrink:0;line-height:1}
   .logo-img{height:41px;width:auto;display:block}
   .tmtag-img{height:11px;width:auto;display:block}
@@ -172,11 +172,19 @@
   @media(max-width:767px){ .hero .tmtag{padding:4px 5px;border-radius:6px} }   /* tighter TradeMaster badge padding + corners on mobile */
   /* full promo banner backdrop + carousel (non-TM cohorts): whole banner shown behind hero/KPI/reorder, fading to white */
   .herobig{display:none;position:absolute;top:0;left:0;right:0;min-height:800px;z-index:0;overflow:hidden}
-  .herobig .hbtrack{display:flex;transition:transform .22s ease-out}
-  .herobig .hbinner{position:relative;max-width:1980px;margin:0 auto;overflow:hidden}   /* clip slides at 1920 so the image never peeks into the extended side color */
+  .herobig .hbtrack{display:flex}   /* no sliding transition — slides switch instantly */
+  .herobig .hbinner{position:relative;max-width:1938px;margin:0 auto;overflow:hidden}   /* clip slides at 1920 so the image never peeks into the extended side color */
   .herobig .hbslide{flex:0 0 100%}
   .herobig .hbslide picture{display:block;width:100%}
   .herobig .hbslide img{width:100%;height:auto;display:block}
+  @media(min-width:992px) and (max-width:1919px){
+    /* below 1920 the image eases right (12% of the width deficit, capped at 90px) to clear more room for the text */
+    .herobig .hbslide img{transform:translateX(clamp(0px,calc((1920px - 100vw)*0.12),90px))}
+  }
+  @media(min-width:768px) and (max-width:991px){
+    /* tablet: keep the image left-anchored composition but slightly smaller, docked right for text room */
+    .herobig .hbslide img{transform:none;width:92%;margin-left:auto}
+  }
   .herobig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 0,rgba(255,255,255,0) 340px,#fff 800px);pointer-events:none;z-index:1}
   .herobig .hbarrow{position:absolute;top:108px;transform:translateY(-50%);background:none;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;padding:6px;transition:opacity .15s}
   .herobig .hbarrow:hover{opacity:.75}
@@ -188,13 +196,18 @@
   .herobig .hbdots{display:none}
   .herobig .hbdots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(0,0,0,.3);cursor:pointer;padding:0}
   .herobig .hbdots button.on{background:var(--sh-dark-gray)}
-  .herobig .hbtext{position:absolute;left:6%;top:108px;transform:translateY(-50%);z-index:2;max-width:min(44%,340px);pointer-events:none}
+  .herobig .hbarrow{display:none!important}   /* carousel side arrows hidden */
+  .herobig .hbtext{position:absolute;left:72px;top:108px;transform:translateY(-50%);z-index:2;max-width:min(44%,340px);pointer-events:none}   /* indent matches the page content margins */
+  @media(min-width:1600px){ .herobig .hbtext{left:64px} }   /* constant indent at the largest sizes: content margin 52 + 12 */
+  @media(min-width:1200px) and (max-width:1399px){ .herobig .hbtext{left:52px} }
+  @media(min-width:992px) and (max-width:1199px){ .herobig .hbtext{left:28px} }
   .herobig .hbtext h2{font-size:clamp(18px,2.7vw,34px);font-weight:700;color:#111;line-height:1.12;margin:0;font-family:'interstate',var(--sh-font)}
-  .herobig .hbtext p{font-size:clamp(12px,1.15vw,14px);line-height:1.3;color:var(--sh-dark-gray);margin:6px 0 0}
+  .herobig .hbtext p{font-size:clamp(12px,1.15vw,14px);line-height:1.3;color:var(--sh-dark-gray);margin:4px 0 0}
   /* hero text container follows the canonical page margins; arrows shrink toward the edge below 1400px
      so the chevron always stays inside the margin gutter and never covers text or image */
   /* hero banner text uses a 6% left inset (matches the promo banner); tighter fixed inset ≤991px */
-  @media(max-width:991px){ .herobig .hbtext{left:24px} }
+  @media(min-width:768px) and (max-width:991px){ .herobig .hbtext{left:28px} }
+  @media(max-width:767px){ .herobig .hbtext{left:24px} }
   @media(max-width:1399px){ .herobig .hbchev{width:22px;height:22px} .herobig .hbarrow{padding:4px} .herobig .hbarrow.prev{left:2px} .herobig .hbarrow.next{right:2px} }   /* glyph 6-28px inside the 32px gutter */
   @media(max-width:1199px){ .herobig .hbchev{width:16px;height:16px} .herobig .hbarrow{padding:3px} .herobig .hbarrow.prev{left:0} .herobig .hbarrow.next{right:0} }        /* glyph 3-19px inside the 20px gutter */
   @media(max-width:991px){ .herobig .hbarrow{display:none} }                                                                        /* no carousel side arrows ≤991px */
@@ -203,12 +216,32 @@
   .herobig .hbtext-apply h2{color:#fff}
   .herobig .hbtext-apply p{color:#dce9f3}
   .herobig .hbtext .hbsub-m{display:none}   /* short benefit sub-line — mobile only (desktop shows the full paragraph) */
-  .herobig .hbcta{display:flex;align-items:center;gap:14px;margin-top:14px}
-  .herobig .hbbtn{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;padding:0 24px;pointer-events:auto;flex-shrink:0}
+  .herobig .hbtext-apply{max-width:min(60%,720px)}   /* wide enough for the one-line headline on large screens */
+  .herobig .hbcta{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-top:6px}
+  .herobig .hbh-m{display:none}
+  .herobig .hbnote{display:inline-flex;align-items:center;gap:7px;color:#fff;font-size:11px;pointer-events:none}
+  .herobig .hbnote .hbclock{width:14px;height:14px;flex-shrink:0;color:#F15C02}
+  .herobig .hbnote b{font-weight:700}
+  .herobig .hbbtn{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;height:36px;width:200px;padding:0 24px;pointer-events:auto;flex-shrink:0}
   .herobig .hbbtn:hover{background:#EFF5FD}
+  /* 768-1199: text link instead of the CTA button, labeled "Apply for Free" */
+  @media(min-width:768px) and (max-width:1199px){
+    .herobig .hbbtn{background:none;color:#fff;height:auto;width:auto;padding:0;letter-spacing:.3px;text-decoration:underline}
+    .herobig .hbbtn:hover{background:none;color:#fff}
+    .herobig .hbtext-apply .hbcta .hbbtn{font-size:12px}
+    .herobig .hbbtn .hbh-d{display:inline}
+    .herobig .hbbtn .hbh-m{display:none}
+    .herobig .hbcta{flex-direction:row;align-items:center;gap:12px}
+  }
+  /* ≤575: slightly smaller mobile headline */
+  @media(max-width:575px){
+    .herobig .hbtext.hbtext-apply h2{font-size:18px}
+    .herobig .hbtext.hbtext-apply{max-width:min(66%,270px)}   /* tighter text block leaves more of the image visible */
+  }
   .herobig .hbnote-img{height:36px;width:auto;flex-shrink:0;pointer-events:none}
   body[data-cohort="ntm-purchaser"] .herobig .hbtext-shop,
-  body[data-cohort="ntm-nonpurchaser"] .herobig .hbtext-shop{display:none}
+  body[data-cohort="ntm-nonpurchaser"] .herobig .hbtext-shop,
+  body[data-cohort="guest"] .herobig .hbtext-shop{display:none}
   /* guest: Best Sellers runs full-width with a title row — no left promo panel (Figma 2014:51043) */
   body[data-cohort="guest"] .best{background:var(--merch-bestbg,#F8F8F8)}
   body[data-cohort="guest"] .best .bestpromo{display:none}
@@ -221,6 +254,10 @@
   body[data-cohort="guest"] .signin-strip{display:block}
   body[data-cohort="ntm-purchaser"] .herobig .hbtext-apply,
   body[data-cohort="ntm-nonpurchaser"] .herobig .hbtext-apply{display:block}
+  .herobig .hbtext-guest{display:none;max-width:min(52%,620px)}
+  .herobig .hbtext-guest h2{color:#fff}
+  .herobig .hbtext-guest p{color:#dce9f3}
+  body[data-cohort="guest"] .herobig .hbtext-guest{display:block}
   /* cohort visibility: TM keeps the slim hero; others get the promo banner backdrop */
   body[data-cohort="ntm-purchaser"] .hero,
   body[data-cohort="ntm-nonpurchaser"] .hero,
@@ -235,10 +272,10 @@
   body[data-cohort="ntm-applied"] .topblue,
   body[data-cohort="guest"] .topblue{background:#fff;padding-top:220px}
   /* beyond 1920 the banner image is capped; edge color fills the rest */
-  body[data-cohort="ntm-applied"] .herobig,
-  body[data-cohort="guest"] .herobig{background:#E2CCB8}   /* NTM-applied inherits the Guest banner (tan edge + default image) */
+  body[data-cohort="ntm-applied"] .herobig{background:#E2CCB8}   /* NTM-applied keeps the default tan banner */
   body[data-cohort="ntm-purchaser"] .herobig,
-  body[data-cohort="ntm-nonpurchaser"] .herobig{background:#0468AF}
+  body[data-cohort="ntm-nonpurchaser"] .herobig,
+  body[data-cohort="guest"] .herobig{background:#0468AF}   /* guest mirrors the NTM apply banner */
   body[data-cohort="ntm-purchaser"] .topblue>.wrap,
   body[data-cohort="ntm-nonpurchaser"] .topblue>.wrap,
   body[data-cohort="ntm-applied"] .topblue>.wrap,
@@ -265,9 +302,16 @@
     .herobig .hbtext-shop{max-width:min(52%,200px)}   /* Guest default: narrower text block so it clears the graphic on the right */
     .herobig .hbtext-shop h2{font-size:16px}          /* Guest default: slightly bigger headline */
     .herobig .hbtext p{display:none;line-height:1.15}   /* full paragraph hidden on mobile */
-    .herobig .hbtext-apply .hbsub-m{display:block;font-size:11px;line-height:1.2;color:#dce9f3;margin-top:4px}   /* short benefit sub-line shown on mobile */
-    .herobig .hbcta{margin-top:8px;gap:10px}
-    .herobig .hbbtn{background:none;color:#fff;height:auto;padding:0;font-size:11px;letter-spacing:.3px;text-decoration:underline}   /* underlined text link on mobile */
+    .herobig .hbh-d{display:none}
+    .herobig .hbh-m{display:inline}
+    .herobig .hbtext-apply h2{font-size:22px;line-height:1.05}
+    .herobig .hbtext-apply{max-width:min(78%,320px)}
+    .herobig .hbcta{flex-direction:row;align-items:center;margin-top:4px;gap:10px}
+    .herobig .hbnote{gap:4px}
+    .herobig .hbtext-apply .hbbtn{font-size:10px}
+    .herobig .hbnote{font-size:11px}
+    .herobig .hbnote .hbclock{width:13px;height:13px;color:#F15C02}
+    .herobig .hbbtn{background:none;color:#fff;height:auto;width:auto;padding:0;font-size:11px;letter-spacing:.3px;text-decoration:underline}   /* underlined text link on mobile */
     .herobig .hbbtn:hover{background:none;color:#fff}
     .herobig .hbnote-img{display:inline-block;height:22px}   /* show 3-min note next to the link */
   }
@@ -284,9 +328,10 @@
     body[data-cohort="ntm-purchaser"] .topblue,
     body[data-cohort="ntm-nonpurchaser"] .topblue,
     body[data-cohort="ntm-applied"] .topblue,
-    body[data-cohort="guest"] .topblue{padding-top:68px}   /* shortest banner band on small phones */
-    .herobig .hbarrow{top:34px}
-    .herobig .hbtext{top:34px}
+    body[data-cohort="guest"] .topblue{padding-top:80px}   /* shortest banner band on small phones (+12px) */
+    .herobig .hbarrow{top:40px}
+    .herobig .hbtext{top:40px}
+    .herobig .hbtext.hbtext-apply h2{font-size:16px}   /* slightly smaller headline on tiny screens */
     .mhacts{gap:14px}   /* logo + 3 actions overflow 375px viewports by ~2px at the default 22px gap */
     /* let the logo scale down (ratio preserved) so the header never overflows tiny screens (320px) */
     .mhead-top .logo{min-width:0;flex-shrink:1}
@@ -408,6 +453,10 @@
   /* Reorder/Recently sit in their own white card so they don't show the blue wash */
   body.mode-topbar .acctpanel>div{background:#fff;border-radius:8px 8px 0 0}   /* Reorder: top corners rounded only */
   body.mode-topbar .acctpanel.crpanel>div{border-radius:0}                     /* other containers: square corners */
+  body.mode-topbar[data-cohort="ntm-nonpurchaser"] .acctpanel.crpanel>div,
+  body[data-cohort="ntm-nonpurchaser"] .acctpanel.crpanel>div,
+  body.mode-topbar[data-cohort="guest"] .acctpanel.crpanel>div,
+  body[data-cohort="guest"] .acctpanel.crpanel>div{border-radius:8px 8px 0 0}   /* NTM non-purchaser: this is the top panel, so it gets the rounded top like TM's Reorder */
   body.mode-topbar .acctinfo{display:none}
   body.mode-topbar .accttop{display:flex;background:transparent;position:relative;z-index:6;margin:-12px 0 8px}
 
@@ -907,7 +956,7 @@
   .rpfsec{padding-top:0}
   .rpfsec::before{display:none}   /* flush against the rep banner above */
   .rpf{position:relative;background:#F8F8F8;overflow:hidden;border-bottom:1px solid var(--sh-border)}   /* matches live widget band */
-  .rpf .rpf-inner{position:relative;max-width:1980px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:320px}   /* live: 320px @1400+ */
+  .rpf .rpf-inner{position:relative;max-width:1938px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:34px 26px 34px 0;min-height:320px}   /* live: 320px @1400+ */
   .rpf .rpf-img{width:320px;max-width:34%;height:auto;flex-shrink:0;object-fit:contain;align-self:center}
   .rpf .rpf-titlewrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;max-width:240px}
   .rpf .rpf-new{display:inline-block;background:var(--sh-orange);color:#fff;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px}
@@ -1223,9 +1272,9 @@
   /* —— canonical page side margins ——
      ≥1920: 0 (content capped/centered) · 1600-1919: 80px (base .wrap rule) · 1400-1599: 52px
      1200-1399: 32px · 992-1199: 20px · ≤991 (incl. 576-767 and ≤575): 16px */
-  @media(min-width:1600px) and (max-width:2060px){ .wrap.acctwrap{padding-left:52px;padding-right:52px} }   /* KPI/Reorder + Categories/Recently Viewed: 52px sides in this range */
+  @media(min-width:1600px) and (max-width:2018px){ .wrap.acctwrap{padding-left:52px;padding-right:52px} }   /* KPI/Reorder + Categories/Recently Viewed: 52px sides in this range */
   @media(min-width:1600px){ .hero .wrap{padding-left:52px;padding-right:52px} }   /* hero band: 52px so "Our House is Your House" aligns with the section content */
-  .hero .wrap{max-width:2060px}   /* hero container matches the wider account sections */
+  .hero .wrap{max-width:2018px}   /* hero container matches the wider account sections */
   @media(min-width:2061px){ .hero .wrap{padding-left:80px;padding-right:80px} }   /* once the 2060 container is centered, step back up to 80px */
   @media(min-width:1400px) and (max-width:1599px){ .wrap{padding:0 52px} .head{padding:0 52px} }
   @media(min-width:1200px) and (max-width:1399px){ .wrap{padding:0 32px} .head{padding:0 32px} }
@@ -1504,7 +1553,7 @@
   /* ===== TradeDay tall promo banner — container-query responsive (reflows to its own width, in the card + preview) ===== */
   .tds-wrap{container-type:inline-size;width:100%;background:#ef6019}   /* solid #ef6019 fills the sides beyond the 1920 banner cap */
   /* only a thin bottom edge fades into #ef6019 (keeps the image visible on top of the orange while still softening the seam into the bottom wash) */
-  .tds{position:relative;width:100%;max-width:1980px;margin:0 auto;height:500px;overflow:hidden;background:linear-gradient(180deg,rgba(239,96,25,0) 90%,#ef6019 100%),url('assets/banner/hero_promo2_L.webp') right top/cover no-repeat,#ef6019;font-family:'interstate',var(--sh-font)}
+  .tds{position:relative;width:100%;max-width:1938px;margin:0 auto;height:500px;overflow:hidden;background:linear-gradient(180deg,rgba(239,96,25,0) 90%,#ef6019 100%),url('assets/banner/hero_promo2_L.webp') right top/cover no-repeat,#ef6019;font-family:'interstate',var(--sh-font)}
   .tds .tds-in{position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:46%;z-index:2;color:#fff}
   /* fluid type — scales smoothly with the banner width (same idea as the .hbtext hero banners' clamp() sizing) */
   .tds h2{margin:0;font-size:clamp(34px,3.9cqw,58px);font-weight:700;line-height:1.05;font-family:'interstate',var(--sh-font)}
@@ -1641,7 +1690,7 @@
   #bannerAdmin .ba-form.isoff>*:not(#promoFlds){opacity:.45;pointer-events:none}
   #bannerAdmin .ba-preview{border:1px solid var(--ba-line);border-radius:10px;overflow:hidden;background:#fff}
   #bannerAdmin .pv-band{position:relative;overflow:hidden}
-  #bannerAdmin .pv-inner{position:relative;max-width:1980px;margin:0 auto;height:100%;overflow:hidden}   /* matches the live page's 1920 content cap */
+  #bannerAdmin .pv-inner{position:relative;max-width:1938px;margin:0 auto;height:100%;overflow:hidden}   /* matches the live page's 1920 content cap */
   #bannerAdmin .pv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
   #bannerAdmin .pv-fade{position:absolute;inset:0;pointer-events:none}
   #bannerAdmin .pv-text{position:absolute;left:6%;top:50%;transform:translateY(-50%);z-index:2;max-width:46%}
@@ -1702,16 +1751,29 @@
   /* ===== Guest / NTM Non-Purchaser top row (Part Finder + Top Categories or Recently Viewed) ===== */
   .guesttop{display:none;padding:24px 0}
   body[data-cohort="guest"] .guesttop,
-  body[data-cohort="ntm-nonpurchaser"] .guesttop{display:block}
+  body[data-cohort="ntm-nonpurchaser"] .guesttop{display:none}   /* Recently Viewed + Top Categories use the TM panel below instead */
   body[data-cohort="guest"] .acctwrap:not(.recentwrap),
-  body[data-cohort="guest"] .recentwrap,
   body[data-cohort="guest"] .latestact,
   body[data-cohort="guest"] .rpfsec,
   body[data-cohort="ntm-nonpurchaser"] .acctwrap:not(.recentwrap),
   body[data-cohort="ntm-nonpurchaser"] .latestact,
   body[data-cohort="ntm-nonpurchaser"] .rpfsec{display:none}   /* hide signed-in KPI/reorder + full-width RPF sections — replaced by the top row below for these cohorts */
   /* NTM Non-Purchaser: Recently Viewed already shown up top in gt-recent, so hide the duplicate lower one — but keep Shop Your Categories (reused as-is from the TM Purchaser layout) */
-  body[data-cohort="ntm-nonpurchaser"] #recentSection{display:none}
+  body[data-cohort="ntm-nonpurchaser"] #recentSection{display:block}
+  /* guest: Top Categories + Best Selling in one connected panel */
+  body[data-cohort="guest"] #recentSection{display:none}
+  body[data-cohort="guest"] #catSection{padding-top:24px}
+  body[data-cohort="guest"] #catSection .pmhead{border-top:none;padding-top:0;margin-left:0;margin-right:0;padding-left:0;padding-right:0}
+  #bestPanel{display:none}
+  body[data-cohort="guest"] #bestPanel{display:block}
+  body[data-cohort="guest"] .best{display:none}
+  body[data-cohort="guest"] #bestPanel .bestright{background:transparent;box-shadow:none;border-radius:0;padding:0}
+  /* one connected white panel: Recently Viewed first, Top Categories under it */
+  body[data-cohort="ntm-nonpurchaser"] .crpanel>div{display:flex;flex-direction:column}
+  body[data-cohort="ntm-nonpurchaser"] #recentSection{order:1}
+  body[data-cohort="ntm-nonpurchaser"] #catSection{order:2}
+  body[data-cohort="ntm-nonpurchaser"] #recentSection{padding-top:24px}   /* same top padding as TM's Reorder (.pmod:first-child) */
+  body[data-cohort="ntm-nonpurchaser"] #recentSection .pmhead{border-top:none;padding-top:0;margin-left:0;margin-right:0;padding-left:0;padding-right:0}   /* no divider above Recently Viewed at the top of the panel */
   .guesttop .gt-grid{display:grid;grid-template-columns:33% 1fr;gap:24px;align-items:stretch}
   .guesttop .gt-grid>*{min-width:0}   /* keep the 1fr track from expanding to the flex track's content width */
   .guesttop .gt-rpf{position:relative;overflow:hidden;background:#F5F5F5;border:1px solid var(--sh-border);border-radius:8px;padding:48px 26px 0;display:flex;flex-direction:column}
@@ -1728,6 +1790,8 @@
   .guesttop .gt-recent{display:none}
   body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-cats{display:none}
   body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-recent{display:flex}
+  body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-rpf{display:none}          /* Part Finder leaves the top row… */
+  body[data-cohort="ntm-nonpurchaser"] .guesttop .gt-grid{grid-template-columns:1fr}   /* …so Recently Viewed spans full width */
   .guesttop .gt-recent .pmhead h2{font-size:20px}
   @media(max-width:767px){ .guesttop .gt-recent .pmhead h2{font-size:18px} }   /* match the smaller mobile section titles */
   .guesttop .gt-cats-head{padding-top:8px;margin-bottom:14px}
@@ -1890,8 +1954,9 @@
     <div class="hbslide"><picture><source media="(max-width:991px)" srcset="assets/banner/hero_ntm_default_S.webp"><img src="assets/banner/hero_ntm_default_L.webp" alt="Promotion banner 3"></picture></div>
   </div>
   <div class="hbtext hbtext-shop"><h2>Everything You Need, Ready to Ship</h2><p>Shop 700+ trusted brands and 350,000+ in-stock products.</p></div>
-  <div class="hbtext hbtext-apply"><h2>Are You A Pro?</h2><p>Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!</p><div class="hbsub-m">Unlock Member-only benefits for Free!</div>
-    <div class="hbcta"><a href="#" class="hbbtn">Apply Now</a><img class="hbnote-img" src="assets/text_in3mins.svg" alt="less than 3 minutes!"></div>
+  <div class="hbtext hbtext-guest"><h2>Trusted by 110K+ Plumbing, HVAC &amp; Electrical Pros</h2><p>Shop 700+ trusted brands and 340K+ in-stock products.</p></div>
+  <div class="hbtext hbtext-apply"><h2><span class="hbh-d">Free Shipping. Free Returns. Free to Join.</span><span class="hbh-m">Free Shipping &amp; Returns.<br>Free to Join.</span></h2><p>Join the TradeMaster Program and unlock member-only benefits!</p>
+    <div class="hbcta"><a href="#" class="hbbtn"><span class="hbh-d">Apply Now</span><span class="hbh-m">Apply Now</span></a><span class="hbnote"><svg class="hbclock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.2 1.8"/></svg><b>Less than 3 minutes!</b></span></div>
   </div>
   <button class="hbarrow prev" id="hbPrev" aria-label="Previous banner"><svg class="hbchev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline class="o" points="15 5 8 12 15 19"/><polyline class="i" points="15 5 8 12 15 19"/></svg></button>
   <button class="hbarrow next" id="hbNext" aria-label="Next banner"><svg class="hbchev" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline class="o" points="9 5 16 12 9 19"/><polyline class="i" points="9 5 16 12 9 19"/></svg></button>
@@ -2007,6 +2072,7 @@
     <div class="railwrap"><div class="rail" id="recentRail"></div></div>
     <div class="pager" data-rail="recentRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
   </section>
+  <section class="pmod" id="bestPanel"></section>
 </div></div></div>
 
 <!-- BEST PICKS -->
@@ -2018,7 +2084,7 @@
     <img class="pimg" src="assets/category/CatImage_heating_l.webp" alt="Popular products" loading="lazy">
   </div>
   <div class="bestright">
-    <div class="pmhead besthead"><h2>Best Picks For You</h2><span class="va">View All →</span></div>
+    <div class="pmhead besthead"><h2>Best Picks For You</h2><span class="sub">Top picks from your categories</span><span class="va">View All →</span></div>
     <div class="filters" id="bfilters"><button class="chip-f chip-reset" aria-pressed="true">All</button><button class="chip-f" aria-pressed="false">Pumps</button><button class="chip-f" aria-pressed="false">Copper Fittings</button><button class="chip-f" aria-pressed="false">Valves</button><button class="chip-f" aria-pressed="false">Boilers</button><button class="chip-f" aria-pressed="false">Water Heaters</button><button class="chip-f" aria-pressed="false">Thermostats</button><button class="chip-f" aria-pressed="false">Cables</button></div>
     <div class="railwrap"><div class="rail" id="bestRail"></div></div>
     <div class="pager" data-rail="bestRail"><div class="scrubber"><div class="scrub-thumb"></div></div><button class="pgbtn" data-dir="-1" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg></button><span class="pgnum">1 / 1</span><button class="pgbtn" data-dir="1" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
@@ -2737,8 +2803,8 @@
   function orderRow(num,po,date,price,status,statClass,total){return `<a class="arow" href="#"><div class="ti"><b>${num} <span class="po">(PO#: ${po})</span></b><span class="meta">Order Placed: ${date} · ${price} · <em class="${statClass}">${status}</em></span></div>${actThumbsHTML(total)}${chev}</a>`;}
   function simpleRow(title,date,total){return `<a class="arow" href="#"><div class="ti"><b>${title}</b><span class="meta">Latest Update: ${date}</span></div>${actThumbsHTML(total)}${chev}</a>`;}
   // empty-state illustrations (inline SVG per project convention — no webfont ligatures)
-  const emptyImg={lists:'assets/illust_no_list.webp',carts:'assets/illust_no_carts.webp'};
-  const emptyCopy={lists:{msg:'No saved lists yet',cta:'Start Creating'},carts:{msg:'No saved carts yet',cta:'Start Creating'}};
+  const emptyImg={lists:'assets/illust_no_list.webp',carts:'assets/illust_no_carts.webp',orders:'assets/illust_no_orders.webp'};
+  const emptyCopy={lists:{msg:'No saved lists yet',cta:'Start Creating'},carts:{msg:'No saved carts yet',cta:'Start Creating'},orders:{msg:'No orders yet',cta:'Start Shopping'}};
   function emptyStateHTML(kind){const c=emptyCopy[kind];return `<div class="empty"><img class="emptyimg" src="${emptyImg[kind]}" alt="" loading="lazy"><p>${c.msg}</p><button type="button" class="btn-start">${c.cta}</button></div>`;}
   // sample rows to draw from when a group has items — Lists and Saved Carts each pull the first N
   const listItems=[['RTU – Goodman','5/14/26',5],['RTU – Goodman','5/14/26',5],['RTU – Goodman','5/14/26',5]];
@@ -2749,7 +2815,7 @@
     const rndTotal=()=>{const pool=[1,2,3,4,6,9,12,18,26];return pool[Math.floor(Math.random()*pool.length)];};   // varied demo counts: 1 through 10+
     const listsHTML=SCN_LISTS>0 ? listItems.slice(0,SCN_LISTS).map(r=>simpleRow(r[0],r[1],rndTotal())).join('') : emptyStateHTML('lists');
     const cartsHTML=SCN_CARTS>0 ? cartItems.slice(0,SCN_CARTS).map(r=>simpleRow(r[0],r[1],rndTotal())).join('') : emptyStateHTML('carts');
-    const ordersHTML=SCN_ORDERS>=3
+    const ordersHTML=SCN_ORDERS<=0?emptyStateHTML('orders'):SCN_ORDERS>=3
       ? orderRow('112311634','678909876','6/20/26','$276.96','Processing','proc',rndTotal())+
         orderRow('112311634','678909876','6/18/26','$276.96','Shipped','ship',rndTotal())+
         orderRow('112311634','678909876','1/13/26','$276.96','Delivered','deliv',rndTotal())
@@ -3443,7 +3509,7 @@
     const heroImg=(src,h)=>`<img src="${src}" alt="" style="width:100%;height:${h||'auto'};object-fit:cover;display:block;border-radius:6px">`;
     // hero card thumbnail with the real overlay text + CTA (matches the live .hbtext overlays)
     const heroCard=(img,kind)=>{const apply=kind==='apply';
-      const head=apply?'Are You A Pro?':'Everything You Need, Ready to Ship';
+      const head=apply?'Free Shipping. Free Returns. Free to Join.':'Everything You Need, Ready to Ship';
       const sub=apply?'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!':'Shop 700+ trusted brands and 350,000+ in-stock products.';
       const cta=apply?`<span style="display:inline-flex;align-items:center;gap:8px;margin-top:10px"><span style="background:#fff;color:var(--sh-tm-blue);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:8px 16px">Apply Now</span><img src="assets/text_in3mins.svg" alt="less than 3 minutes!" style="height:18px"></span>`:'';
       return `<div style="position:relative;height:170px;border-radius:6px;overflow:hidden"><img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;left:6%;top:50%;transform:translateY(-50%);max-width:54%;color:${apply?'#fff':'#111'};font-family:'interstate',var(--sh-font)"><div style="font-size:20px;font-weight:700;line-height:1.1">${head}</div><div style="font-size:11px;line-height:1.3;margin-top:6px;color:${apply?'#dce9f3':'#4a4a4a'};font-family:var(--sh-font),sans-serif">${sub}</div>${cta}</div></div>`;};
@@ -3513,7 +3579,7 @@
     const groups=[
       ['Hero banner — cohort use cases',[
         [tmSlim,'TM Purchaser — Short slim hero','80px color band: greeting headline + bordered TradeMaster chip on the right. No CTA — members are already converted.',tag('live'),{half:true,pvType:'hero',pvCohort:'tm'}],
-        [heroCard('assets/banner/hero_tm_apply_L.webp','apply'),'NTM Purchaser / Non-Purchaser — Mid apply banner','&ldquo;Are You A Pro?&rdquo; + membership benefits sub-copy, white Apply Now button and the handwritten &ldquo;less than 3 minutes!&rdquo; note.',tag('live'),{half:true,pvType:'hero',pvCohort:'ntm-purchaser'}],
+        [heroCard('assets/banner/hero_tm_apply_L.webp','apply'),'NTM Purchaser / Non-Purchaser — Mid apply banner','&ldquo;Free Shipping. Free Returns. Free to Join.&rdquo; + membership sub-copy, white Apply Now button and the &ldquo;Less than 3 minutes!&rdquo; clock note.',tag('live'),{half:true,pvType:'hero',pvCohort:'ntm-purchaser'}],
         [heroCard('assets/banner/hero_ntm_default_L.webp','shop'),'Guest — Mid default banner','&ldquo;Everything You Need, Ready to Ship&rdquo; — breadth-of-catalog value prop, no membership pitch.',tag('live'),{half:true,pvType:'hero',pvCohort:'guest'}],
         [heroCard('assets/banner/hero_ntm_default_L.webp','shop'),'NTM — Applied to TM (inherits Guest)','Application pending: shows the Guest default banner, but as a signed-in cohort it keeps the Welcome + KPI bar (unlike a guest). The admin can break inheritance to give this group a dedicated banner.',tag('live'),{half:true,pvType:'hero',pvCohort:'ntm-applied'}],
         [tdsCard,'Promo override — Tall campaign banner + countdown (TradeDay)','One scheduled banner pushed to selected cohorts: targeted cohorts show it while the window is live, then automatically revert. Tall 400px with overlay headline, subtitle, a live countdown clock, and a Start Shopping CTA (becomes an underlined text link on mobile); background swaps to the S image ≤767px. Use “Preview at breakpoints” to see it reflow at actual size with the KPI bar and Reorder row.',tag('live'),{half:true,pvType:'promo',pvCohort:'ntm-purchaser',pvw:1280}],
@@ -3598,7 +3664,7 @@
   }
   // cohort switcher (TM Purchaser / NTM Purchaser / NTM Non-Purchaser / Guest) — all duplicates for now
   const COHORT_BANNER={
-    'guest':['assets/banner/hero_ntm_default_L.webp','assets/banner/hero_ntm_default_S.webp'],
+    'guest':['assets/banner/hero_tm_apply_L.webp','assets/banner/hero_tm_apply_S.webp'],   /* guest mirrors the NTM apply banner */
     'ntm-purchaser':['assets/banner/hero_tm_apply_L.webp','assets/banner/hero_tm_apply_S.webp'],
     'ntm-nonpurchaser':['assets/banner/hero_tm_apply_L.webp','assets/banner/hero_tm_apply_S.webp']
   };
@@ -3609,8 +3675,36 @@
       const s=p.querySelector('source'), img=p.querySelector('img');
       if(s)s.srcset=b[1]; if(img)img.src=b[0];
     });
+    // NTM Non-Purchaser keeps the acquisition pitch; NTM Purchaser gets the benefits headline
+    const ha=document.querySelector('.hbtext-apply');
+    if(ha){
+      const hd=ha.querySelector('h2 .hbh-d'), hm=ha.querySelector('h2 .hbh-m'), hp=ha.querySelector('p'),
+            bd=ha.querySelector('.hbbtn .hbh-d'), bm=ha.querySelector('.hbbtn .hbh-m');
+      if(name==='ntm-nonpurchaser'){
+        hd.textContent='Are You A Pro?'; hm.textContent='Are You A Pro?';
+        hp.textContent='Join the TradeMaster Program and unlock member-only pricing, free shipping, free returns and more!';
+        bd.textContent='Apply for Free'; bm.textContent='Apply for Free';
+      } else {
+        hd.textContent='Free Shipping. Free Returns. Free to Join.'; hm.innerHTML='Free Shipping &amp; Returns.<br>Free to Join.';
+        hp.textContent='Join the TradeMaster Program and unlock member-only benefits!';
+        bd.textContent='Apply Now'; bm.textContent='Apply Now';
+      }
+    }
     // guest: Best Sellers is titled "Best Selling Products" (Figma 2014:51043)
     const bh=document.querySelector('.besthead h2'); if(bh)bh.textContent=name==='guest'?'Best Selling Products':'Best Picks For You';
+    // NTM Non-Purchaser: categories section reads "Top Categories" (no personal history to pick from)
+    const ch=document.querySelector('#catSection .pmhead h2'), cs=document.querySelector('#catSection .pmhead .sub');
+    const topcats=(name==='ntm-nonpurchaser'||name==='guest');
+    if(ch)ch.textContent=topcats?'Top Categories':'Shop Your Categories';
+    if(cs)cs.textContent=topcats?'Most popular categories to start with':'Top pick categories for you';
+    // guest: Best Selling joins the categories panel (moved back for other cohorts)
+    const bp=document.getElementById('bestPanel'), bright=document.querySelector('.bestright');
+    if(bp&&bright){
+      if(name==='guest'){ if(bright.parentElement!==bp)bp.appendChild(bright); }
+      else { const grid=document.querySelector('.best .bestgrid'); if(grid&&bright.parentElement===bp)grid.appendChild(bright); }
+      if(typeof layoutRails==='function'){layoutRails();}
+      const br=document.getElementById('bestRail'); if(br)try{br.dispatchEvent(new Event('scroll'));}catch(e){}
+    }
     // NTM Purchaser: light account history — one delivered order, no lists / saved carts (Figma 1678:91118)
     if(typeof renderActLeft==='function'){
       if(name==='ntm-purchaser'){SCN_ORDERS=1;SCN_LISTS=0;SCN_CARTS=0;}
@@ -3763,11 +3857,10 @@
     const dots=document.getElementById('hbDots'); let idx=0, timer;
     for(let k=0;k<slides;k++){const b=document.createElement('button');b.setAttribute('aria-label','Go to banner '+(k+1));if(k===0)b.classList.add('on');b.addEventListener('click',()=>go(k));dots.appendChild(b);}
     function render(){track.style.transform='translateX(-'+(idx*100)+'%)';[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===idx));}
-    function go(i){idx=(i+slides)%slides;render();restart();}
-    function restart(){clearInterval(timer);timer=setInterval(()=>go(idx+1),6000);}
+    function go(i){idx=(i+slides)%slides;render();}   /* auto-rotation removed along with the side arrows */
     document.getElementById('hbPrev').addEventListener('click',()=>go(idx-1));
     document.getElementById('hbNext').addEventListener('click',()=>go(idx+1));
-    render(); restart();
+    render();
   })();
   // ---- hero banner admin (toggle view) ----
   (function(){
@@ -3801,11 +3894,11 @@
         {size:'short',headline:'Our House is Your House',sub:'',h2:34,showBtn:false,btnLabel:'Apply Now',note3:false,bg:'#0066AD',text:'auto',image:'',tmLogo:true}
       ]},
       'ntm-purchaser':{label:'NTM Purchaser',note:'Non-member buyer',active:0,banners:[
-        {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
+        {size:'mid',headline:'Free Shipping. Free Returns. Free to Join.',sub:'Join the TradeMaster Program and unlock member-only benefits!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'},
         {size:'tall',headline:'TradeDay Big Sale!',sub:'The most exciting day for trade professionals to stock up.',h2:48,showBtn:true,btnLabel:'Start Shopping',note3:false,bg:'#ef6019',text:'auto',image:'assets/banner/hero_promo2_L.webp',countdown:true,countdownEnd:'2026-07-23T18:00'}
       ]},
       'ntm-nonpurchaser':{label:'NTM Non-Purchaser',note:'Non-member, no orders',active:0,banners:[
-        {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program for FREE and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply Now',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'}
+        {size:'mid',headline:'Are You A Pro?',sub:'Join the TradeMaster Program and unlock member-only pricing, free shipping, free returns and more!',h2:34,showBtn:true,btnLabel:'Apply for Free',note3:true,bg:'#0468AF',text:'auto',image:'assets/banner/hero_tm_apply_L.webp'}
       ]},
       'ntm-applied':{label:'NTM — Applied to TM',note:'Application pending',active:0,inherit:true,banners:[
         {size:'mid',headline:'Everything You Need, Ready to Ship',sub:'Shop 700+ trusted brands and 350,000+ in-stock products.',h2:34,showBtn:false,btnLabel:'Shop Now',note3:false,bg:'#E2CCB8',text:'auto',image:'assets/banner/hero_ntm_default_L.webp'}
@@ -3824,7 +3917,7 @@
     (function(c){if(c.textWidth==null)c.textWidth=46;if(c.text==null)c.text='auto';if(c.icon==null)c.icon='';if(c.iconX==null)c.iconX=88;if(c.iconY==null)c.iconY=78;if(c.iconSize==null)c.iconSize=80;if(c.iconMobile==null)c.iconMobile=true;if(c.tmLogo==null)c.tmLogo=(c.size==='short');if(c.countdown==null)c.countdown=false;if(c.countdownEnd==null)c.countdownEnd='';if(c.imageS==null)c.imageS=(c.image||'').replace('_L.webp','_S.webp');})(data.promo.banner);
     // one-time repair: an earlier build persisted tmLogo:false into saved state — re-enable the chip on Short banners once
     try{if(!localStorage.getItem(KEY+'_tmchip')){ORDER.forEach(k=>(data[k].banners||[]).forEach(c=>{if(c.size==='short')c.tmLogo=true;}));localStorage.setItem(KEY+'_tmchip','1');saveD();}}catch(e){}
-    function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));m.promo=JSON.parse(JSON.stringify(PROMO_DEF));if(s.promo){Object.assign(m.promo,s.promo);m.promo.targets=Object.assign({},PROMO_DEF.targets,s.promo.targets||{});m.promo.banner=Object.assign({},PROMO_DEF.banner,s.promo.banner||{});}return m;}}catch(e){}const d=JSON.parse(JSON.stringify(DEF));d.promo=JSON.parse(JSON.stringify(PROMO_DEF));return d;}
+    function loadD(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m={};ORDER.forEach(k=>m[k]=Object.assign({},DEF[k],s[k]||{}));m.promo=JSON.parse(JSON.stringify(PROMO_DEF));if(s.promo){Object.assign(m.promo,s.promo);m.promo.targets=Object.assign({},PROMO_DEF.targets,s.promo.targets||{});m.promo.banner=Object.assign({},PROMO_DEF.banner,s.promo.banner||{});}ORDER.forEach(k=>{if(k==='ntm-nonpurchaser')return;(m[k].banners||[]).forEach(b=>{if(b.headline==='Are You A Pro?'){b.headline='Free Shipping. Free Returns. Free to Join.';b.sub='Join the TradeMaster Program and unlock member-only benefits!';b.btnLabel='Apply Now';}});});return m;}}catch(e){}const d=JSON.parse(JSON.stringify(DEF));d.promo=JSON.parse(JSON.stringify(PROMO_DEF));return d;}
     function saveD(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
     const lum=hex=>{const v=hex.replace('#','');return (0.299*parseInt(v.substr(0,2),16)+0.587*parseInt(v.substr(2,2),16)+0.114*parseInt(v.substr(4,2),16))/255;};
     const tcolor=c=>c.text==='auto'?(lum(c.bg)>0.62?'#111111':'#FFFFFF'):c.text;
