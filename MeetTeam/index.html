@@ -196,20 +196,19 @@ body.reveal .member:focus-visible .doodles{opacity:1}
 
 /* ============ Ownership (light) ============ */
 .ownership{background:#F6F6F5;position:relative;overflow:hidden}
-.ownership .inner{display:grid;grid-template-columns:1fr 1fr;min-height:360px}
-.own-copy{padding:64px 48px 64px 0;margin-left:max(48px,calc((100% - 1440px)/2 + 48px));display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.ownership .wrap{position:relative;z-index:2;padding-top:72px;padding-bottom:72px}
+.own-copy{max-width:460px}
 .own-copy h2{font-size:34px;line-height:1.05;font-style:italic;font-weight:700;color:var(--sh-black);margin-bottom:18px}
 .own-copy h2 .boxed{display:inline-block;border:3px solid var(--sh-black);padding:0 10px;font-size:42px;font-style:italic}
-.own-copy p{font-size:14px;line-height:1.7;color:var(--sh-body);max-width:440px}
+.own-copy p{font-size:14px;line-height:1.7;color:var(--sh-body)}
 .own-copy a{font-weight:700;font-size:13px;margin-top:16px;display:inline-block}
-.own-media{position:relative;overflow:hidden}
+.own-media{position:absolute;top:0;right:0;bottom:0;width:55%}
 .own-media .crowd{position:absolute;inset:0;opacity:.5;filter:saturate(.8)}
-.own-media::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#F6F6F5 0%,rgba(246,246,245,0) 60%);z-index:1}
-.own-media .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2}
+.own-media::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#F6F6F5 0%,rgba(246,246,245,0) 55%);z-index:1}
+.own-media .play{position:absolute;top:50%;left:60%;transform:translate(-50%,-50%);z-index:2}
 @media(max-width:900px){
-  .ownership .inner{grid-template-columns:1fr}
-  .own-copy{margin-left:20px;padding:40px 20px 24px 0}
-  .own-media{min-height:220px}
+  .ownership .wrap{padding-top:40px;padding-bottom:24px}
+  .own-media{position:relative;width:100%;min-height:220px}
 }
 
 /* ============ Join ============ */
@@ -454,25 +453,25 @@ body.reveal .member:focus-visible .doodles{opacity:1}
 
 <!-- Ownership -->
 <section class="ownership" aria-labelledby="ownTitle">
-  <div class="inner">
+  <div class="wrap">
     <div class="own-copy">
       <h2 id="ownTitle">Ownership<br>for <span class="boxed">ALL</span></h2>
       <p>We all contribute to our success and we all share in it. Our Ownership for All program ensures each SupplyHouse team member will benefit financially from the company's growth and accomplishments.</p>
       <a href="#" onclick="openVideo();return false;">Watch Video</a>
     </div>
-    <div class="own-media">
-      <svg class="crowd" viewBox="0 0 600 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="600" height="380" fill="#8C8378"/>
-        <g fill="#A99E91">
-          <circle cx="90" cy="160" r="34"/><circle cx="200" cy="140" r="40"/><circle cx="320" cy="165" r="36"/><circle cx="440" cy="145" r="42"/><circle cx="545" cy="170" r="32"/>
-        </g>
-        <g fill="#BBB0A2">
-          <path d="M40 380V240q50-46 100-2v142Z"/><path d="M160 380V225q55-50 110 0v155Z"/><path d="M290 380V245q52-46 104 0v135Z"/><path d="M410 380V230q56-50 112 0v150Z"/>
-        </g>
-        <g fill="#D3B23A" opacity=".8"><rect x="55" y="255" width="70" height="60"/><rect x="300" y="262" width="66" height="58"/></g>
-      </svg>
-      <button class="play" aria-label="Play the Ownership for All video" onclick="openVideo()"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-    </div>
+  </div>
+  <div class="own-media">
+    <svg class="crowd" viewBox="0 0 600 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="600" height="380" fill="#8C8378"/>
+      <g fill="#A99E91">
+        <circle cx="90" cy="160" r="34"/><circle cx="200" cy="140" r="40"/><circle cx="320" cy="165" r="36"/><circle cx="440" cy="145" r="42"/><circle cx="545" cy="170" r="32"/>
+      </g>
+      <g fill="#BBB0A2">
+        <path d="M40 380V240q50-46 100-2v142Z"/><path d="M160 380V225q55-50 110 0v155Z"/><path d="M290 380V245q52-46 104 0v135Z"/><path d="M410 380V230q56-50 112 0v150Z"/>
+      </g>
+      <g fill="#D3B23A" opacity=".8"><rect x="55" y="255" width="70" height="60"/><rect x="300" y="262" width="66" height="58"/></g>
+    </svg>
+    <button class="play" aria-label="Play the Ownership for All video" onclick="openVideo()"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
   </div>
 </section>
 
