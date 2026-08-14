@@ -353,7 +353,7 @@ body.reveal .member:focus-visible .doodles{opacity:1}
   <div class="wrap">
     <div class="hero-copy">
       <a class="backlink" href="#">&lt; Back to Our Team</a>
-      <h1 id="pageTitle">Meet<br>TheTeam</h1>
+      <h1 id="pageTitle">Meet<br>The Team</h1>
       <p>Real People. Real Services.<br>Meet the team behind the service.</p>
       <div class="hero-rule"></div>
     </div>
@@ -589,6 +589,7 @@ const SHIRT=["#4A6FA5","#3E3A38","#6B4F3A","#54626F","#7A5C43","#425B4F","#5C4A6
 const SKIN=["#F2C9A0","#E0AC7E","#C68B59","#8D5A3A","#6E4428","#F5D6B8"];
 const RINGBG=["#E9E9E9","#EFEAE3","#E4E0DB","#ECE6DE"];
 
+const CURRENT_YEAR=2026; /* prototype constant; use today's date in production */
 const PEOPLE=[];
 for(let i=0;i<986;i++){
   PEOPLE.push({
@@ -599,7 +600,7 @@ for(let i=0;i<986;i++){
     skin:SKIN[Math.floor(rand()*SKIN.length)],
     bg:RINGBG[Math.floor(rand()*RINGBG.length)],
     hair:rand()>0.5,
-    since:2005+Math.floor(rand()*22)
+    since:(r=>r<0.12?CURRENT_YEAR:r<0.24?CURRENT_YEAR-1:2005+Math.floor(rand()*20))(rand())
   });
 }
 
@@ -621,10 +622,9 @@ const DOODLES=`<svg viewBox="0 0 160 160" width="100%" height="100%" aria-hidden
 </svg>`;
 
 /* ================= Tenure label ================= */
-const CURRENT_YEAR=2026; /* prototype constant; use today's date in production */
 function tenureLabel(since){
   const y=CURRENT_YEAR-since;
-  if(y<1)return'New to the team!';
+  if(y<1)return'New to the House';
   if(y===1)return'1 Houseiversary';
   return y+' Houseiversaries';
 }
