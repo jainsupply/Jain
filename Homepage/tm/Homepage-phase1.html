@@ -235,7 +235,7 @@
   }
   /* ≤575: slightly smaller mobile headline */
   @media(max-width:575px){
-    .herobig .hbtext.hbtext-apply h2{font-size:18px}
+    .herobig .hbtext.hbtext-apply h2,.herobig .hbtext.hbtext-guest h2{font-size:18px}
     .herobig .hbtext.hbtext-apply{max-width:min(66%,270px)}   /* tighter text block leaves more of the image visible */
   }
   .herobig .hbnote-img{height:36px;width:auto;flex-shrink:0;pointer-events:none}
@@ -300,6 +300,8 @@
     .herobig .hbh-d{display:none}
     .herobig .hbh-m{display:inline}
     .herobig .hbtext-apply h2{font-size:22px;line-height:1.05}
+    .herobig .hbtext-guest h2{font-size:22px;line-height:1.15}   /* same scale as the apply headline */
+    .herobig .hbtext.hbtext-guest{max-width:min(56%,230px)}   /* narrower block: wraps to 3 lines instead of covering the photo */
     .herobig .hbtext-apply{max-width:min(78%,320px)}
     .herobig .hbcta{flex-direction:row;align-items:center;margin-top:4px;gap:10px}
     .herobig .hbnote{gap:4px}
@@ -326,7 +328,7 @@
     body[data-cohort="guest"] .topblue{padding-top:80px}   /* shortest banner band on small phones (+12px) */
     .herobig .hbarrow{top:40px}
     .herobig .hbtext{top:40px}
-    .herobig .hbtext.hbtext-apply h2{font-size:16px}   /* slightly smaller headline on tiny screens */
+    .herobig .hbtext.hbtext-apply h2,.herobig .hbtext.hbtext-guest h2{font-size:16px}   /* slightly smaller headline on tiny screens */
     .mhacts{gap:14px}   /* logo + 3 actions overflow 375px viewports by ~2px at the default 22px gap */
     /* let the logo scale down (ratio preserved) so the header never overflows tiny screens (320px) */
     .mhead-top .logo{min-width:0;flex-shrink:1}
@@ -1102,8 +1104,8 @@
 
   /* parts for tools */
   .parts{display:grid;grid-template-columns:repeat(6,1fr);gap:26px}
-  .pcard{border:1px solid var(--sh-border);text-align:center;background:#fff;border-radius:8px;overflow:hidden}
-  .pcard .pimg{aspect-ratio:1.33/1;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:18px}
+  .pcard{border:none;text-align:center;background:transparent;border-radius:0;overflow:visible}   /* clean look — bare product shots, no card chrome */
+  .pcard .pimg{aspect-ratio:1.33/1;background:transparent;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0}
   .pcard .pimg img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
   .pcard .pl{font-size:14px;font-weight:700;color:var(--sh-dark-gray);padding:10px;display:inline-flex;align-items:center;gap:2px}
   .pcard .pl .ic{color:#07729C}
@@ -1620,6 +1622,7 @@
   #acctGallery .gx.gxwide{width:100%}
   #acctGallery .gx.gxhalf{width:calc(50% - 11px)}
   #acctGallery .gcard{border:1px solid var(--sh-border);border-radius:8px;padding:16px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);pointer-events:none;min-height:56px}
+  #acctGallery .gcard .undlv-chip,#acctGallery .gcard .undlv-chip *,#acctGallery .gcard .undlv-sup,#acctGallery .gcard .undlv-sup *{pointer-events:auto}
   #acctGallery .gcard *{pointer-events:none}
   /* the many-deliveries demo popover scrolls inside a fixed height — re-enable pointer events on just the scroll area so wheel/drag scrolling works (inner links stay inert) */
   #acctGallery .gcard .dpscroll{pointer-events:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#C4C4C4 transparent}
@@ -2050,14 +2053,6 @@
   </section>
 </div></div></div>
 
-<!-- LATEST ACTIVITIES -->
-<section class="section latestact"><div class="wrap">
-  <div class="seclabel">Account Activity</div>
-  <div class="activities" style="margin-top:8px">
-    <div class="actcol" id="actLeft"></div>
-    <div class="actcol right" id="rightlinks"></div>
-  </div>
-</div></section>
 
 <!-- REPLACEMENT PART FINDER -->
 <section class="section rpfsec"><div class="rpf"><div class="rpf-inner">
@@ -3250,7 +3245,62 @@
       const t=f=>`<span class="t" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><img src="assets/products/${f}" alt="" style="width:100%;height:100%;object-fit:contain"></span>`;
       return `<div style="padding:52px 4px 8px"><div style="display:flex;align-items:center;gap:4px"><span style="position:relative">${chip}${t('187873-1.jpg')}</span>${t('c240a-3.jpg')}${t('th1110u4000honeywellhome01.jpg')}${t('ridgid-78208-1.jpg')}<span class="more" style="font-size:16px;color:#777;margin-left:4px">+5</span></div></div>`;
     }
-    // real delivery-popover markup, unpinned from its absolute/hidden overlay CSS so it renders in flow
+    // partially-shipped + delayed edge-case snippets (documentation demos)
+    function deliveryPopoverPartial(){
+      const t=f=>`<span class="t"><img src="assets/products/${f}" alt=""></span>`;
+      return `<div class="delivpop" style="position:static;display:block;transform:none;box-shadow:none;width:100%;max-width:100%">
+        <div class="dphead">You have 2 upcoming deliveries.</div>
+        <div class="dpitem">
+          <div class="dptitle">Arriving Today, Jun 20</div>
+          <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583) &middot; Shipment 1 of 2</div>
+          <div class="dpmeta">6 items &middot; Riverside HVAC</div>
+          <div class="dpprog"><div class="track"><i style="width:70%;background:#5E9A41"></i></div><span class="dpstat ok">Shipped</span></div>
+          <div class="dpthumbs">${t('187873-1.jpg')}${t('c240a-3.jpg')}${t('th1110u4000honeywellhome01.jpg')}<span class="more">+3</span></div>
+          <a href="#" class="dpbtn primary">Track Package</a>
+        </div>
+        <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
+          <div class="dptitle">Fri, Jul 25 - Fri, Aug 23</div>
+          <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583) &middot; Shipment 2 of 2</div>
+          <div class="dpmeta">4 items &middot; Riverside HVAC</div>
+          <div class="dpprog"><div class="track"><i style="width:30%;background:var(--sh-orange)"></i></div><span class="dpstat proc">Processing</span></div>
+          <div class="dpthumbs">${t('ridgid-78208-1.jpg')}${t('dwc-100-3.jpg')}<span class="more">+2</span></div>
+          <a href="#" class="dpbtn ghost">View Detail</a>
+        </div>
+      </div>`;
+    }
+    function deliveryPopoverUndlv(){
+      const t=f=>`<span class="t"><img src="assets/products/${f}" alt=""></span>`;
+      const alertIc='<svg width="17" height="17" viewBox="0 0 20 20" style="flex-shrink:0"><circle cx="10" cy="10" r="9" fill="#B00000"/><rect x="9" y="4.6" width="2" height="7" rx="1" fill="#fff"/><circle cx="10" cy="14.6" r="1.2" fill="#fff"/></svg>';
+      return `<div class="delivpop" style="position:static;display:block;transform:none;box-shadow:none;width:100%;max-width:100%">
+        <div class="dphead">You have 1 upcoming delivery.</div>
+        <div class="dpitem" style="border-bottom:none;padding-bottom:8px">
+          <div class="dptitle" style="color:#B00000">Undeliverable</div>
+          <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
+          <div class="dpmeta">10 items &middot; Riverside HVAC &middot; Originally est. Mon, Jun 24</div>
+          <div class="dpprog"><div class="track"><i style="width:70%;background:#B00000"></i></div><span class="dpstat" style="color:#B00000">Undeliverable</span></div>
+          <div class="undlv-chip" role="button" tabindex="0" style="background:#FBE7E7;border:1px solid #F2CACA;border-radius:10px;padding:12px 14px;margin:12px 0;cursor:pointer" onclick="var b=this.querySelector('.uxp');var c=this.querySelector('.uchev');var open=b.style.display!=='none';b.style.display=open?'none':'block';c.style.transform=open?'':'rotate(180deg)';">
+            <div style="display:flex;align-items:center;gap:8px">${alertIc}<b style="color:#343434;font-size:14px">Action Required:</b><span style="color:#07729C;font-weight:700;font-size:14px">See More</span><svg class="uchev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#07729C" stroke-width="2.4" stroke-linecap="round" style="flex-shrink:0;transition:transform .15s"><polyline points="6 10 12 16 18 10"/></svg></div>
+            <div class="uxp" style="display:none;font-size:13px;line-height:1.55;color:#343434;margin:8px 0 2px 25px">Your package may have been lost, damaged, or returned to the sender by the carrier. Please contact Customer Service for a refund or replacement. <a href="#" style="color:#07729C;font-weight:700" onclick="event.preventDefault();event.stopPropagation();var p=this.closest('.dpitem').querySelector('.undlv-sup');p.style.display=p.style.display==='none'?'block':'none';">Contact Us</a></div>
+          </div>
+          <div class="undlv-sup" style="display:none;position:relative;background:#fff;border:1px solid var(--sh-border);border-radius:4px;box-shadow:0 8px 26px rgba(0,0,0,.16);padding:16px 18px;margin:10px 0 12px">
+            <span style="position:absolute;top:-8px;left:56%;width:15px;height:15px;background:#fff;border-left:1px solid var(--sh-border);border-top:1px solid var(--sh-border);transform:rotate(45deg)"></span>
+            <div style="display:flex;align-items:center;font-size:14px;color:#343434">Open Now:&nbsp;<b style="color:#07729C">8:00am&ndash;7:45pm</b><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#07729C" stroke-width="2.4" stroke-linecap="round" style="margin-left:6px"><polyline points="6 10 12 16 18 10"/></svg><button aria-label="Close" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:2px;display:flex" onclick="event.stopPropagation();this.closest('.undlv-sup').style.display='none';"><svg width="14" height="14" viewBox="0 0 24 24" stroke="#343434" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button></div>
+            <div style="display:flex;margin-top:14px">
+              <div style="flex:1;padding:0 8px;display:flex;flex-direction:column;align-items:center;gap:4px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#343434" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><b style="font-size:14px;color:#343434">Call</b><span style="font-size:11px;color:#555;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:#5E9A41;flex-shrink:0"></span>Est. wait: 5 mins</span></div>
+              <div style="width:1px;background:var(--sh-border)"></div>
+              <div style="flex:1;padding:0 8px;display:flex;flex-direction:column;align-items:center;gap:4px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#343434" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="12" rx="2"/><path d="M9 17l-2 3v-3"/><line x1="8" y1="9.5" x2="16" y2="9.5"/><line x1="8" y1="12.5" x2="13" y2="12.5"/></svg><b style="font-size:14px;color:#343434">Text</b><span style="font-size:11px;color:#555;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:#5E9A41;flex-shrink:0"></span>Est. wait: 1 min</span></div>
+              <div style="width:1px;background:var(--sh-border)"></div>
+              <div style="flex:1;padding:0 8px;display:flex;flex-direction:column;align-items:center;gap:4px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#343434" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 6h10a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H10l-3 3v-3H5.5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M18.5 9h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-.5v2l-2-2"/></svg><b style="font-size:14px;color:#07729C">Chat</b><span style="font-size:11px;color:#555;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:#5E9A41;flex-shrink:0"></span>Est. wait: 1 min</span></div>
+              <div style="width:1px;background:var(--sh-border)"></div>
+              <div style="flex:1;padding:0 8px;display:flex;flex-direction:column;align-items:center;gap:4px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#343434" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><polyline points="3 7 12 13.5 21 7"/></svg><b style="font-size:14px;color:#07729C">Email</b><span style="font-size:11px;color:#555;display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:#5E9A41;flex-shrink:0"></span>Response by Wed</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px;font-size:13px;color:#343434"><span style="flex:1;height:1px;background:var(--sh-border)"></span>Call or text&nbsp;<b>888-757-4774</b><span style="flex:1;height:1px;background:var(--sh-border)"></span></div>
+          </div>
+          <div class="dpthumbs">${t('goodman-glxs3bn3610.jpg')}${t('pvbvs075g-2.jpg')}${t('uei-epc-1.jpg')}<span class="more">+2</span></div>
+          <a href="#" class="dpbtn primary">Track Package</a>
+        </div>
+      </div>`;
+    }    // real delivery-popover markup, unpinned from its absolute/hidden overlay CSS so it renders in flow
     function deliveryPopoverSnippet(){
       return `<div class="delivpop" style="position:static;display:block;transform:none;box-shadow:none;width:100%;max-width:100%">
         <div class="dphead">You have 2 upcoming deliveries.</div>
@@ -3267,6 +3317,8 @@
           <div class="dpmeta">Order#: <a href="#">194678123</a> (PO#: 343293583)</div>
           <div class="dpmeta">2 items · Maple Ave reno</div>
           <div class="dpprog"><div class="track"><i style="width:55%;background:var(--sh-orange)"></i></div><span class="dpstat proc">Processing</span></div>
+          <div class="dpthumbs"><span class="t" data-name="3/4&quot; PVC Ball Valve"><img src="assets/products/pvbvs075g-2.jpg" alt=""></span><span class="t" data-name="M12 Copper Tubing Cutter"><img src="assets/products/49-16-2451-3.jpg" alt=""></span></div>
+          <a href="#" class="dpbtn ghost">View Detail</a>
         </div>
       </div>`;
     }
@@ -3328,6 +3380,9 @@
       ['Upcoming Deliveries popover',[
         [deliveryPopoverSnippet(),'Populated — 2 deliveries','Each item gets its own progress bar, status, and package thumbnails; opens on hover, click, or Enter/Space.',tag('live'),{half:true}],
         [deliveryPopoverSnippetMany(),'Edge case — 5 deliveries (fixed height, scrolls)','When several orders are en route at once, the popover keeps a fixed height and the delivery list scrolls internally, so the header and count stay pinned. Deliveries are ordered soonest-first. See the "Cap at 3 + View All" note below for the alternative approach.',tag('gap'),{half:true}],
+        [deliveryPopoverPartial(),'Edge case — partially shipped (split order)','Same layout as the populated popover &mdash; a split order simply renders as two deliveries carrying the <b>same Order#</b>, labeled Shipment 1 of 2 / 2 of 2. The in-transit box leads with Track Package; the processing box takes the secondary View Detail. Never average two shipments into a single bar.',tag('gap'),{half:true}],
+        [deliveryPopoverUndlv(),'Edge case — undeliverable (action required)','The rare terminal exception: the bar freezes red at the checkpoint where the journey failed, and a collapsed &ldquo;Action Required&rdquo; chip sits beneath it. &ldquo;See More&rdquo; expands the explanation (lost / damaged / returned) and Contact Us opens the support popover with live channel wait times &mdash; both are clickable in this demo. Track Package stays for the carrier trail.',tag('gap'),{half:true}],
+        [note('Partial-shipment rules: count the popover header by <b>shipments, not orders</b> (&ldquo;2 upcoming deliveries&rdquo; even when both boxes share one order#); the order-level status reads <b>Partially Shipped</b> until every box is in transit; thumbnails split per shipment so &ldquo;what\'s in this box?&rdquo; is answerable at a glance; and a shipment only earns a Track button once the carrier has scanned it.'),'Partial shipments — status rules','',tag('gap'),{cls:'note',half:true}],
         [note('When there\'s no order in transit, the delivery-badge trigger itself is hidden (tied to the same flag as the KPI badge above) — so there\'s no "empty popover," the entry point just disappears.'),'Hidden entirely when nothing\'s en route','',tag('live'),{cls:'note',half:true}],
         [note('The 8-second auto-dismiss timer only pauses on <code>mouseenter</code>. A keyboard user who opens the popover with Enter has no <code>focusin</code> equivalent to pause the countdown — a WCAG 2.2.1 (Timing Adjustable) risk if real, longer content ships here.'),'No keyboard-equivalent pause for auto-dismiss','',tag('gap'),{cls:'note',half:true}],
         [note('Below 768px the popover renders as a <b>bottom sheet</b>: fixed to the viewport bottom, full width, 16px top radius, drag-handle pill, dimmed scrim (tap to dismiss), slide-up animation, internal scroll capped at 82vh, and safe-area padding for notched phones.'),'Mobile: bottom sheet, not popover','',tag('live'),{cls:'note',half:true}],
@@ -3641,7 +3696,7 @@
     function buildCamps(){const co=data[cur];$('pmCamps').innerHTML=co.camps.map((c,i)=>{const st=status(c);return `<button class="bn${i===co.active?' on':''}" data-bi="${i}">${esc(c.name)} <span class="bn-sz st-${st[0]}">${st[1]}</span>${co.camps.length>1?`<span class="bn-del" data-del="${i}" title="Remove">&times;</span>`:''}</button>`;}).join('')+`<button class="bn bn-add" data-add="1">+ Add campaign</button>`;}
     function tileHTML(c){
       if(cur==='newarrivals')return `<div class="brandpromo" style="background:${c.bg};min-height:420px">${c.logo?`<img class="bp-logo" src="${c.logo}" alt="">`:''}<p class="bp-txt">${esc(c.copy)}</p><img class="bp-img" src="${c.img}" alt=""></div>`;
-      return `<div class="bestpromo" style="background:transparent;padding:24px;min-height:380px">${c.logo?`<img class="bp2-logo" src="${c.logo}" alt="">`:''}<div class="pl">Best Pick for You</div><h2>${esc(c.copy)}</h2><img class="pimg" src="${c.img}" alt="" style="width:100%;max-width:270px;margin-left:auto"></div>`;
+      return `<div class="bestpromo" style="background:transparent;padding:24px;min-height:380px">${c.logo?`<img class="bp2-logo" src="${c.logo}" alt="">`:''}<h2>${esc(c.copy)}</h2><img class="pimg" src="${c.img}" alt="" style="width:100%;max-width:270px;margin-left:auto"></div>`;
     }
     function render(){
       const c=cfg(); $('pmTile').innerHTML=tileHTML(c);
