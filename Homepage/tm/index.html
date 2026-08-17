@@ -1192,7 +1192,9 @@
   }
   .bdir{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
   .bcol h4{font-size:16px;font-weight:700;line-height:1.6;color:#000;text-transform:uppercase;margin-bottom:12px}
-  .bcol a{display:block;font-size:16px;line-height:1.6;color:var(--sh-dark-gray);padding:0}
+  .bcol a{display:block;font-size:16px;line-height:1.6;color:#07729C;padding:0}
+  .bcol h4:not(:first-child){margin-top:28px}
+  .bcol a.bmore{font-weight:700;color:#07729C;margin-top:28px;font-size:16px;letter-spacing:.3px}
   .bcol a:hover{color:var(--sh-link)}
   @media(min-width:768px) and (max-width:991px){
     .brands h2{font-size:36px}
@@ -2877,8 +2879,14 @@
   renderActLeft();
 
   // brands directory
-  const bd=[['PLUMBING',['Amtrol','AO Smith','Aqua-Pure','Bradford White','Brasscraft','Fluidmaster','Grundfos','Honeywell','Jones Stephens','Liberty Pumps','Little Giant','Milwaukee','Sioux Chief','Sloan','Taco','Watts','Zoeller']],['HEATING',['Beacon Morris','Bell & Gossett','Buderus','Burnham','Caleffi','Danfoss','Grundfos','Honeywell','Lochinvar','Navien','Rinnai','Slant/Fin','Taco','Taco','Triangle Tube','Weil-McLain']],['FITTINGS',['Black','Brass','Compression','Copper','Galvanized','PEX','Press','PVC']],['VALVES',['Ball Valves','Boiler Drains','Check Valves','Gas Valves','Hose Bibbs','PVC Ball Valves','Sillcocks']],['HVAC',['Aprilaire','Atco','Bell','Broan','Comfort-Aire','Diversitech','Fantech','Field Controls','Honeywell','LG','Rheem']]];
-  document.getElementById('bdir').innerHTML=bd.map(c=>`<div class="bcol"><h4>${c[0]}</h4>${c[1].map(b=>`<a href="#">${b}</a>`).join('')}</div>`).join('');
+  const bd=[
+    [['PLUMBING',['Amtrol','AO Smith','Aqua-Pure','Bradford White','Brasscraft','Fluidmaster','Grundfos','Hercules','Jones Stephens','Liberty Pumps','Little Giant','Milwaukee','Rinnai','Sioux Chief','Sloan','Taco','Takagi','Uponor','Viega','Ward','Watts','Zoeller','Zurn']]],
+    [['HEATING',['Beacon Morris','Bell & Gossett','Buderus','Burnham','Caleffi','Danfoss','Grundfos','Hoffman','Honeywell','Lochinvar','Maxitrol','McDonnell & Miller','Modine','Peerless','Reznor','Runtal','Slant/Fin','Taco','Tekmar','Triangle Tube','Webstone','Weil-McLain','White Rodgers']]],
+    [['FITTINGS',['Black','Brass','Compression','Copper','Galvanized','PEX','Press','PVC']],['VALVES',['Ball Valves','Boiler Drains','Check Valves','Gas Valves','Hose Bibbs','PVC Ball Valves','Sillcocks']]],
+    [['HVAC',['Aprilaire','Asco Redhat','Barber Colman','Belimo','Broan-NuTone','Comfort-Aire','DiversiTech','Fantech','Field Controls','Hart & Cooley','Johnson Controls','LG','Nu-Calgon','Robertshaw','Siemens']]],
+    [['PARTS',['Carrier','Goodman-Amana','Heil Quaker (ICP)','Lennox','Nordyne','Rheem','Trane','York'],true]]
+  ];
+  document.getElementById('bdir').innerHTML=bd.map(col=>`<div class="bcol">${col.map(g=>`<h4>${g[0]}</h4>${g[1].map(b=>`<a href="#">${b}</a>`).join('')}${g[2]?'<a href="#" class="bmore">AND MORE...</a>':''}`).join('')}</div>`).join('');
 
   // ---------- interactions ----------
   let toastEl,tt;
